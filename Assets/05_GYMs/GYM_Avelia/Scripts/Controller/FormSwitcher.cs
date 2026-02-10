@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class FormSwitcher : MonoBehaviour
 {
@@ -31,6 +32,24 @@ public class FormSwitcher : MonoBehaviour
                 break;
         }
 
+        currentForm = nextForm;
+    }
+
+    void OnTransform(InputValue _input)
+    {
+
+        switch (currentForm)
+        {
+            case Form.neutral:
+                ChangeForm(Form.dream);
+                break;
+            case Form.dream:
+                ChangeForm(Form.nightmare);
+                break;
+            case Form.nightmare:
+                ChangeForm(Form.neutral);
+                break;
+        }
     }
 }
 
