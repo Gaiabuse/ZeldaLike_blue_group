@@ -15,7 +15,7 @@ public class ManaDrainer : MonoBehaviour
     {
         while (true)
         {
-            print($"lost {ManaToGain} mana TO IMPLEMENT");
+            //print($"lost {ManaToGain} mana TO IMPLEMENT");
             yield return new WaitForSeconds(1f);
         }
     }
