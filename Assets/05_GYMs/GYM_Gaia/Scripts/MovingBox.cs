@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,23 +9,28 @@ public class MovingBox : MonoBehaviour
     Side side;
     [SerializeField] private GameObject Ui;
 
+    private FormSwitcher formSwitcher;
     [SerializeField] private LayerMask layersObstacles;
     private bool canInteract = false;
     [SerializeField]private float speed = 5f;
-    
+    private Transform player;
+    private bool takeBox;
     private void Start()
     {
         Ui.SetActive(false);
+        takeBox = false;
     }
 
     private void OnEnable()
     {
         PlayerController.OnInteract += Interaction;
+        FormSwitcher.SwitchForm += DropBox;
     }
 
     private void OnDisable()
     {
         PlayerController.OnInteract -= Interaction;
+        FormSwitcher.SwitchForm -= DropBox;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,6 +39,11 @@ public class MovingBox : MonoBehaviour
         {
             Ui.SetActive(true);
             canInteract = true;
+            if (formSwitcher == null)
+            {
+                formSwitcher = other.gameObject.GetComponent<FormSwitcher>();
+            }
+            player = other.transform;
         }
     }
 
@@ -65,36 +76,57 @@ public class MovingBox : MonoBehaviour
         }
     }
 
+
     private void Interaction()
     {
+        if (takeBox)
+        {
+            DropBox();
+            return;
+        }
         if (canInteract)
         {
-            Vector3 targetPosition = Vector3.zero;
-            Vector3 direction = Vector3.zero;
-            switch (side)
+            if (formSwitcher.currentForm == Form.neutral)
             {
-                case Side.Left:
-                    targetPosition = transform.position - Vector3.left;
-                    direction = -Vector3.left;
-                    break;
-                case Side.Right:
-                   targetPosition = transform.position -Vector3.right;
-                   direction = -Vector3.right;
-                    break;
-                case Side.Front:
-                    targetPosition = transform.position - Vector3.forward;
-                    direction = -Vector3.forward;
-                    break;
-                case Side.Back:
-                    targetPosition = transform.position - Vector3.back;
-                    direction = -Vector3.back;
-                    break;
+                ChooseSide();
+            }else if (formSwitcher.currentForm == Form.nightmare)
+            {
+                if (takeBox)
+                {
+                    DropBox();
+                }
+                else
+                {
+                    TakeBox();
+                }
             }
-            Debug.Log(targetPosition);
-            Move(targetPosition,direction);
         }
     }
-
+    private void ChooseSide()
+    {
+        Vector3 targetPosition = Vector3.zero;
+        Vector3 direction = Vector3.zero;
+        switch (side)
+        {
+            case Side.Left:
+                targetPosition = transform.position - Vector3.left;
+                direction = -Vector3.left;
+                break;
+            case Side.Right:
+                targetPosition = transform.position -Vector3.right;
+                direction = -Vector3.right;
+                break;
+            case Side.Front:
+                targetPosition = transform.position - Vector3.forward;
+                direction = -Vector3.forward;
+                break;
+            case Side.Back:
+                targetPosition = transform.position - Vector3.back;
+                direction = -Vector3.back;
+                break;
+        }
+        Move(targetPosition,direction);
+    }
     private void Move(Vector3 finalPosition, Vector3 direction)
     {
         RaycastHit hit;
@@ -111,5 +143,24 @@ public class MovingBox : MonoBehaviour
             }
         }
         
+    }
+
+    private void TakeBox()
+    {
+        if(takeBox)return;
+        transform.parent.position = formSwitcher.Top.position;
+        transform.parent.SetParent(player.transform);
+        takeBox = true;
+    }
+
+    private void DropBox()
+    {
+        if(!takeBox)return;
+        transform.parent.rotation = player.rotation;
+        transform.parent.position = formSwitcher.Foot.position;
+        var targetPosition = transform.parent.position + transform.parent.forward;
+        transform.parent.DOMove(targetPosition, 0.2f);
+        transform.parent.SetParent(null);
+        takeBox = false;
     }
 }

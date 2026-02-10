@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     float speed = 10f;
 
     Vector2 direction;
+    public static Action OnInteract;
 
     void Start()
     {
@@ -28,6 +30,10 @@ public class PlayerController : MonoBehaviour
         direction = _input.Get<Vector2>();
     }
 
+    void OnInteraction(InputValue _input)
+    {
+        OnInteract?.Invoke();
+    }
     void OnLook(InputValue _input)
     {
         var look = _input.Get<Vector2>();

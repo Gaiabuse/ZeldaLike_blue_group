@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,12 +9,11 @@ public class FormSwitcher : MonoBehaviour
     [SerializeField]
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
 
-    void Start()
-    {
+    public Transform Top, Foot;
 
-    }
+    public static Action SwitchForm;
 
-    public void ChangeForm(Form nextForm)
+    private void ChangeForm(Form nextForm)
     {
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
@@ -37,7 +37,6 @@ public class FormSwitcher : MonoBehaviour
 
     void OnTransform(InputValue _input)
     {
-
         switch (currentForm)
         {
             case Form.neutral:
@@ -50,6 +49,7 @@ public class FormSwitcher : MonoBehaviour
                 ChangeForm(Form.neutral);
                 break;
         }
+        SwitchForm?.Invoke();
     }
 }
 
