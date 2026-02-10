@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,11 +11,9 @@ public class PlayerController : MonoBehaviour
 
     Vector2 direction;
 
-    public static Action OnInteract;
-    
     void Start()
     {
-        controller ??= GetComponent<CharacterController>();
+        controller = controller is null ? GetComponent<CharacterController>() : controller;
     }
 
     void Update()
@@ -29,23 +26,18 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue _input)
     {
         direction = _input.Get<Vector2>();
-        //print(direction);
+    }
 
-        if (direction.magnitude == 0) return;
+    void OnLook(InputValue _input)
+    {
+        var look = _input.Get<Vector2>();
+
+        if (look.magnitude == 0) return;
 
         var angle = Mathf.Atan2(direction.y, direction.x);
         angle = Mathf.Rad2Deg * angle;
 
         controller.transform.rotation = Quaternion.Euler(0, -angle, 0);
-    }
-    private void OnInteraction(InputValue value)
-    {
-        OnInteract?.Invoke();
-    }
-
-    void meow()
-    {
-        print("meow");
     }
 
 }
