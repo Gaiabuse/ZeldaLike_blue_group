@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
     CharacterController controller;
 
     [SerializeField]
@@ -12,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        controller ??= GetComponent<CharacterController>();
     }
 
     void Update()
@@ -32,7 +33,12 @@ public class PlayerController : MonoBehaviour
         var angle = Mathf.Atan2(direction.y, direction.x);
         angle = Mathf.Rad2Deg * angle;
 
-        transform.rotation = Quaternion.Euler(0, -angle, 0);
+        controller.transform.rotation = Quaternion.Euler(0, -angle, 0);
+    }
+
+    void meow()
+    {
+        print("meow");
     }
 
 }
