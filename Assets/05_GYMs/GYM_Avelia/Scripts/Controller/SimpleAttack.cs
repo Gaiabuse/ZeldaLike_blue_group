@@ -1,16 +1,21 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class SimpleAttack : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    GameObject attack;
+    [SerializeField]
+    float lifeTimeSeconds = 1;
 
-    // Update is called once per frame
-    void Update()
+    // cooldown ?
+
+    async Task OnAttack()
     {
-        
+        var lAttack = Instantiate(attack);
+
+        await Task.Delay((int)(lifeTimeSeconds * 1000));
+
+        Destroy(lAttack);
     }
 }
