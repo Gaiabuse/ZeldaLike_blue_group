@@ -8,29 +8,22 @@ public class MovingBox : MonoBehaviour
     enum Side { Left, Right, Front, Back }
     Side side;
     [SerializeField] private GameObject Ui;
-
-    private FormSwitcher formSwitcher;
     [SerializeField] private LayerMask layersObstacles;
     private bool canInteract = false;
     [SerializeField]private float speed = 5f;
-    private Transform player;
-    private bool takeBox;
     private void Start()
     {
         Ui.SetActive(false);
-        takeBox = false;
     }
 
     private void OnEnable()
     {
         PlayerController.OnInteract += Interaction;
-        FormSwitcher.SwitchForm += DropBox;
     }
 
     private void OnDisable()
     {
         PlayerController.OnInteract -= Interaction;
-        FormSwitcher.SwitchForm -= DropBox;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,11 +32,6 @@ public class MovingBox : MonoBehaviour
         {
             Ui.SetActive(true);
             canInteract = true;
-            if (formSwitcher == null)
-            {
-                formSwitcher = other.gameObject.GetComponent<FormSwitcher>();
-            }
-            player = other.transform;
         }
     }
 
@@ -79,27 +67,10 @@ public class MovingBox : MonoBehaviour
 
     private void Interaction()
     {
-        if (takeBox)
-        {
-            DropBox();
-            return;
-        }
+        
         if (canInteract)
         {
-            if (formSwitcher.currentForm == Form.neutral)
-            {
-                ChooseSide();
-            }else if (formSwitcher.currentForm == Form.nightmare)
-            {
-                if (takeBox)
-                {
-                    DropBox();
-                }
-                else
-                {
-                    TakeBox();
-                }
-            }
+            ChooseSide();
         }
     }
     private void ChooseSide()
@@ -130,37 +101,12 @@ public class MovingBox : MonoBehaviour
     private void Move(Vector3 finalPosition, Vector3 direction)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit,1.5f,layersObstacles))
-        { 
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow); 
-            Debug.Log("Did Hit"); 
-        }
-        else
+        if (!Physics.Raycast(transform.position, direction, out hit,1.5f,layersObstacles))
         { 
             while (Vector3.Distance(transform.position, finalPosition) > 0.1f)
             {
                 transform.parent.transform.Translate(direction * speed * Time.deltaTime);
             }
         }
-        
-    }
-
-    private void TakeBox()
-    {
-        if(takeBox)return;
-        transform.parent.position = formSwitcher.Top.position;
-        transform.parent.SetParent(player.transform);
-        takeBox = true;
-    }
-
-    private void DropBox()
-    {
-        if(!takeBox)return;
-        transform.parent.rotation = player.rotation;
-        transform.parent.position = formSwitcher.Foot.position;
-        var targetPosition = transform.parent.position + transform.parent.forward;
-        transform.parent.DOMove(targetPosition, 0.2f);
-        transform.parent.SetParent(null);
-        takeBox = false;
     }
 }

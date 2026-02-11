@@ -8,9 +8,6 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField]
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
-
-    public Transform Top, Foot;
-
     public static Action SwitchForm;
 
     private void ChangeForm(Form nextForm)
