@@ -10,12 +10,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float speed = 10f;
 
-    Vector2 direction;
-    public static Action OnInteract;
+    Vector2 direction = Vector2.zero;
+    Vector2 look = Vector2.zero;
 
     void Start()
     {
-        controller = controller is null ? GetComponent<CharacterController>() : controller;
+        controller = controller == null ? GetComponent<CharacterController>() : controller;
     }
 
     void Update()
@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
         Vector3 movement = new(direction.x, -1f, direction.y);
 
         controller.Move(movement * speed * Time.deltaTime);
+
+        updateLookDirection();
     }
 
     void OnMove(InputValue _input)
@@ -36,14 +38,18 @@ public class PlayerController : MonoBehaviour
     }
     void OnLook(InputValue _input)
     {
-        var look = _input.Get<Vector2>();
+        look = _input.Get<Vector2>();
+    }
 
-        if (look.magnitude == 0) return;
+    void updateLookDirection()
+    {
+        var lookDir = look != Vector2.zero ? look : direction;
 
-        var angle = Mathf.Atan2(direction.y, direction.x);
+        if (lookDir == Vector2.zero) return;
+
+        var angle = Mathf.Atan2(lookDir.y, lookDir.x);
         angle = Mathf.Rad2Deg * angle;
 
         controller.transform.rotation = Quaternion.Euler(0, -angle, 0);
     }
-
 }
