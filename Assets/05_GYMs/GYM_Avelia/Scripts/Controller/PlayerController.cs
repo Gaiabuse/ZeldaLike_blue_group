@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     Vector2 look = Vector2.zero;
     public static Action OnInteract;
 
+    public Action Attack;
+
     void Start()
     {
         controller = controller == null ? GetComponent<CharacterController>() : controller;
@@ -39,6 +41,11 @@ public class PlayerController : MonoBehaviour
     void OnLook(InputValue _input)
     {
         look = _input.Get<Vector2>();
+    }
+
+    void OnAttack(InputValue _input)
+    {
+        Attack?.Invoke();
     }
 
     void updateLookDirection()

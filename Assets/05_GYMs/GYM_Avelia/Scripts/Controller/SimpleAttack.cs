@@ -1,21 +1,38 @@
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class SimpleAttack : MonoBehaviour
 {
     [SerializeField]
-    GameObject attack;
+    protected Attack attack;
     [SerializeField]
-    float lifeTimeSeconds = 1;
+    protected float lifeTimeSeconds = 0.3f;
 
+    [SerializeField] protected Attack.TypeOfAttack type;
+    [SerializeField] protected float damage;
+    [SerializeField]protected PlayerController player;
     // cooldown ?
-
-    async Task OnAttack()
+    private void OnEnable()
     {
-        var lAttack = Instantiate(attack);
+        player.Attack += Attack;
+    }
 
-        await Task.Delay((int)(lifeTimeSeconds * 1000));
+    private void OnDisable()
+    {
+        player.Attack -= Attack;
+    }
 
-        Destroy(lAttack);
+    private void Attack()
+    {
+        StartCoroutine(OnAttackEnumerator());
+    }
+    public virtual IEnumerator OnAttackEnumerator()
+    {
+        var lAttack = Instantiate(attack,player.transform);
+        lAttack.SetAttack(damage, type);
+
+        yield return new WaitForSeconds(lifeTimeSeconds);
+        Destroy(lAttack.gameObject);
     }
 }

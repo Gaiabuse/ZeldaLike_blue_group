@@ -1,33 +1,60 @@
 using System;
+using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BrokenObject : MonoBehaviour
 {
     [SerializeField] private GameObject intactObject;
     [SerializeField] private GameObject brokenObject;
-    
-    BoxCollider collider;
+    [SerializeField] private Material transparentMaterial;
+    [SerializeField] private List<MeshRenderer> brokenParties;
+    [SerializeField] private float duration;
+    private bool isBroken;
+    private BoxCollider collider;
 
     private void Awake()
     {
+        isBroken = false;
         intactObject.SetActive(true);
         brokenObject.SetActive(false);
-        
         collider = GetComponent<BoxCollider>();
+        brokenParties = new List<MeshRenderer>();
+        foreach (Transform child in brokenObject.transform)
+        {
+            MeshRenderer mr = child.GetComponent<MeshRenderer>();
+            brokenParties.Add(mr);
+        }
     }
 
-    private void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Break();
-        }
+            Debug.Log("collision");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+            Debug.Log("trigger");
     }
 
     private void Break()
     {
+        if(isBroken)return;
+        isBroken = true;
         intactObject.SetActive(false);
         brokenObject.SetActive(true);
         collider.enabled = false;
+        transparentMaterial.SetTextureOffset("_MainTex", Vector2.zero);
+        Material mat = new Material(transparentMaterial);
+        foreach (var mesh in brokenParties)
+        {
+            mesh.material = mat;
+        }
+
+        mat.DOFade(0f, duration).SetEase(Ease.InExpo).OnComplete(()=>
+        {
+            Destroy(this.gameObject);
+        });
     }
 }

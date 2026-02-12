@@ -799,8 +799,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1822127e9a7889a73bf22f961b886b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleAttack
-  attack: {fileID: 6137581889905417856, guid: 286df29da0d0ca4beb6b7aa6efbbfb20, type: 3}
+  attack: {fileID: 2473333148574167093, guid: 286df29da0d0ca4beb6b7aa6efbbfb20, type: 3}
   lifeTimeSeconds: 1
+  type: 0
+  damage: 10
+  player: {fileID: 2564929551101204253}
 --- !u!1 &6469201609291911608
 GameObject:
   m_ObjectHideFlags: 0
@@ -923,6 +926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2811420270165341141}
   - component: {fileID: 3075989686487525137}
+  - component: {fileID: 117171707704937933}
   m_Layer: 0
   m_Name: NightmareForm
   m_TagString: Untagged
@@ -961,3 +965,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ManaDrainer
   ManaToGain: -10
   numberOfSecondBetweenTicks: 1
+--- !u!114 &117171707704937933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7861670443210026360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0787da4e75cba9f4596b1c55201361fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  attack: {fileID: 0}
+  lifeTimeSeconds: 0.3
+  type: 0
+  damage: 0
+  player: {fileID: 0}
+  timeBetweenAttacks: 1
