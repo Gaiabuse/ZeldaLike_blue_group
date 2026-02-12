@@ -6,12 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     CharacterController controller;
-
     [SerializeField]
     float speed = 10f;
 
     Vector2 direction = Vector2.zero;
     Vector2 look = Vector2.zero;
+    public static Action OnInteract;
 
     void Start()
     {
