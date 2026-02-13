@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     Vector2 direction = Vector2.zero;
     Vector2 look = Vector2.zero;
 
+    public Vector3 currentDirection { get; private set; } = Vector3.forward;
+
     void Start()
     {
         controller = controller == null ? GetComponent<CharacterController>() : controller;
@@ -41,6 +43,8 @@ public class PlayerController : MonoBehaviour
         var lookDir = look != Vector2.zero ? look : direction;
 
         if (lookDir == Vector2.zero) return;
+
+        currentDirection = new Vector3(lookDir.x, 0, lookDir.y);
 
         var angle = Mathf.Atan2(lookDir.y, lookDir.x);
         angle = Mathf.Rad2Deg * angle;
