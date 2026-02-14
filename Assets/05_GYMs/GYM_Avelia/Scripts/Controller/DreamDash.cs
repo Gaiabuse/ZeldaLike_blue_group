@@ -18,10 +18,10 @@ public class DreamDash : MonoBehaviour
 
     public void OnDash(InputValue _input)
     {
-        StartCoroutine(nameof(Dash));
+        StartCoroutine(Dash());
     }
 
-    IEnumerable Dash()
+    IEnumerator Dash()
     {
         if (IsDashing) yield break;
         IsDashing = true;
