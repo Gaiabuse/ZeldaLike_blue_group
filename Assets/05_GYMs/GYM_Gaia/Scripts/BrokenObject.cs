@@ -27,15 +27,24 @@ public class BrokenObject : MonoBehaviour
             brokenParties.Add(mr);
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-            Debug.Log("collision");
-    }
-
+    
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Attack"))
+        {
             Debug.Log("trigger");
+            Attack attack = other.GetComponent<Attack>();
+            if (attack != null)
+            {
+                (float damage, Attack.TypeOfAttack type) parameters = attack.GetParameters();
+
+                if (parameters.type == Attack.TypeOfAttack.nightmare)
+                {
+                    Break();
+                }
+            }
+        }
+            
     }
 
     private void Break()

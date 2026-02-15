@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -7,6 +8,11 @@ public class NightmareAttack : SimpleAttack
    [SerializeField]private float timeBetweenAttacks = 1f;
    private Coroutine cooldownCoroutine;
    private bool canAttack;
+
+   private void OnEnable()
+   {
+      canAttack = true;
+   }
 
    public override IEnumerator OnAttackEnumerator()
    {

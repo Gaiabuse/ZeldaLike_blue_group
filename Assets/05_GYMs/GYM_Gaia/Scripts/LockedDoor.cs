@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LockedDoor : MonoBehaviour
 {
-    [SerializeField] private ActionButton button;
+    [SerializeField] private Button button;
 
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float maxAngle = 90;

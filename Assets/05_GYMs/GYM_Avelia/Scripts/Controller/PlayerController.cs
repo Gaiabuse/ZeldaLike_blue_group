@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,27 +9,50 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
     [SerializeField]
     float speed = 10f;
-
+    [SerializeField] float rotationSpeed = 15f;
+    [SerializeField]private CameraFollow cameraFollow;
     Vector2 direction = Vector2.zero;
     Vector2 look = Vector2.zero;
     public static Action OnInteract;
-
+    [SerializeField]private Transform cameraRotation;
     public Action Attack;
+    private float offset = -90f;
 
     public Vector3 currentDirection { get; private set; } = Vector3.forward;
+    public Vector3 currentLook { get; private set; } = Vector3.forward;
 
     void Start()
     {
         controller = controller == null ? GetComponent<CharacterController>() : controller;
+        if (cameraRotation == null)
+        {
+            cameraRotation = Camera.main.transform.parent;
+        }
+
+        if (cameraFollow == null)
+        {
+            cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        }
     }
 
     void Update()
     {
-        Vector3 movement = new(direction.x, -1f, direction.y);
+        Vector3 forward = cameraRotation.forward;
+        Vector3 right = cameraRotation.right;
+        
+        forward.y = 0;
+        right.y = 0;
+        forward.Normalize();
+        right.Normalize();
+        
+        Vector3 moveDirection = (forward * direction.y) + (right * direction.x);
+        
+        Vector3 finalMovement = new Vector3(moveDirection.x, -1f, moveDirection.z);
+        controller.Move(finalMovement * speed * Time.deltaTime);
 
-        controller.Move(movement * speed * Time.deltaTime);
-
-        updateLookDirection();
+        
+        UpdateLookDirection(moveDirection);
+        
     }
 
     void OnMove(InputValue _input)
@@ -42,25 +66,21 @@ public class PlayerController : MonoBehaviour
     }
     void OnLook(InputValue _input)
     {
-        look = _input.Get<Vector2>();
+        cameraFollow.OnLook(_input.Get<Vector2>());
     }
 
     void OnAttack(InputValue _input)
     {
         Attack?.Invoke();
     }
-
-    void updateLookDirection()
+    void UpdateLookDirection(Vector3 moveDir)
     {
-        var lookDir = look != Vector2.zero ? look : direction;
+        if (moveDir.sqrMagnitude < 0.01f) return;
 
-        if (lookDir == Vector2.zero) return;
-
-        currentDirection = new Vector3(lookDir.x, 0, lookDir.y);
-
-        var angle = Mathf.Atan2(lookDir.y, lookDir.x);
-        angle = Mathf.Rad2Deg * angle;
-
-        controller.transform.rotation = Quaternion.Euler(0, -angle, 0);
+        currentDirection = moveDir.normalized;
+        
+        Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+        
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 }

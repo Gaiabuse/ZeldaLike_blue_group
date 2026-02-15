@@ -26,7 +26,7 @@ public class DreamDash : MonoBehaviour
         if (IsDashing) yield break;
         IsDashing = true;
         Vector3 originalPosition = transform.position;
-        Vector3 destinationPosition = originalPosition + controller.currentDirection * DashLength;
+        Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
         float timer = 0;
 

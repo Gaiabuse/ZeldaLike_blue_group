@@ -14,12 +14,15 @@ public class DreamShoot : MonoBehaviour
     [SerializeField]
     Transform SpawnPoint;
 
+    [SerializeField] protected Attack.TypeOfAttack type;
+    [SerializeField] protected float damage;
     void OnAttack()
     {
-        print("meow");
+     
         Projectile lAttack = Instantiate<Projectile>(attack);
 
+        lAttack.GetComponent<Attack>().SetAttack(damage, type);
         lAttack.transform.position = SpawnPoint.position;
-        lAttack.speed = controller.currentDirection * ProjectileSpeed;
+        lAttack.speed = controller.transform.forward * ProjectileSpeed;
     }
 }
