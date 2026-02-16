@@ -176,10 +176,7 @@ public class Ennemy : MonoBehaviour
     {
         if (Eyes.Count > 0)
         {
-            for (int i = 0; i < Eyes.Count; i++)
-            {
-                Eyes[i].material.color = Color.Lerp(colorStart, colorEnd, gradient);
-            }
+            foreach (MeshRenderer eye in Eyes) eye.material.color = Color.Lerp(colorStart, colorEnd, gradient);
         }
     }
 
