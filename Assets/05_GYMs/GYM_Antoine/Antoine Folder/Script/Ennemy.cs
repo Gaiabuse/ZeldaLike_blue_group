@@ -11,12 +11,14 @@ public class Ennemy : MonoBehaviour
     Animator animator;
     NavMeshAgent navMesh;
 
+    [Header("Data")]
+    [SerializeField]private EnemyData data;
     [Header("Basic")]
     [SerializeField] Transform Player;
     [SerializeField] Transform GoTo;
     [SerializeField] Transform RotationLookAt;
 
-    [SerializeField] int HP = 20;
+    private int HP = 20;
 
     [SerializeField] Transform AttackTrigger;
     [SerializeField] Transform Neck;
@@ -39,8 +41,8 @@ public class Ennemy : MonoBehaviour
     [SerializeField] Vector3 HeadRoatationOffset;
 
     [Header("Movement")]
-    [SerializeField] float SpeedRotate = 5;
-    [SerializeField] float speed = 7;
+    private float SpeedRotate = 5;
+    private float speed = 7;
 
     [Header("Eyes")]
     [SerializeField] List<MeshRenderer> Eyes;
@@ -64,6 +66,9 @@ public class Ennemy : MonoBehaviour
         animator = GetComponent<Animator>();
         navMesh = GetComponent<NavMeshAgent>();
 
+        HP = data.health;
+        speed = data.speed;
+        SpeedRotate = data.speedRotate;
         GoTo.position += transform.forward * OffsetFollowPlayer;
         OgOffsetLookAt = GoTo.localPosition;
 

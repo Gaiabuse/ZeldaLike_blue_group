@@ -9,17 +9,9 @@ public class CameraFollow : MonoBehaviour
     private float horizontalRotation = 0f;
     private Vector2 lookInput;
     
-    void Start()
-    {
-        horizontalRotation = target.eulerAngles.y;
-        if (transform.parent != null)
-        {
-            transform.parent.rotation = Quaternion.Euler(0, horizontalRotation, 0);
-        }
-    }
     public void OnLook(Vector3 value)
     {
-        lookInput = value;
+        //lookInput = value;
     }
     void LateUpdate()
     {
