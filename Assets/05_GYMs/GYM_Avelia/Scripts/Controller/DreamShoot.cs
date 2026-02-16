@@ -31,6 +31,7 @@ public class DreamShoot : MonoBehaviour
     {
         if (_input.isPressed)
         {
+            Debug.Log("is pressed");
             lastInputTime = Time.time;
             controller.CanMove = false;
             // we should try to do something to make things seem more sensitive
@@ -39,6 +40,7 @@ public class DreamShoot : MonoBehaviour
             return;
         }
 
+        Debug.Log("unpressed");
         controller.CanMove = true;
         aimCone.SetActive(false);
         var amountOfTimeWaited = Time.time - lastInputTime;
@@ -71,7 +73,7 @@ public class DreamShoot : MonoBehaviour
         var AutoAimed = overlaps.Select(a => a.GetComponent<AutoAimable>())
             .Where(a => !(a == null))
             .OrderBy(a => Vector3.Distance(playerPos, a.transform.position) * a.weight)
-            .FirstOrDefault(null);
+            .First();
 
         if (AutoAimed == null)
         {

@@ -26,6 +26,12 @@ public class SimpleAttack : MonoBehaviour
   
     void OnAttack(InputValue _input)
     {
+        if (_input.isPressed)
+        {
+            Debug.Log("pressed");
+            return;
+        }
+        Debug.Log("unpressed");
         if (type == global::Attack.TypeOfAttack.Nightmare)
         {
             if (chargedAttack)

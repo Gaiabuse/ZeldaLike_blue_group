@@ -1040,6 +1040,24 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &644708756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+  m_PrefabInstance: {fileID: 1607061024}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &644708764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644708756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6ba7f4b89739e4598df1f1c16687fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
+  weight: 2
 --- !u!1 &706623696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,6 +1208,7 @@ GameObject:
   - component: {fileID: 711270888}
   - component: {fileID: 711270887}
   - component: {fileID: 711270886}
+  - component: {fileID: 711270891}
   m_Layer: 0
   m_Name: PunchingBall (1)
   m_TagString: Untagged
@@ -1308,6 +1327,19 @@ Transform:
   - {fileID: 1577554390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &711270891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711270885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6ba7f4b89739e4598df1f1c16687fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
+  weight: 1
 --- !u!1 &752798753
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,6 +2008,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5699375347105076599, guid: 655d8af03cf58b54c90d5a328a5cb66c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6123389073644180972, guid: 655d8af03cf58b54c90d5a328a5cb66c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6387996030920528161, guid: 655d8af03cf58b54c90d5a328a5cb66c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1983,6 +2023,10 @@ PrefabInstance:
     - target: {fileID: 6387996030920528161, guid: 655d8af03cf58b54c90d5a328a5cb66c, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906558556911577086, guid: 655d8af03cf58b54c90d5a328a5cb66c, type: 3}
+      propertyPath: autoAimRadius
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6925516156640406650, guid: 655d8af03cf58b54c90d5a328a5cb66c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2899,7 +2943,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 644708764}
   m_SourcePrefab: {fileID: 100100000, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
 --- !u!114 &1657216964 stripped
 MonoBehaviour:
@@ -3207,6 +3254,7 @@ GameObject:
   - component: {fileID: 2011047807}
   - component: {fileID: 2011047806}
   - component: {fileID: 2011047805}
+  - component: {fileID: 2011047810}
   m_Layer: 0
   m_Name: PunchingBall (2)
   m_TagString: Untagged
@@ -3325,6 +3373,19 @@ Transform:
   - {fileID: 405445503}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2011047810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011047804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6ba7f4b89739e4598df1f1c16687fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
+  weight: 1
 --- !u!1 &2127394466
 GameObject:
   m_ObjectHideFlags: 0
@@ -3338,6 +3399,7 @@ GameObject:
   - component: {fileID: 2127394469}
   - component: {fileID: 2127394468}
   - component: {fileID: 2127394467}
+  - component: {fileID: 2127394472}
   m_Layer: 0
   m_Name: PunchingBall
   m_TagString: Untagged
@@ -3456,6 +3518,19 @@ Transform:
   - {fileID: 641930118}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2127394472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127394466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6ba7f4b89739e4598df1f1c16687fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
+  weight: 1
 --- !u!1001 &618893603493636603
 PrefabInstance:
   m_ObjectHideFlags: 0
