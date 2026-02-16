@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
+using System.Linq;
 
 public class DreamShoot : MonoBehaviour
 {
@@ -13,13 +15,15 @@ public class DreamShoot : MonoBehaviour
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f;
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f;
 
     [SerializeField]
     Transform SpawnPoint;
 
     [SerializeField] protected Attack.TypeOfAttack type;
     [SerializeField] protected float damage;
+
+
 
     float lastInputTime;
 
@@ -61,5 +65,27 @@ public class DreamShoot : MonoBehaviour
     void CreateAutoTargettingShot()
     {
         // do shit
+        var playerPos = controller.transform.position;
+        var overlaps = Physics.OverlapSphere(playerPos, autoAimRadius);
+
+        var AutoAimed = overlaps.Select(a => a.GetComponent<AutoAimable>())
+            .Where(a => !(a == null))
+            .OrderBy(a => Vector3.Distance(playerPos, a.transform.position) * a.weight)
+            .FirstOrDefault(null);
+
+        if (AutoAimed == null)
+        {
+            CreateShot();
+            return;
+        }
+
+        var ToGoTo = AutoAimed.transform.position;
+        var directionToGo = (ToGoTo - playerPos).normalized;
+
+        Projectile lAttack = Instantiate<Projectile>(attack);
+
+        lAttack.GetComponent<Attack>().SetAttack(damage, type);
+        lAttack.transform.position = playerPos + directionToGo * offset;
+        lAttack.speed = directionToGo * ProjectileSpeed;
     }
 }

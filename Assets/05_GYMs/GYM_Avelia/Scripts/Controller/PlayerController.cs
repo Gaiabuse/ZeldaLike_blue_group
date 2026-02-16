@@ -75,12 +75,12 @@ public class PlayerController : MonoBehaviour
     {
         OnInteract?.Invoke();
     }
+
     void OnLook(InputValue _input)
     {
         cameraFollow.OnLook(_input.Get<Vector2>());
     }
 
- 
     void UpdateLookDirection(Vector3 moveDir)
     {
         if (moveDir.sqrMagnitude < 0.01f) return;
