@@ -35,7 +35,7 @@ public class FormSwitcher : MonoBehaviour
 
     void OnTransform(InputValue _input)
     {
-        if(currentForm == Form.neutral)return;
+        if (currentForm == Form.neutral) return;
         Debug.Log("transform");
         lastForm = currentForm;
         ChangeForm(Form.neutral);
@@ -77,7 +77,7 @@ public class FormSwitcher : MonoBehaviour
                 SwitchForm?.Invoke();
                 return;
         }
-        
+
     }
 }
 
