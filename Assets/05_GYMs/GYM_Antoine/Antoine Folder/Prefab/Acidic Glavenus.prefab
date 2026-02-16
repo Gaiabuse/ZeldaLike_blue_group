@@ -905,7 +905,10 @@ PrefabInstance:
       addedObject: {fileID: 8854750292474154840}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 241741ae347ae7643b8b14356befc600, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2862696758874053404}
+      addedObject: {fileID: 3334658228698169135}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 241741ae347ae7643b8b14356befc600, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8868657105840856102}
     - targetCorrespondingSourceObject: {fileID: 60322160160391927, guid: 241741ae347ae7643b8b14356befc600, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8934816506337984386}
@@ -1029,7 +1032,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2862696758874053404
+--- !u!114 &3334658228698169135
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1038,13 +1041,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6123029391716415644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 499455c24b143e749b9b91106d22459e, type: 3}
+  m_Script: {fileID: 11500000, guid: a13919fbe8221af4784932e99ebf1dcf, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Ennemy_Test
+  m_EditorClassIdentifier: Assembly-CSharp::AcidicGlav
   Player: {fileID: 0}
   GoTo: {fileID: 7258169958544101826}
   RotationLookAt: {fileID: 8096822654536359494}
-  HP: 5
+  HP: 175
   AttackTrigger: {fileID: 209224168670620816}
   Neck: {fileID: 3823273366394372533}
   move: 0
@@ -1053,18 +1056,18 @@ MonoBehaviour:
   RadiusLook: 30
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 19
+    m_Bits: 81
   WhereToGoPos: {x: 0, y: 0, z: 0}
   OgOffsetLookAt: {x: 0, y: 0, z: 0}
   LoseFocusDist: 1
   OffsetFollowPlayer: 0.5
   HeadRoatationOffset: {x: -90, y: 0, z: 180}
-  SpeedRotate: 7
+  SpeedRotate: 5
   speed: 7
   Eyes:
   - {fileID: 4714737840566739028}
   - {fileID: 3753617679089790284}
-  colorNormal: {r: 1, g: 0.9166666, b: 0, a: 1}
+  colorNormal: {r: 1, g: 0.91764706, b: 0, a: 1}
   colorChase: {r: 1, g: 0, b: 0, a: 1}
   eyeColorIntensity: {x: 20, y: 100}
   PatrolPosition:
@@ -1072,6 +1075,22 @@ MonoBehaviour:
   - {x: 12, y: 0.1, z: 2}
   - {x: 12, y: 0.1, z: -10}
   - {x: -2, y: 0.1, z: -10}
+--- !u!114 &8868657105840856102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6123029391716415644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff0960ef4ea6e04eac66b4a7fd2189d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.RigBuilder
+  m_RigLayers:
+  - m_Rig: {fileID: 852581667762867600}
+    m_Active: 1
+  m_Effectors: []
 --- !u!1 &6408193137670653754 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 60322160160391927, guid: 241741ae347ae7643b8b14356befc600, type: 3}

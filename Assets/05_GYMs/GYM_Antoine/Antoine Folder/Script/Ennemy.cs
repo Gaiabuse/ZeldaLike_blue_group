@@ -1,8 +1,4 @@
 using System.Collections.Generic;
-using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,14 +7,12 @@ public class Ennemy : MonoBehaviour
     Animator animator;
     NavMeshAgent navMesh;
 
-    [Header("Data")]
-    [SerializeField]private EnemyData data;
     [Header("Basic")]
     [SerializeField] Transform Player;
     [SerializeField] Transform GoTo;
     [SerializeField] Transform RotationLookAt;
 
-    private int HP = 20;
+    [SerializeField] int HP = 5;
 
     [SerializeField] Transform AttackTrigger;
     [SerializeField] Transform Neck;
@@ -41,8 +35,8 @@ public class Ennemy : MonoBehaviour
     [SerializeField] Vector3 HeadRoatationOffset;
 
     [Header("Movement")]
-    private float SpeedRotate = 5;
-    private float speed = 7;
+    [SerializeField] float SpeedRotate = 5;
+    [SerializeField] float speed = 7;
 
     [Header("Eyes")]
     [SerializeField] List<MeshRenderer> Eyes;
@@ -53,12 +47,6 @@ public class Ennemy : MonoBehaviour
 
     [Header("Patrol Route")]
     [SerializeField] List<Vector3> PatrolPosition;
-    
-    [Header("Damage Display")]
-    [SerializeField] private TMP_Text hitValueDisplay;
-    [SerializeField] private float durationDelay;
-    [SerializeField] private float durationDotween;
-    private TweenerCore<Vector3, Vector3, VectorOptions> dotween;
     int currentPatrolPose;
 
     private void Start()
@@ -66,9 +54,6 @@ public class Ennemy : MonoBehaviour
         animator = GetComponent<Animator>();
         navMesh = GetComponent<NavMeshAgent>();
 
-        HP = data.health;
-        speed = data.speed;
-        SpeedRotate = data.speedRotate;
         GoTo.position += transform.forward * OffsetFollowPlayer;
         OgOffsetLookAt = GoTo.localPosition;
 
@@ -78,12 +63,11 @@ public class Ennemy : MonoBehaviour
         WhereToGoPos = GoTo.position;
 
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
-        hitValueDisplay.text = "";
-        hitValueDisplay.transform.localScale = Vector3.zero;
+
         EyesSetColorTo(colorNormal, colorChase, 0);
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         isPlayerInFieldOfView();
 
@@ -131,11 +115,9 @@ public class Ennemy : MonoBehaviour
         {
             navMesh.destination = WhereToGoPos;
 
-            if (Vector3.Distance(AttackTrigger.position, Player.position) <= 1.5f)
+            if (Vector3.Distance(AttackTrigger.position, Player.position) <= 2f)
             {
-                move = "attack";
-                navMesh.isStopped = true;
-                animator.SetInteger("Attack", 1);
+                AttackStart();
             }
         }
         else if (move == "lose chase")
@@ -144,7 +126,6 @@ public class Ennemy : MonoBehaviour
 
             if (Vector3.Distance(transform.position + (transform.forward * OffsetFollowPlayer), WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
-                EyesSetColorTo(colorNormal, colorChase, 0);
                 WhereToGoPos = SelectPatrolPosition();
                 move = "patrol";
             }
@@ -205,6 +186,7 @@ public class Ennemy : MonoBehaviour
     Vector3 SelectPatrolPosition()
     {
         Vector3 whereTo;
+        EyesSetColorTo(colorNormal, colorChase, 0);
 
         if (PatrolPosition.Count > 0)
         {
@@ -229,11 +211,21 @@ public class Ennemy : MonoBehaviour
         return whereTo;
     }
 
-    protected void AttackAnimEnd()
+    protected virtual void AttackStart()
+    {
+        move = "attack";
+        navMesh.isStopped = true;
+        animator.SetInteger("Attack", 1);
+    }
+
+    protected virtual void AttackAnimEnd()
     {
         move = "patrol";
         navMesh.isStopped = false;
         animator.SetInteger("Attack", 0);
+
+        GoTo.localPosition = OgOffsetLookAt;
+        GoTo.localRotation = Quaternion.Euler(HeadRoatationOffset);
     }
 
     void isPlayerInFieldOfView()
@@ -260,48 +252,5 @@ public class Ennemy : MonoBehaviour
         }
 
         PlayerInFieldOfView = false;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Attack"))
-        {
-            Debug.Log("attack");
-            Attack attack = other.GetComponent<Attack>();
-            
-            TakeDamage((int)attack.damage);
-        }
-    }
-
-    private void TakeDamage(int damage)
-    {
-        if (dotween != null)
-        {
-            dotween.Kill();
-            hitValueDisplay.transform.localScale = Vector3.zero;
-        }
-
-        dotween = null;
-        hitValueDisplay.text = damage.ToString();
-        ShowHitDisplay();
-        HP -= damage;
-        if (HP <= 0)
-        {
-            if (dotween != null)
-            {
-                dotween.Kill();
-                hitValueDisplay.transform.localScale = Vector3.zero;
-            }
-            Destroy(gameObject);
-        }
-      
-    }
-    
-    private void ShowHitDisplay()
-    {
-        dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(()=>
-        {
-            hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
-        });
     }
 }
