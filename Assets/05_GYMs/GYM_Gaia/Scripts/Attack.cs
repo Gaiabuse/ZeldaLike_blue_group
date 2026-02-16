@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
@@ -5,22 +6,25 @@ public class Attack : MonoBehaviour
     public enum TypeOfAttack
     {
         Basic,
-        nightmare,
-        dream
+        Nightmare,
+        Dream
     }
 
-    private float damage;
-    private TypeOfAttack type;
+    public float damage{private set; get;}
+    public TypeOfAttack type{private set; get;}
+
+    public Action Finished;
 
     public void SetAttack(float damage, TypeOfAttack type)
     {
         this.type = type;
         this.damage = damage;
     }
-
-    public (float damage,TypeOfAttack type) GetParameters()
+    
+    public void FinishAttack()
     {
-        return (damage, type);
+        Finished?.Invoke();
+        Destroy(gameObject);
     }
 
 }

@@ -1,38 +1,71 @@
 using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class SimpleAttack : MonoBehaviour
 {
     [SerializeField]
-    protected Attack attack;
-    [SerializeField]
-    protected float lifeTimeSeconds = 0.3f;
+    protected AttackData basicAttackData;
+
+    [SerializeField] protected AttackData ChargedAttackData;
 
     [SerializeField] protected Attack.TypeOfAttack type;
-    [SerializeField] protected float damage;
     [SerializeField]protected PlayerController player;
-    // cooldown ?
+
+    private bool canAttack;
+    private bool chargedAttack;
+    private Attack currentAttack;
     private void OnEnable()
     {
-        player.Attack += Attack;
+        canAttack = true;
+        chargedAttack = false;
     }
 
-    private void OnDisable()
+  
+    void OnAttack(InputValue _input)
     {
-        player.Attack -= Attack;
+        if (type == global::Attack.TypeOfAttack.Nightmare)
+        {
+            if (chargedAttack)
+            {
+                chargedAttack = false;
+                Attack(ChargedAttackData);
+            }
+            else
+            {
+                Attack(basicAttackData);
+            }
+        }
+        else
+        {
+            Attack(basicAttackData);
+        }
+        
     }
 
-    private void Attack()
+    void OnChargedAttack(InputValue _input)
     {
-        StartCoroutine(OnAttackEnumerator());
+        Debug.Log("charged Attack");
+        chargedAttack = true;
     }
-    public virtual IEnumerator OnAttackEnumerator()
-    {
-        var lAttack = Instantiate(attack,player.transform);
-        lAttack.SetAttack(damage, type);
 
-        yield return new WaitForSeconds(lifeTimeSeconds);
-        Destroy(lAttack.gameObject);
+    private void Attack(AttackData data)
+    {
+        if (!canAttack) return;
+        canAttack = false;
+        var lAttack = Instantiate(data.attackPrefab,player.transform);
+        lAttack.SetAttack(data.damage, type);
+        currentAttack = lAttack;
+        currentAttack.Finished += AttackIsFinished;
+    }
+
+    private void AttackIsFinished()
+    {
+        if(currentAttack == null)return;
+        canAttack = true;
+        currentAttack.Finished -= AttackIsFinished;
+        currentAttack = null;
     }
 }

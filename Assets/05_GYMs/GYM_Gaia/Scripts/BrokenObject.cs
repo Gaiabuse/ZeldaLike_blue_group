@@ -36,9 +36,7 @@ public class BrokenObject : MonoBehaviour
             Attack attack = other.GetComponent<Attack>();
             if (attack != null)
             {
-                (float damage, Attack.TypeOfAttack type) parameters = attack.GetParameters();
-
-                if (parameters.type == Attack.TypeOfAttack.nightmare)
+                if (attack.type == Attack.TypeOfAttack.Nightmare)
                 {
                     Break();
                 }
