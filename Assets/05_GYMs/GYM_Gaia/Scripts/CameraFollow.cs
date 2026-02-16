@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform target;
-    [SerializeField]private float sensitivity = 0.5f;
-    
+    [SerializeField] private float sensitivity = 0.5f;
+
     private float horizontalRotation = 0f;
     private Vector2 lookInput;
-    
+
     void Start()
     {
         horizontalRotation = target.eulerAngles.y;
@@ -24,8 +24,8 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         transform.parent.position = target.position;
-        
-        horizontalRotation += lookInput.x * sensitivity ;
+
+        horizontalRotation += lookInput.x * sensitivity;
 
         if (horizontalRotation != 0)
         {

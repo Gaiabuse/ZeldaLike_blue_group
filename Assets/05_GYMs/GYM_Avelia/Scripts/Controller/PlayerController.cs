@@ -8,18 +8,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     CharacterController controller;
     [SerializeField]
-    float speed = 10f;
-    [SerializeField] float rotationSpeed = 15f;
-    [SerializeField]private CameraFollow cameraFollow;
-    Vector2 direction = Vector2.zero;
-    Vector2 look = Vector2.zero;
+    float speed = 10f, rotationSpeed = 15f;
+
+    [SerializeField]
+    private CameraFollow cameraFollow;
+
+    [SerializeField]
+    private Transform cameraRotation;
+
+    Vector2 direction = Vector2.zero, look = Vector2.zero;
+
     public static Action OnInteract;
-    [SerializeField]private Transform cameraRotation;
     public Action Attack;
+
     private float offset = -90f;
 
     public Vector3 currentDirection { get; private set; } = Vector3.forward;
     public Vector3 currentLook { get; private set; } = Vector3.forward;
+
+    public bool CanMove = true, CanRotate = true;
 
     void Start()
     {
@@ -39,20 +46,24 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 forward = cameraRotation.forward;
         Vector3 right = cameraRotation.right;
-        
+
         forward.y = 0;
         right.y = 0;
         forward.Normalize();
         right.Normalize();
-        
-        Vector3 moveDirection = (forward * direction.y) + (right * direction.x);
-        
-        Vector3 finalMovement = new Vector3(moveDirection.x, -1f, moveDirection.z);
-        controller.Move(finalMovement * speed * Time.deltaTime);
 
-        
-        UpdateLookDirection(moveDirection);
-        
+        Vector3 moveDirection = (forward * direction.y) + (right * direction.x);
+
+        if (CanMove)
+        {
+            Vector3 finalMovement = new Vector3(moveDirection.x, -1f, moveDirection.z);
+            controller.Move(finalMovement * speed * Time.deltaTime);
+        }
+
+        if (CanRotate)
+        {
+            UpdateLookDirection(moveDirection);
+        }
     }
 
     void OnMove(InputValue _input)
@@ -78,9 +89,9 @@ public class PlayerController : MonoBehaviour
         if (moveDir.sqrMagnitude < 0.01f) return;
 
         currentDirection = moveDir.normalized;
-        
+
         Quaternion targetRotation = Quaternion.LookRotation(moveDir);
-        
+
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 }
