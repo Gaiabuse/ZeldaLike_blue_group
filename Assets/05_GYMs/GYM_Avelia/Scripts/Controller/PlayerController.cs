@@ -69,10 +69,7 @@ public class PlayerController : MonoBehaviour
         cameraFollow.OnLook(_input.Get<Vector2>());
     }
 
-    void OnAttack(InputValue _input)
-    {
-        Attack?.Invoke();
-    }
+ 
     void UpdateLookDirection(Vector3 moveDir)
     {
         if (moveDir.sqrMagnitude < 0.01f) return;

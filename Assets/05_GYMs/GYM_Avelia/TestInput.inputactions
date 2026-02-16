@@ -48,7 +48,7 @@
                     "id": "0c803a38-ff4f-4f01-817c-e5eb5f67fe7e",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press(behavior=1)",
                     "initialStateCheck": false
                 },
                 {
@@ -58,6 +58,15 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChargedAttack",
+                    "type": "Button",
+                    "id": "55938b5e-58ed-42af-8bd0-e1d2f0ce1538",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold(duration=2.5,pressPoint=1)",
                     "initialStateCheck": false
                 }
             ],
@@ -246,6 +255,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d96d0a52-2476-4f82-b72e-c52ac4d28f0b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChargedAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
