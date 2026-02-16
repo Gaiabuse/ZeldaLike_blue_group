@@ -9,6 +9,7 @@ public class FormSwitcher : MonoBehaviour
     [SerializeField]
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action SwitchForm;
+    private Form lastForm = Form.neutral;
 
     private void ChangeForm(Form nextForm)
     {
@@ -34,19 +35,49 @@ public class FormSwitcher : MonoBehaviour
 
     void OnTransform(InputValue _input)
     {
+        if(currentForm == Form.neutral)return;
+        Debug.Log("transform");
+        lastForm = currentForm;
+        ChangeForm(Form.neutral);
+        SwitchForm?.Invoke();
+    }
+
+    void OnSwitch(InputValue _input)
+    {
+        Debug.Log("switch");
+        if (lastForm != Form.neutral)
+        {
+            switch (lastForm)
+            {
+                case Form.dream:
+                    ChangeForm(Form.dream);
+                    lastForm = Form.neutral;
+                    SwitchForm?.Invoke();
+                    return;
+                case Form.nightmare:
+                    ChangeForm(Form.nightmare);
+                    lastForm = Form.neutral;
+                    SwitchForm?.Invoke();
+                    return;
+            }
+        }
+
         switch (currentForm)
         {
-            case Form.neutral:
-                ChangeForm(Form.dream);
-                break;
             case Form.dream:
                 ChangeForm(Form.nightmare);
-                break;
+                SwitchForm?.Invoke();
+                return;
             case Form.nightmare:
-                ChangeForm(Form.neutral);
-                break;
+                ChangeForm(Form.dream);
+                SwitchForm?.Invoke();
+                return;
+            case Form.neutral:
+                ChangeForm(Form.dream);
+                SwitchForm?.Invoke();
+                return;
         }
-        SwitchForm?.Invoke();
+        
     }
 }
 
