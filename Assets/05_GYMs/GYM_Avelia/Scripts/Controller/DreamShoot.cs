@@ -31,16 +31,19 @@ public class DreamShoot : MonoBehaviour
     {
         if (_input.isPressed)
         {
-            Debug.Log("is pressed");
             lastInputTime = Time.time;
             controller.CanMove = false;
             // we should try to do something to make things seem more sensitive
 
             aimCone.SetActive(true);
+
+            var playerPos = controller.transform.position;
+            var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
+
+            controller.transform.LookAt(AutoAimed.transform, Vector3.up);
             return;
         }
 
-        Debug.Log("unpressed");
         controller.CanMove = true;
         aimCone.SetActive(false);
         var amountOfTimeWaited = Time.time - lastInputTime;
@@ -68,12 +71,10 @@ public class DreamShoot : MonoBehaviour
     {
         // do shit
         var playerPos = controller.transform.position;
-        var overlaps = Physics.OverlapSphere(playerPos, autoAimRadius);
 
-        var AutoAimed = overlaps.Select(a => a.GetComponent<AutoAimable>())
-            .Where(a => !(a == null))
-            .OrderBy(a => Vector3.Distance(playerPos, a.transform.position) * a.weight)
-            .First();
+        var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
+
+        controller.transform.LookAt(AutoAimed.transform, Vector3.up);
 
         if (AutoAimed == null)
         {
@@ -90,4 +91,5 @@ public class DreamShoot : MonoBehaviour
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
     }
+
 }
