@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
     private float offset = -90f;
 
     public Vector3 currentDirection { get; private set; } = Vector3.forward;
-    public Vector3 currentLook { get; private set; } = Vector3.forward;
 
     public bool CanMove = true, CanRotate = true;
 
