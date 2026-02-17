@@ -140,8 +140,11 @@ public class Ennemy : MonoBehaviour
         {
             navMesh.destination = WhereToGoPos;
 
-            if (Vector3.Distance(transform.position + (transform.forward * OffsetFollowPlayer), WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
+            Debug.Log(Vector3.Distance(transform.position, WhereToGoPos));
+            if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
+                EyesSetColorTo(colorNormal, colorChase, 0);
+
                 WhereToGoPos = SelectPatrolPosition();
                 move = "patrol";
             }
@@ -150,7 +153,7 @@ public class Ennemy : MonoBehaviour
         {
             navMesh.destination = WhereToGoPos;
 
-            if (Vector3.Distance(transform.position + (transform.forward * OffsetFollowPlayer), WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
+            if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
                 currentPatrolPose += 1;
 
@@ -199,7 +202,6 @@ public class Ennemy : MonoBehaviour
     Vector3 SelectPatrolPosition()
     {
         Vector3 whereTo;
-        EyesSetColorTo(colorNormal, colorChase, 0);
 
         if (PatrolPosition.Count > 0)
         {
@@ -301,6 +303,13 @@ public class Ennemy : MonoBehaviour
                 if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
             }
             Death();
+        }
+        else
+        {
+            move = "chase";
+            Vector3 directionTarget = (Player.position - transform.position).normalized;
+            WhereToGoPos = Player.position + (directionTarget * 1);
+            navMesh.destination = WhereToGoPos;
         }
       
     }
