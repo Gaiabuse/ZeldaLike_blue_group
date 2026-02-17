@@ -23,7 +23,7 @@ public class Ennemy : MonoBehaviour
 
     [SerializeField] Transform AttackTrigger;
     [SerializeField] Transform Neck;
-    [SerializeField] string move = "0";
+    [SerializeField] protected string move = "0";
 
     [Header("Raycast")]
     [SerializeField] Transform LockOn;
@@ -133,7 +133,7 @@ public class Ennemy : MonoBehaviour
 
             if (Vector3.Distance(AttackTrigger.position, Player.position) <= 2f)
             {
-                AttackStart();
+                AttackStart(1);
             }
         }
         else if (move == "lose chase")
@@ -226,11 +226,13 @@ public class Ennemy : MonoBehaviour
         return whereTo;
     }
 
-    protected virtual void AttackStart()
+    protected virtual void AttackStart(int attackID)
     {
+        EyesSetColorTo(colorNormal, colorChase, 1);
+
         move = "attack";
         navMesh.isStopped = true;
-        animator.SetInteger("Attack", 1);
+        animator.SetInteger("Attack", attackID);
     }
 
     protected virtual void AttackAnimEnd()
@@ -279,7 +281,7 @@ public class Ennemy : MonoBehaviour
         }
     }
 
-    private void TakeDamage(int damage)
+    protected virtual void TakeDamage(int damage)
     {
         if (dotween != null)
         {
@@ -308,7 +310,7 @@ public class Ennemy : MonoBehaviour
         {
             move = "chase";
             Vector3 directionTarget = (Player.position - transform.position).normalized;
-            WhereToGoPos = Player.position + (directionTarget * 1);
+            WhereToGoPos = Player.position + (-directionTarget * 5);
             navMesh.destination = WhereToGoPos;
         }
       
