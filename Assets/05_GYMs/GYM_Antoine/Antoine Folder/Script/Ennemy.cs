@@ -13,6 +13,7 @@ public class Ennemy : MonoBehaviour
 
     [Header("Data")]
     [SerializeField]private EnemyData data;
+
     [Header("Basic")]
     [SerializeField] Transform Player;
     [SerializeField] Transform GoTo;
@@ -285,15 +286,19 @@ public class Ennemy : MonoBehaviour
         }
 
         dotween = null;
-        hitValueDisplay.text = damage.ToString();
-        ShowHitDisplay();
+        if (hitValueDisplay)
+        {
+            hitValueDisplay.text = damage.ToString();
+            ShowHitDisplay();
+        }
         HP -= damage;
         if (HP <= 0)
         {
             if (dotween != null)
             {
                 dotween.Kill();
-                hitValueDisplay.transform.localScale = Vector3.zero;
+
+                if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
             }
             Destroy(gameObject);
         }
@@ -302,9 +307,12 @@ public class Ennemy : MonoBehaviour
     
     private void ShowHitDisplay()
     {
-        dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(()=>
+        if (hitValueDisplay)
         {
-            hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
-        });
+            dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(() =>
+            {
+                hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
+            });
+        }
     }
 }
