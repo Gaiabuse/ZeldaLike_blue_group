@@ -1,4 +1,8 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,12 +11,14 @@ public class Ennemy : MonoBehaviour
     Animator animator;
     NavMeshAgent navMesh;
 
+    [Header("Data")]
+    [SerializeField]private EnemyData data;
     [Header("Basic")]
     [SerializeField] Transform Player;
     [SerializeField] Transform GoTo;
     [SerializeField] Transform RotationLookAt;
 
-    [SerializeField] int HP = 5;
+    int HP = 5;
 
     [SerializeField] Transform AttackTrigger;
     [SerializeField] Transform Neck;
@@ -35,8 +41,8 @@ public class Ennemy : MonoBehaviour
     [SerializeField] Vector3 HeadRoatationOffset;
 
     [Header("Movement")]
-    [SerializeField] float SpeedRotate = 5;
-    [SerializeField] float speed = 7;
+    float SpeedRotate = 5;
+    float speed = 7;
 
     [Header("Eyes")]
     [SerializeField] List<MeshRenderer> Eyes;
@@ -49,6 +55,11 @@ public class Ennemy : MonoBehaviour
     [SerializeField] List<Vector3> PatrolPosition;
     int currentPatrolPose;
 
+    [Header("Damage Display")]
+    [SerializeField] private TMP_Text hitValueDisplay;
+    [SerializeField] private float durationDelay;
+    [SerializeField] private float durationDotween;
+    private TweenerCore<Vector3, Vector3, VectorOptions> dotween;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -57,13 +68,17 @@ public class Ennemy : MonoBehaviour
         GoTo.position += transform.forward * OffsetFollowPlayer;
         OgOffsetLookAt = GoTo.localPosition;
 
+        HP = data.health;
+        speed = data.speed;
+        SpeedRotate = data.speedRotate;
         RotationLookAt.SetParent(null);
         RotationLookAt.position = GoTo.position;
 
         WhereToGoPos = GoTo.position;
 
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
-
+        hitValueDisplay.text = "";
+        hitValueDisplay.transform.localScale = Vector3.zero;
         EyesSetColorTo(colorNormal, colorChase, 0);
     }
 
@@ -249,5 +264,47 @@ public class Ennemy : MonoBehaviour
         }
 
         PlayerInFieldOfView = false;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Attack"))
+        {
+            Debug.Log("attack");
+            Attack attack = other.GetComponent<Attack>();
+            
+            TakeDamage((int)attack.damage);
+        }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        if (dotween != null)
+        {
+            dotween.Kill();
+            hitValueDisplay.transform.localScale = Vector3.zero;
+        }
+
+        dotween = null;
+        hitValueDisplay.text = damage.ToString();
+        ShowHitDisplay();
+        HP -= damage;
+        if (HP <= 0)
+        {
+            if (dotween != null)
+            {
+                dotween.Kill();
+                hitValueDisplay.transform.localScale = Vector3.zero;
+            }
+            Destroy(gameObject);
+        }
+      
+    }
+    
+    private void ShowHitDisplay()
+    {
+        dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(()=>
+        {
+            hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
+        });
     }
 }
