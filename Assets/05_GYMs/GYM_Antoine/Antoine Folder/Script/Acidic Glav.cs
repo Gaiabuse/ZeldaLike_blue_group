@@ -37,4 +37,11 @@ public class AcidicGlav : Ennemy
         IKchangeWeight = true;
         timer = 1; AddIK = 1;
     }
+
+    protected override void Death()
+    {
+        navMesh.isStopped = true;
+        NeckRig.weight = 0;
+        animator.SetBool("Death", true);
+    }
 }

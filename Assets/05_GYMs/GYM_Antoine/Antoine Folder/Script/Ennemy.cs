@@ -8,8 +8,8 @@ using UnityEngine.AI;
 
 public class Ennemy : MonoBehaviour
 {
-    Animator animator;
-    NavMeshAgent navMesh;
+    protected Animator animator;
+    protected NavMeshAgent navMesh;
 
     [Header("Data")]
     [SerializeField]private EnemyData data;
@@ -300,7 +300,7 @@ public class Ennemy : MonoBehaviour
 
                 if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
             }
-            Destroy(gameObject);
+            Death();
         }
       
     }
@@ -314,5 +314,10 @@ public class Ennemy : MonoBehaviour
                 hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
             });
         }
+    }
+
+    protected virtual void Death()
+    {
+        Destroy(gameObject);
     }
 }
