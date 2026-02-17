@@ -8,6 +8,9 @@ public class DreamDash : MonoBehaviour
     PlayerController controller;
 
     [SerializeField]
+    CharacterController characterController;
+
+    [SerializeField]
     float DashDurationSeconds = 0, DashLength = 1;
 
     [SerializeField]
@@ -18,6 +21,7 @@ public class DreamDash : MonoBehaviour
 
     public void OnDash(InputValue _input)
     {
+        if (!controller.CanMove) return;
         StartCoroutine(Dash());
     }
 
@@ -25,6 +29,9 @@ public class DreamDash : MonoBehaviour
     {
         if (IsDashing) yield break;
         IsDashing = true;
+        controller.CanMove = false;
+        controller.CanRotate = false;
+
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
@@ -35,10 +42,16 @@ public class DreamDash : MonoBehaviour
         {
             timer += Time.deltaTime;
             var portion = timer / DashDurationSeconds;
-            controller.transform.position = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
+            var destinationThisFrame = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
+
+            var motion = destinationPosition - transform.position;
+
+            characterController.Move(motion);
             yield return null;
         }
 
         IsDashing = false;
+        controller.CanMove = true;
+        controller.CanRotate = true;
     }
 }
