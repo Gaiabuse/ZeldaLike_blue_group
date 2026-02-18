@@ -10,7 +10,7 @@ public class DreamShoot : MonoBehaviour
 
     [SerializeField]
     PlayerController controller;
-
+    [SerializeField] private ManaGauge manaGauge;
     [SerializeField]
     GameObject aimCone;
 
@@ -21,7 +21,7 @@ public class DreamShoot : MonoBehaviour
     Transform SpawnPoint;
 
     [SerializeField] protected Attack.TypeOfAttack type;
-    [SerializeField] protected float damage;
+    [SerializeField] protected AttackData data;
 
 
 
@@ -62,7 +62,7 @@ public class DreamShoot : MonoBehaviour
     {
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(damage, type);
+        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
         lAttack.transform.position = SpawnPoint.position;
         lAttack.speed = controller.transform.forward * ProjectileSpeed;
     }
@@ -87,7 +87,7 @@ public class DreamShoot : MonoBehaviour
 
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(damage, type);
+        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
     }

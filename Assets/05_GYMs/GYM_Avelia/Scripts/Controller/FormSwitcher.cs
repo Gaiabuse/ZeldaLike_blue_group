@@ -8,11 +8,13 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField]
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
-    public static Action SwitchForm;
+    public static Action<Form> SwitchForm;
     private Form lastForm = Form.neutral;
+    [SerializeField]private ManaGauge manaGauge;
 
     private void ChangeForm(Form nextForm)
     {
+        
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
@@ -35,15 +37,22 @@ public class FormSwitcher : MonoBehaviour
 
     void OnTransform(InputValue _input)
     {
-        if (currentForm == Form.neutral) return;
+        if (currentForm == Form.neutral || manaGauge.NeedRecharge) return;
         Debug.Log("transform");
         lastForm = currentForm;
         ChangeForm(Form.neutral);
-        SwitchForm?.Invoke();
+        SwitchForm?.Invoke(currentForm);
     }
 
+    public void ForcedTransform()
+    {
+        lastForm = currentForm;
+        ChangeForm(Form.neutral);
+        SwitchForm?.Invoke(currentForm);
+    }
     void OnSwitch(InputValue _input)
     {
+        if(manaGauge.NeedRecharge)return;
         Debug.Log("switch");
         if (lastForm != Form.neutral)
         {
@@ -52,12 +61,12 @@ public class FormSwitcher : MonoBehaviour
                 case Form.dream:
                     ChangeForm(Form.dream);
                     lastForm = Form.neutral;
-                    SwitchForm?.Invoke();
+                    SwitchForm?.Invoke(currentForm);
                     return;
                 case Form.nightmare:
                     ChangeForm(Form.nightmare);
                     lastForm = Form.neutral;
-                    SwitchForm?.Invoke();
+                    SwitchForm?.Invoke(currentForm);
                     return;
             }
         }
@@ -66,15 +75,15 @@ public class FormSwitcher : MonoBehaviour
         {
             case Form.dream:
                 ChangeForm(Form.nightmare);
-                SwitchForm?.Invoke();
+                SwitchForm?.Invoke(currentForm);
                 return;
             case Form.nightmare:
                 ChangeForm(Form.dream);
-                SwitchForm?.Invoke();
+                SwitchForm?.Invoke(currentForm);
                 return;
             case Form.neutral:
                 ChangeForm(Form.dream);
-                SwitchForm?.Invoke();
+                SwitchForm?.Invoke(currentForm);
                 return;
         }
 

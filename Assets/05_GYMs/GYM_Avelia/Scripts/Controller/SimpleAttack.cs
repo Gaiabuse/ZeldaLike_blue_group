@@ -9,6 +9,7 @@ public class SimpleAttack : MonoBehaviour
     [SerializeField]
     protected AttackData basicAttackData;
 
+    [SerializeField] private ManaGauge manaGauge;
     [SerializeField] protected AttackData ChargedAttackData;
 
     [SerializeField] protected Attack.TypeOfAttack type;
@@ -28,10 +29,10 @@ public class SimpleAttack : MonoBehaviour
     {
         if (_input.isPressed)
         {
-            Debug.Log("pressed");
+            Debug.Log("isPressed");
+            Attack(basicAttackData);
             return;
         }
-        Debug.Log("unpressed");
         if (type == global::Attack.TypeOfAttack.Nightmare)
         {
             if (chargedAttack)
@@ -39,14 +40,6 @@ public class SimpleAttack : MonoBehaviour
                 chargedAttack = false;
                 Attack(ChargedAttackData);
             }
-            else
-            {
-                Attack(basicAttackData);
-            }
-        }
-        else
-        {
-            Attack(basicAttackData);
         }
         
     }
@@ -57,12 +50,12 @@ public class SimpleAttack : MonoBehaviour
         chargedAttack = true;
     }
 
-    private void Attack(AttackData data)
+    public void Attack(AttackData data)
     {
         if (!canAttack) return;
         canAttack = false;
         var lAttack = Instantiate(data.attackPrefab,player.transform);
-        lAttack.SetAttack(data.damage, type);
+        lAttack.SetAttack(data, type, manaGauge);
         currentAttack = lAttack;
         currentAttack.Finished += AttackIsFinished;
     }
