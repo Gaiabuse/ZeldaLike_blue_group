@@ -24,9 +24,9 @@ public class AcidicGlav : Ennemy
         }
     }
 
-    protected override void AttackStart()
+    protected override void AttackStart(int attackID)
     {
-        base.AttackStart();
+        base.AttackStart(attackID);
         IKchangeWeight = true;
         timer = -1; AddIK = -1;
     }
@@ -36,5 +36,18 @@ public class AcidicGlav : Ennemy
         base.AttackAnimEnd();
         IKchangeWeight = true;
         timer = 1; AddIK = 1;
+    }
+
+    protected override void Death()
+    {
+        navMesh.isStopped = true;
+        NeckRig.weight = 0;
+        animator.SetBool("Death", true);
+    }
+
+    protected override void TakeDamage(int damage)
+    {
+        if (move == "patrol") AttackStart(2);
+        base.TakeDamage(damage);
     }
 }

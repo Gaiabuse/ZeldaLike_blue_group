@@ -8,11 +8,12 @@ using UnityEngine.AI;
 
 public class Ennemy : MonoBehaviour
 {
-    Animator animator;
-    NavMeshAgent navMesh;
+    protected Animator animator;
+    protected NavMeshAgent navMesh;
 
     [Header("Data")]
     [SerializeField]private EnemyData data;
+
     [Header("Basic")]
     [SerializeField] Transform Player;
     [SerializeField] Transform GoTo;
@@ -22,7 +23,7 @@ public class Ennemy : MonoBehaviour
 
     [SerializeField] Transform AttackTrigger;
     [SerializeField] Transform Neck;
-    [SerializeField] string move = "0";
+    [SerializeField] protected string move = "0";
 
     [Header("Raycast")]
     [SerializeField] Transform LockOn;
@@ -132,15 +133,18 @@ public class Ennemy : MonoBehaviour
 
             if (Vector3.Distance(AttackTrigger.position, Player.position) <= 2f)
             {
-                AttackStart();
+                AttackStart(1);
             }
         }
         else if (move == "lose chase")
         {
             navMesh.destination = WhereToGoPos;
 
-            if (Vector3.Distance(transform.position + (transform.forward * OffsetFollowPlayer), WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
+            Debug.Log(Vector3.Distance(transform.position, WhereToGoPos));
+            if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
+                EyesSetColorTo(colorNormal, colorChase, 0);
+
                 WhereToGoPos = SelectPatrolPosition();
                 move = "patrol";
             }
@@ -149,7 +153,7 @@ public class Ennemy : MonoBehaviour
         {
             navMesh.destination = WhereToGoPos;
 
-            if (Vector3.Distance(transform.position + (transform.forward * OffsetFollowPlayer), WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
+            if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
                 currentPatrolPose += 1;
 
@@ -198,7 +202,6 @@ public class Ennemy : MonoBehaviour
     Vector3 SelectPatrolPosition()
     {
         Vector3 whereTo;
-        EyesSetColorTo(colorNormal, colorChase, 0);
 
         if (PatrolPosition.Count > 0)
         {
@@ -223,11 +226,13 @@ public class Ennemy : MonoBehaviour
         return whereTo;
     }
 
-    protected virtual void AttackStart()
+    protected virtual void AttackStart(int attackID)
     {
+        EyesSetColorTo(colorNormal, colorChase, 1);
+
         move = "attack";
         navMesh.isStopped = true;
-        animator.SetInteger("Attack", 1);
+        animator.SetInteger("Attack", attackID);
     }
 
     protected virtual void AttackAnimEnd()
@@ -276,7 +281,7 @@ public class Ennemy : MonoBehaviour
         }
     }
 
-    private void TakeDamage(int damage)
+    protected virtual void TakeDamage(int damage)
     {
         if (dotween != null)
         {
@@ -285,26 +290,45 @@ public class Ennemy : MonoBehaviour
         }
 
         dotween = null;
-        hitValueDisplay.text = damage.ToString();
-        ShowHitDisplay();
+        if (hitValueDisplay)
+        {
+            hitValueDisplay.text = damage.ToString();
+            ShowHitDisplay();
+        }
         HP -= damage;
         if (HP <= 0)
         {
             if (dotween != null)
             {
                 dotween.Kill();
-                hitValueDisplay.transform.localScale = Vector3.zero;
+
+                if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
             }
-            Destroy(gameObject);
+            Death();
+        }
+        else
+        {
+            move = "chase";
+            Vector3 directionTarget = (Player.position - transform.position).normalized;
+            WhereToGoPos = Player.position + (-directionTarget * 5);
+            navMesh.destination = WhereToGoPos;
         }
       
     }
     
     private void ShowHitDisplay()
     {
-        dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(()=>
+        if (hitValueDisplay)
         {
-            hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
-        });
+            dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(() =>
+            {
+                hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
+            });
+        }
+    }
+
+    protected virtual void Death()
+    {
+        Destroy(gameObject);
     }
 }
