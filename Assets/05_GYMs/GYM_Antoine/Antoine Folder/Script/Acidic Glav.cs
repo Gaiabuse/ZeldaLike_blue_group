@@ -1,14 +1,24 @@
-using System;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
 public class AcidicGlav : Ennemy
 {
+    [Header("Acidic Glav")]
+
+    [SerializeField] int Sharpness;
+
     [SerializeField] ChainIKConstraint NeckRig;
+    [SerializeField] List<GameObject> CrystalTail;
 
     bool IKchangeWeight; float timer = 0;
     int AddIK = 0;
+
+    protected override void Start()
+    {
+        base.Start();
+        SetTailSharpness(Sharpness);
+    }
 
     protected override void FixedUpdate()
     {
@@ -49,5 +59,45 @@ public class AcidicGlav : Ennemy
     {
         if (move == "patrol") AttackStart(2);
         base.TakeDamage(damage);
+    }
+
+    protected void SetTailSharpness(int sharpness)
+    {
+        Sharpness = sharpness;
+
+        if (Sharpness > CrystalTail.Count + 1)
+        {
+            Sharpness = CrystalTail.Count + 1;
+        }
+
+        for (int i = 0; i < CrystalTail.Count; i++)
+        {
+            if (i >= Sharpness) CrystalTail[i].SetActive(false);
+            else CrystalTail[i].SetActive(true);
+        }
+    }
+
+    protected override void AttackPatern()
+    {
+        if (Sharpness >= CrystalTail.Count + 1)
+        {
+            AttackStart(3);
+        }
+        else
+        {
+            float DistanceP = Vector3.Distance(AttackTrigger.position, Player.position);
+
+            if (DistanceP <= 2.5f)
+            {
+                AttackStart(1);
+            }
+            else if (DistanceP <= 3f)
+            {
+                AttackStart(4);
+
+                Sharpness += 1;
+                SetTailSharpness(Sharpness);
+            }
+        }
     }
 }
