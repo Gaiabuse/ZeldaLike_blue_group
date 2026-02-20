@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -79,14 +80,17 @@ public class AcidicGlav : Ennemy
 
     protected override void AttackPatern()
     {
+        float DistanceP = Vector3.Distance(AttackTrigger.position, Player.position);
+
         if (Sharpness >= CrystalTail.Count + 1)
         {
-            AttackStart(3);
+            if (DistanceP <= 2.5f)
+            {
+                AttackStart(3);
+            }
         }
         else
         {
-            float DistanceP = Vector3.Distance(AttackTrigger.position, Player.position);
-
             if (DistanceP <= 2.5f)
             {
                 AttackStart(1);

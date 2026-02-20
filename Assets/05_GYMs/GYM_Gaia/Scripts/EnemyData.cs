@@ -5,11 +5,16 @@ public class EnemyData : ScriptableObject
 {
     public int health = 35;
     public int strength;
-    public int speed = 5;
-    public int acceleration = 8;
-    public int chasespeed = 12;
 
-    public int speedRotate =7 ;
-    public int chaseacceleration = 8;
-    public int chasespeedRotate = 14;
+    [Header("Speed Patrol")]
+
+    public float speed = 3.5f;
+    public int acceleration = 8;
+    public int speedRotate = 120;
+
+    [Header("Speed Chase")]
+
+    public float chasespeed = 5f;
+    public int chaseacceleration = 9;
+    public int chasespeedRotate = 250;
 }
