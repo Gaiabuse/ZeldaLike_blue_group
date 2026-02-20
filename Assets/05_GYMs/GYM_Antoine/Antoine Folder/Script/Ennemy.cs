@@ -14,13 +14,15 @@ public class Ennemy : MonoBehaviour
     [Header("Data")]
     [SerializeField]private EnemyData data;
 
+    int HP = 5;
+    Vector2 speed;
+    Vector2 acceleration;
+    Vector2 SpeedRotate;
+
     [Header("Basic")]
     [SerializeField] protected Transform Player;
     [SerializeField] Transform GoTo;
     [SerializeField] Transform RotationLookAt;
-
-    int HP = 5;
-
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] Transform Neck;
     [SerializeField] protected string move = "0";
@@ -40,10 +42,6 @@ public class Ennemy : MonoBehaviour
     [SerializeField] float LoseFocusDist;
     [SerializeField] float OffsetFollowPlayer = 0.5f;
     [SerializeField] Vector3 HeadRoatationOffset;
-
-    //[Header("Movement")]
-    float SpeedRotate = 5;
-    float speed = 7;
 
     [Header("Eyes")]
     [SerializeField] List<MeshRenderer> Eyes;
@@ -70,8 +68,11 @@ public class Ennemy : MonoBehaviour
         OgOffsetLookAt = GoTo.localPosition;
 
         HP = data.health;
-        speed = data.speed;
-        SpeedRotate = data.speedRotate;
+
+        speed = new Vector2(data.speed, data.chasespeed);
+        SpeedRotate = new Vector2(data.speedRotate, data.chasespeedRotate);
+        acceleration = new Vector2(data.acceleration, data.chaseacceleration);
+
         RotationLookAt.SetParent(null);
         RotationLookAt.position = GoTo.position;
 
