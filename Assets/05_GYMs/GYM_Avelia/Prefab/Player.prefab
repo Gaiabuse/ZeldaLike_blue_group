@@ -632,6 +632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
   controller: {fileID: 2564929551101204253}
+  manaGauge: {fileID: 0}
   aimCone: {fileID: 6123389073644180972}
   ProjectileSpeed: 20
   autoAimTime: 0.3
@@ -639,7 +640,7 @@ MonoBehaviour:
   offset: 0.2
   SpawnPoint: {fileID: 389390803920607328}
   type: 0
-  damage: 0
+  data: {fileID: 0}
 --- !u!114 &3712466546167396665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,6 +654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   controller: {fileID: 2564929551101204253}
+  characterController: {fileID: 0}
   DashDurationSeconds: 0.12
   DashLength: 3
   DashProggression:
@@ -688,7 +690,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 389390803920607328}
-  - component: {fileID: 2766254770022234937}
   - component: {fileID: 2564929551101204253}
   - component: {fileID: 8404292210521852130}
   - component: {fileID: 3776867960204241417}
@@ -717,31 +718,6 @@ Transform:
   - {fileID: 6925516156640406650}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &2766254770022234937
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5466785994567966285}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2564929551101204253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,7 +730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb5cfb54ccd12235ad032ab29f2eb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  controller: {fileID: 2766254770022234937}
+  controller: {fileID: 0}
   speed: 10
   rotationSpeed: 15
   cameraFollow: {fileID: 0}
@@ -776,6 +752,7 @@ MonoBehaviour:
   neutralFormObject: {fileID: 5699375347105076599}
   dreamFormObject: {fileID: 4636758198911872706}
   nightmareFormObject: {fileID: 7861670443210026360}
+  manaGauge: {fileID: 0}
 --- !u!114 &3776867960204241417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,6 +845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleAttack
   basicAttackData: {fileID: 0}
+  manaGauge: {fileID: 0}
   ChargedAttackData: {fileID: 0}
   type: 0
   player: {fileID: 2564929551101204253}
@@ -1159,6 +1137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleAttack
   basicAttackData: {fileID: 11400000, guid: 46e93f7d5273d52478af2b1568d531f2, type: 2}
+  manaGauge: {fileID: 0}
   ChargedAttackData: {fileID: 11400000, guid: 796a42e5e091a8b4aaf3d0295ed30881, type: 2}
   type: 1
   player: {fileID: 0}

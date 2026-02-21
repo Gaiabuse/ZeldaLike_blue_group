@@ -139,8 +139,7 @@ public class Ennemy : MonoBehaviour
         else if (move == "lose chase")
         {
             navMesh.destination = WhereToGoPos;
-
-            Debug.Log(Vector3.Distance(transform.position, WhereToGoPos));
+            
             if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
                 EyesSetColorTo(colorNormal, colorChase, 0);

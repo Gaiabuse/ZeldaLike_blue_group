@@ -8,7 +8,6 @@ public class ShadowMode : MonoBehaviour
     [SerializeField] private Collider playerCollider;
     [SerializeField] private AttackData attackData;
     [SerializeField] private SimpleAttack shadowAttack;
-    [SerializeField] private CharacterController playerController;
     [SerializeField] private GameObject[] playerObjects;
     [SerializeField] private LayerMask shadowMask;
     private bool isActiveShadow = false;
@@ -33,8 +32,6 @@ public class ShadowMode : MonoBehaviour
     {
         shadow.SetActive(isActive);
         playerCollider.enabled = !isActive;
-        playerController.detectCollisions = !isActive;
-        playerController.excludeLayers = isActive ? shadowMask : new LayerMask();
         foreach (var go in playerObjects)
         {
             go.SetActive(!isActive);

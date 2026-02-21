@@ -25,8 +25,9 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 currentDirection { get; private set; } = Vector3.forward;
 
+    public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
-
+    public bool OnWall = false;
     void Start()
     {
         controller = controller == null ? GetComponent<CharacterController>() : controller;
@@ -41,26 +42,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Vector3 forward = cameraRotation.forward;
-        Vector3 right = cameraRotation.right;
-
-        forward.y = 0;
-        right.y = 0;
-        forward.Normalize();
-        right.Normalize();
-
-        Vector3 moveDirection = (forward * direction.y) + (right * direction.x);
+        Movement();
+        AlignPlayer();
+    }
+    void AlignPlayer()
+    {
+        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, surfaceNormal) * transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+    private void Movement()
+    {
+        Vector3 camRight = cameraRotation.right;
+        
+        Vector3 camForward = cameraRotation.forward;
+        Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
+        Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
+        Vector3 moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
 
         if (CanMove)
         {
-            Vector3 finalMovement = new Vector3(moveDirection.x, -1f, moveDirection.z);
-            controller.Move(finalMovement * speed * Time.deltaTime);
+            Vector3 gravityEffect = -transform.up * 5f;
+            Vector3 finalVelocity = (moveDirection * speed) + gravityEffect;
+        
+            controller.Move(finalVelocity * Time.deltaTime);
         }
-
-        if (CanRotate)
-        {
+        
+        if (CanRotate ){
             UpdateLookDirection(moveDirection);
         }
     }
@@ -82,11 +91,12 @@ public class PlayerController : MonoBehaviour
 
     void UpdateLookDirection(Vector3 moveDir)
     {
-        if (moveDir.sqrMagnitude < 0.01f) return;
+        Vector3 projectedDirection = Vector3.ProjectOnPlane(moveDir, transform.up);
+        if (projectedDirection.sqrMagnitude < 0.01f) return;
 
-        currentDirection = moveDir.normalized;
+        currentDirection = projectedDirection.normalized;
 
-        Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+        Quaternion targetRotation = Quaternion.LookRotation(projectedDirection, transform.up);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
