@@ -14,14 +14,16 @@ public class Ennemy : MonoBehaviour
     [Header("Data")]
     [SerializeField]private EnemyData data;
 
+    int HP = 5;
+    Vector2 speed;
+    Vector2 acceleration;
+    Vector2 SpeedRotate;
+
     [Header("Basic")]
-    [SerializeField] Transform Player;
+    [SerializeField] protected Transform Player;
     [SerializeField] Transform GoTo;
     [SerializeField] Transform RotationLookAt;
-
-    int HP = 5;
-
-    [SerializeField] Transform AttackTrigger;
+    [SerializeField] protected Transform AttackTrigger;
     [SerializeField] Transform Neck;
     [SerializeField] protected string move = "0";
 
@@ -41,10 +43,6 @@ public class Ennemy : MonoBehaviour
     [SerializeField] float OffsetFollowPlayer = 0.5f;
     [SerializeField] Vector3 HeadRoatationOffset;
 
-    [Header("Movement")]
-    float SpeedRotate = 5;
-    float speed = 7;
-
     [Header("Eyes")]
     [SerializeField] List<MeshRenderer> Eyes;
     [SerializeField] Color colorNormal;
@@ -61,7 +59,7 @@ public class Ennemy : MonoBehaviour
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
     private TweenerCore<Vector3, Vector3, VectorOptions> dotween;
-    private void Start()
+    protected virtual void Start()
     {
         animator = GetComponent<Animator>();
         navMesh = GetComponent<NavMeshAgent>();
@@ -70,8 +68,11 @@ public class Ennemy : MonoBehaviour
         OgOffsetLookAt = GoTo.localPosition;
 
         HP = data.health;
-        speed = data.speed;
-        SpeedRotate = data.speedRotate;
+
+        speed = new Vector2(data.speed, data.chasespeed);
+        SpeedRotate = new Vector2(data.speedRotate, data.chasespeedRotate);
+        acceleration = new Vector2(data.acceleration, data.chaseacceleration);
+
         RotationLookAt.SetParent(null);
         RotationLookAt.position = GoTo.position;
 
@@ -131,15 +132,12 @@ public class Ennemy : MonoBehaviour
         {
             navMesh.destination = WhereToGoPos;
 
-            if (Vector3.Distance(AttackTrigger.position, Player.position) <= 2f)
-            {
-                AttackStart(1);
-            }
+            AttackPatern();
         }
         else if (move == "lose chase")
         {
             navMesh.destination = WhereToGoPos;
-            
+
             if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
                 EyesSetColorTo(colorNormal, colorChase, 0);
@@ -163,6 +161,11 @@ public class Ennemy : MonoBehaviour
                     WhereToGoPos = PatrolPosition[0];
                 }
             }
+        }
+        else if (move == "attack")
+        {
+            WhereToGoPos = Player.position;
+            navMesh.destination = WhereToGoPos;
         }
 
         if ((Mathf.Abs(navMesh.velocity.x) + Mathf.Abs(navMesh.velocity.z)) / 2 > 0) animator.SetBool("Move", true);
@@ -307,7 +310,7 @@ public class Ennemy : MonoBehaviour
         }
         else
         {
-            move = "chase";
+            if (move != "attack") move = "chase";
             Vector3 directionTarget = (Player.position - transform.position).normalized;
             WhereToGoPos = Player.position + (-directionTarget * 5);
             navMesh.destination = WhereToGoPos;
@@ -329,5 +332,13 @@ public class Ennemy : MonoBehaviour
     protected virtual void Death()
     {
         Destroy(gameObject);
+    }
+
+    protected virtual void AttackPatern()
+    {
+        if (Vector3.Distance(AttackTrigger.position, Player.position) <= 2f)
+        {
+            AttackStart(1);
+        }
     }
 }

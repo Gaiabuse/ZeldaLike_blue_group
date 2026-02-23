@@ -83,7 +83,7 @@ public class Textbox : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AppearText("Weeeeeeeeee", "V2", 0.03f, 2);
+            AppearText("You What ?!", "V2", 0.03f, 2);
         }
     }
 
