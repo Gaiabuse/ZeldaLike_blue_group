@@ -577,6 +577,7 @@ GameObject:
   - component: {fileID: 2564929551101204253}
   - component: {fileID: 8404292210521852130}
   - component: {fileID: 3776867960204241417}
+  - component: {fileID: 1944007839989454290}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -691,6 +692,27 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerControl
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1944007839989454290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466785994567966285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83ae219d76ba5ee1e967690011f928dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteRotater
+  controller: {fileID: 2564929551101204253}
+  northDirectionRight: 30
+  northDirectionLeft: -30
+  southDirectionRight: 150
+  southDirectionLeft: -150
+  eastDirectionUp: 60
+  eastDirectionDown: 120
+  westDirectionUp: -60
+  westDirectionDown: -120
 --- !u!1 &5699375347105076599
 GameObject:
   m_ObjectHideFlags: 0
