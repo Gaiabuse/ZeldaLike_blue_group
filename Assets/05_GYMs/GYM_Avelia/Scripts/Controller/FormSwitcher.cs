@@ -18,7 +18,6 @@ public class FormSwitcher : MonoBehaviour
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
-
         switch (nextForm)
         {
             case Form.neutral:
@@ -45,6 +44,7 @@ public class FormSwitcher : MonoBehaviour
 
     public void ForcedTransform()
     {
+        Debug.Log("Forced transform");
         lastForm = currentForm;
         ChangeForm(Form.neutral);
         SwitchForm?.Invoke(currentForm);
