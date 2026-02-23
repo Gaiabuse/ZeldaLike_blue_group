@@ -1,13 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class ShadowMode : MonoBehaviour
 {
     [SerializeField] private GameObject shadow;
     [SerializeField] private Collider playerCollider;
-    [SerializeField] private AttackData attackData;
-    [SerializeField] private SimpleAttack shadowAttack;
+    [SerializeField] private SimpleAttack attack;
+    [SerializeField] private AttackManager shadowAttackManager;
     [SerializeField] private GameObject[] playerObjects;
     [SerializeField] private LayerMask shadowMask;
     private bool isActiveShadow = false;
@@ -32,6 +33,7 @@ public class ShadowMode : MonoBehaviour
     {
         shadow.SetActive(isActive);
         playerCollider.enabled = !isActive;
+        shadowAttackManager.CanAttack = !isActive;
         foreach (var go in playerObjects)
         {
             go.SetActive(!isActive);
@@ -39,7 +41,7 @@ public class ShadowMode : MonoBehaviour
 
         if (isActive == false && force == false)
         {
-            shadowAttack.Attack(attackData);
+            shadowAttackManager.Attack(attack);
         }
     }
     

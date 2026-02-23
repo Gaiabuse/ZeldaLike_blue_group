@@ -38,7 +38,6 @@ public class FormSwitcher : MonoBehaviour
     void OnTransform(InputValue _input)
     {
         if (currentForm == Form.neutral || manaGauge.NeedRecharge) return;
-        Debug.Log("transform");
         lastForm = currentForm;
         ChangeForm(Form.neutral);
         SwitchForm?.Invoke(currentForm);
@@ -53,7 +52,7 @@ public class FormSwitcher : MonoBehaviour
     void OnSwitch(InputValue _input)
     {
         if(manaGauge.NeedRecharge)return;
-        Debug.Log("switch");
+
         if (lastForm != Form.neutral)
         {
             switch (lastForm)

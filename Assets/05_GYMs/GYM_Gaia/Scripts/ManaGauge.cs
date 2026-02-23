@@ -11,7 +11,6 @@ public class ManaGauge : MonoBehaviour
     [SerializeField] private float speedRecharge;
     [SerializeField] private float speedDecrease;
     [SerializeField] private FormSwitcher formSwitcher;
-    private float currentMana;
     public bool NeedRecharge{get; private set;}
     private Coroutine RechargeCoroutine;
     private Coroutine DecreaseCoroutine;
@@ -30,32 +29,27 @@ public class ManaGauge : MonoBehaviour
     private void Start()
     {
         manaSlider.value = 0;
-        currentMana = 0;
         manaSlider.maxValue = maxMana;
         RechargeCoroutine = StartCoroutine(Recharge());
     }
 
     private IEnumerator Recharge()
     {
-        Debug.Log(manaSlider.value);
-        while (currentMana <= maxMana)
+        while (manaSlider.value <= maxMana)
         {
             yield return new WaitUntil(() => !isPaused); 
             manaSlider.value =  Mathf.MoveTowards(manaSlider.value, maxMana, speedRecharge * Time.deltaTime);
-            currentMana = manaSlider.value;
             yield return null;
         }
-        Debug.Log("is Recharging");
         NeedRecharge = false;
     }
 
     private IEnumerator Decrease()
     {
-        while (currentMana >= 0)
+        while (manaSlider.value >= 0)
         {
             yield return new WaitUntil(() => !isPaused); 
             manaSlider.value =  Mathf.MoveTowards(manaSlider.value, 0, speedDecrease * Time.deltaTime);
-            currentMana = manaSlider.value;
             yield return null;
         }
         formSwitcher.ForcedTransform();
@@ -65,7 +59,8 @@ public class ManaGauge : MonoBehaviour
     public void AddMana(float amount)
     {
         isPaused = true;
-        manaSlider.DOValue(currentMana + amount,0.1f).SetEase(Ease.OutBounce).OnComplete((() => isPaused = false));
+        manaSlider.DOValue(manaSlider.value + amount,0.1f).SetEase(Ease.OutBounce).OnComplete((() => isPaused = false));
+
     }
     
 

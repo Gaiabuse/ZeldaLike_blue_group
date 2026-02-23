@@ -276,7 +276,6 @@ public class Ennemy : MonoBehaviour
     {
         if (other.CompareTag("Attack"))
         {
-            Debug.Log("attack");
             Attack attack = other.GetComponent<Attack>();
             
             TakeDamage((int)attack.damage);

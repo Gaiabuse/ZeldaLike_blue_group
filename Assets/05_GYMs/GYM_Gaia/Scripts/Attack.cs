@@ -15,7 +15,7 @@ public class Attack : MonoBehaviour
     public float damage{private set; get;}
     public TypeOfAttack type{private set; get;}
 
-    public Action Finished;
+    public Action<bool> Finished;
     private bool touchedEnemy;
 
     public void SetAttack(AttackData data, TypeOfAttack type,ManaGauge manaGauge)
@@ -25,7 +25,14 @@ public class Attack : MonoBehaviour
         manaUsed = data.mana;
         this.manaGauge = manaGauge;
     }
-    
+
+    private void StartAttack()
+    {
+        if (type is not TypeOfAttack.Basic)
+        {
+            LoseMana();
+        }
+    }
     public void FinishAttack()
     {
         if (touchedEnemy)
@@ -35,7 +42,7 @@ public class Attack : MonoBehaviour
                 AddMana();
             }
         }
-        Finished?.Invoke();
+        Finished?.Invoke(touchedEnemy);
         Destroy(gameObject);
     }
 
@@ -54,5 +61,10 @@ public class Attack : MonoBehaviour
     private void AddMana()
     {
         manaGauge.AddMana(manaUsed);
+    }
+
+    private void LoseMana()
+    {
+        manaGauge.AddMana(-manaUsed);
     }
 }

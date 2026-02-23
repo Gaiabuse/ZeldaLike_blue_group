@@ -32,7 +32,6 @@ public class BrokenObject : MonoBehaviour
     {
         if (other.CompareTag("Attack"))
         {
-            Debug.Log("trigger");
             Attack attack = other.GetComponent<Attack>();
             if (attack != null)
             {

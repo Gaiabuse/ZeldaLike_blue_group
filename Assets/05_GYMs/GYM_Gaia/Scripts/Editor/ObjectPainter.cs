@@ -117,8 +117,6 @@ public class ObjectPainter : EditorWindow
             angles.y = rotation;
             transformRotation.eulerAngles = angles; 
             obj.transform.rotation = transformRotation;
-            Debug.Log(transformRotation);
-           
             obj.tag = tagOfTheObject;
         }
     }
