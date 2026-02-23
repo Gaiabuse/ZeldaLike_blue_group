@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private CameraFollow cameraFollow;
 
     [SerializeField]
-    private Transform cameraRotation;
+    public Transform cameraRotation;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
