@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class SpriteRotater : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class SpriteRotater : MonoBehaviour
 
     void Start()
     {
+        ChangeDir logDir = (Direction dir) => print(Enum.GetName(typeof(Direction), dir));
+        OnChangeDir += logDir;
 
     }
 
@@ -36,17 +39,17 @@ public class SpriteRotater : MonoBehaviour
         var cameraProjectedDirection = new Vector2(camera.x, camera.z).normalized;
         var playerProjectedDirection = new Vector2(player.x, player.z).normalized;
 
-        var signedAngle = Vector2.SignedAngle(cameraProjectedDirection, playerProjectedDirection);
+        var signedAngle = -Vector2.SignedAngle(cameraProjectedDirection, playerProjectedDirection);
 
-        if (signedAngle < northDirectionLeft && signedAngle > northDirectionRight) return Direction.North;
-        if (signedAngle < westDirectionDown && signedAngle > westDirectionUp) return Direction.West;
-        if (signedAngle < eastDirectionUp && signedAngle > eastDirectionDown) return Direction.East;
-        if (signedAngle < southDirectionRight && signedAngle > southDirectionLeft) return Direction.South;
+        if (signedAngle > northDirectionLeft && signedAngle < northDirectionRight) return Direction.North;
+        if (signedAngle > westDirectionDown && signedAngle < westDirectionUp) return Direction.West;
+        if (signedAngle > eastDirectionUp && signedAngle < eastDirectionDown) return Direction.East;
+        if (signedAngle > southDirectionRight || signedAngle < southDirectionLeft) return Direction.South;
 
         return Direction.NoChange;
     }
 
-    void OnMove()
+    void Update()
     {
         var cameraDirection = controller.cameraRotation.forward;
         var playerDirection = transform.forward;
