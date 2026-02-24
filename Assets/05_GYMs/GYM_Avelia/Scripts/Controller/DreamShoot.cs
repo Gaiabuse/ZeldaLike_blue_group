@@ -9,7 +9,10 @@ public class DreamShoot : MonoBehaviour
 
     [SerializeField]
     PlayerController controller;
-    [SerializeField] private ManaGauge manaGauge;
+
+    [SerializeField]
+    private ManaGauge manaGauge;
+
     [SerializeField]
     GameObject aimCone;
 
@@ -19,8 +22,10 @@ public class DreamShoot : MonoBehaviour
     [SerializeField]
     Transform SpawnPoint;
 
-    [SerializeField] protected Attack.TypeOfAttack type;
-    [SerializeField] protected AttackData data;
+    [SerializeField]
+    protected Attack.TypeOfAttack type;
+    [SerializeField]
+    protected AttackData data;
 
     [SerializeField]
     private AnimationCurve ChargedPowerEvolution;
@@ -53,26 +58,31 @@ public class DreamShoot : MonoBehaviour
         aimCone.SetActive(false);
         var amountOfTimeWaited = Time.time - lastInputTime;
 
+        var progress = amountOfTimeWaited / MaxChargedTime;
+        progress = Mathf.Min(progress, 1f);
+
+        var attackScaledPower = GetAttackPower(progress);
+
         if (amountOfTimeWaited < autoAimTime)
         {
-            CreateAutoTargettingShot(amountOfTimeWaited);
+            CreateAutoTargettingShot(attackScaledPower);
             return;
         }
 
-        CreateShot(amountOfTimeWaited);
+        CreateShot(attackScaledPower);
         return;
     }
 
-    void CreateShot(float ChargedTime)
+    void CreateShot(float attackPower)
     {
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
+        lAttack.GetComponent<Attack>().SetAttack(attackPower, data, type, manaGauge);
         lAttack.transform.position = SpawnPoint.position;
         lAttack.speed = controller.transform.forward * ProjectileSpeed;
     }
 
-    void CreateAutoTargettingShot(float chargedTime)
+    void CreateAutoTargettingShot(float AttackPower)
     {
         // do shit
         var playerPos = controller.transform.position;
@@ -83,7 +93,7 @@ public class DreamShoot : MonoBehaviour
 
         if (AutoAimed == null)
         {
-            CreateShot(chargedTime);
+            CreateShot(AttackPower);
             return;
         }
 
@@ -92,7 +102,7 @@ public class DreamShoot : MonoBehaviour
 
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
+        lAttack.GetComponent<Attack>().SetAttack(AttackPower, data, type, manaGauge);
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
     }

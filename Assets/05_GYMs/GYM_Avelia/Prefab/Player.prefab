@@ -525,7 +525,34 @@ MonoBehaviour:
   offset: 0.2
   SpawnPoint: {fileID: 389390803920607328}
   type: 0
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
+  ChargedPowerEvolution:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MaxChargedTime: 3
+  MinAttack: 6
+  MaxAttack: 9
 --- !u!114 &3712466546167396665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +649,7 @@ MonoBehaviour:
   DeadZone: 0.14
   cameraFollow: {fileID: 0}
   cameraRotation: {fileID: 0}
+  surfaceNormal: {x: 0, y: 0, z: 0}
   CanMove: 1
   CanRotate: 1
   accelerationState: 0
@@ -803,11 +831,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1822127e9a7889a73bf22f961b886b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleAttack
-  basicAttackData: {fileID: 0}
+  comboAttacks: []
   manaGauge: {fileID: 0}
-  ChargedAttackData: {fileID: 0}
-  type: 0
+  ChargedAttack:
+    AttackData: {fileID: 0}
+    type: 0
+  timeForDoCombo: 0
   player: {fileID: 2564929551101204253}
+  ManaAddAtSuccessCombo: 5
+  CanAttack: 0
 --- !u!1 &6123389073644180972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1109,8 +1141,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1822127e9a7889a73bf22f961b886b12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleAttack
-  basicAttackData: {fileID: 11400000, guid: 46e93f7d5273d52478af2b1568d531f2, type: 2}
+  comboAttacks: []
   manaGauge: {fileID: 0}
-  ChargedAttackData: {fileID: 11400000, guid: 796a42e5e091a8b4aaf3d0295ed30881, type: 2}
-  type: 1
+  ChargedAttack:
+    AttackData: {fileID: 0}
+    type: 0
+  timeForDoCombo: 0
   player: {fileID: 0}
+  ManaAddAtSuccessCombo: 5
+  CanAttack: 0
