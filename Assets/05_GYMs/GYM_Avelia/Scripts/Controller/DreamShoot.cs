@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
-using System.Linq;
 
 public class DreamShoot : MonoBehaviour
 {
@@ -23,7 +22,13 @@ public class DreamShoot : MonoBehaviour
     [SerializeField] protected Attack.TypeOfAttack type;
     [SerializeField] protected AttackData data;
 
+    [SerializeField]
+    private AnimationCurve ChargedPowerEvolution;
 
+    [SerializeField]
+    private float MaxChargedTime;
+    [SerializeField]
+    private float MinAttack, MaxAttack;
 
     float lastInputTime;
 
@@ -50,15 +55,15 @@ public class DreamShoot : MonoBehaviour
 
         if (amountOfTimeWaited < autoAimTime)
         {
-            CreateAutoTargettingShot();
+            CreateAutoTargettingShot(amountOfTimeWaited);
             return;
         }
 
-        CreateShot();
+        CreateShot(amountOfTimeWaited);
         return;
     }
 
-    void CreateShot()
+    void CreateShot(float ChargedTime)
     {
         Projectile lAttack = Instantiate<Projectile>(attack);
 
@@ -67,7 +72,7 @@ public class DreamShoot : MonoBehaviour
         lAttack.speed = controller.transform.forward * ProjectileSpeed;
     }
 
-    void CreateAutoTargettingShot()
+    void CreateAutoTargettingShot(float chargedTime)
     {
         // do shit
         var playerPos = controller.transform.position;
@@ -78,7 +83,7 @@ public class DreamShoot : MonoBehaviour
 
         if (AutoAimed == null)
         {
-            CreateShot();
+            CreateShot(chargedTime);
             return;
         }
 
@@ -92,4 +97,6 @@ public class DreamShoot : MonoBehaviour
         lAttack.speed = directionToGo * ProjectileSpeed;
     }
 
+    float GetAttackPower(float proggression)
+        => ChargedPowerEvolution.Evaluate(proggression) * (MaxAttack - MinAttack) + MinAttack;
 }
