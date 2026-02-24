@@ -7,22 +7,24 @@ using UnityEngine.Serialization;
 public class AttackManager : MonoBehaviour
 {
     [SerializeField]
-    protected SimpleAttack[] comboAttacks;
+    private SimpleAttack[] comboAttacks;
 
-    [SerializeField] private ManaGauge manaGauge;
+    [SerializeField] protected ManaGauge manaGauge;
     [SerializeField] protected SimpleAttack ChargedAttack;
     [SerializeField] protected float timeForDoCombo;
     [SerializeField]protected PlayerController player;
 
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
-    
+    [SerializeField] private float timeForDoUltimate = 2;
+    [SerializeField] protected FormSwitcher formSwitcher;
     public bool CanAttack;
     private bool canChargedAttack;
     private Attack currentAttack;
-    private int currentCombo;
-    private Coroutine comboCoroutine;
-    private int numberOfAttacksInCombo;
+    protected int currentCombo;
+    protected Coroutine comboCoroutine;
+    protected int numberOfAttacksInCombo;
     private bool[] allAttackTouched;
+    private Coroutine ultimateCoroutine;
     private void OnEnable()
     {
         CanAttack = true;
@@ -31,7 +33,7 @@ public class AttackManager : MonoBehaviour
     }
 
   
-    void OnAttack(InputValue _input)
+    protected virtual void OnAttack(InputValue _input)
     {
         if (_input.isPressed)
         {
@@ -61,6 +63,10 @@ public class AttackManager : MonoBehaviour
         currentAttack.Finished += AttackIsFinished;
     }
 
+    public virtual void Ultimate()
+    {
+        
+    }
     private void AttackIsFinished(bool touchedEnemy)
     {
         if(currentAttack == null)return;
@@ -105,12 +111,25 @@ public class AttackManager : MonoBehaviour
             currentCombo = 0;
             if (CheckIfAllTouched())
             {
-                Debug.Log("you success the combo");
+                if (ultimateCoroutine != null)
+                {
+                    StopCoroutine(ultimateCoroutine);
+                    ultimateCoroutine = null;
+                }
+                ultimateCoroutine = StartCoroutine(ForUltimateComboCoroutine());
             }
         }
         yield return new WaitForSeconds(timeForDoCombo);
         currentCombo = 0;
      
+    }
+
+    protected virtual IEnumerator ForUltimateComboCoroutine()
+    {
+        Debug.Log("you success the combo");
+        formSwitcher.CanDoUltimate = true;
+        yield return new WaitForSeconds(timeForDoUltimate);
+        formSwitcher.CanDoUltimate = false;
     }
 }
 

@@ -1,16 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Serialization;
 
-public class DreamShoot : MonoBehaviour
+public class DreamShoot : AttackManager
 {
     [SerializeField]
     Projectile attack;
-
-    [SerializeField]
-    PlayerController controller;
-    [SerializeField] private ManaGauge manaGauge;
+    
     [SerializeField]
     GameObject aimCone;
 
@@ -23,28 +22,30 @@ public class DreamShoot : MonoBehaviour
     [SerializeField] protected Attack.TypeOfAttack type;
     [SerializeField] protected AttackData data;
 
+    [SerializeField] private int numberOfShotsForUltimate;
 
 
     float lastInputTime;
 
-    void OnAttack(InputValue _input)
+    protected override void OnAttack(InputValue _input)
     {
         if (_input.isPressed)
         {
             lastInputTime = Time.time;
-            controller.CanMove = false;
+            player.CanMove = false;
             // we should try to do something to make things seem more sensitive
 
             aimCone.SetActive(true);
 
-            var playerPos = controller.transform.position;
+            var playerPos = player.transform.position;
             var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
 
-            controller.transform.LookAt(AutoAimed.transform, Vector3.up);
+            if(AutoAimed != null)
+                player.transform.LookAt(AutoAimed.transform, Vector3.up);
             return;
         }
 
-        controller.CanMove = true;
+        player.CanMove = true;
         aimCone.SetActive(false);
         var amountOfTimeWaited = Time.time - lastInputTime;
 
@@ -57,30 +58,44 @@ public class DreamShoot : MonoBehaviour
         CreateShot();
         return;
     }
+    
 
-    void CreateShot()
+    public override void Ultimate()
+    {
+        Quaternion LastRotation = player.transform.rotation;
+        for (int i = 0; i < numberOfShotsForUltimate; i++)
+        {
+            float positionY = (360f/numberOfShotsForUltimate)*i;
+            player.transform.rotation = Quaternion.Euler(0, positionY, 0);
+            CreateShot();
+        }
+        player.transform.rotation = LastRotation;
+        
+    }
+
+    void CreateShot( )
     {
         Projectile lAttack = Instantiate<Projectile>(attack);
 
         lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
         lAttack.transform.position = SpawnPoint.position;
-        lAttack.speed = controller.transform.forward * ProjectileSpeed;
+        lAttack.speed = player.transform.forward* ProjectileSpeed;
     }
 
     void CreateAutoTargettingShot()
     {
         // do shit
-        var playerPos = controller.transform.position;
+        var playerPos = player.transform.position;
 
         var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
-
-        controller.transform.LookAt(AutoAimed.transform, Vector3.up);
-
         if (AutoAimed == null)
         {
             CreateShot();
             return;
         }
+        player.transform.LookAt(AutoAimed.transform, Vector3.up);
+
+     
 
         var ToGoTo = AutoAimed.transform.position;
         var directionToGo = (ToGoTo - playerPos).normalized;

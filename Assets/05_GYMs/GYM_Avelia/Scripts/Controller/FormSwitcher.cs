@@ -12,6 +12,15 @@ public class FormSwitcher : MonoBehaviour
     private Form lastForm = Form.neutral;
     [SerializeField]private ManaGauge manaGauge;
 
+    [SerializeField] private AttackManager[] FormAttackManagers;
+
+    public bool CanDoUltimate;
+
+    private void Start()
+    {
+        CanDoUltimate = false;
+    }
+
     private void ChangeForm(Form nextForm)
     {
         
@@ -25,6 +34,13 @@ public class FormSwitcher : MonoBehaviour
                 break;
             case Form.dream:
                 dreamFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    if (FormAttackManagers[1] is DreamShoot dreamShoot)
+                    {
+                        dreamShoot.Ultimate();
+                    }
+                }
                 break;
             case Form.nightmare:
                 nightmareFormObject.SetActive(true);
