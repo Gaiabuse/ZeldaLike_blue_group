@@ -105,7 +105,7 @@ public class AttackManager : MonoBehaviour
             currentCombo = 0;
             if (CheckIfAllTouched())
             {
-                manaGauge.AddMana(ManaAddAtSuccessCombo);
+                Debug.Log("you success the combo");
             }
         }
         yield return new WaitForSeconds(timeForDoCombo);

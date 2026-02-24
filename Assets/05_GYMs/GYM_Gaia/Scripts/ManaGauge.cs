@@ -79,6 +79,11 @@ public partial class ManaGauge : MonoBehaviour
     {
         if (currentForm == Form.neutral)
         {
+            if (RechargeCoroutine != null)
+            {
+                StopCoroutine(RechargeCoroutine);
+                RechargeCoroutine = null;
+            }
             RechargeCoroutine = StartCoroutine(Recharge());
             if (DecreaseCoroutine != null)
             {
@@ -88,6 +93,11 @@ public partial class ManaGauge : MonoBehaviour
         }
         else
         {
+            if (DecreaseCoroutine != null)
+            {
+                StopCoroutine(DecreaseCoroutine);
+                DecreaseCoroutine = null;
+            }
             DecreaseCoroutine = StartCoroutine(Decrease());
             if (RechargeCoroutine != null)
             {

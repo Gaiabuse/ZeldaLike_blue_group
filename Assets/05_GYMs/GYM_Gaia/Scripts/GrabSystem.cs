@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GrabSystem : MonoBehaviour
 {
@@ -12,5 +13,10 @@ public class GrabSystem : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void OnSecondPower(InputValue _input)
+    {
+        Debug.Log("OnSecondPower");
     }
 }

@@ -77,6 +77,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SecondPower",
+                    "type": "Button",
+                    "id": "d1a94683-7ce6-4a75-a0c2-08d838e945f5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -204,7 +213,7 @@
                 {
                     "name": "",
                     "id": "71eeab90-18af-4526-a59c-184920f844e9",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -319,6 +328,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf7e4b75-7d63-4327-860d-eb86c1bcb9f2",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondPower",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
