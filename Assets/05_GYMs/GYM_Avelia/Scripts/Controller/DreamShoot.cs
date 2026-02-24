@@ -33,7 +33,11 @@ public class DreamShoot : MonoBehaviour
     [SerializeField]
     private float MaxChargedTime;
     [SerializeField]
-    private float MinAttack, MaxAttack;
+    private float minAttack, maxAttack;
+
+    public float MinAttack => minAttack;
+    public float MaxAttack => maxAttack;
+
 
     float lastInputTime;
 
@@ -105,8 +109,10 @@ public class DreamShoot : MonoBehaviour
         lAttack.GetComponent<Attack>().SetAttack(AttackPower, data, type, manaGauge);
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
+        lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
     }
 
     float GetAttackPower(float proggression)
-        => ChargedPowerEvolution.Evaluate(proggression) * (MaxAttack - MinAttack) + MinAttack;
+        => ChargedPowerEvolution.Evaluate(proggression) * (maxAttack - minAttack) + minAttack;
+
 }
