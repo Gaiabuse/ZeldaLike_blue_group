@@ -85,16 +85,6 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
         Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
         Vector3 moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
-
-        if (CanMove)
-        {
-            Vector3 gravityEffect = -transform.up * 5f;
-            Vector3 finalVelocity = (moveDirection * speed) + gravityEffect;
-        
-            controller.Move(finalVelocity * Time.deltaTime);
-        }
-        
-        if (CanRotate ){
         if (CanRotate)
         {
             UpdateLookDirection(moveDirection);
