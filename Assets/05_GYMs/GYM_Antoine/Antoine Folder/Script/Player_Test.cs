@@ -6,7 +6,6 @@ public class Player_Test : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] Transform CammeraPose;
-    [SerializeField] Vector3 RotationGoTo;
     [SerializeField] float speed;
     [SerializeField] float speedRotate;
 
@@ -17,7 +16,10 @@ public class Player_Test : MonoBehaviour
     [SerializeField] float GroundCheckRadius = 0.1f;
     [SerializeField] bool isGrounded;
 
-    [SerializeField] Transform WallSnapCheck;
+    [SerializeField] Transform RayWallCheckPlayer;
+    [SerializeField] Transform RayWallCheckPointToWall;
+    [SerializeField] Transform WallRayStartPointToWall;
+
     [SerializeField] bool isOnWall;
 
     private void Start()
@@ -26,7 +28,8 @@ public class Player_Test : MonoBehaviour
 
         rb.useGravity = true;
         isOnWall = false;
-        RotationGoTo = transform.rotation.eulerAngles;
+
+        RayWallCheckPointToWall.SetParent(null, true);
     }
 
     private void Update()
@@ -65,6 +68,12 @@ public class Player_Test : MonoBehaviour
         isGrounded = GroundCheck();
     }
 
+    private void LateUpdate()
+    {
+        RayWallCheckPointToWall.position = transform.position;
+        RayWallCheckPointToWall.rotation = transform.rotation;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Wall"))
@@ -76,10 +85,16 @@ public class Player_Test : MonoBehaviour
                 rb.useGravity = false;
 
                 RaycastHit hit;
-                if (Physics.Raycast(WallSnapCheck.position, transform.forward, out hit, 5f))
+                if (Physics.Raycast(RayWallCheckPlayer.position, RayWallCheckPlayer.forward, out hit, 5f))
                 {
-                    transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-                    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
+                    WallRayStartPointToWall.LookAt(hit.point + (other.transform.up * 1));
+
+                    RaycastHit hit2;
+                    if (Physics.Raycast(WallRayStartPointToWall.position, WallRayStartPointToWall.forward, out hit2, Mathf.Infinity))
+                    {
+                        transform.position = hit.point;
+                        transform.rotation = WallRayStartPointToWall.rotation;
+                    }
                 }
             }
             else
@@ -122,6 +137,8 @@ public class Player_Test : MonoBehaviour
 
     void ExitWall()
     {
+        rb.linearVelocity = Vector3.zero;
+
         transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
         isOnWall = false;
         rb.useGravity = true;

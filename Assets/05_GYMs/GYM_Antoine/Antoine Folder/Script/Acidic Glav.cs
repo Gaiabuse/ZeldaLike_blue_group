@@ -104,4 +104,24 @@ public class AcidicGlav : Ennemy
             }
         }
     }
+
+    protected void RushForward(int move)
+    {
+        if (move == 1)
+        {
+            navMesh.isStopped = false;
+
+            navMesh.speed = speed.y * 5;
+            navMesh.acceleration = acceleration.y * 10;
+            navMesh.angularSpeed = 5;
+        }
+        else
+        {
+            navMesh.isStopped = true;
+
+            navMesh.speed = speed.y;
+            navMesh.acceleration = acceleration.y;
+            navMesh.angularSpeed = SpeedRotate.y;
+        }
+    }
 }
