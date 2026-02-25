@@ -150,13 +150,13 @@ public class Ennemy : MonoBehaviour
                 EyesSetColorTo(colorNormal, colorChase, 0);
 
                 WhereToGoPos = SelectPatrolPosition();
+                GoTo.localPosition = OgOffsetLookAt;
+                RotationLookAt.position = GoTo.position;
                 move = "patrol";
 
                 navMesh.speed = speed.x;
                 navMesh.acceleration = acceleration.x;
                 navMesh.angularSpeed = SpeedRotate.x;
-
-                FaceForward();
             }
         }
         else if (move == "patrol")
