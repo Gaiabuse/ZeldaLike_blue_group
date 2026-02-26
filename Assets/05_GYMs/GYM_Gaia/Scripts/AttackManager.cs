@@ -25,7 +25,7 @@ public class AttackManager : MonoBehaviour
     protected int numberOfAttacksInCombo;
     private bool[] allAttackTouched;
     private Coroutine ultimateCoroutine;
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         CanAttack = true;
         canChargedAttack = false;
@@ -67,7 +67,7 @@ public class AttackManager : MonoBehaviour
     {
         
     }
-    private void AttackIsFinished(bool touchedEnemy)
+    protected void AttackIsFinished(bool touchedEnemy)
     {
         if(currentAttack == null)return;
         if (currentCombo == 0)
@@ -75,13 +75,18 @@ public class AttackManager : MonoBehaviour
             StartCombo();
         }
         allAttackTouched[currentCombo] = touchedEnemy;
-        comboCoroutine = StartCoroutine(ComboCoroutine());
-        CanAttack = true;
+        if (this.gameObject.activeInHierarchy)
+        {
+            comboCoroutine = StartCoroutine(ComboCoroutine());
+            
+        }
         currentAttack.Finished -= AttackIsFinished;
+        CanAttack = true;
+       
         currentAttack = null;
     }
 
-    private bool CheckIfAllTouched()
+    protected bool CheckIfAllTouched()
     {
         foreach (bool touched in allAttackTouched)
         {
@@ -93,7 +98,7 @@ public class AttackManager : MonoBehaviour
         return true;
     }
 
-    private void StartCombo()
+    protected void StartCombo()
     {
         currentCombo = 0;
         allAttackTouched = new bool[numberOfAttacksInCombo];
@@ -103,7 +108,7 @@ public class AttackManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ComboCoroutine()
+    protected IEnumerator ComboCoroutine()
     {
         currentCombo++;
         if (currentCombo >= comboAttacks.Length)

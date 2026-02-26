@@ -10,13 +10,14 @@ public class NightmareAttackManager : AttackManager
 
     [SerializeField] private SimpleAttack ultimateAttack;
     [SerializeField] private float timeOfUltimate;
-    private void Start()
+    private void Awake()
     {
         ultimateObject.SetActive(false);
     }
 
     public override void Ultimate()
     {
+        Debug.Log("Ultimate");
         UltimateActivation(true);
         StartCoroutine(UltimateCoroutine());
     }
@@ -27,6 +28,10 @@ public class NightmareAttackManager : AttackManager
         foreach (var go in playerObjects)
         {
             go.SetActive(!isActive);
+        }
+        if (isActive == false)
+        {
+            Attack(ultimateAttack);
         }
     }
 

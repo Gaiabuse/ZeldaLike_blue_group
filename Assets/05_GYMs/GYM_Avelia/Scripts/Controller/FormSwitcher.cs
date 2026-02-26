@@ -31,19 +31,27 @@ public class FormSwitcher : MonoBehaviour
         {
             case Form.neutral:
                 neutralFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    FormAttackManagers[0].Ultimate();
+                    CanDoUltimate = false;
+                }
                 break;
             case Form.dream:
                 dreamFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
-                    if (FormAttackManagers[1] is DreamShoot dreamShoot)
-                    {
-                        dreamShoot.Ultimate();
-                    }
+                    FormAttackManagers[1].Ultimate();
+                    CanDoUltimate = false;
                 }
                 break;
             case Form.nightmare:
                 nightmareFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    FormAttackManagers[2].Ultimate();
+                    CanDoUltimate = false;
+                }
                 break;
         }
 

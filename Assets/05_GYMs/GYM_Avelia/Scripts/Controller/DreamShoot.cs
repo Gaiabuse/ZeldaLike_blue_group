@@ -22,9 +22,15 @@ public class DreamShoot : AttackManager
     [SerializeField] protected Attack.TypeOfAttack type;
     [SerializeField] protected AttackData data;
 
+    [SerializeField] private int numberOfShotsForFinishCombo;
     [SerializeField] private int numberOfShotsForUltimate;
 
 
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        numberOfAttacksInCombo = numberOfShotsForFinishCombo;
+    }
     float lastInputTime;
 
     protected override void OnAttack(InputValue _input)

@@ -59,6 +59,8 @@ public class Ennemy : MonoBehaviour
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
     private TweenerCore<Vector3, Vector3, VectorOptions> dotween;
+
+    public bool canMove;
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -86,6 +88,7 @@ public class Ennemy : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        if (!canMove) return; 
         isPlayerInFieldOfView();
 
         if (PlayerInFieldOfView)

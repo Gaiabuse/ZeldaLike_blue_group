@@ -50,11 +50,7 @@ public class Attack : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            if (type == TypeOfAttack.Basic)
-            {
-                touchedEnemy = true;
-            }
-                
+            touchedEnemy = true;
         }
     }
 
