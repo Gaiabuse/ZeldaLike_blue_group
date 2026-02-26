@@ -15,9 +15,9 @@ public class Ennemy : MonoBehaviour
     [SerializeField]private EnemyData data;
 
     int HP = 5;
-    Vector2 speed;
-    Vector2 acceleration;
-    Vector2 SpeedRotate;
+    protected Vector2 speed;
+    protected Vector2 acceleration;
+    protected Vector2 SpeedRotate;
 
     [Header("Basic")]
     [SerializeField] protected Transform Player;
@@ -100,7 +100,13 @@ public class Ennemy : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Player"))
                 {
-                    if (move != "chase" && move != "attack") move = "chase";
+                    if (move != "chase" && move != "attack")
+                    {
+                        move = "chase";
+                        navMesh.speed = speed.y;
+                        navMesh.acceleration = acceleration.y;
+                        navMesh.angularSpeed = SpeedRotate.y;
+                    }
 
                     EyesSetColorTo(colorNormal, colorChase, 1);
                     WhereToGoPos = Player.position;
@@ -146,7 +152,13 @@ public class Ennemy : MonoBehaviour
                 EyesSetColorTo(colorNormal, colorChase, 0);
 
                 WhereToGoPos = SelectPatrolPosition();
+                GoTo.localPosition = OgOffsetLookAt;
+                RotationLookAt.position = GoTo.position;
                 move = "patrol";
+
+                navMesh.speed = speed.x;
+                navMesh.acceleration = acceleration.x;
+                navMesh.angularSpeed = SpeedRotate.x;
             }
         }
         else if (move == "patrol")
@@ -242,12 +254,16 @@ public class Ennemy : MonoBehaviour
 
     protected virtual void AttackAnimEnd()
     {
-        move = "patrol";
+        move = "chase";
+        WhereToGoPos = Player.position;
+
         navMesh.isStopped = false;
         animator.SetInteger("Attack", 0);
 
         GoTo.localPosition = OgOffsetLookAt;
         GoTo.localRotation = Quaternion.Euler(HeadRoatationOffset);
+
+        FaceForward();
     }
 
     void isPlayerInFieldOfView()
@@ -275,6 +291,7 @@ public class Ennemy : MonoBehaviour
 
         PlayerInFieldOfView = false;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Attack"))

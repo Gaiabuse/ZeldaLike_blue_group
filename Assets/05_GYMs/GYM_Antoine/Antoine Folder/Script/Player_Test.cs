@@ -11,10 +11,14 @@ public class Player_Test : MonoBehaviour
 
     [SerializeField] float jumpPower = 25f;
 
-    [Header("Gravity")]
+    [Header("Ground Related")]
     [SerializeField] Transform GroundCheckPose;
     [SerializeField] float GroundCheckRadius = 0.1f;
     [SerializeField] bool isGrounded;
+
+    [SerializeField] Transform RayWallCheckPlayer;
+    [SerializeField] Transform RayWallCheckPointToWall;
+    [SerializeField] Transform WallRayStartPointToWall;
 
     [SerializeField] bool isOnWall;
 
@@ -24,9 +28,30 @@ public class Player_Test : MonoBehaviour
 
         rb.useGravity = true;
         isOnWall = false;
+
+        RayWallCheckPointToWall.SetParent(null, true);
     }
 
     private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (isOnWall)
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.AddForce(transform.up * jumpPower * 10, ForceMode.Impulse);
+
+                ExitWall();
+            }
+            else
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.linearVelocity += transform.up * jumpPower;
+            }
+        }
+    }
+
+    private void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -40,27 +65,13 @@ public class Player_Test : MonoBehaviour
             rb.linearVelocity = transform.right * horizontal * speed + transform.forward * vertical * speed;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (isOnWall)
-            {
-                rb.AddForce(transform.up * jumpPower * 10, ForceMode.Impulse);
-
-                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-                isOnWall = false;
-                rb.useGravity = true;
-            }
-            else
-            {
-                rb.linearVelocity = Vector3.zero;
-                rb.linearVelocity += transform.up * jumpPower;
-            }
-        }
+        isGrounded = GroundCheck();
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        isGrounded = GroundCheck();
+        RayWallCheckPointToWall.position = transform.position;
+        RayWallCheckPointToWall.rotation = transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -71,13 +82,19 @@ public class Player_Test : MonoBehaviour
 
             if (isOnWall)
             {
-                transform.rotation = Quaternion.Euler(-90, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                 rb.useGravity = false;
 
                 RaycastHit hit;
-                if (Physics.Raycast(GroundCheckPose.position, -transform.up, out hit, 1f))
+                if (Physics.Raycast(RayWallCheckPlayer.position, RayWallCheckPlayer.forward, out hit, 5f))
                 {
+                    WallRayStartPointToWall.LookAt(hit.point + (other.transform.up * 1));
 
+                    RaycastHit hit2;
+                    if (Physics.Raycast(WallRayStartPointToWall.position, WallRayStartPointToWall.forward, out hit2, Mathf.Infinity))
+                    {
+                        transform.position = hit.point;
+                        transform.rotation = WallRayStartPointToWall.rotation;
+                    }
                 }
             }
             else
@@ -85,6 +102,21 @@ public class Player_Test : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
                 rb.useGravity = true;
             }
+        }
+        if (other.CompareTag("WallExit"))
+        {
+            if (isOnWall)
+            {
+                ExitWall();
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Wall"))
+        {
+            ExitWall();
         }
     }
 
@@ -101,5 +133,14 @@ public class Player_Test : MonoBehaviour
         }
 
         return false;
+    }
+
+    void ExitWall()
+    {
+        rb.linearVelocity = Vector3.zero;
+
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+        isOnWall = false;
+        rb.useGravity = true;
     }
 }
