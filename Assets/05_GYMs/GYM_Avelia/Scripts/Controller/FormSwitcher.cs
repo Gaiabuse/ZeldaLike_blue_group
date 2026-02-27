@@ -14,11 +14,14 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
+    [SerializeField] private float timeForDoUltimate;
+    public float TimeForDoUltimate{private set; get;}
     public bool CanDoUltimate;
 
     private void Start()
     {
         CanDoUltimate = false;
+        TimeForDoUltimate = timeForDoUltimate;
     }
 
     private void ChangeForm(Form nextForm)
@@ -75,7 +78,6 @@ public class FormSwitcher : MonoBehaviour
 
     public void ForcedTransform()
     {
-        Debug.Log("Forced transform");
         lastForm = currentForm;
         ChangeForm(Form.neutral);
         SwitchForm?.Invoke(currentForm);

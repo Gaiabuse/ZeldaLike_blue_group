@@ -26,6 +26,11 @@ public class Attack : MonoBehaviour
         this.manaGauge = manaGauge;
     }
 
+    private void Start()
+    {
+        StartAttack();
+    }
+
     private void StartAttack()
     {
         if (type is not TypeOfAttack.Basic)

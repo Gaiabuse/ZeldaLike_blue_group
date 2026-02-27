@@ -28,7 +28,7 @@ public class AttractionZone : MonoBehaviour
                     
                 }
                 Vector3 direction = transform.position - other.transform.position;
-                Debug.Log(other.name + "se dirige vers " + direction);
+                //Debug.Log(other.name + "se dirige vers " + direction);
                 rb.AddForce(direction * AttractionForce * Time.deltaTime, ForceMode.Impulse);
             }
         }
@@ -39,7 +39,7 @@ public class AttractionZone : MonoBehaviour
         foreach (Ennemy ennemy in EnemyAttract)
         {
             ennemy.canMove = true;
-            Debug.Log(ennemy.canMove);
+            Debug.Log(ennemy.name + ennemy.canMove);
         }
         EnemyAttract.Clear();
     }

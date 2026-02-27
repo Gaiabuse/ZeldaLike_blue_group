@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -26,7 +27,6 @@ public class Ennemy : MonoBehaviour
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] Transform Neck;
     [SerializeField] protected string move = "0";
-
     [Header("Raycast")]
     [SerializeField] Transform LockOn;
     [SerializeField] int LookRange = 7;
@@ -61,8 +61,12 @@ public class Ennemy : MonoBehaviour
     private TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
     public bool canMove;
+    private bool isAsleep;
+    protected Coroutine sleepCoroutine;
     protected virtual void Start()
     {
+        canMove = true;
+        isAsleep = false;
         animator = GetComponent<Animator>();
         navMesh = GetComponent<NavMeshAgent>();
 
@@ -86,9 +90,33 @@ public class Ennemy : MonoBehaviour
         EyesSetColorTo(colorNormal, colorChase, 0);
     }
 
+    public void StartSleep(float durationSleep)
+    {
+        if (sleepCoroutine != null)
+        {
+            StopCoroutine(sleepCoroutine);
+            sleepCoroutine = null;
+        }
+
+        sleepCoroutine = StartCoroutine(SleepEnumerator(durationSleep));
+    }
+    private IEnumerator SleepEnumerator(float durationSleep)
+    {
+        isAsleep = true;
+        yield return new WaitForSeconds(durationSleep);
+        isAsleep = false;
+    }
+
+    private void BreakSleep()
+    {
+        if(!isAsleep || sleepCoroutine == null)return;
+        Debug.Log("breakSleep");
+        StopCoroutine(sleepCoroutine);
+        isAsleep = false;
+    }
     protected virtual void FixedUpdate()
     {
-        if (!canMove) return; 
+        if (!canMove || isAsleep) return; 
         isPlayerInFieldOfView();
 
         if (PlayerInFieldOfView)
@@ -304,6 +332,7 @@ public class Ennemy : MonoBehaviour
 
     protected virtual void TakeDamage(int damage)
     {
+        BreakSleep();
         if (dotween != null)
         {
             dotween.Kill();
@@ -334,7 +363,6 @@ public class Ennemy : MonoBehaviour
             WhereToGoPos = Player.position + (-directionTarget * 5);
             navMesh.destination = WhereToGoPos;
         }
-      
     }
     
     private void ShowHitDisplay()

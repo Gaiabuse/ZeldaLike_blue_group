@@ -4,48 +4,34 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class AttackManager : MonoBehaviour
+public abstract class AttackManager : MonoBehaviour
 {
-    [SerializeField]
-    private SimpleAttack[] comboAttacks;
+    
 
     [SerializeField] protected ManaGauge manaGauge;
-    [SerializeField] protected SimpleAttack ChargedAttack;
+    
     [SerializeField] protected float timeForDoCombo;
     [SerializeField]protected PlayerController player;
-
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
-    [SerializeField] private float timeForDoUltimate = 2;
     [SerializeField] protected FormSwitcher formSwitcher;
-    public bool CanAttack;
-    private bool canChargedAttack;
-    private Attack currentAttack;
+    [HideInInspector]public bool CanAttack;
+    protected bool canChargedAttack;
+    protected Attack currentAttack;
     protected int currentCombo;
     protected Coroutine comboCoroutine;
     protected int numberOfAttacksInCombo;
     private bool[] allAttackTouched;
     private Coroutine ultimateCoroutine;
-    public virtual void OnEnable()
+    protected virtual void OnEnable()
     {
         CanAttack = true;
         canChargedAttack = false;
-        numberOfAttacksInCombo = comboAttacks.Length;
+        
     }
 
   
     protected virtual void OnAttack(InputValue _input)
     {
-        if (_input.isPressed)
-        {
-            Attack(comboAttacks[currentCombo]);
-            return;
-        }
-        
-        if (canChargedAttack)
-        {
-            canChargedAttack = false;
-            Attack(ChargedAttack);
-        }
     }
     void OnChargedAttack(InputValue _input)
     {
@@ -65,7 +51,7 @@ public class AttackManager : MonoBehaviour
 
     public virtual void Ultimate()
     {
-        
+        manaGauge.AddMana(ManaAddAtSuccessCombo);
     }
     protected void AttackIsFinished(bool touchedEnemy)
     {
@@ -111,7 +97,7 @@ public class AttackManager : MonoBehaviour
     protected IEnumerator ComboCoroutine()
     {
         currentCombo++;
-        if (currentCombo >= comboAttacks.Length)
+        if (currentCombo >= numberOfAttacksInCombo)
         {
             currentCombo = 0;
             if (CheckIfAllTouched())
@@ -133,7 +119,7 @@ public class AttackManager : MonoBehaviour
     {
         Debug.Log("you success the combo");
         formSwitcher.CanDoUltimate = true;
-        yield return new WaitForSeconds(timeForDoUltimate);
+        yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);
         formSwitcher.CanDoUltimate = false;
     }
 }

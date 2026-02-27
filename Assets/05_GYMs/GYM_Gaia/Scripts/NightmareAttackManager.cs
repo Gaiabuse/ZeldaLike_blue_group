@@ -2,9 +2,13 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class NightmareAttackManager : AttackManager
 {
+    [SerializeField]
+    private SimpleAttack[] comboAttacks;
+    [SerializeField] protected SimpleAttack ChargedAttack;
     [SerializeField] private GameObject[] playerObjects;
     [SerializeField] private GameObject ultimateObject;
 
@@ -14,9 +18,32 @@ public class NightmareAttackManager : AttackManager
     {
         ultimateObject.SetActive(false);
     }
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        numberOfAttacksInCombo = comboAttacks.Length;
+    }
+
+    protected override void OnAttack(InputValue _input)
+    {
+        
+        if (_input.isPressed)
+        {
+            Attack(comboAttacks[currentCombo]);
+            return;
+        }
+        
+        if (canChargedAttack)
+        {
+            canChargedAttack = false;
+            Attack(ChargedAttack);
+        }
+    }
+
 
     public override void Ultimate()
     {
+        base.Ultimate();
         Debug.Log("Ultimate");
         UltimateActivation(true);
         StartCoroutine(UltimateCoroutine());

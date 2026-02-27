@@ -26,7 +26,7 @@ public class DreamShoot : AttackManager
     [SerializeField] private int numberOfShotsForUltimate;
 
 
-    public override void OnEnable()
+    protected override void OnEnable()
     {
         base.OnEnable();
         numberOfAttacksInCombo = numberOfShotsForFinishCombo;
@@ -68,6 +68,7 @@ public class DreamShoot : AttackManager
 
     public override void Ultimate()
     {
+        base.Ultimate();
         Quaternion LastRotation = player.transform.rotation;
         for (int i = 0; i < numberOfShotsForUltimate; i++)
         {
@@ -83,7 +84,10 @@ public class DreamShoot : AttackManager
     {
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
+        Attack attackPrefab = lAttack.GetComponent<Attack>();
+        attackPrefab.SetAttack(data, type, manaGauge);
+        currentAttack = attackPrefab;
+        currentAttack.Finished += AttackIsFinished;
         lAttack.transform.position = SpawnPoint.position;
         lAttack.speed = player.transform.forward* ProjectileSpeed;
     }
@@ -108,7 +112,10 @@ public class DreamShoot : AttackManager
 
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
+        Attack attackPrefab = lAttack.GetComponent<Attack>();
+        attackPrefab.SetAttack(data, type, manaGauge);
+        currentAttack = attackPrefab;
+        currentAttack.Finished += AttackIsFinished;
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
     }
