@@ -27,6 +27,8 @@ public class Ennemy : MonoBehaviour
     [SerializeField] Transform Neck;
     [SerializeField] protected string move = "0";
 
+    float timerGeneral = 0;
+
     [Header("Raycast")]
     [SerializeField] Transform LockOn;
     [SerializeField] int LookRange = 7;
@@ -47,6 +49,7 @@ public class Ennemy : MonoBehaviour
     [SerializeField] List<MeshRenderer> Eyes;
     [SerializeField] Color colorNormal;
     [SerializeField] Color colorChase;
+    [SerializeField] Color colorMotionless;
     [SerializeField] Vector2 eyeColorIntensity;
     bool PlayerInFieldOfView;
 
@@ -82,7 +85,7 @@ public class Ennemy : MonoBehaviour
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
         hitValueDisplay.text = "";
         hitValueDisplay.transform.localScale = Vector3.zero;
-        EyesSetColorTo(colorNormal, colorChase, 0);
+        EyesSetColorTo(colorNormal);
     }
 
     protected virtual void FixedUpdate()
@@ -106,7 +109,7 @@ public class Ennemy : MonoBehaviour
                         navMesh.angularSpeed = SpeedRotate.y;
                     }
 
-                    EyesSetColorTo(colorNormal, colorChase, 1);
+                    EyesSetColorTo(colorChase);
                     WhereToGoPos = Player.position;
 
                     LookAtPosition(WhereToGoPos);
@@ -147,16 +150,7 @@ public class Ennemy : MonoBehaviour
 
             if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist + OffsetFollowPlayer)
             {
-                EyesSetColorTo(colorNormal, colorChase, 0);
-
-                WhereToGoPos = SelectPatrolPosition();
-                GoTo.localPosition = OgOffsetLookAt;
-                RotationLookAt.position = GoTo.position;
-                move = "patrol";
-
-                navMesh.speed = speed.x;
-                navMesh.acceleration = acceleration.x;
-                navMesh.angularSpeed = SpeedRotate.x;
+                PatrolStart();
             }
         }
         else if (move == "patrol")
@@ -179,6 +173,14 @@ public class Ennemy : MonoBehaviour
         {
             WhereToGoPos = Player.position;
             navMesh.destination = WhereToGoPos;
+        }
+        else if (move == "sleep")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                animator.SetBool("Sleep", false);
+            }
         }
 
         if ((Mathf.Abs(navMesh.velocity.x) + Mathf.Abs(navMesh.velocity.z)) / 2 > 0) animator.SetBool("Move", true);
@@ -206,11 +208,11 @@ public class Ennemy : MonoBehaviour
         GoTo.localPosition = RestPose;
     }
 
-    void EyesSetColorTo(Color colorStart, Color colorEnd, float gradient)
+    void EyesSetColorTo(Color color)
     {
         if (Eyes.Count > 0)
         {
-            foreach (MeshRenderer eye in Eyes) eye.material.color = Color.Lerp(colorStart, colorEnd, gradient);
+            foreach (MeshRenderer eye in Eyes) eye.material.color = color;
         }
     }
 
@@ -243,7 +245,7 @@ public class Ennemy : MonoBehaviour
 
     protected virtual void AttackStart(int attackID)
     {
-        EyesSetColorTo(colorNormal, colorChase, 1);
+        EyesSetColorTo(colorChase);
 
         move = "attack";
         navMesh.isStopped = true;
@@ -358,5 +360,28 @@ public class Ennemy : MonoBehaviour
         {
             AttackStart(1);
         }
+    }
+
+    protected void PatrolStart()
+    {
+        EyesSetColorTo(colorNormal);
+
+        WhereToGoPos = SelectPatrolPosition();
+        GoTo.localPosition = OgOffsetLookAt;
+        RotationLookAt.position = GoTo.position;
+        move = "patrol";
+
+        navMesh.speed = speed.x;
+        navMesh.acceleration = acceleration.x;
+        navMesh.angularSpeed = SpeedRotate.x;
+    }
+
+    public void StartSleep(float timer)
+    {
+        move = "sleep";
+        navMesh.isStopped = true;
+        timerGeneral = timer;
+        EyesSetColorTo(colorNormal);
+        animator.SetBool("Sleep", true);
     }
 }
