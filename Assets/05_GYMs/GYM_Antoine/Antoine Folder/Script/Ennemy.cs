@@ -35,7 +35,7 @@ public class Ennemy : MonoBehaviour
     [SerializeField] int RadiusLook = 45;
 
     [Header("Layer")]
-    [SerializeField] LayerMask ignoreLayer;
+    [SerializeField] LayerMask LayerBlockRay;
 
     [Header("GoTo")]
     [SerializeField] Vector3 WhereToGoPos;
@@ -97,7 +97,7 @@ public class Ennemy : MonoBehaviour
             RaycastHit hit;
             Vector3 directionTarget = (Player.position - LockOn.position).normalized;
 
-            if (Physics.Raycast(LockOn.position, directionTarget, out hit, LookRange, ignoreLayer))
+            if (Physics.Raycast(LockOn.position, directionTarget, out hit, LookRange, LayerBlockRay))
             {
                 if (hit.transform.CompareTag("Player"))
                 {
@@ -268,7 +268,7 @@ public class Ennemy : MonoBehaviour
 
     void isPlayerInFieldOfView()
     {
-        Collider[] rangeChecks = Physics.OverlapSphere(LockOn.position, LookRange, ignoreLayer);
+        Collider[] rangeChecks = Physics.OverlapSphere(LockOn.position, LookRange, LayerBlockRay);
         if (rangeChecks.Length > 0)
         {
             foreach (Collider hitCollider in rangeChecks)
@@ -308,7 +308,7 @@ public class Ennemy : MonoBehaviour
         if (dotween != null)
         {
             dotween.Kill();
-            hitValueDisplay.transform.localScale = Vector3.zero;
+            if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
         }
 
         dotween = null;
@@ -317,23 +317,26 @@ public class Ennemy : MonoBehaviour
             hitValueDisplay.text = damage.ToString();
             ShowHitDisplay();
         }
+
         HP -= damage;
+
         if (HP <= 0)
         {
-            if (dotween != null)
-            {
-                dotween.Kill();
-
-                if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
-            }
             Death();
         }
         else
         {
-            if (move != "attack") move = "chase";
-            Vector3 directionTarget = (Player.position - transform.position).normalized;
-            WhereToGoPos = Player.position + (-directionTarget * 5);
-            navMesh.destination = WhereToGoPos;
+            if (move == "sleep")
+            {
+                animator.SetBool("Sleep", false);
+            }
+            else
+            {
+                if (move != "attack") move = "chase";
+                Vector3 directionTarget = (Player.position - transform.position).normalized;
+                WhereToGoPos = Player.position + (-directionTarget * 5);
+                navMesh.destination = WhereToGoPos;
+            }
         }
       
     }
@@ -381,7 +384,12 @@ public class Ennemy : MonoBehaviour
         move = "sleep";
         navMesh.isStopped = true;
         timerGeneral = timer;
-        EyesSetColorTo(colorNormal);
+        EyesSetColorTo(Color.black);
         animator.SetBool("Sleep", true);
+    }
+
+    void EndSleep()
+    {
+        navMesh.isStopped = false;
     }
 }
