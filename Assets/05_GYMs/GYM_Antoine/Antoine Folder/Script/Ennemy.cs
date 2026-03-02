@@ -27,6 +27,8 @@ public class Ennemy : MonoBehaviour
     [SerializeField] Transform Neck;
     [SerializeField] protected string move = "0";
 
+    [SerializeField] float DistanceAlwaysSeeEnnemy = 2f;
+
     float timerGeneral = 0;
 
     [Header("Raycast")]
@@ -180,6 +182,7 @@ public class Ennemy : MonoBehaviour
             if (timerGeneral <= 0)
             {
                 animator.SetBool("Sleep", false);
+                EndSleep();
             }
         }
 
@@ -277,13 +280,21 @@ public class Ennemy : MonoBehaviour
                 {
                     if (Player == null) Player = hitCollider.transform;
 
-                    Vector3 anglePose1 = Player.position - LockOn.position;
-                    Vector3 anglePose2 = LockOn.position + (LockOn.forward * 0.5f) - LockOn.position;
-
-                    if (Vector3.Angle(anglePose1, anglePose2) < RadiusLook)
+                    if (Vector3.Distance(Player.position, transform.position) <= DistanceAlwaysSeeEnnemy)
                     {
                         PlayerInFieldOfView = true;
                         return;
+                    }
+                    else
+                    {
+                        Vector3 anglePose1 = Player.position - LockOn.position;
+                        Vector3 anglePose2 = LockOn.position + (LockOn.forward * 0.5f) - LockOn.position;
+
+                        if (Vector3.Angle(anglePose1, anglePose2) < RadiusLook)
+                        {
+                            PlayerInFieldOfView = true;
+                            return;
+                        }
                     }
                 }
             }
@@ -329,6 +340,7 @@ public class Ennemy : MonoBehaviour
             if (move == "sleep")
             {
                 animator.SetBool("Sleep", false);
+                EndSleep();
             }
             else
             {
