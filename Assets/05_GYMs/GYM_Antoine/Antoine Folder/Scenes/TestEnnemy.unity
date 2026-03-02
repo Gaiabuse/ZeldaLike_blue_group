@@ -1038,6 +1038,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 2088352777}
   sensitivity: 0.5
+--- !u!1 &1109135162 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5977815348077399321, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+  m_PrefabInstance: {fileID: 6583066221447988937}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1431856052 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7861670443210026360, guid: 655d8af03cf58b54c90d5a328a5cb66c, type: 3}
@@ -2191,9 +2196,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5977815348077399321, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6364837381328308730, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+      propertyPath: Shell
+      value: 
+      objectReference: {fileID: 1109135162}
     - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
       propertyPath: m_Name
       value: Sheep Ennemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
