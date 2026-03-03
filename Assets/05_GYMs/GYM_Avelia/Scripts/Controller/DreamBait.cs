@@ -1,16 +1,25 @@
 using UnityEngine;
+using System;
 
 public class DreamBait : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField]
+    private GameObject Bait;
+
+    private GameObject currentBaitInstance;
+
+    void Start() { }
+
+    void Update() { }
+
+    void OnBaitInput()
     {
-        
+        if (currentBaitInstance == null)
+        {
+
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void DoBaitExplosion() => throw new NotImplementedException($"[TODO] {nameof(DoBaitExplosion)}");
+    void DoBaitSpawn() => throw new NotImplementedException($"[TODO] {nameof(DoBaitSpawn)}");
 }
