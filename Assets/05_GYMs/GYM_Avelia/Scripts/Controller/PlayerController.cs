@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
 
     [SerializeField]
-    float speed = 10f, rotationSpeed = 15f;
+    float speed = 10f, rotationSpeed = 15f, amountOfLerpedSmoothingOnStick = 0.2f;
+    private float currentStickProgress, lerpedStickProgress;
 
     [SerializeField]
     private CameraFollow cameraFollow;
@@ -28,8 +29,6 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
-
-
 
     void Start()
     {
@@ -50,11 +49,13 @@ public class PlayerController : MonoBehaviour
         Movement();
         AlignPlayer();
     }
+
     void AlignPlayer()
     {
         Quaternion targetRotation = Quaternion.FromToRotation(transform.up, surfaceNormal) * transform.rotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
+
     private void Movement()
     {
         Vector3 camRight = cameraRotation.right;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
         Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
         Vector3 moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
+
         if (CanRotate)
         {
             UpdateLookDirection(moveDirection);
@@ -70,13 +72,18 @@ public class PlayerController : MonoBehaviour
 
         if (CanMove)
         {
-            controller.Move(moveDirection * Time.deltaTime);
+            lerpedStickProgress = Mathf.Lerp(lerpedStickProgress, currentStickProgress, amountOfLerpedSmoothingOnStick);
+
+            controller.Move(moveDirection * Time.deltaTime * speed * lerpedStickProgress);
         }
     }
 
     void OnMove(InputValue _input)
     {
         direction = _input.Get<Vector2>();
+        currentStickProgress = direction.magnitude;
+
+        direction.Normalize();
     }
 
     void OnInteraction(InputValue _input)
