@@ -309,16 +309,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3498745598507053696}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -0.19}
-  m_LocalScale: {x: 0.16483948, y: 0.16483948, z: 0.16483948}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5025077044429456509}
   m_Father: {fileID: 5825918911866091981}
   m_LocalEulerAnglesHint: {x: 0, y: 266.221, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.02, y: 1.57}
+  m_AnchoredPosition: {x: 0, y: 1.5}
   m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5747469695847209782
@@ -906,17 +906,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499455c24b143e749b9b91106d22459e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ennemy_Test
+  data: {fileID: 11400000, guid: 57dfe970de7f341459612531b543cf25, type: 2}
   Player: {fileID: 0}
   GoTo: {fileID: 8355240421929082389}
   RotationLookAt: {fileID: 8355240421929082389}
-  HP: 50
   AttackTrigger: {fileID: 5825918911866091981}
   Neck: {fileID: 5825918911866091981}
   move: patrol
+  DistanceAlwaysSeeEnnemy: 3
   LockOn: {fileID: 363813607327498702}
   LookRange: 5
   RadiusLook: 75
-  ignoreLayer:
+  LayerBlockRay:
     serializedVersion: 2
     m_Bits: 81
   WhereToGoPos: {x: 0, y: 0, z: 0}
@@ -924,17 +925,16 @@ MonoBehaviour:
   LoseFocusDist: 1
   OffsetFollowPlayer: 0.5
   HeadRoatationOffset: {x: 0, y: 0, z: 0}
-  SpeedRotate: 7
-  speed: 7
   Eyes:
   - {fileID: 2201577157933080295}
   - {fileID: 8790696130588115587}
   colorNormal: {r: 1, g: 0.9166666, b: 0, a: 1}
   colorChase: {r: 1, g: 0, b: 0, a: 1}
+  colorMotionless: {r: 0, g: 0, b: 0, a: 0}
   eyeColorIntensity: {x: 10, y: 20}
   PatrolPosition:
-  - {x: 14.006836, y: 1.17, z: 7.3405976}
-  - {x: -2.51, y: 1.17, z: 7.3405976}
+  - {x: 14, y: 1.17, z: 7}
+  - {x: -2.5, y: 1.17, z: 7}
   hitValueDisplay: {fileID: 388783653064065937}
   durationDelay: 0.2
   durationDotween: 0.5

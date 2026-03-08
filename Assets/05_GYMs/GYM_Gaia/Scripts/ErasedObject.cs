@@ -1,17 +1,25 @@
+using System;
 using UnityEngine;
 
 public class ErasedObject : MonoBehaviour
 {
     [SerializeField]private GameObject erasedObject;
     [SerializeField]private GameObject createdObject;
-    void Start()
+
+    private bool erased = false;
+
+    private void Start()
     {
-        
+        erased = false;
+        erasedObject.SetActive(erased);
+        createdObject.SetActive(!erased);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EraseOrCreate()
     {
+        erased = !erased;
         
+        erasedObject.SetActive(erased);
+        createdObject.SetActive(!erased);
     }
 }
