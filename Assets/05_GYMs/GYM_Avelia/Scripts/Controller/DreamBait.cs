@@ -4,9 +4,9 @@ using System;
 public class DreamBait : MonoBehaviour
 {
     [SerializeField]
-    private GameObject Bait;
+    private DreamBaitProps Bait;
 
-    private GameObject currentBaitInstance;
+    private DreamBaitProps currentBaitInstance;
 
     void Start() { }
 
@@ -16,10 +16,17 @@ public class DreamBait : MonoBehaviour
     {
         if (currentBaitInstance == null)
         {
-
+            DoBaitSpawn();
+            return;
         }
+
+        DoBaitExplosion();
     }
 
-    void DoBaitExplosion() => throw new NotImplementedException($"[TODO] {nameof(DoBaitExplosion)}");
-    void DoBaitSpawn() => throw new NotImplementedException($"[TODO] {nameof(DoBaitSpawn)}");
+    void DoBaitExplosion() => currentBaitInstance.Explode();
+    void DoBaitSpawn()
+    {
+        currentBaitInstance = Instantiate(Bait);
+
+    }
 }
