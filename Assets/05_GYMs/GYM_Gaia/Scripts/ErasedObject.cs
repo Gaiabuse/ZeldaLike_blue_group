@@ -6,20 +6,25 @@ public class ErasedObject : MonoBehaviour
     [SerializeField]private GameObject erasedObject;
     [SerializeField]private GameObject createdObject;
 
-    private bool erased = false;
+    public bool Erased { get; private set; }
 
     private void Start()
     {
-        erased = false;
-        erasedObject.SetActive(erased);
-        createdObject.SetActive(!erased);
+        Erase();
     }
 
-    public void EraseOrCreate()
+    public void Erase()
     {
-        erased = !erased;
+        Erased = true;
         
-        erasedObject.SetActive(erased);
-        createdObject.SetActive(!erased);
+        erasedObject.SetActive(Erased);
+        createdObject.SetActive(!Erased);
+    }
+
+    public void Create()
+    {
+        Erased = false;
+        erasedObject.SetActive(Erased);
+        createdObject.SetActive(!Erased);
     }
 }

@@ -22,13 +22,11 @@ public class AttractionZone : MonoBehaviour
                 {
                     if (!EnemyAttract.Contains(enemy))
                     {
-                        enemy.canMove = false;
                         EnemyAttract.Add(enemy);
                     }
                     
                 }
                 Vector3 direction = transform.position - other.transform.position;
-                //Debug.Log(other.name + "se dirige vers " + direction);
                 rb.AddForce(direction * AttractionForce * Time.deltaTime, ForceMode.Impulse);
             }
         }
@@ -36,11 +34,6 @@ public class AttractionZone : MonoBehaviour
 
     private void OnDisable()
     {
-        foreach (Ennemy ennemy in EnemyAttract)
-        {
-            ennemy.canMove = true;
-            Debug.Log(ennemy.name + ennemy.canMove);
-        }
         EnemyAttract.Clear();
     }
 }
