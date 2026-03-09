@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class DreamBait : MonoBehaviour
 {
     [SerializeField]
-    private DreamBaitProps Bait;
+    private DreamBaitProps BaitPrefab;
 
     private DreamBaitProps currentBaitInstance;
 
@@ -28,7 +28,7 @@ public class DreamBait : MonoBehaviour
 
     void DoBaitSpawn()
     {
-        currentBaitInstance = Instantiate(Bait);
+        currentBaitInstance = Instantiate(BaitPrefab);
 
     }
 }

@@ -3,6 +3,17 @@ using System.Threading.Tasks;
 
 public class DreamBaitProps : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject Explosion;
 
-    public async Task Explode() { }
+    [SerializeField]
+    private float SecondActive;
+
+    public async Task Explode()
+    {
+        Explosion.SetActive(true);
+
+        await Task.Delay((int)(SecondActive / 1000f));
+        Explosion.SetActive(false);
+    }
 }
