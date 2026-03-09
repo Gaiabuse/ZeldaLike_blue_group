@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
 
     [SerializeField]
-    float speed = 10f, rotationSpeed = 15f, amountOfDecay = 0.2f;
+    float speed = 10f, rotationSpeed = 15f;
+    [SerializeField]
+    private float decayAccel = 5f, decayDecel = 10f;
     private float currentStickProgress, smoothedStickProgress;
 
     [SerializeField]
@@ -72,7 +74,8 @@ public class PlayerController : MonoBehaviour
 
         if (CanMove)
         {
-            smoothedStickProgress = smoothedStickProgress.expDecay(currentStickProgress, amountOfDecay, Time.deltaTime);
+            var decay = smoothedStickProgress < currentStickProgress ? decayAccel : decayDecel;
+            smoothedStickProgress = smoothedStickProgress.expDecay(currentStickProgress, decay, Time.deltaTime);
 
             controller.Move(moveDirection * Time.deltaTime * speed * smoothedStickProgress);
         }
