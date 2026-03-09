@@ -9,7 +9,7 @@ public class ExplosionAttack : Attack
 
     void start()
     {
-        SetAttack(ManaUsed, Damage, null);
+        //SetAttack(ManaUsed, Damage, null);
     }
 
 }

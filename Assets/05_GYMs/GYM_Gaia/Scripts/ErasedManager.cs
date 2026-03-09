@@ -25,10 +25,15 @@ public class ErasedManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == currentObject.gameObject)
+        int otherObjectLayerMask = 1 << other.gameObject.layer;
+        if ((ErasedLayerMask.value & otherObjectLayerMask) != 0)
         {
-            currentObject = null;
+            if (other.gameObject == currentObject.gameObject)
+            {
+                currentObject = null;
+            }
         }
+       
     }
 
     public void OnDash(InputValue inputValue)
