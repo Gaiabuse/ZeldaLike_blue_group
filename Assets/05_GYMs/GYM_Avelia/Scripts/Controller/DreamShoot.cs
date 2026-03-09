@@ -14,9 +14,6 @@ public class DreamShoot : AttackManager
     PlayerController controller;
 
     [SerializeField]
-    private ManaGauge manaGauge;
-
-    [SerializeField]
     GameObject aimCone;
 
     [SerializeField]
@@ -40,6 +37,7 @@ public class DreamShoot : AttackManager
 
     public float MinAttack => minAttack;
     public float MaxAttack => maxAttack;
+
     [SerializeField] private int numberOfShotsForUltimate;
 
 
