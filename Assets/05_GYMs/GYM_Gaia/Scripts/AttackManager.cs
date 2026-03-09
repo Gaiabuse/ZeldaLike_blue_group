@@ -11,7 +11,8 @@ public abstract class AttackManager : MonoBehaviour
     [SerializeField] protected ManaGauge manaGauge;
     
     [SerializeField] protected float timeForDoCombo;
-    [SerializeField]protected PlayerController player;
+    [SerializeField] protected PlayerController player;
+
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
     [SerializeField] protected FormSwitcher formSwitcher;
     [HideInInspector]public bool CanAttack;
@@ -29,9 +30,20 @@ public abstract class AttackManager : MonoBehaviour
         
     }
 
-  
+
     protected virtual void OnAttack(InputValue _input)
     {
+        if (_input.isPressed)
+        {
+            Attack(comboAttacks[currentCombo]);
+            return;
+        }
+
+        if (canChargedAttack)
+        {
+            canChargedAttack = false;
+            Attack(ChargedAttack);
+        }
     }
     void OnChargedAttack(InputValue _input)
     {
@@ -55,7 +67,7 @@ public abstract class AttackManager : MonoBehaviour
     }
     protected void AttackIsFinished(bool touchedEnemy)
     {
-        if(currentAttack == null)return;
+        if (currentAttack == null) return;
         if (currentCombo == 0)
         {
             StartCombo();
@@ -112,7 +124,7 @@ public abstract class AttackManager : MonoBehaviour
         }
         yield return new WaitForSeconds(timeForDoCombo);
         currentCombo = 0;
-     
+
     }
 
     protected virtual IEnumerator ForUltimateComboCoroutine()
@@ -125,13 +137,13 @@ public abstract class AttackManager : MonoBehaviour
 }
 
 [Serializable]
-public class SimpleAttack 
+public class SimpleAttack
 {
-    [SerializeField]private AttackData AttackData;
-    [SerializeField]private Attack.TypeOfAttack type;
+    [SerializeField] private AttackData AttackData;
+    [SerializeField] private Attack.TypeOfAttack type;
     public Attack Attack(ManaGauge manaGauge, Transform player)
     {
-        var lAttack = UnityEngine.Object.Instantiate(AttackData.attackPrefab,player);
+        var lAttack = UnityEngine.Object.Instantiate(AttackData.attackPrefab, player);
         lAttack.SetAttack(AttackData, type, manaGauge);
         return lAttack;
     }

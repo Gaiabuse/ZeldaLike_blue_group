@@ -11,14 +11,14 @@ public class Attack : MonoBehaviour
     }
     private ManaGauge manaGauge;
 
-    public float manaUsed{private set; get;}
-    public float damage{private set; get;}
-    public TypeOfAttack type{private set; get;}
+    public float manaUsed { private set; get; }
+    public float damage { private set; get; }
+    public TypeOfAttack type { private set; get; }
 
     public Action<bool> Finished;
     private bool touchedEnemy;
 
-    public void SetAttack(AttackData data, TypeOfAttack type,ManaGauge manaGauge)
+    public void SetAttack(AttackData data, TypeOfAttack type, ManaGauge manaGauge)
     {
         this.type = type;
         this.damage = data.damage;
@@ -26,9 +26,12 @@ public class Attack : MonoBehaviour
         this.manaGauge = manaGauge;
     }
 
-    private void Start()
+    public void SetAttack(float pDamage, AttackData data, TypeOfAttack type, ManaGauge manaGauge)
     {
-        StartAttack();
+        this.type = type;
+        this.damage = pDamage;
+        manaUsed = data.mana;
+        this.manaGauge = manaGauge;
     }
 
     private void StartAttack()

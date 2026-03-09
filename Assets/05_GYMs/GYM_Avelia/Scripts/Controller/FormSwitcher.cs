@@ -10,7 +10,7 @@ public class FormSwitcher : MonoBehaviour
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action<Form> SwitchForm;
     private Form lastForm = Form.neutral;
-    [SerializeField]private ManaGauge manaGauge;
+    [SerializeField] private ManaGauge manaGauge;
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
@@ -26,7 +26,7 @@ public class FormSwitcher : MonoBehaviour
 
     private void ChangeForm(Form nextForm)
     {
-        
+
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
@@ -84,8 +84,8 @@ public class FormSwitcher : MonoBehaviour
     }
     void OnSwitch(InputValue _input)
     {
-        if(manaGauge.NeedRecharge)return;
-        
+        if (manaGauge.NeedRecharge) return;
+
         switch (currentForm)
         {
             case Form.dream:

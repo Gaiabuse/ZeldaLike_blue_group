@@ -9,7 +9,10 @@ public class DreamShoot : AttackManager
 {
     [SerializeField]
     Projectile attack;
-    
+
+    [SerializeField]
+    PlayerController controller;
+
     [SerializeField]
     GameObject aimCone;
 
@@ -19,8 +22,21 @@ public class DreamShoot : AttackManager
     [SerializeField]
     Transform SpawnPoint;
 
-    [SerializeField] protected Attack.TypeOfAttack type;
-    [SerializeField] protected AttackData data;
+    [SerializeField]
+    protected Attack.TypeOfAttack type;
+    [SerializeField]
+    protected AttackData data;
+
+    [SerializeField]
+    private AnimationCurve ChargedPowerEvolution;
+
+    [SerializeField]
+    private float MaxChargedTime;
+    [SerializeField]
+    private float minAttack, maxAttack;
+
+    public float MinAttack => minAttack;
+    public float MaxAttack => maxAttack;
 
     [SerializeField] private int numberOfShotsForFinishCombo;
     [SerializeField] private int numberOfShotsForUltimate;
@@ -46,7 +62,7 @@ public class DreamShoot : AttackManager
             var playerPos = player.transform.position;
             var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
 
-            if(AutoAimed != null)
+            if (AutoAimed != null)
                 player.transform.LookAt(AutoAimed.transform, Vector3.up);
             return;
         }
@@ -55,16 +71,21 @@ public class DreamShoot : AttackManager
         aimCone.SetActive(false);
         var amountOfTimeWaited = Time.time - lastInputTime;
 
+        var progress = amountOfTimeWaited / MaxChargedTime;
+        progress = Mathf.Min(progress, 1f);
+
+        var attackScaledPower = GetAttackPower(progress);
+
         if (amountOfTimeWaited < autoAimTime)
         {
-            CreateAutoTargettingShot();
+            CreateAutoTargettingShot(attackScaledPower);
             return;
         }
 
-        CreateShot();
+        CreateShot(attackScaledPower);
         return;
     }
-    
+
 
     public override void Ultimate()
     {
@@ -72,15 +93,15 @@ public class DreamShoot : AttackManager
         Quaternion LastRotation = player.transform.rotation;
         for (int i = 0; i < numberOfShotsForUltimate; i++)
         {
-            float positionY = (360f/numberOfShotsForUltimate)*i;
+            float positionY = (360f / numberOfShotsForUltimate) * i;
             player.transform.rotation = Quaternion.Euler(0, positionY, 0);
-            CreateShot();
+            CreateShot(maxAttack);
         }
         player.transform.rotation = LastRotation;
-        
+
     }
 
-    void CreateShot( )
+    void CreateShot(float attackPower)
     {
         Projectile lAttack = Instantiate<Projectile>(attack);
 
@@ -89,10 +110,10 @@ public class DreamShoot : AttackManager
         currentAttack = attackPrefab;
         currentAttack.Finished += AttackIsFinished;
         lAttack.transform.position = SpawnPoint.position;
-        lAttack.speed = player.transform.forward* ProjectileSpeed;
+        lAttack.speed = player.transform.forward * ProjectileSpeed;
     }
 
-    void CreateAutoTargettingShot()
+    void CreateAutoTargettingShot(float AttackPower)
     {
         // do shit
         var playerPos = player.transform.position;
@@ -100,12 +121,12 @@ public class DreamShoot : AttackManager
         var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
         if (AutoAimed == null)
         {
-            CreateShot();
+            CreateShot(AttackPower);
             return;
         }
         player.transform.LookAt(AutoAimed.transform, Vector3.up);
 
-     
+
 
         var ToGoTo = AutoAimed.transform.position;
         var directionToGo = (ToGoTo - playerPos).normalized;
@@ -118,6 +139,10 @@ public class DreamShoot : AttackManager
         currentAttack.Finished += AttackIsFinished;
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
+        lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
     }
+
+    float GetAttackPower(float proggression)
+        => ChargedPowerEvolution.Evaluate(proggression) * (maxAttack - minAttack) + minAttack;
 
 }
