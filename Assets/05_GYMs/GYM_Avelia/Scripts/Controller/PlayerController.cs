@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
 
     [SerializeField]
-    float speed = 10f, rotationSpeed = 15f, amountOfLerpedSmoothingOnStick = 0.2f;
-    private float currentStickProgress, lerpedStickProgress;
+    float speed = 10f, rotationSpeed = 15f, amountOfDecay = 0.2f;
+    private float currentStickProgress, smoothedStickProgress;
 
     [SerializeField]
     private CameraFollow cameraFollow;
@@ -72,18 +72,20 @@ public class PlayerController : MonoBehaviour
 
         if (CanMove)
         {
-            lerpedStickProgress = Mathf.Lerp(lerpedStickProgress, currentStickProgress, amountOfLerpedSmoothingOnStick);
+            smoothedStickProgress = smoothedStickProgress.expDecay(currentStickProgress, amountOfDecay, Time.deltaTime);
 
-            controller.Move(moveDirection * Time.deltaTime * speed * lerpedStickProgress);
+            controller.Move(moveDirection * Time.deltaTime * speed * smoothedStickProgress);
         }
     }
 
     void OnMove(InputValue _input)
     {
-        direction = _input.Get<Vector2>();
-        currentStickProgress = direction.magnitude;
+        var ldirection = _input.Get<Vector2>();
+        currentStickProgress = ldirection.magnitude;
 
-        direction.Normalize();
+        if (currentStickProgress <= 0.1) return;
+
+        direction = ldirection.normalized;
     }
 
     void OnInteraction(InputValue _input)
