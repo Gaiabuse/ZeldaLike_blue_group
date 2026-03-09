@@ -33,17 +33,7 @@ public abstract class AttackManager : MonoBehaviour
 
     protected virtual void OnAttack(InputValue _input)
     {
-        if (_input.isPressed)
-        {
-            Attack(comboAttacks[currentCombo]);
-            return;
-        }
-
-        if (canChargedAttack)
-        {
-            canChargedAttack = false;
-            Attack(ChargedAttack);
-        }
+        
     }
     void OnChargedAttack(InputValue _input)
     {

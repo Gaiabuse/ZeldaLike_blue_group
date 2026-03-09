@@ -44,7 +44,6 @@ public class NightmareAttackManager : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
-        Debug.Log("Ultimate");
         UltimateActivation(true);
         StartCoroutine(UltimateCoroutine());
     }
