@@ -13,7 +13,7 @@ public class DreamBait : MonoBehaviour
 
     void Update() { }
 
-    async Task OnBaitInput()
+    async Task OnSecondPower()
     {
         if (currentBaitInstance == null)
         {
