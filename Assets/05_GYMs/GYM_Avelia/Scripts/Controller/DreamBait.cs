@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 public class DreamBait : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class DreamBait : MonoBehaviour
 
     void Update() { }
 
-    void OnBaitInput()
+    async Task OnBaitInput()
     {
         if (currentBaitInstance == null)
         {
@@ -20,10 +21,11 @@ public class DreamBait : MonoBehaviour
             return;
         }
 
-        DoBaitExplosion();
+        await currentBaitInstance.Explode();
+        Destroy(currentBaitInstance);
+
     }
 
-    void DoBaitExplosion() => currentBaitInstance.Explode();
     void DoBaitSpawn()
     {
         currentBaitInstance = Instantiate(Bait);

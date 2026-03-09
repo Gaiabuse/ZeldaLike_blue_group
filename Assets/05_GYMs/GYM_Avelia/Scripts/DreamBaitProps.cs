@@ -1,6 +1,8 @@
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class DreamBaitProps : MonoBehaviour
 {
-    public async void Explode() { }
+
+    public async Task Explode() { }
 }
