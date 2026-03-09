@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -21,6 +22,8 @@ public class Ennemy : MonoBehaviour
 
     [Header("Basic")]
     [SerializeField] protected Transform Player;
+    [SerializeField] protected Transform Leure;
+
     [SerializeField] Transform GoTo;
     [SerializeField] Transform RotationLookAt;
     [SerializeField] protected Transform AttackTrigger;
@@ -30,6 +33,7 @@ public class Ennemy : MonoBehaviour
     [SerializeField] float DistanceAlwaysSeeEnnemy = 2f;
 
     float timerGeneral = 0;
+    Transform CurrentTarget;
 
     [Header("Raycast")]
     [SerializeField] Transform LockOn;
@@ -53,7 +57,9 @@ public class Ennemy : MonoBehaviour
     [SerializeField] Color colorChase;
     [SerializeField] Color colorMotionless;
     [SerializeField] Vector2 eyeColorIntensity;
-    bool PlayerInFieldOfView;
+
+    bool TargetInFieldOfView;
+
 
     [Header("Patrol Route")]
     [SerializeField] List<Vector3> PatrolPosition;
@@ -94,14 +100,14 @@ public class Ennemy : MonoBehaviour
     {
         isPlayerInFieldOfView();
 
-        if (PlayerInFieldOfView)
+        if (TargetInFieldOfView)
         {
             RaycastHit hit;
-            Vector3 directionTarget = (Player.position - LockOn.position).normalized;
+            Vector3 directionTarget = (CurrentTarget.position - LockOn.position).normalized;
 
             if (Physics.Raycast(LockOn.position, directionTarget, out hit, LookRange, LayerBlockRay))
             {
-                if (hit.transform.CompareTag("Player"))
+                if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Leure"))
                 {
                     if (move != "chase" && move != "attack")
                     {
@@ -112,7 +118,7 @@ public class Ennemy : MonoBehaviour
                     }
 
                     EyesSetColorTo(colorChase);
-                    WhereToGoPos = Player.position;
+                    WhereToGoPos = CurrentTarget.position;
 
                     LookAtPosition(WhereToGoPos);
                 }
@@ -173,7 +179,7 @@ public class Ennemy : MonoBehaviour
         }
         else if (move == "attack")
         {
-            WhereToGoPos = Player.position;
+            WhereToGoPos = CurrentTarget.position;
             navMesh.destination = WhereToGoPos;
         }
         else if (move == "sleep")
@@ -258,7 +264,7 @@ public class Ennemy : MonoBehaviour
     protected virtual void AttackAnimEnd()
     {
         move = "chase";
-        WhereToGoPos = Player.position;
+        WhereToGoPos = CurrentTarget.position;
 
         navMesh.isStopped = false;
         animator.SetInteger("Attack", 0);
@@ -274,33 +280,58 @@ public class Ennemy : MonoBehaviour
         Collider[] rangeChecks = Physics.OverlapSphere(LockOn.position, LookRange, LayerBlockRay);
         if (rangeChecks.Length > 0)
         {
-            foreach (Collider hitCollider in rangeChecks)
+            bool leureDetected = false;
+
+            for (int i = 0; i < rangeChecks.Length; i++)
             {
-                if (hitCollider.CompareTag("Player"))
+                if (rangeChecks[i].CompareTag("Leure"))
                 {
-                    if (Player == null) Player = hitCollider.transform;
+                    if (Leure != rangeChecks[i].transform) Leure = rangeChecks[i].transform;
+                    leureDetected = true;
+                }
+                if (rangeChecks[i].CompareTag("Player"))
+                {
+                    if (Player == null) Player = rangeChecks[i].transform;
+                }
+            }
 
-                    if (Vector3.Distance(Player.position, transform.position) <= DistanceAlwaysSeeEnnemy)
-                    {
-                        PlayerInFieldOfView = true;
-                        return;
-                    }
-                    else
-                    {
-                        Vector3 anglePose1 = Player.position - LockOn.position;
-                        Vector3 anglePose2 = LockOn.position + (LockOn.forward * 0.5f) - LockOn.position;
+            if (leureDetected)
+            {
+                if (CanSeeObject(Leure))
+                {
+                    TargetInFieldOfView = true;
+                    CurrentTarget = Leure;
+                }
 
-                        if (Vector3.Angle(anglePose1, anglePose2) < RadiusLook)
-                        {
-                            PlayerInFieldOfView = true;
-                            return;
-                        }
+                else if (Player != null)
+                {
+                    if (CanSeeObject(Player))
+                    {
+                        TargetInFieldOfView = true;
+                        CurrentTarget = Player;
                     }
+                    else TargetInFieldOfView = false;
+                }
+
+                return;
+            }
+            else if (Player != null)
+            {
+                if (CanSeeObject(Player))
+                {
+                    TargetInFieldOfView = true;
+                    CurrentTarget = Player;
+                    return;
+                }
+                else
+                {
+                    TargetInFieldOfView = false;
+                    return;
                 }
             }
         }
 
-        PlayerInFieldOfView = false;
+        TargetInFieldOfView = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -345,8 +376,8 @@ public class Ennemy : MonoBehaviour
             else
             {
                 if (move != "attack") move = "chase";
-                Vector3 directionTarget = (Player.position - transform.position).normalized;
-                WhereToGoPos = Player.position + (-directionTarget * 5);
+                Vector3 directionTarget = (CurrentTarget.position - transform.position).normalized;
+                WhereToGoPos = CurrentTarget.position + (-directionTarget * 5);
                 navMesh.destination = WhereToGoPos;
             }
         }
@@ -371,7 +402,7 @@ public class Ennemy : MonoBehaviour
 
     protected virtual void AttackPatern()
     {
-        if (Vector3.Distance(AttackTrigger.position, Player.position) <= 2f)
+        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= 2f)
         {
             AttackStart(1);
         }
@@ -403,5 +434,27 @@ public class Ennemy : MonoBehaviour
     void EndSleep()
     {
         navMesh.isStopped = false;
+    }
+
+    bool CanSeeObject(Transform Target)
+    {
+        if (Vector3.Distance(Target.position, transform.position) <= DistanceAlwaysSeeEnnemy)
+        {
+            return true;
+        }
+        else
+        {
+            Vector3 anglePose1 = Target.position - LockOn.position;
+            Vector3 anglePose2 = LockOn.position + (LockOn.forward * 0.5f) - LockOn.position;
+
+            if (Vector3.Angle(anglePose1, anglePose2) < RadiusLook)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
