@@ -1,0 +1,39 @@
+
+using System;
+using System.Collections;
+using UnityEngine;
+
+public class NightmareAttackManager : AttackManager
+{
+    [SerializeField] private GameObject[] playerObjects;
+    [SerializeField] private GameObject ultimateObject;
+
+    [SerializeField] private SimpleAttack ultimateAttack;
+    [SerializeField] private float timeOfUltimate;
+    private void Start()
+    {
+        ultimateObject.SetActive(false);
+    }
+
+    public override void Ultimate()
+    {
+        UltimateActivation(true);
+        StartCoroutine(UltimateCoroutine());
+    }
+    private void UltimateActivation(bool isActive)
+    {
+        ultimateObject.SetActive(isActive);
+        CanAttack = !isActive;
+        foreach (var go in playerObjects)
+        {
+            go.SetActive(!isActive);
+        }
+    }
+
+    private IEnumerator UltimateCoroutine()
+    {
+        yield return new WaitForSeconds(timeOfUltimate);
+        UltimateActivation(false);
+        Attack(ultimateAttack);
+    }
+}
