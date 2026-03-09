@@ -100,7 +100,7 @@ public class Ennemy : MonoBehaviour
     {
         isPlayerInFieldOfView();
 
-        if (TargetInFieldOfView)
+        if (TargetInFieldOfView && move != "sleep")
         {
             RaycastHit hit;
             Vector3 directionTarget = (CurrentTarget.position - LockOn.position).normalized;
@@ -139,7 +139,7 @@ public class Ennemy : MonoBehaviour
                 }
             }
         }
-        else
+        else if (move != "sleep")
         {
             if (move == "chase") move = "lose chase";
 
@@ -195,6 +195,14 @@ public class Ennemy : MonoBehaviour
         if ((Mathf.Abs(navMesh.velocity.x) + Mathf.Abs(navMesh.velocity.z)) / 2 > 0) animator.SetBool("Move", true);
         else animator.SetBool("Move", false);
     }
+
+    /*private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartSleep(5);
+        }
+    }*/
 
     void LookAtPosition(Vector3 pos)
     {
@@ -371,7 +379,8 @@ public class Ennemy : MonoBehaviour
             if (move == "sleep")
             {
                 animator.SetBool("Sleep", false);
-                EndSleep();
+                WhereToGoPos = CurrentTarget.position;
+                navMesh.destination = WhereToGoPos;
             }
             else
             {
@@ -434,6 +443,8 @@ public class Ennemy : MonoBehaviour
     void EndSleep()
     {
         navMesh.isStopped = false;
+        move = "chase";
+        EyesSetColorTo(colorNormal);
     }
 
     bool CanSeeObject(Transform Target)
