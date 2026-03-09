@@ -342,18 +342,7 @@ public class Ennemy : MonoBehaviour
         TargetInFieldOfView = false;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Attack"))
-        {
-            Debug.Log("attack");
-            Attack attack = other.GetComponent<Attack>();
-            
-            TakeDamage((int)attack.damage);
-        }
-    }
-
-    protected virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         if (dotween != null)
         {

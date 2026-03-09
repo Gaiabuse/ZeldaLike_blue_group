@@ -27,4 +27,13 @@ public class Attack : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.transform.CompareTag("Ennemy"))
+        {
+            Ennemy ennemyScript = collision.transform.GetComponent<Ennemy>();
+
+            ennemyScript.TakeDamage((int)damage);
+        }
+    }
 }

@@ -18,7 +18,7 @@ public class SheepEnnemy : Ennemy
         rb.isKinematic = true;
     }
 
-    protected override void TakeDamage(int damage)
+    public override void TakeDamage(int damage)
     {
         if (shellHere)
         {
