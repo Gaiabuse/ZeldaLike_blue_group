@@ -256,6 +256,7 @@ MonoBehaviour:
   formSwitcher: {fileID: 8404292210521852130}
   CanAttack: 0
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
+  controller: {fileID: 0}
   aimCone: {fileID: 6123389073644180972}
   ProjectileSpeed: 20
   autoAimTime: 0.3
@@ -264,6 +265,15 @@ MonoBehaviour:
   SpawnPoint: {fileID: 389390803920607328}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
+  ChargedPowerEvolution:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  MaxChargedTime: 0
+  minAttack: 0
+  maxAttack: 0
   numberOfShotsForUltimate: 8
 --- !u!114 &3712466546167396665
 MonoBehaviour:
@@ -552,7 +562,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   maxMana: 100
   manaSlider: {fileID: 0}
-  speedRecharge: 2
+  speedRecharge: 50
   speedDecrease: 3
   formSwitcher: {fileID: 8404292210521852130}
 --- !u!143 &8407484935566984166
@@ -1108,7 +1118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2811420270165341141
 Transform:
   m_ObjectHideFlags: 0
