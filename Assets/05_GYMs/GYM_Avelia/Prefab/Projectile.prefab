@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcc3dd442097e7849989eeb06728d2c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attack
+  HitSpark: {fileID: 0}
 --- !u!54 &1515328421207860735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -200,6 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScalingAttack
   attack: {fileID: 317120272924343593}
-  MinScale: {x: 1, y: 1, z: 1}
-  MaxScale: {x: 2, y: 2, z: 2}
-  dreamShoot: {fileID: 0}
+  MinScale: {x: 0.5, y: 0.5, z: 0.5}
+  MaxScale: {x: 20, y: 20, z: 20}
+  MinAttack: 0.5
+  MaxAttack: 3
