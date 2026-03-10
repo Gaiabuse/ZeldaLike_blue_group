@@ -13,21 +13,54 @@ public class Attack : MonoBehaviour
         Nightmare,
         Dream
     }
+    private ManaGauge manaGauge;
 
+    public float manaUsed { private set; get; }
     public float damage{private set; get;}
     public TypeOfAttack type{private set; get;}
 
-    public Action Finished;
+    public Action<bool> Finished;
+    private bool touchedEnemy;
 
-    public void SetAttack(float damage, TypeOfAttack type)
+    public void SetAttack(AttackData data, TypeOfAttack type, ManaGauge manaGauge)
     {
         this.type = type;
+        this.damage = data.damage;
+        manaUsed = data.mana;
+        this.manaGauge = manaGauge;
+    }
+    public void SetAttack(float pDamage, AttackData data, TypeOfAttack type, ManaGauge manaGauge)
+    {
+        this.type = type;
+        this.damage = pDamage;
+        manaUsed = data.mana;
+        this.manaGauge = manaGauge;
+    }
+
+    private void Start()
+    {
+        StartAttack();
+    }
+    
+    private void StartAttack()
+    {
+        if (type is not TypeOfAttack.Basic)
+        {
+            manaGauge.AddMana(-manaUsed);
+        }
         this.damage = damage;
     }
     
     public void FinishAttack()
     {
-        Finished?.Invoke();
+        if (touchedEnemy)
+        {
+            if (type == TypeOfAttack.Basic)
+            {
+                manaGauge.AddMana(manaUsed);
+            }
+        }
+        Finished?.Invoke(touchedEnemy);
         Destroy(gameObject);
     }
 
@@ -41,6 +74,7 @@ public class Attack : MonoBehaviour
 
             SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
 
+            touchedEnemy = true;
             if (isSheep != null)
             {
                 if (isSheep.shellHere)
