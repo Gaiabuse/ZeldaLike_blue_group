@@ -14,6 +14,7 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
+    [SerializeField] PlayerController playerController;
     [SerializeField] private float timeForDoUltimate;
     public float TimeForDoUltimate{private set; get;}
     public bool CanDoUltimate;
@@ -39,6 +40,8 @@ public class FormSwitcher : MonoBehaviour
                     FormAttackManagers[0].Ultimate();
                     CanDoUltimate = false;
                 }
+
+                playerController.currentAttackManager = FormAttackManagers[0];
                 break;
             case Form.dream:
                 dreamFormObject.SetActive(true);
@@ -47,6 +50,7 @@ public class FormSwitcher : MonoBehaviour
                     FormAttackManagers[1].Ultimate();
                     CanDoUltimate = false;
                 }
+                playerController.currentAttackManager = FormAttackManagers[1];
                 break;
             case Form.nightmare:
                 nightmareFormObject.SetActive(true);
@@ -55,6 +59,7 @@ public class FormSwitcher : MonoBehaviour
                     FormAttackManagers[2].Ultimate();
                     CanDoUltimate = false;
                 }
+                playerController.currentAttackManager = FormAttackManagers[2];
                 break;
         }
 
