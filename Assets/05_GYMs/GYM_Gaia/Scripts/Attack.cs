@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    [SerializeField] GameObject HitSpark;
+
     public enum TypeOfAttack
     {
         Basic,
@@ -54,25 +56,20 @@ public class Attack : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (other.CompareTag("Enemy"))
+        if (collision.transform.CompareTag("Ennemy"))
         {
-            if (type == TypeOfAttack.Basic)
-            {
-                touchedEnemy = true;
-            }
+            Ennemy ennemyScript = collision.transform.GetComponent<Ennemy>();
 
+            ennemyScript.TakeDamage((int)damage);
+
+            Transform hitspark = Instantiate(HitSpark).transform;
+            hitspark.parent = transform;
+            hitspark.localPosition = new Vector3(0, 0, 0.5f);
+            hitspark.parent = null;
+
+            Destroy(hitspark.gameObject, 1.5f);
         }
-    }
-
-    private void AddMana()
-    {
-        manaGauge.AddMana(manaUsed);
-    }
-
-    private void LoseMana()
-    {
-        manaGauge.AddMana(-manaUsed);
     }
 }
