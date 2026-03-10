@@ -36,11 +36,16 @@ public class Attack : MonoBehaviour
         this.manaGauge = manaGauge;
     }
 
+    private void Start()
+    {
+        StartAttack();
+    }
+
     private void StartAttack()
     {
         if (type is not TypeOfAttack.Basic)
         {
-            LoseMana();
+            manaGauge.AddMana(-manaUsed);
         }
     }
     public void FinishAttack()
@@ -49,7 +54,7 @@ public class Attack : MonoBehaviour
         {
             if (type == TypeOfAttack.Basic)
             {
-                AddMana();
+                manaGauge.AddMana(manaUsed);
             }
         }
         Finished?.Invoke(touchedEnemy);
@@ -69,6 +74,7 @@ public class Attack : MonoBehaviour
             hitspark.localPosition = new Vector3(0, 0, 0.5f);
             hitspark.parent = null;
 
+            touchedEnemy = true;
             Destroy(hitspark.gameObject, 1.5f);
         }
     }
