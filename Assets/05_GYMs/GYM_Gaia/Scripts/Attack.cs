@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+    [SerializeField] GameObject HitSpark;
+    [SerializeField] GameObject BlockHitSpark;
+    [SerializeField] float distance;
+
     public enum TypeOfAttack
     {
         Basic,
@@ -11,60 +15,91 @@ public class Attack : MonoBehaviour
     }
     private ManaGauge manaGauge;
 
-    public float manaUsed{private set; get;}
+    public float manaUsed { private set; get; }
     public float damage{private set; get;}
     public TypeOfAttack type{private set; get;}
 
     public Action<bool> Finished;
     private bool touchedEnemy;
 
-    public void SetAttack(AttackData data, TypeOfAttack type,ManaGauge manaGauge)
+    public void SetAttack(AttackData data, TypeOfAttack type, ManaGauge manaGauge)
     {
         this.type = type;
         this.damage = data.damage;
         manaUsed = data.mana;
         this.manaGauge = manaGauge;
     }
+    public void SetAttack(float pDamage, AttackData data, TypeOfAttack type, ManaGauge manaGauge)
+    {
+        this.type = type;
+        this.damage = pDamage;
+        manaUsed = data.mana;
+        this.manaGauge = manaGauge;
+    }
 
+    private void Start()
+    {
+        StartAttack();
+    }
+    
     private void StartAttack()
     {
         if (type is not TypeOfAttack.Basic)
         {
-            LoseMana();
+            manaGauge.AddMana(-manaUsed);
         }
+        this.damage = damage;
     }
+    
     public void FinishAttack()
     {
         if (touchedEnemy)
         {
             if (type == TypeOfAttack.Basic)
             {
-                AddMana();
+                manaGauge.AddMana(manaUsed);
             }
         }
         Finished?.Invoke(touchedEnemy);
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider collision)
     {
-        if (other.CompareTag("Enemy"))
+        if (collision.transform.CompareTag("Ennemy"))
         {
-            if (type == TypeOfAttack.Basic)
+            Ennemy ennemyScript = collision.transform.GetComponent<Ennemy>();
+
+            ennemyScript.TakeDamage((int)damage);
+
+            SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
+
+            touchedEnemy = true;
+            if (isSheep != null)
             {
-                touchedEnemy = true;
+                if (isSheep.shellHere)
+                {
+                    if (BlockHitSpark != null) SpawnSpark(BlockHitSpark);
+                }
+                else
+                {
+                    if (HitSpark != null) SpawnSpark(HitSpark);
+                }
             }
-                
+            else
+            {
+                if (HitSpark != null) SpawnSpark(HitSpark);
+            }
         }
     }
 
-    private void AddMana()
+    void SpawnSpark(GameObject spark)
     {
-        manaGauge.AddMana(manaUsed);
-    }
+        Transform hitspark = Instantiate(spark).transform;
+        hitspark.parent = transform;
+        hitspark.localPosition = new Vector3(0, 0, distance);
+        hitspark.parent = null;
 
-    private void LoseMana()
-    {
-        manaGauge.AddMana(-manaUsed);
+        Destroy(hitspark.gameObject, 1.5f);
     }
 }

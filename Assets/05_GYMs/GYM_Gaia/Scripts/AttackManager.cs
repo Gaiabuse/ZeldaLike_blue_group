@@ -4,46 +4,36 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-public class AttackManager : MonoBehaviour
+public abstract class AttackManager : MonoBehaviour
 {
-    [SerializeField]
-    protected SimpleAttack[] comboAttacks;
+    
 
-    [SerializeField] private ManaGauge manaGauge;
-    [SerializeField] protected SimpleAttack ChargedAttack;
+    [SerializeField] protected ManaGauge manaGauge;
+    
     [SerializeField] protected float timeForDoCombo;
-    [SerializeField]protected PlayerController player;
+    [SerializeField] protected PlayerController player;
 
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
-    
-    public bool CanAttack;
-    private bool canChargedAttack;
-    private Attack currentAttack;
-    private int currentCombo;
-    private Coroutine comboCoroutine;
-    private int numberOfAttacksInCombo;
+    [SerializeField] protected FormSwitcher formSwitcher;
+    [HideInInspector]public bool CanAttack;
+    protected bool canChargedAttack;
+    protected Attack currentAttack;
+    protected int currentCombo;
+    protected Coroutine comboCoroutine;
+    protected int numberOfAttacksInCombo;
     private bool[] allAttackTouched;
-    private void OnEnable()
+    private Coroutine ultimateCoroutine;
+    protected virtual void OnEnable()
     {
         CanAttack = true;
         canChargedAttack = false;
-        numberOfAttacksInCombo = comboAttacks.Length;
+        
     }
 
-  
-    void OnAttack(InputValue _input)
+
+    protected virtual void OnAttack(InputValue _input)
     {
-        if (_input.isPressed)
-        {
-            Attack(comboAttacks[currentCombo]);
-            return;
-        }
         
-        if (canChargedAttack)
-        {
-            canChargedAttack = false;
-            Attack(ChargedAttack);
-        }
     }
     void OnChargedAttack(InputValue _input)
     {
@@ -61,21 +51,30 @@ public class AttackManager : MonoBehaviour
         currentAttack.Finished += AttackIsFinished;
     }
 
-    private void AttackIsFinished(bool touchedEnemy)
+    public virtual void Ultimate()
     {
-        if(currentAttack == null)return;
+        manaGauge.AddMana(ManaAddAtSuccessCombo);
+    }
+    protected void AttackIsFinished(bool touchedEnemy)
+    {
+        if (currentAttack == null) return;
         if (currentCombo == 0)
         {
             StartCombo();
         }
         allAttackTouched[currentCombo] = touchedEnemy;
-        comboCoroutine = StartCoroutine(ComboCoroutine());
-        CanAttack = true;
+        if (this.gameObject.activeInHierarchy)
+        {
+            comboCoroutine = StartCoroutine(ComboCoroutine());
+            
+        }
         currentAttack.Finished -= AttackIsFinished;
+        CanAttack = true;
+       
         currentAttack = null;
     }
 
-    private bool CheckIfAllTouched()
+    protected bool CheckIfAllTouched()
     {
         foreach (bool touched in allAttackTouched)
         {
@@ -87,7 +86,7 @@ public class AttackManager : MonoBehaviour
         return true;
     }
 
-    private void StartCombo()
+    protected void StartCombo()
     {
         currentCombo = 0;
         allAttackTouched = new bool[numberOfAttacksInCombo];
@@ -97,31 +96,44 @@ public class AttackManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ComboCoroutine()
+    protected IEnumerator ComboCoroutine()
     {
         currentCombo++;
-        if (currentCombo >= comboAttacks.Length)
+        if (currentCombo >= numberOfAttacksInCombo)
         {
             currentCombo = 0;
             if (CheckIfAllTouched())
             {
-                Debug.Log("you success the combo");
+                if (ultimateCoroutine != null)
+                {
+                    StopCoroutine(ultimateCoroutine);
+                    ultimateCoroutine = null;
+                }
+                ultimateCoroutine = StartCoroutine(ForUltimateComboCoroutine());
             }
         }
         yield return new WaitForSeconds(timeForDoCombo);
         currentCombo = 0;
-     
+
+    }
+
+    protected virtual IEnumerator ForUltimateComboCoroutine()
+    {
+        Debug.Log("you success the combo");
+        formSwitcher.CanDoUltimate = true;
+        yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);
+        formSwitcher.CanDoUltimate = false;
     }
 }
 
 [Serializable]
-public class SimpleAttack 
+public class SimpleAttack
 {
-    [SerializeField]private AttackData AttackData;
-    [SerializeField]private Attack.TypeOfAttack type;
+    [SerializeField] private AttackData AttackData;
+    [SerializeField] private Attack.TypeOfAttack type;
     public Attack Attack(ManaGauge manaGauge, Transform player)
     {
-        var lAttack = UnityEngine.Object.Instantiate(AttackData.attackPrefab,player);
+        var lAttack = UnityEngine.Object.Instantiate(AttackData.attackPrefab, player);
         lAttack.SetAttack(AttackData, type, manaGauge);
         return lAttack;
     }

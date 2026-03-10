@@ -10,11 +10,23 @@ public class FormSwitcher : MonoBehaviour
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action<Form> SwitchForm;
     private Form lastForm = Form.neutral;
-    [SerializeField]private ManaGauge manaGauge;
+    [SerializeField] private ManaGauge manaGauge;
+
+    [SerializeField] private AttackManager[] FormAttackManagers;
+
+    [SerializeField] private float timeForDoUltimate;
+    public float TimeForDoUltimate{private set; get;}
+    public bool CanDoUltimate;
+
+    private void Start()
+    {
+        CanDoUltimate = false;
+        TimeForDoUltimate = timeForDoUltimate;
+    }
 
     private void ChangeForm(Form nextForm)
     {
-        
+
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
@@ -22,12 +34,27 @@ public class FormSwitcher : MonoBehaviour
         {
             case Form.neutral:
                 neutralFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    FormAttackManagers[0].Ultimate();
+                    CanDoUltimate = false;
+                }
                 break;
             case Form.dream:
                 dreamFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    FormAttackManagers[1].Ultimate();
+                    CanDoUltimate = false;
+                }
                 break;
             case Form.nightmare:
                 nightmareFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    FormAttackManagers[2].Ultimate();
+                    CanDoUltimate = false;
+                }
                 break;
         }
 
@@ -51,15 +78,14 @@ public class FormSwitcher : MonoBehaviour
 
     public void ForcedTransform()
     {
-        Debug.Log("Forced transform");
         lastForm = currentForm;
         ChangeForm(Form.neutral);
         SwitchForm?.Invoke(currentForm);
     }
     void OnSwitch(InputValue _input)
     {
-        if(manaGauge.NeedRecharge)return;
-        
+        if (manaGauge.NeedRecharge) return;
+
         switch (currentForm)
         {
             case Form.dream:

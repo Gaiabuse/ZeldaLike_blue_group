@@ -1,16 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Serialization;
 
-public class DreamShoot : MonoBehaviour
+public class DreamShoot : AttackManager
 {
     [SerializeField]
     Projectile attack;
 
     [SerializeField]
     PlayerController controller;
-    [SerializeField] private ManaGauge manaGauge;
+
     [SerializeField]
     GameObject aimCone;
 
@@ -20,76 +22,140 @@ public class DreamShoot : MonoBehaviour
     [SerializeField]
     Transform SpawnPoint;
 
-    [SerializeField] protected Attack.TypeOfAttack type;
-    [SerializeField] protected AttackData data;
+    [SerializeField]
+    protected Attack.TypeOfAttack type;
+    [SerializeField]
+    protected AttackData data;
+
+    [SerializeField]
+    private AnimationCurve ChargedPowerEvolution;
+
+    [SerializeField]
+    private float MaxChargedTime;
+    [SerializeField]
+    private float minAttack, maxAttack;
+
+    public float MinAttack => minAttack;
+    public float MaxAttack => maxAttack;
+
+    [SerializeField] private int numberOfShotsForFinishCombo;
+    [SerializeField] private int numberOfShotsForUltimate;
 
 
-
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        numberOfAttacksInCombo = numberOfShotsForFinishCombo;
+    }
     float lastInputTime;
 
-    void OnAttack(InputValue _input)
+    protected override void OnAttack(InputValue _input)
     {
         if (_input.isPressed)
         {
             lastInputTime = Time.time;
-            controller.CanMove = false;
+            player.CanMove = false;
             // we should try to do something to make things seem more sensitive
 
             aimCone.SetActive(true);
 
-            var playerPos = controller.transform.position;
+            var playerPos = player.transform.position;
             var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
 
-            controller.transform.LookAt(AutoAimed.transform, Vector3.up);
+            if (AutoAimed != null)
+                player.transform.LookAt(AutoAimed.transform, Vector3.up);
             return;
         }
 
-        controller.CanMove = true;
+        player.CanMove = true;
         aimCone.SetActive(false);
         var amountOfTimeWaited = Time.time - lastInputTime;
 
+        var progress = amountOfTimeWaited / MaxChargedTime;
+        progress = Mathf.Min(progress, 1f);
+
+        var attackScaledPower = GetAttackPower(progress);
+
         if (amountOfTimeWaited < autoAimTime)
         {
-            CreateAutoTargettingShot();
+            CreateAutoTargettingShot(attackScaledPower);
             return;
         }
 
-        CreateShot();
+        CreateShot(attackScaledPower);
         return;
     }
 
-    void CreateShot()
+
+    public override void Ultimate()
+    {
+        base.Ultimate();
+        Quaternion LastRotation = player.transform.rotation;
+        for (int i = 0; i < numberOfShotsForUltimate; i++)
+        {
+            float positionY = (360f / numberOfShotsForUltimate) * i;
+            player.transform.rotation = Quaternion.Euler(0, positionY, 0);
+            CreateShot(maxAttack);
+        }
+        player.transform.rotation = LastRotation;
+
+    }
+
+    void CreateShot(float attackPower)
     {
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
+        Attack attackPrefab = lAttack.GetComponent<Attack>();
+        attackPrefab.SetAttack(attackPower, data, type, manaGauge);
+
+        currentAttack = attackPrefab;
+        currentAttack.Finished += AttackIsFinished;
+
         lAttack.transform.position = SpawnPoint.position;
-        lAttack.speed = controller.transform.forward * ProjectileSpeed;
+        lAttack.speed = player.transform.forward * ProjectileSpeed;
+
+        lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
     }
 
-    void CreateAutoTargettingShot()
+    void CreateAutoTargettingShot(float attackPower)
     {
         // do shit
-        var playerPos = controller.transform.position;
+        var playerPos = player.transform.position;
 
         var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
-
-        controller.transform.LookAt(AutoAimed.transform, Vector3.up);
-
         if (AutoAimed == null)
         {
-            CreateShot();
+            CreateShot(attackPower);
             return;
         }
+        player.transform.LookAt(AutoAimed.transform, Vector3.up);
+
+
 
         var ToGoTo = AutoAimed.transform.position;
         var directionToGo = (ToGoTo - playerPos).normalized;
 
         Projectile lAttack = Instantiate<Projectile>(attack);
 
-        lAttack.GetComponent<Attack>().SetAttack(data, type, manaGauge);
+        Attack attackPrefab = lAttack.GetComponent<Attack>();
+
+        attackPrefab.SetAttack(attackPower, data, type, manaGauge);
+        currentAttack = attackPrefab;
+        currentAttack.Finished += AttackIsFinished;
+
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
+
+        lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
+    }
+
+    float GetAttackPower(float proggression)
+        => ChargedPowerEvolution.Evaluate(proggression) * (maxAttack - minAttack) + minAttack;
+
+    void OnDisable()
+    {
+        player.CanMove = true;
+        aimCone.SetActive(false);
     }
 
 }

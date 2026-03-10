@@ -21,7 +21,7 @@ public class DreamDash : MonoBehaviour
 
     public void OnDash(InputValue _input)
     {
-        if (!controller.CanMove) return;
+        if (!controller.CanMove || !_input.isPressed) return;
         StartCoroutine(Dash());
     }
 
@@ -41,12 +41,13 @@ public class DreamDash : MonoBehaviour
         while (timer < DashDurationSeconds)
         {
             timer += Time.deltaTime;
+
             var portion = timer / DashDurationSeconds;
             var destinationThisFrame = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
-
-            var motion = destinationPosition - transform.position;
+            var motion = destinationThisFrame - transform.position;
 
             characterController.Move(motion);
+
             yield return null;
         }
 

@@ -6,10 +6,11 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     public Vector3 speed;
 
+    [SerializeField] private Attack projectileAttack;
     [SerializeField] private LayerMask layerMask;
     void Update()
     {
-        transform.transform.position += speed * Time.deltaTime;
+        transform.transform.position += speed *Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -18,5 +19,10 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        projectileAttack.FinishAttack();
     }
 }
