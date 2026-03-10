@@ -152,4 +152,10 @@ public class DreamShoot : AttackManager
     float GetAttackPower(float proggression)
         => ChargedPowerEvolution.Evaluate(proggression) * (maxAttack - minAttack) + minAttack;
 
+    void OnDisable()
+    {
+        player.CanMove = true;
+        aimCone.SetActive(false);
+    }
+
 }
