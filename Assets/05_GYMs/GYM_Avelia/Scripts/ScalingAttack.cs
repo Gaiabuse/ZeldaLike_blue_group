@@ -12,7 +12,6 @@ public class ScalingAttack : MonoBehaviour
 
     async void Start()
     {
-        print("meow");
         await Awaitable.NextFrameAsync();
 
         var scaleFactor = (attack.damage - MinAttack) / (MaxAttack - MinAttack);
@@ -22,7 +21,6 @@ public class ScalingAttack : MonoBehaviour
 
     public void SetMinMax(float min, float max)
     {
-        print("meow 2");
         MinAttack = min;
         MaxAttack = max;
     }

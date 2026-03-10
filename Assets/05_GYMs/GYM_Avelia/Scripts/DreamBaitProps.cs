@@ -7,13 +7,15 @@ public class DreamBaitProps : MonoBehaviour
     private GameObject Explosion;
 
     [SerializeField]
-    private float SecondActive;
+    private float SecondActive = 0.7f;
 
     public async Task Explode()
     {
         Explosion.SetActive(true);
+        print("premeow");
 
-        await Task.Delay((int)(SecondActive / 1000f));
+        Task.Delay((int)(SecondActive * 1000)).Wait();
+        print("meow");
         Explosion.SetActive(false);
     }
 }
