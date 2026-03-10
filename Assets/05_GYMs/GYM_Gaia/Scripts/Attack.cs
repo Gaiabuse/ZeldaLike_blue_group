@@ -4,6 +4,8 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     [SerializeField] GameObject HitSpark;
+    [SerializeField] GameObject BlockHitSpark;
+    [SerializeField] float distance;
 
     public enum TypeOfAttack
     {
@@ -37,12 +39,33 @@ public class Attack : MonoBehaviour
 
             ennemyScript.TakeDamage((int)damage);
 
-            Transform hitspark = Instantiate(HitSpark).transform;
-            hitspark.parent = transform;
-            hitspark.localPosition = new Vector3(0, 0, 0.5f);
-            hitspark.parent = null;
+            SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
 
-            Destroy(hitspark.gameObject, 1.5f);
+            if (isSheep != null)
+            {
+                if (isSheep.shellHere)
+                {
+                    if (BlockHitSpark != null) SpawnSpark(BlockHitSpark);
+                }
+                else
+                {
+                    if (HitSpark != null) SpawnSpark(HitSpark);
+                }
+            }
+            else
+            {
+                if (HitSpark != null) SpawnSpark(HitSpark);
+            }
         }
+    }
+
+    void SpawnSpark(GameObject spark)
+    {
+        Transform hitspark = Instantiate(spark).transform;
+        hitspark.parent = transform;
+        hitspark.localPosition = new Vector3(0, 0, distance);
+        hitspark.parent = null;
+
+        Destroy(hitspark.gameObject, 1.5f);
     }
 }

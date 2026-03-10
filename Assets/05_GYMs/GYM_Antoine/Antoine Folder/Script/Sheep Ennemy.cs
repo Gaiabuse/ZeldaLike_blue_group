@@ -6,7 +6,7 @@ public class SheepEnnemy : Ennemy
     Rigidbody rb;
     SphereCollider col;
 
-    bool shellHere = true;
+    public bool shellHere = true;
 
     protected override void Start()
     {
