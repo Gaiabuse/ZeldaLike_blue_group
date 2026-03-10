@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     public Vector3 speed;
 
+    [SerializeField] private Attack projectileAttack;
     [SerializeField] private LayerMask layerMask;
     void Update()
     {
@@ -18,5 +19,10 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        projectileAttack.FinishAttack();
     }
 }

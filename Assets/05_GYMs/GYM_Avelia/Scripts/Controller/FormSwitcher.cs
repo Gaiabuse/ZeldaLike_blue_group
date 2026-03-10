@@ -14,11 +14,14 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
+    [SerializeField] private float timeForDoUltimate;
+    public float TimeForDoUltimate{private set; get;}
     public bool CanDoUltimate;
 
     private void Start()
     {
         CanDoUltimate = false;
+        TimeForDoUltimate = timeForDoUltimate;
     }
 
     private void ChangeForm(Form nextForm)
@@ -31,19 +34,27 @@ public class FormSwitcher : MonoBehaviour
         {
             case Form.neutral:
                 neutralFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    FormAttackManagers[0].Ultimate();
+                    CanDoUltimate = false;
+                }
                 break;
             case Form.dream:
                 dreamFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
-                    if (FormAttackManagers[1] is DreamShoot dreamShoot)
-                    {
-                        dreamShoot.Ultimate();
-                    }
+                    FormAttackManagers[1].Ultimate();
+                    CanDoUltimate = false;
                 }
                 break;
             case Form.nightmare:
                 nightmareFormObject.SetActive(true);
+                if (CanDoUltimate)
+                {
+                    FormAttackManagers[2].Ultimate();
+                    CanDoUltimate = false;
+                }
                 break;
         }
 
@@ -67,7 +78,6 @@ public class FormSwitcher : MonoBehaviour
 
     public void ForcedTransform()
     {
-        Debug.Log("Forced transform");
         lastForm = currentForm;
         ChangeForm(Form.neutral);
         SwitchForm?.Invoke(currentForm);

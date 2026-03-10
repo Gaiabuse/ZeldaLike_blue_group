@@ -11,12 +11,15 @@ public partial class ManaGauge : MonoBehaviour
     [SerializeField] private float speedRecharge;
     [SerializeField] private float speedDecrease;
     [SerializeField] private FormSwitcher formSwitcher;
+    [SerializeField] private int numberOfDivision;
+    [SerializeField][Range(0,100)] private float pourcentageForCanSwitch;
     public bool NeedRecharge{get; private set;}
     private float currentMana;
     private Coroutine RechargeCoroutine;
     private Coroutine DecreaseCoroutine;
     private bool isPaused;
-
+    private float currentMaxMana;
+    private int currentDivision;
     private void OnEnable()
     {
         FormSwitcher.SwitchForm += OnSwitchForm;
@@ -29,24 +32,63 @@ public partial class ManaGauge : MonoBehaviour
 
     private void Start()
     {
-        currentMana = 0;
+        currentMana = maxMana;
+        currentMaxMana = maxMana;
+        currentDivision = numberOfDivision;
         UpdateVisuals();
         RechargeCoroutine = StartCoroutine(Recharge());
     }
 
     private IEnumerator Recharge()
     {
-
-        while (currentMana < maxMana)
+        while (currentMana < currentMaxMana)
         {
             yield return new WaitUntil(() => !isPaused); 
             
-            currentMana = Mathf.MoveTowards(currentMana, maxMana, speedRecharge * Time.deltaTime);
+            currentMana = Mathf.MoveTowards(currentMana, currentMaxMana, speedRecharge * Time.deltaTime);
             UpdateVisuals();
-            
+            float percentage = currentMana / currentMaxMana * 100f;
+
+            if (percentage >= pourcentageForCanSwitch)
+            {
+                NeedRecharge = false;
+            }
             yield return null;
         }
-        NeedRecharge = false;
+        RechargeCoroutine = null;
+    }
+
+    public void DecreaseDivision()
+    {
+        if(currentDivision <=1)return;
+        currentDivision--;
+        currentMaxMana = maxMana/numberOfDivision * currentDivision;
+        if (currentMana >= currentMaxMana)
+        {
+            currentMana = currentMaxMana;
+        }
+        Debug.Log(currentMaxMana);
+    }
+
+    public void IncreaseDivision()
+    {
+        if(currentDivision >=numberOfDivision)return;
+        currentDivision++;
+        float oneDivisionValue = maxMana / numberOfDivision;
+        currentMaxMana =oneDivisionValue * currentDivision;
+        currentMana += oneDivisionValue;
+        if (RechargeCoroutine != null)
+        {
+            StopCoroutine(RechargeCoroutine);
+            RechargeCoroutine = null;
+        }
+        RechargeCoroutine = StartCoroutine(Recharge());
+        if (DecreaseCoroutine != null)
+        {
+            StopCoroutine(DecreaseCoroutine);
+            DecreaseCoroutine = null;
+        }
+        
     }
 
     private IEnumerator Decrease()
@@ -59,6 +101,7 @@ public partial class ManaGauge : MonoBehaviour
         }
         formSwitcher.ForcedTransform();
         NeedRecharge = true;
+        DecreaseCoroutine = null;
     }
 
     public void AddMana(float amount)
@@ -115,6 +158,7 @@ public partial class ManaGauge : MonoBehaviour
     {
         return Mathf.Clamp01(value / maxMana);
     }
+    
     
 }
 

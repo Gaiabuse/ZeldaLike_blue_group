@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1350390600122416334}
   - component: {fileID: 3341704559408443508}
   - component: {fileID: 683534334250000374}
+  - component: {fileID: 3268439865318762675}
   m_Layer: 7
   m_Name: PunchingBall
   m_TagString: Enemy
@@ -145,6 +146,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
   weight: 1
+--- !u!54 &3268439865318762675
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982607804458720119}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &3385349982418058276
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +200,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3385349982418058276}
-  m_LocalRotation: {x: 0.16238387, y: -0.34891716, z: 0.061523475, w: 0.9209252}
+  m_LocalRotation: {x: 0.16238387, y: -0.34891695, z: 0.061523438, w: 0.92092526}
   m_LocalPosition: {x: 0, y: 0, z: -0.06}
   m_LocalScale: {x: 0.16460451, y: 0.16460451, z: 0.16460451}
   m_ConstrainProportionsScale: 0
