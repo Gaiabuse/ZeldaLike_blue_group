@@ -5,26 +5,19 @@ using UnityEngine.InputSystem;
 
 public class MovingBox : MonoBehaviour
 {
-    enum Side { Left, Right, Front, Back }
+    public enum Side { Left, Right, Front, Back }
     Side side;
     [SerializeField] private GameObject Ui;
     [SerializeField] private LayerMask layersObstacles;
     private bool canInteract = false;
     [SerializeField]private float speed = 5f;
+    private PlayerController player;
     private void Start()
     {
         Ui.SetActive(false);
     }
-
-    private void OnEnable()
-    {
-        PlayerController.OnInteract += Interaction;
-    }
-
-    private void OnDisable()
-    {
-        PlayerController.OnInteract -= Interaction;
-    }
+    
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -32,11 +25,26 @@ public class MovingBox : MonoBehaviour
         {
             Ui.SetActive(true);
             canInteract = true;
+            if (player == null)
+            {
+                player = other.GetComponent<PlayerController>();
+                player.OnCatch += CatchBox;
+                player.OnRelease += ReleaseBox;
+                Debug.Log(player.name);
+            }
+        }
+
+        if (other.CompareTag("Wall"))
+        {
+            if (player != null)
+            {
+                player.OnWallWithBox = true;
+            }
         }
     }
 
     private void OnTriggerStay(Collider other)
-    {
+    { 
         if (other.CompareTag("Player"))
         {
             Vector3 hitDirection = other.transform.position - transform.position;
@@ -59,54 +67,52 @@ public class MovingBox : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            ReleaseBox();
+            player.OnCatch -= CatchBox;
+            player.OnRelease -= ReleaseBox;
+            player = null;
             Ui.SetActive(false);
             canInteract = false;
         }
-    }
-
-
-    private void Interaction()
-    {
-        
-        if (canInteract)
+        if (other.CompareTag("Wall"))
         {
-            ChooseSide();
-        }
-    }
-    private void ChooseSide()
-    {
-        Vector3 targetPosition = Vector3.zero;
-        Vector3 direction = Vector3.zero;
-        switch (side)
-        {
-            case Side.Left:
-                targetPosition = transform.position - Vector3.left;
-                direction = -Vector3.left;
-                break;
-            case Side.Right:
-                targetPosition = transform.position -Vector3.right;
-                direction = -Vector3.right;
-                break;
-            case Side.Front:
-                targetPosition = transform.position - Vector3.forward;
-                direction = -Vector3.forward;
-                break;
-            case Side.Back:
-                targetPosition = transform.position - Vector3.back;
-                direction = -Vector3.back;
-                break;
-        }
-        Move(targetPosition,direction);
-    }
-    private void Move(Vector3 finalPosition, Vector3 direction)
-    {
-        RaycastHit hit;
-        if (!Physics.Raycast(transform.position, direction, out hit,1.5f,layersObstacles))
-        { 
-            while (Vector3.Distance(transform.position, finalPosition) > 0.1f)
+            if (player != null)
             {
-                transform.parent.transform.Translate(direction * speed * Time.deltaTime);
+                player.OnWallWithBox = false;
             }
         }
     }
+
+
+    private void CatchBox()
+    {
+        if (canInteract)
+        {
+            Debug.Log(player.name);
+            ChooseSide();
+            transform.SetParent(player.transform);
+            Ui.SetActive(false);
+            player.IsWithBox = true;
+            player.CanRotate = false;
+            player.currentAttackManager.CanAttack = false;
+        }
+    }
+
+    private void ReleaseBox()
+    {
+        if (canInteract)
+        {
+            Ui.SetActive(true);
+            transform.SetParent(null);
+            player.IsWithBox = false;
+            player.CanRotate = true;
+            player.currentAttackManager.CanAttack = true;
+        }
+    }
+
+    private void ChooseSide()
+    {
+        player.side = side;
+    }
+  
 }

@@ -22,7 +22,9 @@ public class PlayerController : MonoBehaviour
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
-    public static Action OnInteract;
+    public Action OnCatch;
+    public Action OnRelease;
+    
     public Action Attack;
 
     private float offset = -90f;
@@ -32,8 +34,14 @@ public class PlayerController : MonoBehaviour
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
 
+    public AttackManager currentAttackManager;
+    public MovingBox.Side side = MovingBox.Side.Right;
+
+    public bool IsWithBox = false;
+    public bool OnWallWithBox = false;
     void Start()
     {
+        IsWithBox = false;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         if (cameraRotation == null)
         {
@@ -61,11 +69,36 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         Vector3 camRight = cameraRotation.right;
-
         Vector3 camForward = cameraRotation.forward;
         Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
         Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
         Vector3 moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
+
+        if (IsWithBox)
+        {
+            switch (side)
+            {
+                case MovingBox.Side.Left:
+                    moveDirection = new Vector3(moveDirection.x, 0, 0);
+                    if (OnWallWithBox && moveDirection.x > 0) moveDirection.x = 0; 
+                    break;
+
+                case MovingBox.Side.Right:
+                    moveDirection = new Vector3(moveDirection.x, 0, 0);
+                    if (OnWallWithBox && moveDirection.x < 0) moveDirection.x = 0; 
+                    break;
+
+                case MovingBox.Side.Front:
+                    moveDirection = new Vector3(0, 0, moveDirection.z);
+                    if (OnWallWithBox && moveDirection.z < 0) moveDirection.z = 0; 
+                    break;
+
+                case MovingBox.Side.Back:
+                    moveDirection = new Vector3(0, 0, moveDirection.z);
+                    if (OnWallWithBox && moveDirection.z > 0) moveDirection.z = 0; 
+                    break;
+            }
+        }
 
         if (CanRotate)
         {
@@ -80,7 +113,6 @@ public class PlayerController : MonoBehaviour
             controller.Move(moveDirection * Time.deltaTime * speed * smoothedStickProgress);
         }
     }
-
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();
@@ -93,7 +125,21 @@ public class PlayerController : MonoBehaviour
 
     void OnInteraction(InputValue _input)
     {
-        OnInteract?.Invoke();
+        //OnInteract?.Invoke();
+    }
+
+    void OnCatchOrRelease(InputValue _input)
+    {
+        if (_input.isPressed)
+        {
+            Debug.Log("catch");
+            OnCatch?.Invoke();
+        }
+        else
+        {
+            Debug.Log("release");
+            OnRelease.Invoke();
+        }
     }
 
     void OnLook(InputValue _input)
