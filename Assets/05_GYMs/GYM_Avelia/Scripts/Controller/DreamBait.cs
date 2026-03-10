@@ -24,6 +24,7 @@ public class DreamBait : MonoBehaviour
             return;
         }
 
+        print("meow");
         // probably needs another way to do it but this will do it for now
         await currentBaitInstance.Explode();
         Destroy(currentBaitInstance.gameObject);
@@ -37,7 +38,7 @@ public class DreamBait : MonoBehaviour
 
     void OnDisable()
     {
+        if (currentBaitInstance.gameObject != null) Destroy(currentBaitInstance.gameObject);
         // pop the bait
-        Destroy(currentBaitInstance.gameObject);
     }
 }
