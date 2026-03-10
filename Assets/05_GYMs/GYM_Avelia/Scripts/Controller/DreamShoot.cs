@@ -106,14 +106,18 @@ public class DreamShoot : AttackManager
         Projectile lAttack = Instantiate<Projectile>(attack);
 
         Attack attackPrefab = lAttack.GetComponent<Attack>();
-        attackPrefab.SetAttack(data, type, manaGauge);
+        attackPrefab.SetAttack(attackPower, data, type, manaGauge);
+
         currentAttack = attackPrefab;
         currentAttack.Finished += AttackIsFinished;
+
         lAttack.transform.position = SpawnPoint.position;
         lAttack.speed = player.transform.forward * ProjectileSpeed;
+
+        lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
     }
 
-    void CreateAutoTargettingShot(float AttackPower)
+    void CreateAutoTargettingShot(float attackPower)
     {
         // do shit
         var playerPos = player.transform.position;
@@ -121,7 +125,7 @@ public class DreamShoot : AttackManager
         var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
         if (AutoAimed == null)
         {
-            CreateShot(AttackPower);
+            CreateShot(attackPower);
             return;
         }
         player.transform.LookAt(AutoAimed.transform, Vector3.up);
@@ -134,11 +138,14 @@ public class DreamShoot : AttackManager
         Projectile lAttack = Instantiate<Projectile>(attack);
 
         Attack attackPrefab = lAttack.GetComponent<Attack>();
-        attackPrefab.SetAttack(data, type, manaGauge);
+
+        attackPrefab.SetAttack(attackPower, data, type, manaGauge);
         currentAttack = attackPrefab;
         currentAttack.Finished += AttackIsFinished;
+
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;
+
         lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
     }
 

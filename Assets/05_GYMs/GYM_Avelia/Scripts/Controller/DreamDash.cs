@@ -21,7 +21,7 @@ public class DreamDash : MonoBehaviour
 
     public void OnDash(InputValue _input)
     {
-        if (!controller.CanMove && !_input.isPressed) return;
+        if (!controller.CanMove || !_input.isPressed) return;
         StartCoroutine(Dash());
     }
 
