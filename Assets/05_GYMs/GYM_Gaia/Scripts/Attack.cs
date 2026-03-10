@@ -4,6 +4,8 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     [SerializeField] GameObject HitSpark;
+    [SerializeField] GameObject BlockHitSpark;
+    [SerializeField] float distance;
 
     public enum TypeOfAttack
     {
@@ -11,53 +13,21 @@ public class Attack : MonoBehaviour
         Nightmare,
         Dream
     }
-    private ManaGauge manaGauge;
 
-    public float manaUsed { private set; get; }
-    public float damage { private set; get; }
-    public TypeOfAttack type { private set; get; }
+    public float damage{private set; get;}
+    public TypeOfAttack type{private set; get;}
 
-    public Action<bool> Finished;
-    private bool touchedEnemy;
+    public Action Finished;
 
-    public void SetAttack(AttackData data, TypeOfAttack type, ManaGauge manaGauge)
+    public void SetAttack(float damage, TypeOfAttack type)
     {
         this.type = type;
-        this.damage = data.damage;
-        manaUsed = data.mana;
-        this.manaGauge = manaGauge;
+        this.damage = damage;
     }
-
-    public void SetAttack(float pDamage, AttackData data, TypeOfAttack type, ManaGauge manaGauge)
-    {
-        this.type = type;
-        this.damage = pDamage;
-        manaUsed = data.mana;
-        this.manaGauge = manaGauge;
-    }
-
-    private void Start()
-    {
-        StartAttack();
-    }
-
-    private void StartAttack()
-    {
-        if (type is not TypeOfAttack.Basic)
-        {
-            manaGauge.AddMana(-manaUsed);
-        }
-    }
+    
     public void FinishAttack()
     {
-        if (touchedEnemy)
-        {
-            if (type == TypeOfAttack.Basic)
-            {
-                manaGauge.AddMana(manaUsed);
-            }
-        }
-        Finished?.Invoke(touchedEnemy);
+        Finished?.Invoke();
         Destroy(gameObject);
     }
 
@@ -69,13 +39,33 @@ public class Attack : MonoBehaviour
 
             ennemyScript.TakeDamage((int)damage);
 
-            Transform hitspark = Instantiate(HitSpark).transform;
-            hitspark.parent = transform;
-            hitspark.localPosition = new Vector3(0, 0, 0.5f);
-            hitspark.parent = null;
+            SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
 
-            touchedEnemy = true;
-            Destroy(hitspark.gameObject, 1.5f);
+            if (isSheep != null)
+            {
+                if (isSheep.shellHere)
+                {
+                    if (BlockHitSpark != null) SpawnSpark(BlockHitSpark);
+                }
+                else
+                {
+                    if (HitSpark != null) SpawnSpark(HitSpark);
+                }
+            }
+            else
+            {
+                if (HitSpark != null) SpawnSpark(HitSpark);
+            }
         }
+    }
+
+    void SpawnSpark(GameObject spark)
+    {
+        Transform hitspark = Instantiate(spark).transform;
+        hitspark.parent = transform;
+        hitspark.localPosition = new Vector3(0, 0, distance);
+        hitspark.parent = null;
+
+        Destroy(hitspark.gameObject, 1.5f);
     }
 }
