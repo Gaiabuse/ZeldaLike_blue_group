@@ -434,7 +434,7 @@ MonoBehaviour:
   nightmareFormObject: {fileID: 7780061593918026694}
   manaGauge: {fileID: 8821143803085910139}
   FormAttackManagers:
-  - {fileID: 0}
+  - {fileID: 966973642768248133}
   - {fileID: 999091161340526415}
   - {fileID: 8600280016486079122}
   playerController: {fileID: 8133830779634646023}
@@ -598,6 +598,8 @@ GameObject:
   - component: {fileID: 5168637634834847861}
   - component: {fileID: 5595650131013267819}
   - component: {fileID: 1924854088417174274}
+  - component: {fileID: 1518089188278965044}
+  - component: {fileID: 1742041652461837967}
   m_Layer: 3
   m_Name: UltimateMode
   m_TagString: Untagged
@@ -777,6 +779,43 @@ CapsuleCollider:
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1924854088417174274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295939877534458843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcca48f391e19743901736c3ef6a36a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  AttractionForce: 10
+  EnemyAttract: []
+--- !u!136 &1518089188278965044
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295939877534458843}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.0000002
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1742041652461837967
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
