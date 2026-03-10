@@ -34,4 +34,10 @@ public class DreamBait : MonoBehaviour
     {
         currentBaitInstance = Instantiate(BaitPrefab, transform.position, Quaternion.identity);
     }
+
+    void OnDisable()
+    {
+        // pop the bait
+        Destroy(currentBaitInstance.gameObject);
+    }
 }
