@@ -193,13 +193,31 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
   ChargedPowerEvolution:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxChargedTime: 0
-  minAttack: 0
-  maxAttack: 0
+  MaxChargedTime: 10
+  minAttack: 3
+  maxAttack: 50
   numberOfShotsForFinishCombo: 4
   numberOfShotsForUltimate: 8
 --- !u!114 &4749926219799942427
@@ -389,64 +407,13 @@ MonoBehaviour:
   controller: {fileID: 2672575590059249965}
   speed: 10
   rotationSpeed: 8
-  DeadZone: 0.14
+  decayAccel: 5
+  decayDecel: 10
   cameraFollow: {fileID: 0}
   cameraRotation: {fileID: 0}
   surfaceNormal: {x: 0, y: 0, z: 0}
   CanMove: 1
   CanRotate: 1
-  accelerationState: 0
-  MaxSpeed: 10
-  accelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  decelerationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  accelerationDuration: 0.1
-  decelerationDuration: 0.1
 --- !u!114 &475458454912018690
 MonoBehaviour:
   m_ObjectHideFlags: 0
