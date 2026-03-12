@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     float speed = 10f, rotationSpeed = 15f;
     [SerializeField]
+    private Vector3 gravity = new(0f, -10f, 0f);
+
+    [SerializeField]
     private float decayAccel = 5f, decayDecel = 10f;
     private float currentStickProgress, smoothedStickProgress;
 
@@ -79,6 +82,9 @@ public class PlayerController : MonoBehaviour
 
             controller.Move(moveDirection * Time.deltaTime * speed * smoothedStickProgress);
         }
+
+        controller.Move(gravity * Time.deltaTime);
+
     }
 
     void OnMove(InputValue _input)
