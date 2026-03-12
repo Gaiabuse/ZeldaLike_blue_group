@@ -14,7 +14,7 @@ public class Ennemy : MonoBehaviour
     [Header("Data")]
     [SerializeField]private EnemyData data;
 
-    int HP = 5;
+    protected int HP = 5;
     protected Vector2 speed;
     protected Vector2 acceleration;
     protected Vector2 SpeedRotate;
@@ -65,10 +65,10 @@ public class Ennemy : MonoBehaviour
     int currentPatrolPose;
 
     [Header("Damage Display")]
-    [SerializeField] private TMP_Text hitValueDisplay;
+    [SerializeField] protected TMP_Text hitValueDisplay;
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
-    private TweenerCore<Vector3, Vector3, VectorOptions> dotween;
+    protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
     protected virtual void Start()
     {
@@ -357,7 +357,7 @@ public class Ennemy : MonoBehaviour
       
     }
     
-    private void ShowHitDisplay()
+    protected void ShowHitDisplay()
     {
         if (hitValueDisplay)
         {
