@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -102,42 +101,18 @@ public class Ennemy : MonoBehaviour
 
         if (TargetInFieldOfView && move != "sleep")
         {
-            RaycastHit hit;
-            Vector3 directionTarget = (CurrentTarget.position - LockOn.position).normalized;
-
-            if (Physics.Raycast(LockOn.position, directionTarget, out hit, LookRange, LayerBlockRay))
+            if (move != "chase" && move != "attack")
             {
-                if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Leure"))
-                {
-                    if (move != "chase" && move != "attack")
-                    {
-                        move = "chase";
-                        navMesh.speed = speed.y;
-                        navMesh.acceleration = acceleration.y;
-                        navMesh.angularSpeed = SpeedRotate.y;
-                    }
-
-                    EyesSetColorTo(colorChase);
-                    WhereToGoPos = CurrentTarget.position;
-
-                    LookAtPosition(WhereToGoPos);
-                }
-                else
-                {
-                    if (move == "chase") move = "lose chase";
-
-                    FaceForward();
-                }
+                move = "chase";
+                navMesh.speed = speed.y;
+                navMesh.acceleration = acceleration.y;
+                navMesh.angularSpeed = SpeedRotate.y;
             }
-            else
-            {
-                if (move == "chase")
-                {
-                    move = "lose chase";
 
-                    FaceForward();
-                }
-            }
+            EyesSetColorTo(colorChase);
+            WhereToGoPos = CurrentTarget.position;
+
+            LookAtPosition(WhereToGoPos);
         }
         else if (move != "sleep")
         {
