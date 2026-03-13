@@ -70,6 +70,9 @@ public class Ennemy : MonoBehaviour
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
+    [Header("Deal Damage")]
+    [SerializeField] protected EnnemyHit MainHitBox;
+
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -154,8 +157,15 @@ public class Ennemy : MonoBehaviour
         }
         else if (move == "attack")
         {
-            WhereToGoPos = CurrentTarget.position;
-            navMesh.destination = WhereToGoPos;
+            if (CurrentTarget != null)
+            {
+                WhereToGoPos = CurrentTarget.position;
+                navMesh.destination = WhereToGoPos;
+            }
+            else
+            {
+                PatrolStart();
+            }
         }
         else if (move == "sleep")
         {
@@ -246,16 +256,26 @@ public class Ennemy : MonoBehaviour
 
     protected virtual void AttackAnimEnd()
     {
-        move = "chase";
-        WhereToGoPos = CurrentTarget.position;
+        if (CurrentTarget != null)
+        {
+            move = "chase";
+            WhereToGoPos = CurrentTarget.position;
 
-        navMesh.isStopped = false;
-        animator.SetInteger("Attack", 0);
+            navMesh.isStopped = false;
+            animator.SetInteger("Attack", 0);
 
-        GoTo.localPosition = OgOffsetLookAt;
-        GoTo.localRotation = Quaternion.Euler(HeadRoatationOffset);
+            GoTo.localPosition = OgOffsetLookAt;
+            GoTo.localRotation = Quaternion.Euler(HeadRoatationOffset);
 
-        FaceForward();
+            FaceForward();
+        }
+        else
+        {
+            navMesh.isStopped = false;
+            animator.SetInteger("Attack", 0);
+
+            PatrolStart();
+        }
     }
 
     void isPlayerInFieldOfView()
@@ -375,7 +395,7 @@ public class Ennemy : MonoBehaviour
 
     protected virtual void AttackPatern()
     {
-        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= 2f)
+        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= 2f && CurrentTarget != null)
         {
             AttackStart(1);
         }
@@ -431,5 +451,11 @@ public class Ennemy : MonoBehaviour
                 return false;
             }
         }
+    }
+
+    protected void ToogleMainAttack(int toogle)
+    {
+        if (toogle == 1) MainHitBox.ToggleHitBox(true);
+        else MainHitBox.ToggleHitBox(false);
     }
 }
