@@ -11,7 +11,7 @@ public class DreamDash : MonoBehaviour
     CharacterController characterController;
 
     [SerializeField]
-    float DashDurationSeconds = 0, DashLength = 1;
+    float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = 0.5f;
 
     [SerializeField]
     AnimationCurve DashProggression;
@@ -50,6 +50,8 @@ public class DreamDash : MonoBehaviour
 
             yield return null;
         }
+
+        yield return new WaitForSeconds(DashCoolDownSeconds);
 
         IsDashing = false;
         controller.CanMove = true;
