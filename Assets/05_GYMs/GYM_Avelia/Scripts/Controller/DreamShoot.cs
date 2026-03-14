@@ -160,7 +160,7 @@ public class DreamShoot : AttackManager
     }
 
     float GetAttackPower(float proggression)
-        => ChargedPowerEvolution.Evaluate(proggression) * (maxAttack - minAttack) + minAttack;
+        => MathF.Round(ChargedPowerEvolution.Evaluate(proggression) * (maxAttack - minAttack) + minAttack);
 
     void OnDisable()
     {
