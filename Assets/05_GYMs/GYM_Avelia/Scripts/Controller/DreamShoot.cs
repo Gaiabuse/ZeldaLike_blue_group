@@ -53,13 +53,14 @@ public class DreamShoot : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         if (!CanShoot) return;
+
         if (_input.isPressed)
         {
             PrepareShoot();
             return;
         }
-        StartCoroutine(DoShoot());
 
+        StartCoroutine(DoShoot());
         return;
     }
 
@@ -97,7 +98,6 @@ public class DreamShoot : AttackManager
         CanShoot = false;
         yield return new WaitForSeconds(coolDown);
         CanShoot = true;
-
     }
 
     public override void Ultimate()
@@ -111,7 +111,6 @@ public class DreamShoot : AttackManager
             CreateShot(maxAttack);
         }
         player.transform.rotation = LastRotation;
-
     }
 
     void CreateShot(float attackPower)
@@ -142,8 +141,6 @@ public class DreamShoot : AttackManager
             return;
         }
         player.transform.LookAt(AutoAimed.transform, Vector3.up);
-
-
 
         var ToGoTo = AutoAimed.transform.position;
         var directionToGo = (ToGoTo - playerPos).normalized;
