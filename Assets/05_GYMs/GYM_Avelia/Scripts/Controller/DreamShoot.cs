@@ -17,7 +17,7 @@ public class DreamShoot : AttackManager
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f;
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 1f;
 
     [SerializeField]
     Transform SpawnPoint;
@@ -95,7 +95,7 @@ public class DreamShoot : AttackManager
         else CreateShot(attackScaledPower);
 
         CanShoot = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(coolDown);
         CanShoot = true;
 
     }
