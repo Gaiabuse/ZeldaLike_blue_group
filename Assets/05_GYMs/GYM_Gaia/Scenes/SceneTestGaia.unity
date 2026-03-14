@@ -1456,7 +1456,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: dfd733ba1a1787e4c857095a2161b7cd, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: bc82becf9e809764482c8144bba36859, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &883585940
 GameObject:
@@ -4188,6 +4188,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 920920760920392780, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.92092526
+      objectReference: {fileID: 0}
+    - target: {fileID: 920920760920392780, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.34891695
+      objectReference: {fileID: 0}
+    - target: {fileID: 920920760920392780, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.061523438
+      objectReference: {fileID: 0}
     - target: {fileID: 1982607804458720119, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
       propertyPath: m_Name
       value: PunchingBall
@@ -4272,6 +4284,9 @@ PrefabInstance:
     - target: {fileID: 986085793609821798, guid: d590e65a8cb1dcd4ba5299c086177c68, type: 3}
       propertyPath: m_Center.x
       value: -0.01610279
+    - target: {fileID: 1025183308658819536, guid: d590e65a8cb1dcd4ba5299c086177c68, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2104834478194568498, guid: d590e65a8cb1dcd4ba5299c086177c68, type: 3}
       propertyPath: m_Name
@@ -4397,6 +4412,10 @@ PrefabInstance:
     - target: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: corrector
