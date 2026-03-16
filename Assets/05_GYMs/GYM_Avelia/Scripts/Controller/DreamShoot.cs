@@ -17,7 +17,7 @@ public class DreamShoot : AttackManager
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 1f;
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 0.1f;
 
     [SerializeField]
     Transform SpawnPoint;
@@ -41,7 +41,7 @@ public class DreamShoot : AttackManager
     [SerializeField] private int numberOfShotsForFinishCombo;
     [SerializeField] private int numberOfShotsForUltimate;
 
-    private bool CanShoot = false;
+    private bool CanShoot = true;
 
     protected override void OnEnable()
     {
