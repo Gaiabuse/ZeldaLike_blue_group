@@ -3319,23 +3319,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6efd5077bd3f244a8eb485f43c6b0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  indicatorLeft: {fileID: 473321846}
-  indicatorRight: {fileID: 940510398}
-  iconLeft: {fileID: 1698841085}
-  iconRight: {fileID: 979683907}
-  iconsSprites:
+  indicator: {fileID: 0}
+  lifeGauge: {fileID: 0}
+  emptyLifeGauge: {fileID: 0}
+  indicatorSprites:
   - {fileID: 21300000, guid: c2489393a2862f744b450bba4a18e429, type: 3}
   - {fileID: 21300000, guid: 6686c80cbd979ec448d7a53ee73e176f, type: 3}
   - {fileID: 21300000, guid: e57428d0cf838a248ba427abbf1372b6, type: 3}
-  indicatorNeutralSprites:
-  - {fileID: 21300000, guid: 00d02fcf9489b4e48992aadf9af1c061, type: 3}
-  - {fileID: 21300000, guid: 72f964dfbdcc31d4385cf3764cab19cc, type: 3}
-  indicatorNightmareSprites:
-  - {fileID: 21300000, guid: 740ca8f7f5869014faa4eb4b4b5766a5, type: 3}
-  - {fileID: 21300000, guid: afe2159940099e945b9bd131a80724fc, type: 3}
-  indicatorDreamSprites:
-  - {fileID: 21300000, guid: 04e4c22aeb5f6254e94c455fc50fea49, type: 3}
-  - {fileID: 21300000, guid: edc5202f581b84d45b3275d3c17230ea, type: 3}
+  lifeFullSprites: []
+  lifeEmptySprites: []
   formSwitcher: {fileID: 0}
 --- !u!1001 &1607061024
 PrefabInstance:
@@ -4193,6 +4185,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 920920760920392780, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.92092526
+      objectReference: {fileID: 0}
+    - target: {fileID: 920920760920392780, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.34891695
+      objectReference: {fileID: 0}
+    - target: {fileID: 920920760920392780, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.061523438
+      objectReference: {fileID: 0}
     - target: {fileID: 1982607804458720119, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
       propertyPath: m_Name
       value: PunchingBall
@@ -4376,6 +4380,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: coolDown
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: maxAttack
       value: 10
       objectReference: {fileID: 0}
@@ -4400,24 +4408,108 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_PostInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[1].time
+      value: 0.500001
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[2].time
+      value: 0.9795543
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[3].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].value
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].inSlope
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[1].value
+      value: 0.00000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[2].value
+      value: 0.3039449
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[3].value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].inSlope
+      value: 0.0000011920905
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: ChargedPowerEvolution.m_Curve.Array.data[1].inSlope
-      value: 1
+      value: -Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[2].inSlope
+      value: -Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[3].inSlope
+      value: -Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].inWeight
+      value: 0.33333334
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].outSlope
-      value: 1
+      value: 0.0000011920905
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[1].inWeight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: ChargedPowerEvolution.m_Curve.Array.data[1].outSlope
-      value: 1
+      value: -Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[2].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[2].outSlope
+      value: -Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[3].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[3].outSlope
+      value: -Infinity
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[2].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[3].outWeight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: ChargedPowerEvolution.m_Curve.Array.data[0].tangentMode
@@ -4425,7 +4517,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: ChargedPowerEvolution.m_Curve.Array.data[1].tangentMode
-      value: 34
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[2].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ChargedPowerEvolution.m_Curve.Array.data[3].tangentMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1033709999584693957, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: m_LocalPosition.x
