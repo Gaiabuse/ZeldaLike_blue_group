@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3431587795264582144}
   - component: {fileID: 7314203763988941866}
   - component: {fileID: 8880793931168385490}
-  m_Layer: 3
+  m_Layer: 9
   m_Name: ShadowMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 999091161340526415}
   - component: {fileID: 4749926219799942427}
   - component: {fileID: 8715960371389895154}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DreamForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,6 +174,7 @@ MonoBehaviour:
   autoAimTime: 0.3
   autoAimRadius: 10
   offset: 0.2
+  coolDown: 1
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -288,7 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1783771321277920537}
   - component: {fileID: 1360823958884240099}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +386,7 @@ GameObject:
   - component: {fileID: 4485196043092998046}
   - component: {fileID: 8821143803085910139}
   - component: {fileID: 2672575590059249965}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -433,7 +434,7 @@ MonoBehaviour:
   surfaceNormal: {x: 0, y: 0, z: 0}
   CanMove: 1
   CanRotate: 1
-  currentAttackManager: {fileID: 0}
+  currentAttackManager: {fileID: 966973642768248133}
   side: 1
   IsWithBox: 0
   OnWallWithBox: 0
@@ -620,7 +621,11 @@ GameObject:
   - component: {fileID: 1924854088417174274}
   - component: {fileID: 1518089188278965044}
   - component: {fileID: 1742041652461837967}
-  m_Layer: 3
+  - component: {fileID: 5272500504929577533}
+  - component: {fileID: 4328797395090781321}
+  - component: {fileID: 1383384743338168312}
+  - component: {fileID: 8071285273572006077}
+  m_Layer: 9
   m_Name: UltimateMode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -849,6 +854,80 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   AttractionForce: 10
   EnemyAttract: []
+--- !u!136 &5272500504929577533
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295939877534458843}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.0000002
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4328797395090781321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295939877534458843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcca48f391e19743901736c3ef6a36a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  AttractionForce: 10
+  EnemyAttract: []
+--- !u!136 &1383384743338168312
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295939877534458843}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.0000002
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8071285273572006077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295939877534458843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fcca48f391e19743901736c3ef6a36a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  AttractionForce: 10
+  EnemyAttract: []
 --- !u!1 &7186632017847712217
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,7 +938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8550908858216263901}
   - component: {fileID: 5465860935416153884}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -949,11 +1028,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2564409545134392940}
-  - component: {fileID: 8341177936703881489}
-  - component: {fileID: 7030088731246960722}
   - component: {fileID: 4667459941524090902}
   - component: {fileID: 8600280016486079122}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NightmareForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -979,49 +1056,6 @@ Transform:
   - {fileID: 4716437258875657586}
   m_Father: {fileID: 1033709999584693957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8341177936703881489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7780061593918026694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ad5039f6411f184bab18d1c7f55980e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  shadow: {fileID: 2777701598435478564}
-  playerCollider: {fileID: 4485196043092998046}
-  attack:
-    AttackData: {fileID: 11400000, guid: 760f0300fde65dd4999ffd86b94002cc, type: 2}
-    type: 0
-  shadowAttackManager: {fileID: 8600280016486079122}
-  playerObjects:
-  - {fileID: 3904385373315590954}
-  shadowMask:
-    serializedVersion: 2
-    m_Bits: 0
-  stayOnClick: 1
---- !u!114 &7030088731246960722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7780061593918026694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e62d581d6491cc4f9ccfc407288a63a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  rayDistance: 1.5
-  rotationSpeed: 10
-  playerController: {fileID: 8133830779634646023}
-  characterController: {fileID: 2672575590059249965}
 --- !u!114 &4667459941524090902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1043,7 +1077,7 @@ MonoBehaviour:
   downValue: {x: 0, y: 0.5, z: 0}
   throwDistance: 3
   throwDuration: 1
-  throwMark: {fileID: 0}
+  throwMark: {fileID: 8778662250821000933}
 --- !u!114 &8600280016486079122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1092,7 +1126,7 @@ GameObject:
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NeutralForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1213,7 +1247,7 @@ GameObject:
   - component: {fileID: 390031160927023307}
   - component: {fileID: 3252623962466076696}
   - component: {fileID: 8524600594572096569}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: aim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1325,7 +1359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3711956616269674796}
   - component: {fileID: 4125799315735280694}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1418,7 +1452,7 @@ GameObject:
   - component: {fileID: 7289192857225786942}
   - component: {fileID: 5395334835271010449}
   - component: {fileID: 5387102716601772544}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: mark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
