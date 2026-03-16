@@ -78,6 +78,7 @@ public partial class ManaGauge : MonoBehaviour
         float oneDivisionValue = maxMana / numberOfDivision;
         currentMaxMana =oneDivisionValue * currentDivision;
         currentMana += oneDivisionValue;
+        UpdateVisuals();
         if (RechargeCoroutine != null)
         {
             StopCoroutine(RechargeCoroutine);
