@@ -51,10 +51,11 @@ public class DreamDash : MonoBehaviour
             yield return null;
         }
 
+        controller.CanMove = true;
+        controller.CanRotate = true;
+
         yield return new WaitForSeconds(DashCoolDownSeconds);
 
         IsDashing = false;
-        controller.CanMove = true;
-        controller.CanRotate = true;
     }
 }
