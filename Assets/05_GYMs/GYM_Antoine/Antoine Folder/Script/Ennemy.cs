@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -15,7 +14,7 @@ public class Ennemy : MonoBehaviour
     [Header("Data")]
     [SerializeField]private EnemyData data;
 
-    int HP = 5;
+    protected int HP = 5;
     protected Vector2 speed;
     protected Vector2 acceleration;
     protected Vector2 SpeedRotate;
@@ -66,10 +65,10 @@ public class Ennemy : MonoBehaviour
     int currentPatrolPose;
 
     [Header("Damage Display")]
-    [SerializeField] private TMP_Text hitValueDisplay;
+    [SerializeField] protected TMP_Text hitValueDisplay;
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
-    private TweenerCore<Vector3, Vector3, VectorOptions> dotween;
+    protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
     protected virtual void Start()
     {
@@ -102,42 +101,18 @@ public class Ennemy : MonoBehaviour
 
         if (TargetInFieldOfView && move != "sleep")
         {
-            RaycastHit hit;
-            Vector3 directionTarget = (CurrentTarget.position - LockOn.position).normalized;
-
-            if (Physics.Raycast(LockOn.position, directionTarget, out hit, LookRange, LayerBlockRay))
+            if (move != "chase" && move != "attack")
             {
-                if (hit.transform.CompareTag("Player") || hit.transform.CompareTag("Leure"))
-                {
-                    if (move != "chase" && move != "attack")
-                    {
-                        move = "chase";
-                        navMesh.speed = speed.y;
-                        navMesh.acceleration = acceleration.y;
-                        navMesh.angularSpeed = SpeedRotate.y;
-                    }
-
-                    EyesSetColorTo(colorChase);
-                    WhereToGoPos = CurrentTarget.position;
-
-                    LookAtPosition(WhereToGoPos);
-                }
-                else
-                {
-                    if (move == "chase") move = "lose chase";
-
-                    FaceForward();
-                }
+                move = "chase";
+                navMesh.speed = speed.y;
+                navMesh.acceleration = acceleration.y;
+                navMesh.angularSpeed = SpeedRotate.y;
             }
-            else
-            {
-                if (move == "chase")
-                {
-                    move = "lose chase";
 
-                    FaceForward();
-                }
-            }
+            EyesSetColorTo(colorChase);
+            WhereToGoPos = CurrentTarget.position;
+
+            LookAtPosition(WhereToGoPos);
         }
         else if (move != "sleep")
         {
@@ -382,7 +357,7 @@ public class Ennemy : MonoBehaviour
       
     }
     
-    private void ShowHitDisplay()
+    protected void ShowHitDisplay()
     {
         if (hitValueDisplay)
         {

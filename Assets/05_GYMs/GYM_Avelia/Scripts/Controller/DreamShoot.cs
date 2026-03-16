@@ -17,7 +17,7 @@ public class DreamShoot : AttackManager
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f;
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 1f;
 
     [SerializeField]
     Transform SpawnPoint;
@@ -41,6 +41,7 @@ public class DreamShoot : AttackManager
     [SerializeField] private int numberOfShotsForFinishCombo;
     [SerializeField] private int numberOfShotsForUltimate;
 
+    private bool CanShoot = false;
 
     protected override void OnEnable()
     {
@@ -51,24 +52,37 @@ public class DreamShoot : AttackManager
 
     protected override void OnAttack(InputValue _input)
     {
+        if (!CanShoot) return;
         if (_input.isPressed)
         {
-            lastInputTime = Time.time;
-            player.CanMove = false;
-            // we should try to do something to make things seem more sensitive
-
-            aimCone.SetActive(true);
-
-            var playerPos = player.transform.position;
-            var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
-
-            if (AutoAimed != null)
-                player.transform.LookAt(AutoAimed.transform, Vector3.up);
+            PrepareShoot();
             return;
         }
+        StartCoroutine(DoShoot());
 
+        return;
+    }
+
+    public void PrepareShoot()
+    {
+        lastInputTime = Time.time;
+        player.CanMove = false;
+        // we should try to do something to make things seem more sensitive
+
+        aimCone.SetActive(true);
+
+        var playerPos = player.transform.position;
+        var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
+
+        if (AutoAimed != null)
+            player.transform.LookAt(AutoAimed.transform, Vector3.up);
+    }
+
+    public System.Collections.IEnumerator DoShoot()
+    {
         player.CanMove = true;
         aimCone.SetActive(false);
+
         var amountOfTimeWaited = Time.time - lastInputTime;
 
         var progress = amountOfTimeWaited / MaxChargedTime;
@@ -77,15 +91,14 @@ public class DreamShoot : AttackManager
         var attackScaledPower = GetAttackPower(progress);
 
         if (amountOfTimeWaited < autoAimTime)
-        {
             CreateAutoTargettingShot(attackScaledPower);
-            return;
-        }
+        else CreateShot(attackScaledPower);
 
-        CreateShot(attackScaledPower);
-        return;
+        CanShoot = false;
+        yield return new WaitForSeconds(coolDown);
+        CanShoot = true;
+
     }
-
 
     public override void Ultimate()
     {
