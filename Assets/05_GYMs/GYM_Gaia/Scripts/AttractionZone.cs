@@ -11,7 +11,7 @@ public class AttractionZone : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Ennemy"))
         {
             Debug.Log(other.name);
             Rigidbody rb = other.GetComponent<Rigidbody>();
