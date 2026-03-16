@@ -54,6 +54,7 @@ public class GrabSystem : MonoBehaviour
     private void Throw(InputValue _input)
     {
         IsThrowing = true;
+        currentGrabbedObject.SetActive(true);
 
         var landingSpot = transform.position + transform.forward * throwDistance;
 
@@ -76,6 +77,7 @@ public class GrabSystem : MonoBehaviour
     private void Grab()
     {
         Vector3 downPosition = transform.position - downValue;
+
         if (Physics.Raycast(downPosition, transform.forward, out RaycastHit hitSwallow, rangeForSwallow, grabLayers))
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
@@ -91,6 +93,7 @@ public class GrabSystem : MonoBehaviour
         {
             Debug.Log(hitGrabbed.collider.gameObject.name);
             Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
+
             if (hitGrabbed.collider.transform.parent != null)
             {
 
