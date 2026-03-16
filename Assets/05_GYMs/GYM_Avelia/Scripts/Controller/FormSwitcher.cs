@@ -66,18 +66,21 @@ public class FormSwitcher : MonoBehaviour
         currentForm = nextForm;
     }
 
-    void OnTransform(InputValue _input)
+    void OnSwitchLeft(InputValue _input)
     {
         if (manaGauge.NeedRecharge) return;
-        if (currentForm == Form.neutral)
+        switch (currentForm)
         {
-            lastForm = currentForm;
-            ChangeForm(Form.dream);
-            SwitchForm?.Invoke(currentForm);
-            return;
+            case Form.neutral:
+                ChangeForm(Form.dream);
+                break;
+            case Form.dream:
+                ChangeForm(Form.nightmare);
+                break;
+            case Form.nightmare:
+                ChangeForm(Form.neutral);
+                break;
         }
-        lastForm = currentForm;
-        ChangeForm(Form.neutral);
         SwitchForm?.Invoke(currentForm);
     }
 
@@ -87,26 +90,23 @@ public class FormSwitcher : MonoBehaviour
         ChangeForm(Form.neutral);
         SwitchForm?.Invoke(currentForm);
     }
-    void OnSwitch(InputValue _input)
+    void OnSwitchRight(InputValue _input)
     {
         if (manaGauge.NeedRecharge) return;
 
         switch (currentForm)
         {
-            case Form.dream:
-                ChangeForm(Form.nightmare);
-                SwitchForm?.Invoke(currentForm);
-                return;
-            case Form.nightmare:
-                ChangeForm(Form.dream);
-                SwitchForm?.Invoke(currentForm);
-                return;
             case Form.neutral:
                 ChangeForm(Form.nightmare);
-                SwitchForm?.Invoke(currentForm);
-                return;
+                break;
+            case Form.dream:
+                ChangeForm(Form.neutral);
+                break;
+            case Form.nightmare:
+                ChangeForm(Form.dream);
+                break;
         }
-
+        SwitchForm?.Invoke(currentForm);
     }
 }
 
