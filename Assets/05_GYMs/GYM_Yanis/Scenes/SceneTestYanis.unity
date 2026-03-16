@@ -1246,7 +1246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   rotationSpeed: 2
   maxAngle: -90
-  direction: {x: 0, y: -1, z: 0}
+  numberInteractionNeed: 1
 --- !u!4 &752798755
 Transform:
   m_ObjectHideFlags: 0
@@ -4385,11 +4385,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: coolDown
-      value: 0.75
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: maxAttack
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: minAttack
@@ -4397,7 +4397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: MaxChargedTime
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: timeForDoCombo
@@ -4591,6 +4591,10 @@ PrefabInstance:
       propertyPath: DashLength
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4749926219799942427, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: DashCoolDownSeconds
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 4820759046979840672, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: AttractionForce
       value: 10
@@ -4598,6 +4602,22 @@ PrefabInstance:
     - target: {fileID: 5295939877534458843, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534083858809267189, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9209252
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534083858809267189, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.16238387
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534083858809267189, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.34891716
+      objectReference: {fileID: 0}
+    - target: {fileID: 6534083858809267189, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.061523475
       objectReference: {fileID: 0}
     - target: {fileID: 7655621285920013279, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: numberOfSecondBetweenTicks
