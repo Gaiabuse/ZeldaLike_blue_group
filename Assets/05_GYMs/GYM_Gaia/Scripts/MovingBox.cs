@@ -8,7 +8,6 @@ public class MovingBox : MonoBehaviour
     public enum Side { Left, Right, Front, Back }
     Side side;
     [SerializeField] private GameObject Ui;
-    [SerializeField] private LayerMask layersObstacles;
     private bool canInteract = false;
     [SerializeField]private float speed = 5f;
     private PlayerController player;
@@ -17,8 +16,6 @@ public class MovingBox : MonoBehaviour
         Ui.SetActive(false);
     }
     
-    
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -30,15 +27,6 @@ public class MovingBox : MonoBehaviour
                 player = other.GetComponent<PlayerController>();
                 player.OnCatch += CatchBox;
                 player.OnRelease += ReleaseBox;
-                Debug.Log(player.name);
-            }
-        }
-
-        if (other.CompareTag("Wall"))
-        {
-            if (player != null)
-            {
-                player.OnWallWithBox = true;
             }
         }
     }
@@ -67,19 +55,21 @@ public class MovingBox : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            ReleaseBox();
-            player.OnCatch -= CatchBox;
-            player.OnRelease -= ReleaseBox;
-            player = null;
-            Ui.SetActive(false);
-            canInteract = false;
-        }
-        if (other.CompareTag("Wall"))
-        {
             if (player != null)
             {
-                player.OnWallWithBox = false;
+                ReleaseBox();
+                
+                player.OnCatch -= CatchBox;
+                player.OnRelease -= ReleaseBox;
+                player = null;
             }
+
+            if (Ui != null)
+            {
+                Ui.SetActive(false);
+                canInteract = false;
+            }
+          
         }
     }
 
@@ -92,7 +82,7 @@ public class MovingBox : MonoBehaviour
             ChooseSide();
             transform.SetParent(player.transform);
             Ui.SetActive(false);
-            player.IsWithBox = true;
+            player.Boxes = gameObject;
             player.CanRotate = false;
             player.currentAttackManager.CanAttack = false;
         }
@@ -104,7 +94,7 @@ public class MovingBox : MonoBehaviour
         {
             Ui.SetActive(true);
             transform.SetParent(null);
-            player.IsWithBox = false;
+            player.Boxes = null;
             player.CanRotate = true;
             player.currentAttackManager.CanAttack = true;
         }

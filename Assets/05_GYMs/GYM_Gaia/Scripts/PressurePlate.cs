@@ -11,21 +11,37 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] private UnityEvent onPressure;
     [SerializeField] private UnityEvent onUnpressure;
     private GameObject objectOnPressurePlate;
+    private bool isPressing = false;
     public bool ContainsLayer(LayerMask mask, int layer)
     {
         return ((mask.value & (1 << layer)) > 0);
     }
-    void Update()
+
+    private void Start()
     {
-        
+        isPressing = false;
     }
+    
 
     private void OnTriggerEnter(Collider other)
     {
+        if(isPressing)return;
         if (ContainsLayer(layerMask, other.gameObject.layer))
         {
-            Debug.Log("OnTriggerEnter");
+            isPressing = true;
             objectOnPressurePlate = other.gameObject;
+            onPressure.Invoke();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(isPressing)return;
+        if (ContainsLayer(layerMask, other.gameObject.layer))
+        {
+            isPressing = true;
+            objectOnPressurePlate = other.gameObject;
+            onPressure.Invoke();
         }
     }
 
@@ -34,7 +50,8 @@ public class PressurePlate : MonoBehaviour
         if (ContainsLayer(layerMask, other.gameObject.layer))
         {
             if(other.gameObject != objectOnPressurePlate)return;
-            Debug.Log("OnTriggerExit");
+            isPressing = false;
+            onUnpressure.Invoke();
         }
     }
 }
