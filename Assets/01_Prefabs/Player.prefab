@@ -266,7 +266,7 @@ MonoBehaviour:
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
-  controller: {fileID: 0}
+  controller: {fileID: 8133830779634646023}
   aimCone: {fileID: 8549774408609409626}
   ProjectileSpeed: 20
   autoAimTime: 0.3
@@ -1248,6 +1248,7 @@ GameObject:
   - component: {fileID: 2564409545134392940}
   - component: {fileID: 4667459941524090902}
   - component: {fileID: 8600280016486079122}
+  - component: {fileID: 1579369890925037167}
   m_Layer: 9
   m_Name: NightmareForm
   m_TagString: Untagged
@@ -1291,7 +1292,7 @@ MonoBehaviour:
   rangeForSwallow: 1
   grabLayers:
     serializedVersion: 2
-    m_Bits: 129
+    m_Bits: 2176
   downValue: {x: 0, y: 0.5, z: 0}
   throwDistance: 3
   throwDuration: 1
@@ -1331,6 +1332,47 @@ MonoBehaviour:
     AttackData: {fileID: 11400000, guid: 760f0300fde65dd4999ffd86b94002cc, type: 2}
     type: 0
   timeOfUltimate: 5
+--- !u!114 &1579369890925037167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7780061593918026694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4631489e092e159b9e09bc4d6895044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  controller: {fileID: 8133830779634646023}
+  characterController: {fileID: 2672575590059249965}
+  DashDurationSeconds: 0.2
+  DashLength: 10
+  DashCoolDownSeconds: 0.5
+  DashProggression:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8495912245519105219
 GameObject:
   m_ObjectHideFlags: 0

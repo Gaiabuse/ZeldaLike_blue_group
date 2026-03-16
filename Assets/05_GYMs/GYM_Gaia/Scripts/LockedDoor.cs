@@ -16,10 +16,12 @@ public class LockedDoor : MonoBehaviour
     private int currentInteraction = 0;
     private bool doorOpen = false;
 
+    private Vector3 startRotation;
     private TweenerCore<Quaternion, Vector3, QuaternionOptions> doorTween;
     private void Start()
     {
         currentInteraction = 0;
+        startRotation = transform.rotation.eulerAngles;
     }
 
     private void OpenDoor()
@@ -38,7 +40,7 @@ public class LockedDoor : MonoBehaviour
         if(!doorOpen)return;
         doorOpen = false;
         if(doorTween != null)doorTween.Kill();
-        doorTween = transform.DORotate(new Vector3(0, 0, 0), rotationSpeed).OnComplete(()=>
+        doorTween = transform.DORotate(startRotation, rotationSpeed).OnComplete(()=>
         {
             doorTween = null;
         });

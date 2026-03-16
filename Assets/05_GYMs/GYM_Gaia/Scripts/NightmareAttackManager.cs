@@ -63,7 +63,9 @@ public class NightmareAttackManager : AttackManager
 
     private IEnumerator UltimateCoroutine()
     {
+        formSwitcher.canSwitchForm = false;
         yield return new WaitForSeconds(timeOfUltimate);
+        formSwitcher.canSwitchForm = true;
         UltimateActivation(false);
         Attack(ultimateAttack);
     }
