@@ -4,24 +4,11 @@ using UnityEngine;
 public class ActionButton : Button
 {
     [SerializeField] private GameObject Ui;
-    
-    
-    
-    
     private void Start()
     {
         Ui.SetActive(false);
     }
-
-    private void OnEnable()
-    {
-        PlayerController.OnInteract += Interaction;
-    }
-
-    private void OnDisable()
-    {
-        PlayerController.OnInteract -= Interaction;
-    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
