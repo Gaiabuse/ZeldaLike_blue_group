@@ -161,6 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   HitSpark: {fileID: 0}
+  BlockHitSpark: {fileID: 0}
+  distance: 0
 --- !u!54 &1515328421207860735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -202,6 +204,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScalingAttack
   attack: {fileID: 317120272924343593}
   MinScale: {x: 0.5, y: 0.5, z: 0.5}
-  MaxScale: {x: 20, y: 20, z: 20}
+  MaxScale: {x: 2, y: 2, z: 2}
   MinAttack: 0.5
   MaxAttack: 3

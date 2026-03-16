@@ -18,7 +18,7 @@ public class GrabSystem : MonoBehaviour
     private GameObject throwMark;
 
     private GameObject currentGrabbedObject;
-    private bool CanThrow = false, IsThrowing = false;
+    private bool CanThrow = true, IsThrowing = false;
 
     void Start()
     {
