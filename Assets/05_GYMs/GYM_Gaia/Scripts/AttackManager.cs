@@ -23,6 +23,8 @@ public abstract class AttackManager : MonoBehaviour
     protected int numberOfAttacksInCombo;
     private bool[] allAttackTouched;
     private Coroutine ultimateCoroutine;
+    public static Action CanUltimate;
+    public static Action EndForUltimate;
     protected virtual void OnEnable()
     {
         CanAttack = true;
@@ -53,6 +55,7 @@ public abstract class AttackManager : MonoBehaviour
 
     public virtual void Ultimate()
     {
+        EndForUltimate?.Invoke();
         manaGauge.AddMana(ManaAddAtSuccessCombo);
     }
     protected void AttackIsFinished(bool touchedEnemy)
@@ -104,6 +107,7 @@ public abstract class AttackManager : MonoBehaviour
             currentCombo = 0;
             if (CheckIfAllTouched())
             {
+                Debug.Log("canUltimate");
                 if (ultimateCoroutine != null)
                 {
                     StopCoroutine(ultimateCoroutine);
@@ -120,8 +124,10 @@ public abstract class AttackManager : MonoBehaviour
     protected virtual IEnumerator ForUltimateComboCoroutine()
     {
         Debug.Log("you success the combo");
+        CanUltimate?.Invoke();
         formSwitcher.CanDoUltimate = true;
         yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);
+        EndForUltimate?.Invoke();
         formSwitcher.CanDoUltimate = false;
     }
 }

@@ -4368,6 +4368,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 966973642768248133, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: rangeOfUltimate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 966973642768248133, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: comboAttacks.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -4402,6 +4406,10 @@ PrefabInstance:
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: ProjectileSpeed
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: numberOfShotsForUltimate
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 999091161340526415, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: numberOfShotsForFinishCombo
@@ -4571,13 +4579,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4667459941524090902, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: rangeForGrab
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4667459941524090902, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: throwDuration
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4749926219799942427, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: DashLength
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4820759046979840672, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: AttractionForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295939877534458843, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7655621285920013279, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: numberOfSecondBetweenTicks
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780061593918026694, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: speed
@@ -4598,6 +4626,14 @@ PrefabInstance:
     - target: {fileID: 8600280016486079122, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: timeForDoCombo
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600280016486079122, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: timeOfUltimate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8600280016486079122, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: ultimateAttack.type
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8600280016486079122, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: comboAttacks.Array.data[0].AttackData
