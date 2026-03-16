@@ -40,11 +40,11 @@ public class PlayerController : MonoBehaviour
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
 
-    public bool IsWithBox = false;
-    public bool OnWallWithBox = false;
+    [SerializeField] private LayerMask obstacleLayer; 
+    [HideInInspector]public GameObject Boxes;
     void Start()
     {
-        IsWithBox = false;
+        Boxes = null;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         if (cameraRotation == null)
         {
@@ -70,55 +70,52 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Movement()
+{
+    Vector3 moveDirection = Vector3.zero;
+
+    if (Boxes != null)
+    {
+        float inputMagnitude = 0;
+
+        if (side == MovingBox.Side.Front || side == MovingBox.Side.Back)
+        {
+            inputMagnitude = direction.y; 
+            moveDirection = Boxes.transform.forward * inputMagnitude;
+        }
+        else
+        {
+            inputMagnitude = direction.x;
+            moveDirection = Boxes.transform.right * inputMagnitude;
+        }
+        
+        if (inputMagnitude != 0)
+        {
+            if (Physics.Raycast(Boxes.transform.position, moveDirection.normalized, 1.0f, obstacleLayer))
+            {
+                moveDirection = Vector3.zero;
+            }
+        }
+    }
+    else
     {
         Vector3 camRight = cameraRotation.right;
         Vector3 camForward = cameraRotation.forward;
         Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
         Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
-        Vector3 moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
-
-        if (IsWithBox)
-        {
-            switch (side)
-            {
-                case MovingBox.Side.Left:
-                    moveDirection = new Vector3(moveDirection.x, 0, 0);
-                    if (OnWallWithBox && moveDirection.x > 0) moveDirection.x = 0; 
-                    break;
-
-                case MovingBox.Side.Right:
-                    moveDirection = new Vector3(moveDirection.x, 0, 0);
-                    if (OnWallWithBox && moveDirection.x < 0) moveDirection.x = 0; 
-                    break;
-
-                case MovingBox.Side.Front:
-                    moveDirection = new Vector3(0, 0, moveDirection.z);
-                    if (OnWallWithBox && moveDirection.z < 0) moveDirection.z = 0; 
-                    break;
-
-                case MovingBox.Side.Back:
-                    moveDirection = new Vector3(0, 0, moveDirection.z);
-                    if (OnWallWithBox && moveDirection.z > 0) moveDirection.z = 0; 
-                    break;
-            }
-        }
-
-        if (CanRotate)
-        {
-            UpdateLookDirection(moveDirection);
-        }
-
-        if (CanMove)
-        {
-            var decay = smoothedStickProgress < currentStickProgress ? decayAccel : decayDecel;
-            smoothedStickProgress = smoothedStickProgress.expDecay(currentStickProgress, decay, Time.deltaTime);
-
-            controller.Move(moveDirection * Time.deltaTime * speed * smoothedStickProgress);
-        }
-
-        controller.Move(gravity * Time.deltaTime);
-
+        moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
     }
+    
+    if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
+
+    if (CanMove)
+    {
+        var decay = smoothedStickProgress < currentStickProgress ? decayAccel : decayDecel;
+        smoothedStickProgress = smoothedStickProgress.expDecay(currentStickProgress, decay, Time.deltaTime);
+        controller.Move(moveDirection * (speed * smoothedStickProgress * Time.deltaTime));
+    }
+
+    controller.Move(gravity * Time.deltaTime);
+}
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();
@@ -144,7 +141,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.Log("release");
-            OnRelease.Invoke();
+            OnRelease?.Invoke();
         }
     }
 

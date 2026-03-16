@@ -66,6 +66,7 @@ public partial class ManaGauge : MonoBehaviour
         if (currentMana >= currentMaxMana)
         {
             currentMana = currentMaxMana;
+            UpdateVisuals();
         }
         Debug.Log(currentMaxMana);
     }
