@@ -19,9 +19,11 @@ public class FormSwitcher : MonoBehaviour
     public float TimeForDoUltimate{private set; get;}
     public bool CanDoUltimate;
 
+    public bool canSwitchForm = true;
     private void Start()
     {
         CanDoUltimate = false;
+        canSwitchForm = true;
         TimeForDoUltimate = timeForDoUltimate;
     }
 
@@ -68,7 +70,7 @@ public class FormSwitcher : MonoBehaviour
 
     void OnSwitchLeft(InputValue _input)
     {
-        if (manaGauge.NeedRecharge) return;
+        if (manaGauge.NeedRecharge || !canSwitchForm) return;
         switch (currentForm)
         {
             case Form.neutral:
@@ -92,7 +94,7 @@ public class FormSwitcher : MonoBehaviour
     }
     void OnSwitchRight(InputValue _input)
     {
-        if (manaGauge.NeedRecharge) return;
+        if (manaGauge.NeedRecharge || !canSwitchForm) return;
 
         switch (currentForm)
         {
