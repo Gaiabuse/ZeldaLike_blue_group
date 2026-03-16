@@ -174,6 +174,7 @@ MonoBehaviour:
   autoAimTime: 0.3
   autoAimRadius: 10
   offset: 0.2
+  coolDown: 1
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -222,6 +223,7 @@ MonoBehaviour:
   characterController: {fileID: 2672575590059249965}
   DashDurationSeconds: 0.2
   DashLength: 10
+  DashCoolDownSeconds: 0.5
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -414,7 +416,7 @@ MonoBehaviour:
   surfaceNormal: {x: 0, y: 0, z: 0}
   CanMove: 1
   CanRotate: 1
-  currentAttackManager: {fileID: 0}
+  currentAttackManager: {fileID: 966973642768248133}
   side: 1
   IsWithBox: 0
   OnWallWithBox: 0

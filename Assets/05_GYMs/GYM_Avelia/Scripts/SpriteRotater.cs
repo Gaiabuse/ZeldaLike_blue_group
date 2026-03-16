@@ -29,8 +29,8 @@ public class SpriteRotater : MonoBehaviour
 
     void Start()
     {
-        ChangeDir logDir = (Direction dir) => print(Enum.GetName(typeof(Direction), dir));
-        OnChangeDir += logDir;
+        //ChangeDir logDir = (Direction dir) => print(Enum.GetName(typeof(Direction), dir));
+        //OnChangeDir += logDir;
 
     }
 
