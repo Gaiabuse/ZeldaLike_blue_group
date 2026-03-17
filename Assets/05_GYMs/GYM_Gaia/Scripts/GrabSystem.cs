@@ -66,6 +66,7 @@ public class GrabSystem : MonoBehaviour
 
     private void CleanUpThrow()
     {
+        throwMark.SetActive(false);
         currentGrabbedObject = null;
         IsThrowing = false;
     }
@@ -127,5 +128,10 @@ public class GrabSystem : MonoBehaviour
         Gizmos.DrawRay(transform.position - downValue, transform.forward * rangeForGrab);
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position - downValue, transform.forward * rangeForSwallow);
+    }
+
+    private void OnDisable()
+    {
+        throwMark.SetActive(false);
     }
 }
