@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class GrabSystem : MonoBehaviour
 {
+    [SerializeField]
+    PlayerController player;
     [SerializeField] private float rangeForGrab;
     [SerializeField] private float grabStrength;
     [SerializeField] private float rangeForSwallow;
@@ -44,17 +46,19 @@ public class GrabSystem : MonoBehaviour
         if (_input.isPressed)
         {
             ShowThrowPrediction();
+            player.CanMove = false;
             return;
         }
 
         Throw();
+        player.CanMove = true;
     }
 
     private void Throw()
     {
         IsThrowing = true;
         currentGrabbedObject.SetActive(true);
-        
+
         Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -63,14 +67,15 @@ public class GrabSystem : MonoBehaviour
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
-        
+
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
-    
-        animation.onComplete += () => {
+
+        animation.onComplete += () =>
+        {
             if (rb != null) rb.isKinematic = false;
             CleanUpThrow();
         };
-    
+
         animation.Play();
     }
 
