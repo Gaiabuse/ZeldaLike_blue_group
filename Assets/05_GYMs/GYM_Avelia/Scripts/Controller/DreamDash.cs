@@ -11,6 +11,9 @@ public class DreamDash : MonoBehaviour
     CharacterController characterController;
 
     [SerializeField]
+    TagHandle tagWall, tagGround;
+
+    [SerializeField]
     float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = 0.5f;
 
     [SerializeField]
@@ -18,16 +21,17 @@ public class DreamDash : MonoBehaviour
 
     bool IsDashing = false;
 
-
     public void OnDash(InputValue _input)
     {
         if (!controller.CanMove || !_input.isPressed) return;
+
         StartCoroutine(Dash());
     }
 
     IEnumerator Dash()
     {
         if (IsDashing) yield break;
+
         IsDashing = true;
         controller.CanMove = false;
         controller.CanRotate = false;
@@ -36,6 +40,11 @@ public class DreamDash : MonoBehaviour
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
         float timer = 0;
+
+        if (IsPlaceLandable(destinationPosition))
+        {
+            characterController.excludeLayers = LayerMask.GetMask("everything");
+        }
 
 
         while (timer < DashDurationSeconds)
@@ -57,5 +66,35 @@ public class DreamDash : MonoBehaviour
         yield return new WaitForSeconds(DashCoolDownSeconds);
 
         IsDashing = false;
+    }
+
+    bool IsPlaceLandeable(Vector3 destination)
+    {
+
+        if (!IsThereAWall(destination)) return false;
+
+        Ray ray = new(origin: destination, direction: Vector3.down);
+        var result_cast = Physics.RaycastAll(ray);
+
+        foreach (var hit in result_cast)
+        {
+            if (hit.transform.CompareTag(tagGround)) return true;
+
+        }
+
+        throw null;
+    }
+
+    bool IsThereAWall(Vector3 destination)
+    {
+        var result_cast = Physics.RaycastAll(transform.position, destination);
+
+        foreach (var hit in result_cast)
+        {
+            if (hit.transform.CompareTag(tagWall)) return true;
+
+        }
+
+        return false;
     }
 }
