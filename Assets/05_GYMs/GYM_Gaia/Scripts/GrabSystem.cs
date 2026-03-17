@@ -36,7 +36,6 @@ public class GrabSystem : MonoBehaviour
             if (!_input.isPressed) return;
 
             Grab();
-
             //eat the next input
             CanThrow = false;
             return;
@@ -48,13 +47,15 @@ public class GrabSystem : MonoBehaviour
             return;
         }
 
-        Throw(_input);
+        Throw();
     }
 
-    private void Throw(InputValue _input)
+    private void Throw()
     {
         IsThrowing = true;
         currentGrabbedObject.SetActive(true);
+
+        currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
 
         var landingSpot = transform.position + transform.forward * throwDistance;
 
