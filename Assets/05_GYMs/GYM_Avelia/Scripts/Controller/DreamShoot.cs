@@ -49,13 +49,19 @@ public class DreamShoot : AttackManager
 
     protected override void OnAttack(InputValue _input)
     {
-        if (!CanShoot) return;
-
         if (_input.isPressed)
         {
             PrepareShoot();
             return;
         }
+
+        if (!_input.isPressed && !CanShoot)
+        {
+            UnprepShoot();
+            return;
+        }
+
+        if (!CanShoot) return;
 
         StartCoroutine(DoShoot());
         return;
@@ -74,6 +80,12 @@ public class DreamShoot : AttackManager
 
         if (AutoAimed != null)
             player.transform.LookAt(AutoAimed.transform, Vector3.up);
+    }
+
+    public void UnprepShoot()
+    {
+        player.CanMove = true;
+        aimCone.SetActive(false);
     }
 
     public System.Collections.IEnumerator DoShoot()
