@@ -159,7 +159,7 @@ MonoBehaviour:
   autoAimTime: 0.3
   autoAimRadius: 10
   offset: 0.2
-  coolDown: 0.4
+  coolDown: 0.75
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -205,9 +205,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxChargedTime: 3
-  minAttack: 3
-  maxAttack: 15
+  MaxChargedTime: 5
+  minAttack: 1
+  maxAttack: 10
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 12
 --- !u!114 &4749926219799942427
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   ultimateAttack:
     AttackData: {fileID: 11400000, guid: 760f0300fde65dd4999ffd86b94002cc, type: 2}
     type: 1
-  timeOfUltimate: 2
+  timeOfUltimate: 3
 --- !u!114 &1579369890925037167
 MonoBehaviour:
   m_ObjectHideFlags: 0
