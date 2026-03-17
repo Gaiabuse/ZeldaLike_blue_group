@@ -181,6 +181,15 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Respawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""cefaf36f-0821-4674-a399-ba1570ff0316"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -458,6 +467,17 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""action"": ""CatchOrRelease"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4db46fa3-5e8f-4e48-8520-1222dbaf7c17"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Respawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -476,6 +496,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         m_PlayerControl_SwitchLeft = m_PlayerControl.FindAction("SwitchLeft", throwIfNotFound: true);
         m_PlayerControl_SecondPower = m_PlayerControl.FindAction("SecondPower", throwIfNotFound: true);
         m_PlayerControl_CatchOrRelease = m_PlayerControl.FindAction("CatchOrRelease", throwIfNotFound: true);
+        m_PlayerControl_Respawn = m_PlayerControl.FindAction("Respawn", throwIfNotFound: true);
     }
 
     ~@FinalInputMap()
@@ -566,6 +587,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControl_SwitchLeft;
     private readonly InputAction m_PlayerControl_SecondPower;
     private readonly InputAction m_PlayerControl_CatchOrRelease;
+    private readonly InputAction m_PlayerControl_Respawn;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerControl".
     /// </summary>
@@ -617,6 +639,10 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/CatchOrRelease".
         /// </summary>
         public InputAction @CatchOrRelease => m_Wrapper.m_PlayerControl_CatchOrRelease;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControl/Respawn".
+        /// </summary>
+        public InputAction @Respawn => m_Wrapper.m_PlayerControl_Respawn;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -673,6 +699,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @CatchOrRelease.started += instance.OnCatchOrRelease;
             @CatchOrRelease.performed += instance.OnCatchOrRelease;
             @CatchOrRelease.canceled += instance.OnCatchOrRelease;
+            @Respawn.started += instance.OnRespawn;
+            @Respawn.performed += instance.OnRespawn;
+            @Respawn.canceled += instance.OnRespawn;
         }
 
         /// <summary>
@@ -714,6 +743,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @CatchOrRelease.started -= instance.OnCatchOrRelease;
             @CatchOrRelease.performed -= instance.OnCatchOrRelease;
             @CatchOrRelease.canceled -= instance.OnCatchOrRelease;
+            @Respawn.started -= instance.OnRespawn;
+            @Respawn.performed -= instance.OnRespawn;
+            @Respawn.canceled -= instance.OnRespawn;
         }
 
         /// <summary>
@@ -824,5 +856,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCatchOrRelease(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Respawn" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRespawn(InputAction.CallbackContext context);
     }
 }
