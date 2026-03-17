@@ -31,18 +31,17 @@ public class GrabSystem : MonoBehaviour
     {
         if (IsThrowing) return;
 
-        if (!CanThrow) { CanThrow = true; return; }
-
         if (currentGrabbedObject == null)
         {
-            if (!_input.isPressed) return;
-
-            Grab();
-            //eat the next input
-            CanThrow = false;
+            ProcessGrab(_input);
             return;
         }
 
+        ProcessGrab(_input);
+    }
+
+    private void ProcessThrow(InputValue _input)
+    {
         if (_input.isPressed)
         {
             ShowThrowPrediction();
@@ -52,6 +51,16 @@ public class GrabSystem : MonoBehaviour
 
         Throw();
         player.CanMove = true;
+    }
+
+    private void ProcessGrab(InputValue _input)
+    {
+        if (_input.isPressed)
+        {
+            ShowGrabPrediction();
+        }
+
+        Grab();
     }
 
     private void Throw()
@@ -89,6 +98,11 @@ public class GrabSystem : MonoBehaviour
     private void ShowThrowPrediction()
     {
         throwMark.SetActive(true);
+    }
+
+    private void ShowGrabPrediction()
+    {
+        // here
     }
 
     private void Grab()
@@ -147,6 +161,7 @@ public class GrabSystem : MonoBehaviour
 
     private void OnDisable()
     {
+        IsThrowing = false;
         throwMark.SetActive(false);
     }
 }
