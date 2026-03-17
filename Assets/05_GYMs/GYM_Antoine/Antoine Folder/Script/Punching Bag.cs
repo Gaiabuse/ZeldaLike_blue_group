@@ -14,7 +14,14 @@ public class PunchingBag : Ennemy
 
     protected override void FixedUpdate()
     {
-        return;
+        if (move == "sleep")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                EndSleep();
+            }
+        }
     }
 
     public override void TakeDamage(int damage)

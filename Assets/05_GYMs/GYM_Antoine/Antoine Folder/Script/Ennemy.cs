@@ -31,7 +31,7 @@ public class Ennemy : MonoBehaviour
 
     [SerializeField] float DistanceAlwaysSeeEnnemy = 2f;
 
-    float timerGeneral = 0;
+    [SerializeField] protected float timerGeneral = 0;
     Transform CurrentTarget;
 
     [Header("Raycast")]
@@ -173,7 +173,6 @@ public class Ennemy : MonoBehaviour
             if (timerGeneral <= 0)
             {
                 animator.SetBool("Sleep", false);
-                EndSleep();
             }
         }
 
@@ -181,13 +180,13 @@ public class Ennemy : MonoBehaviour
         else animator.SetBool("Move", false);
     }
 
-    /*private void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             StartSleep(5);
         }
-    }*/
+    }
 
     void LookAtPosition(Vector3 pos)
     {
@@ -362,9 +361,11 @@ public class Ennemy : MonoBehaviour
         {
             if (move == "sleep")
             {
-                animator.SetBool("Sleep", false);
                 WhereToGoPos = CurrentTarget.position;
                 navMesh.destination = WhereToGoPos;
+
+                if (animator == null) EndSleep();
+                else animator.SetBool("Sleep", false);
             }
             else
             {
@@ -417,16 +418,20 @@ public class Ennemy : MonoBehaviour
 
     public void StartSleep(float timer)
     {
+        timerGeneral = timer;
         move = "sleep";
         navMesh.isStopped = true;
-        timerGeneral = timer;
-        EyesSetColorTo(Color.black);
-        animator.SetBool("Sleep", true);
+
+        if (animator != null)
+        {
+            EyesSetColorTo(Color.black);
+            animator.SetBool("Sleep", true);
+        }
     }
 
-    void EndSleep()
+    protected void EndSleep()
     {
-        navMesh.isStopped = false;
+        if (navMesh != null) navMesh.isStopped = false;
         move = "chase";
         EyesSetColorTo(colorNormal);
     }
