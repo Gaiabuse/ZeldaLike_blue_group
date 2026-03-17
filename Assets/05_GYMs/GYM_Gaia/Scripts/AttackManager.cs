@@ -6,8 +6,6 @@ using UnityEngine.Serialization;
 
 public abstract class AttackManager : MonoBehaviour
 {
-    
-
     [SerializeField] protected ManaGauge manaGauge;
     
     [SerializeField] protected float timeForDoCombo;
@@ -29,7 +27,6 @@ public abstract class AttackManager : MonoBehaviour
     {
         CanAttack = true;
         canChargedAttack = false;
-        
     }
 
 
