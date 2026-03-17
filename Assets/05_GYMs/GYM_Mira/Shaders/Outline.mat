@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_GradientCloud
-  m_Shader: {fileID: 4800000, guid: 7b31ab2d49ee10a41a7bdfadc76c1059, type: 3}
+  m_Name: Outline
+  m_Shader: {fileID: 4800000, guid: 67f7e66a80446d34886c2b371f6eb5c0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -92,17 +92,20 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DashScale: 6
+    - _DashSize: 0.6
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
+    - _GapSize: 0.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GradientSmooth: 0.48
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _OutlineWidth: 0.05
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -118,15 +121,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkPink: {r: 1, g: 0.7686275, b: 0.5803922, a: 1}
-    - _DarkPurple: {r: 0.75167745, g: 0.61320746, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LightOrange: {r: 0.7372549, g: 0.98823535, b: 1, a: 1}
-    - _LightPink: {r: 0.91509426, g: 0.99619824, b: 1, a: 1}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &5387608918670497451
+--- !u!114 &2801686159201480668
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
