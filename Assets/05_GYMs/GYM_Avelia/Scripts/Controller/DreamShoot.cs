@@ -1,9 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.Serialization;
 
 public class DreamShoot : AttackManager
 {
@@ -166,6 +163,7 @@ public class DreamShoot : AttackManager
     {
         player.CanMove = true;
         aimCone.SetActive(false);
+        CanShoot = true;
     }
 
 }
