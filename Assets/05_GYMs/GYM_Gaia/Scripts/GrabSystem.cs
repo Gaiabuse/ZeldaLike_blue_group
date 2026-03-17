@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class GrabSystem : MonoBehaviour
 {
+    [SerializeField]
+    PlayerController player;
     [SerializeField] private float rangeForGrab;
     [SerializeField] private float grabStrength;
     [SerializeField] private float rangeForSwallow;
@@ -29,25 +31,36 @@ public class GrabSystem : MonoBehaviour
     {
         if (IsThrowing) return;
 
-        if (!CanThrow) { CanThrow = true; return; }
-
         if (currentGrabbedObject == null)
         {
-            if (!_input.isPressed) return;
-
-            Grab();
-            //eat the next input
-            CanThrow = false;
+            ProcessGrab(_input);
             return;
         }
 
+        ProcessGrab(_input);
+    }
+
+    private void ProcessThrow(InputValue _input)
+    {
         if (_input.isPressed)
         {
             ShowThrowPrediction();
+            player.CanMove = false;
             return;
         }
 
         Throw();
+        player.CanMove = true;
+    }
+
+    private void ProcessGrab(InputValue _input)
+    {
+        if (_input.isPressed)
+        {
+            ShowGrabPrediction();
+        }
+
+        Grab();
     }
 
     private void Throw()
@@ -55,12 +68,23 @@ public class GrabSystem : MonoBehaviour
         IsThrowing = true;
         currentGrabbedObject.SetActive(true);
 
-        currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
+        Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
 
+        currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
 
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
-        animation.onComplete += CleanUpThrow;
+
+        animation.onComplete += () =>
+        {
+            if (rb != null) rb.isKinematic = false;
+            CleanUpThrow();
+        };
+
         animation.Play();
     }
 
@@ -74,6 +98,11 @@ public class GrabSystem : MonoBehaviour
     private void ShowThrowPrediction()
     {
         throwMark.SetActive(true);
+    }
+
+    private void ShowGrabPrediction()
+    {
+        // here
     }
 
     private void Grab()
@@ -132,6 +161,7 @@ public class GrabSystem : MonoBehaviour
 
     private void OnDisable()
     {
+        IsThrowing = false;
         throwMark.SetActive(false);
     }
 }
