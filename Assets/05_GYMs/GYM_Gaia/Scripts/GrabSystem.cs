@@ -54,13 +54,23 @@ public class GrabSystem : MonoBehaviour
     {
         IsThrowing = true;
         currentGrabbedObject.SetActive(true);
+        
+        Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
-
         var landingSpot = transform.position + transform.forward * throwDistance;
-
+        
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
-        animation.onComplete += CleanUpThrow;
+    
+        animation.onComplete += () => {
+            if (rb != null) rb.isKinematic = false;
+            CleanUpThrow();
+        };
+    
         animation.Play();
     }
 

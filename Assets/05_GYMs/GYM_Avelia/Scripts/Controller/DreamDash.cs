@@ -68,7 +68,7 @@ public class DreamDash : MonoBehaviour
         IsDashing = false;
     }
 
-    bool IsPlaceLandeable(Vector3 destination)
+    bool IsPlaceLandable(Vector3 destination)
     {
 
         if (!IsThereAWall(destination)) return false;
