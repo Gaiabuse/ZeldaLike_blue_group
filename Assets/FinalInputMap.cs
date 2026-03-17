@@ -166,12 +166,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""SecondPower"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""d1a94683-7ce6-4a75-a0c2-08d838e945f5"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""CatchOrRelease"",
