@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8838050335581358090
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
+  version: 10
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: M_StarrySkybox
+  m_Shader: {fileID: -6465566751694194690, guid: bf868e1cc67bbb841bc3a6cbeed59efc, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SampleTexture2D_8ebc85ddd048480babb44dcc6c08917c_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: d7e439b12e8680343bdd0a4329358552, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BlinkingSpeed: 0.001
+    - _BlurBackLightDensity: 1
+    - _BlurBackLightDensity2: 7
+    - _BlurBackLightOpacity: 0.005
+    - _BlurBackLightOpacity2: 0.005
+    - _NadirBlend: 1
+    - _NadirBlend2: 15
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _StarDensity: 100
+    - _StarsPower: 25
+    - _ZenithBlend: 1
+    m_Colors:
+    - _BelowColor: {r: 0.27450982, g: 0.2509804, b: 0.4431373, a: 1}
+    - _BelowColor2: {r: 0.67058825, g: 0.6392157, b: 0.8705883, a: 1}
+    - _BlurBackLightColor: {r: 0.8497684, g: 0.6441794, b: 2.9056604, a: 1}
+    - _BlurBackLightColor2: {r: 0, g: 0, b: 0, a: 1}
+    - _GroundColor: {r: 0.30136126, g: 0.22454607, b: 0.5471698, a: 1}
+    - _SpaceColor: {r: 0.09794039, g: 0.07791918, b: 0.16037735, a: 1}
+    - _StarsColor: {r: 35.05017, g: 32.535423, b: 57.962265, a: 1}
+    - _StarsColor2: {r: 14.45084, g: 7.729442, b: 27.77359, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
