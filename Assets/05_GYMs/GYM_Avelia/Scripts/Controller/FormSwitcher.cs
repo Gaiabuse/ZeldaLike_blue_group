@@ -27,9 +27,10 @@ public class FormSwitcher : MonoBehaviour
         TimeForDoUltimate = timeForDoUltimate;
     }
 
-    private void ChangeForm(Form nextForm)
+    public void ChangeForm(Form nextForm)
     {
 
+        if(currentForm == nextForm)return;
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
@@ -66,6 +67,9 @@ public class FormSwitcher : MonoBehaviour
         }
 
         currentForm = nextForm;
+        SwitchForm?.Invoke(currentForm);
+        playerController.CanMove = true;
+        playerController.CanRotate = true;
     }
 
     void OnSwitchLeft(InputValue _input)
@@ -83,14 +87,13 @@ public class FormSwitcher : MonoBehaviour
                 ChangeForm(Form.neutral);
                 break;
         }
-        SwitchForm?.Invoke(currentForm);
+        
     }
 
     public void ForcedTransform()
     {
         lastForm = currentForm;
         ChangeForm(Form.neutral);
-        SwitchForm?.Invoke(currentForm);
     }
     void OnSwitchRight(InputValue _input)
     {

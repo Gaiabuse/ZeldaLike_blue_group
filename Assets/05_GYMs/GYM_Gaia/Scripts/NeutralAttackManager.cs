@@ -21,17 +21,19 @@ public class NeutralAttackManager : AttackManager
 
     protected override void OnAttack(InputValue _input)
     {
-        
-        if (_input.isPressed)
+        base.OnAttack(_input);
+        Vector2 inputValue = _input.Get<Vector2>();
+        if (inputValue.sqrMagnitude <= 0)
         {
+            player.CanMove = false;
+            player.CanRotate = false;
+            if (canChargedAttack)
+            {
+                canChargedAttack = false;
+                Attack(ChargedAttack);
+                return;
+            }
             Attack(comboAttacks[currentCombo]);
-            return;
-        }
-        
-        if (canChargedAttack)
-        {
-            canChargedAttack = false;
-            Attack(ChargedAttack);
         }
     }
 

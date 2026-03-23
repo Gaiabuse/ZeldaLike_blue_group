@@ -49,13 +49,15 @@ public class DreamShoot : AttackManager
 
     protected override void OnAttack(InputValue _input)
     {
-        if (_input.isPressed)
+        base.OnAttack(_input);
+        Vector2 inputValue = _input.Get<Vector2>();
+        if (inputValue.sqrMagnitude > 0)
         {
             PrepareShoot();
             return;
         }
 
-        if (!_input.isPressed && !CanShoot)
+        if (inputValue.sqrMagnitude <= 0 && !CanShoot)
         {
             UnprepShoot();
             return;
@@ -64,10 +66,9 @@ public class DreamShoot : AttackManager
         if (!CanShoot) return;
 
         StartCoroutine(DoShoot());
-        return;
     }
 
-    public void PrepareShoot()
+    private void PrepareShoot()
     {
         lastInputTime = Time.time;
         player.CanMove = false;

@@ -111,15 +111,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""SwitchRight"",
-                    ""type"": ""Button"",
-                    ""id"": ""ca59f4cd-e286-4684-a998-a1dc1a1102e3"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""bf60decd-d61b-43ae-bbee-5184a65a34fc"",
@@ -130,12 +121,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Attack"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""0c803a38-ff4f-4f01-817c-e5eb5f67fe7e"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Dash"",
@@ -154,15 +145,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=2.5,pressPoint=1)"",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SwitchLeft"",
-                    ""type"": ""Button"",
-                    ""id"": ""b9fadb94-879f-430b-b117-0d48908626a6"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""SecondPower"",
@@ -283,28 +265,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""629a0281-bdf0-46b7-b78c-29cbde3206a5"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8a2f1880-a061-4891-b897-49b1aa989ba6"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0eeeb3ae-711a-40b8-9bc2-a8c672e1595e"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -316,56 +276,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""71eeab90-18af-4526-a59c-184920f844e9"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b0801939-86dc-4afd-acc8-98cb722e6454"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""728f5883-3752-42e0-9f1f-b5447f039d0f"",
                     ""path"": ""<Linux::Logic3::PDPFaceoffPremiereWiredProControllerforNintendoSwitch>/Stick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4fe5a18e-09d0-41fb-a33d-9f2caa1cd653"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2a739ae1-b9b6-4665-8a23-c72cfc9c8f78"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -383,7 +299,18 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2575f764-879b-49c4-803b-632bde74ac6f"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ae7e6e4-e4a5-45ee-a81d-ebc504377ce1"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -415,30 +342,8 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c91238d3-c73c-42b1-985c-cbaaf7bdecd2"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""db2c23ff-6102-4bba-b4d5-eb02516ba581"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SwitchLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""bf7e4b75-7d63-4327-860d-eb86c1bcb9f2"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -450,6 +355,17 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""9fe410fb-293a-4e92-a5a0-a4c42f2da606"",
                     ""path"": ""<Keyboard>/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondPower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""210c50db-cb01-480e-b49f-d6925ff33b11"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -478,6 +394,61 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Respawn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""eada6487-6a64-45d3-81b3-96e9d900cc7d"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""3a5b789a-7a74-43da-ab64-ee7a82445138"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""d5c59f0d-6887-4f40-bb44-d6858ed7ba3a"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""5ebe16f7-d0b0-4911-beb2-7907d0635022"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""6b157b2a-aba8-44d7-83b6-d0a9f02133cf"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -488,12 +459,10 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_Move = m_PlayerControl.FindAction("Move", throwIfNotFound: true);
         m_PlayerControl_Look = m_PlayerControl.FindAction("Look", throwIfNotFound: true);
-        m_PlayerControl_SwitchRight = m_PlayerControl.FindAction("SwitchRight", throwIfNotFound: true);
         m_PlayerControl_Interaction = m_PlayerControl.FindAction("Interaction", throwIfNotFound: true);
         m_PlayerControl_Attack = m_PlayerControl.FindAction("Attack", throwIfNotFound: true);
         m_PlayerControl_Dash = m_PlayerControl.FindAction("Dash", throwIfNotFound: true);
         m_PlayerControl_ChargedAttack = m_PlayerControl.FindAction("ChargedAttack", throwIfNotFound: true);
-        m_PlayerControl_SwitchLeft = m_PlayerControl.FindAction("SwitchLeft", throwIfNotFound: true);
         m_PlayerControl_SecondPower = m_PlayerControl.FindAction("SecondPower", throwIfNotFound: true);
         m_PlayerControl_CatchOrRelease = m_PlayerControl.FindAction("CatchOrRelease", throwIfNotFound: true);
         m_PlayerControl_Respawn = m_PlayerControl.FindAction("Respawn", throwIfNotFound: true);
@@ -579,12 +548,10 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private List<IPlayerControlActions> m_PlayerControlActionsCallbackInterfaces = new List<IPlayerControlActions>();
     private readonly InputAction m_PlayerControl_Move;
     private readonly InputAction m_PlayerControl_Look;
-    private readonly InputAction m_PlayerControl_SwitchRight;
     private readonly InputAction m_PlayerControl_Interaction;
     private readonly InputAction m_PlayerControl_Attack;
     private readonly InputAction m_PlayerControl_Dash;
     private readonly InputAction m_PlayerControl_ChargedAttack;
-    private readonly InputAction m_PlayerControl_SwitchLeft;
     private readonly InputAction m_PlayerControl_SecondPower;
     private readonly InputAction m_PlayerControl_CatchOrRelease;
     private readonly InputAction m_PlayerControl_Respawn;
@@ -608,10 +575,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Look => m_Wrapper.m_PlayerControl_Look;
         /// <summary>
-        /// Provides access to the underlying input action "PlayerControl/SwitchRight".
-        /// </summary>
-        public InputAction @SwitchRight => m_Wrapper.m_PlayerControl_SwitchRight;
-        /// <summary>
         /// Provides access to the underlying input action "PlayerControl/Interaction".
         /// </summary>
         public InputAction @Interaction => m_Wrapper.m_PlayerControl_Interaction;
@@ -627,10 +590,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/ChargedAttack".
         /// </summary>
         public InputAction @ChargedAttack => m_Wrapper.m_PlayerControl_ChargedAttack;
-        /// <summary>
-        /// Provides access to the underlying input action "PlayerControl/SwitchLeft".
-        /// </summary>
-        public InputAction @SwitchLeft => m_Wrapper.m_PlayerControl_SwitchLeft;
         /// <summary>
         /// Provides access to the underlying input action "PlayerControl/SecondPower".
         /// </summary>
@@ -675,9 +634,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
-            @SwitchRight.started += instance.OnSwitchRight;
-            @SwitchRight.performed += instance.OnSwitchRight;
-            @SwitchRight.canceled += instance.OnSwitchRight;
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
@@ -690,9 +646,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @ChargedAttack.started += instance.OnChargedAttack;
             @ChargedAttack.performed += instance.OnChargedAttack;
             @ChargedAttack.canceled += instance.OnChargedAttack;
-            @SwitchLeft.started += instance.OnSwitchLeft;
-            @SwitchLeft.performed += instance.OnSwitchLeft;
-            @SwitchLeft.canceled += instance.OnSwitchLeft;
             @SecondPower.started += instance.OnSecondPower;
             @SecondPower.performed += instance.OnSecondPower;
             @SecondPower.canceled += instance.OnSecondPower;
@@ -719,9 +672,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
-            @SwitchRight.started -= instance.OnSwitchRight;
-            @SwitchRight.performed -= instance.OnSwitchRight;
-            @SwitchRight.canceled -= instance.OnSwitchRight;
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
@@ -734,9 +684,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @ChargedAttack.started -= instance.OnChargedAttack;
             @ChargedAttack.performed -= instance.OnChargedAttack;
             @ChargedAttack.canceled -= instance.OnChargedAttack;
-            @SwitchLeft.started -= instance.OnSwitchLeft;
-            @SwitchLeft.performed -= instance.OnSwitchLeft;
-            @SwitchLeft.canceled -= instance.OnSwitchLeft;
             @SecondPower.started -= instance.OnSecondPower;
             @SecondPower.performed -= instance.OnSecondPower;
             @SecondPower.canceled -= instance.OnSecondPower;
@@ -801,13 +748,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "SwitchRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSwitchRight(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Interaction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -835,13 +775,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnChargedAttack(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "SwitchLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSwitchLeft(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "SecondPower" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
