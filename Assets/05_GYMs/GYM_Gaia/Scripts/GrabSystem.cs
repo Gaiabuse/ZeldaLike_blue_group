@@ -58,9 +58,11 @@ public class GrabSystem : MonoBehaviour
         if (_input.isPressed)
         {
             ShowGrabPrediction();
+            player.CanMove = false;
         }
 
         Grab();
+        player.CanMove = true;
     }
 
     private void Throw()
@@ -120,35 +122,34 @@ public class GrabSystem : MonoBehaviour
             return;
         }
 
-        if (Physics.Raycast(downPosition, transform.forward, out RaycastHit hitGrabbed, rangeForGrab, grabLayers))
+        RaycastHit hitGrabbed;
+
+        if (!Physics.Raycast(downPosition, transform.forward, out hitGrabbed, rangeForGrab, grabLayers))
         {
-            Debug.Log(hitGrabbed.collider.gameObject.name);
-            Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
+            Debug.DrawRay(downPosition, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
+            return;
+        }
 
-            if (hitGrabbed.collider.transform.parent != null)
-            {
+        Debug.Log(hitGrabbed.collider.gameObject.name);
+        Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
 
-                Rigidbody grabbedObject = hitGrabbed.collider.transform.parent.GetComponent<Rigidbody>();
-                if (grabbedObject != null)
-                {
-                    grabbedObject.AddForce(direction * grabStrength, ForceMode.Impulse);
-                }
-            }
-            else
-            {
-                Rigidbody grabbedObject = hitGrabbed.collider.gameObject.AddComponent<Rigidbody>();
-                if (grabbedObject != null)
-                {
-                    grabbedObject.AddForce(direction * grabStrength, ForceMode.Impulse);
-                }
-            }
+        Rigidbody grabbedObject;
 
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.green);
+        if (hitGrabbed.collider.transform.parent != null)
+        {
+            grabbedObject = hitGrabbed.collider.transform.parent.GetComponent<Rigidbody>();
         }
         else
         {
-            Debug.DrawRay(downPosition, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
+            grabbedObject = hitGrabbed.collider.gameObject.GetComponent<Rigidbody>();
         }
+
+        if (grabbedObject != null)
+        {
+            grabbedObject.AddForce(direction * grabStrength, ForceMode.Impulse);
+        }
+
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.green);
     }
 
     private void OnDrawGizmosSelected()
