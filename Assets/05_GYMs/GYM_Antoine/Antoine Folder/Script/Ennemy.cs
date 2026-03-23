@@ -420,12 +420,12 @@ public class Ennemy : MonoBehaviour
     {
         timerGeneral = timer;
         move = "sleep";
-        navMesh.isStopped = true;
 
         if (animator != null)
         {
             EyesSetColorTo(Color.black);
             animator.SetBool("Sleep", true);
+            navMesh.isStopped = true;
         }
     }
 
