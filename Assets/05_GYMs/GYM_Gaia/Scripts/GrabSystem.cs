@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class GrabSystem : MonoBehaviour
 {
+    [SerializeField]
+    PlayerController player;
     [SerializeField] private float rangeForGrab;
     [SerializeField] private float grabStrength;
     [SerializeField] private float rangeForSwallow;
@@ -18,7 +20,7 @@ public class GrabSystem : MonoBehaviour
     private GameObject throwMark;
 
     private GameObject currentGrabbedObject;
-    private bool CanThrow = false, IsThrowing = false;
+    private bool CanThrow = true, IsThrowing = false;
 
     void Start()
     {
@@ -29,41 +31,66 @@ public class GrabSystem : MonoBehaviour
     {
         if (IsThrowing) return;
 
-        if (!CanThrow) { CanThrow = true; return; }
-
         if (currentGrabbedObject == null)
         {
-            if (!_input.isPressed) return;
-
-            Grab();
-
-            //eat the next input
-            CanThrow = false;
+            ProcessGrab(_input);
             return;
         }
 
+        ProcessGrab(_input);
+    }
+
+    private void ProcessThrow(InputValue _input)
+    {
         if (_input.isPressed)
         {
             ShowThrowPrediction();
+            player.CanMove = false;
             return;
         }
 
-        Throw(_input);
+        Throw();
+        player.CanMove = true;
     }
 
-    private void Throw(InputValue _input)
+    private void ProcessGrab(InputValue _input)
+    {
+        if (_input.isPressed)
+        {
+            ShowGrabPrediction();
+        }
+
+        Grab();
+    }
+
+    private void Throw()
     {
         IsThrowing = true;
+        currentGrabbedObject.SetActive(true);
 
+        Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = true;
+        }
+
+        currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
 
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
-        animation.onComplete += CleanUpThrow;
+
+        animation.onComplete += () =>
+        {
+            if (rb != null) rb.isKinematic = false;
+            CleanUpThrow();
+        };
+
         animation.Play();
     }
 
     private void CleanUpThrow()
     {
+        throwMark.SetActive(false);
         currentGrabbedObject = null;
         IsThrowing = false;
     }
@@ -73,9 +100,15 @@ public class GrabSystem : MonoBehaviour
         throwMark.SetActive(true);
     }
 
+    private void ShowGrabPrediction()
+    {
+        // here
+    }
+
     private void Grab()
     {
         Vector3 downPosition = transform.position - downValue;
+
         if (Physics.Raycast(downPosition, transform.forward, out RaycastHit hitSwallow, rangeForSwallow, grabLayers))
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
@@ -91,6 +124,7 @@ public class GrabSystem : MonoBehaviour
         {
             Debug.Log(hitGrabbed.collider.gameObject.name);
             Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
+
             if (hitGrabbed.collider.transform.parent != null)
             {
 
@@ -123,5 +157,11 @@ public class GrabSystem : MonoBehaviour
         Gizmos.DrawRay(transform.position - downValue, transform.forward * rangeForGrab);
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position - downValue, transform.forward * rangeForSwallow);
+    }
+
+    private void OnDisable()
+    {
+        IsThrowing = false;
+        throwMark.SetActive(false);
     }
 }

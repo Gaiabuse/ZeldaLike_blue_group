@@ -5,17 +5,20 @@ using UnityEngine.UI;
 
 public class TransformIndicator : MonoBehaviour
 {
-    [SerializeField] private Image indicatorLeft;
-    [SerializeField] private Image indicatorRight;
-    [SerializeField] private Image iconLeft;
-    [SerializeField] private Image iconRight;
+    [SerializeField] private Image indicator;
+    [SerializeField] private Image lifeGauge;
+    [SerializeField] private Image emptyLifeGauge;
+    [SerializeField] private Image spellIndicator;
+    [FormerlySerializedAs("iconsSprites")]
     [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
-    [SerializeField] private Sprite[] iconsSprites;
+    [SerializeField] private Sprite[] indicatorSprites;
+    [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
+    [SerializeField] private Sprite[] lifeFullSprites;
+    [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
+    [SerializeField] private Sprite[] lifeEmptySprites;
+    [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
+    [SerializeField] private Sprite[] spellIndicatorSprites;
     [Tooltip("order : 0= l1 1= r1")]
-    [SerializeField] private Sprite[] indicatorNeutralSprites;
-    [SerializeField] private Sprite[] indicatorNightmareSprites;
-    [SerializeField] private Sprite[] indicatorDreamSprites;
-
     [SerializeField] private FormSwitcher formSwitcher;
 
     private void OnEnable()
@@ -34,22 +37,22 @@ public class TransformIndicator : MonoBehaviour
         switch (currentForm)
         {
             case Form.neutral:
-                indicatorLeft.sprite = indicatorNightmareSprites[0];
-                indicatorRight.sprite = indicatorDreamSprites[1];
-                iconLeft.sprite = iconsSprites[1];
-                iconRight.sprite = iconsSprites[2];
+                indicator.sprite = indicatorSprites[0];
+                lifeGauge.sprite = lifeFullSprites[0];
+                emptyLifeGauge.sprite = lifeEmptySprites[0];
+                spellIndicator.sprite = spellIndicatorSprites[0];
                 break;
             case Form.nightmare:
-                indicatorLeft.sprite = indicatorDreamSprites[0];
-                indicatorRight.sprite = indicatorNeutralSprites[1];
-                iconLeft.sprite = iconsSprites[2];
-                iconRight.sprite = iconsSprites[0];
+                indicator.sprite = indicatorSprites[1];
+                lifeGauge.sprite = lifeFullSprites[1];
+                emptyLifeGauge.sprite = lifeEmptySprites[1];
+                spellIndicator.sprite = spellIndicatorSprites[1];
                 break;
             case Form.dream:
-                indicatorLeft.sprite = indicatorNightmareSprites[0];
-                indicatorRight.sprite = indicatorNeutralSprites[1];
-                iconLeft.sprite = iconsSprites[1];
-                iconRight.sprite = iconsSprites[0];
+                indicator.sprite = indicatorSprites[2];
+                lifeGauge.sprite = lifeFullSprites[2];
+                emptyLifeGauge.sprite = lifeEmptySprites[2];
+                spellIndicator.sprite = spellIndicatorSprites[2];
                 break;
         }
     }

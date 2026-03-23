@@ -21,8 +21,20 @@ public abstract class AttackManager : MonoBehaviour
     protected int numberOfAttacksInCombo;
     private bool[] allAttackTouched;
     private Coroutine ultimateCoroutine;
+    public static Action CanUltimate;
+    public static Action EndForUltimate;
+
+    private enum inputValueDirection
+    {
+        up,
+        down,
+        left,
+        right,
+        none
+    }
     protected virtual void OnEnable()
     {
+        player.CanMove = true;
         CanAttack = true;
         canChargedAttack = false;
     }
@@ -30,7 +42,51 @@ public abstract class AttackManager : MonoBehaviour
 
     protected virtual void OnAttack(InputValue _input)
     {
-        
+        Vector2 inputValue = _input.Get<Vector2>();
+        if (inputValue.sqrMagnitude > 0) 
+        {
+            inputValueDirection direction = ReturnDirection(inputValue);
+            switch (direction)
+            {
+                case inputValueDirection.up:
+                    formSwitcher.ChangeForm(Form.neutral);
+                    break;
+                case inputValueDirection.right:
+                    formSwitcher.ChangeForm(Form.nightmare);
+                    break;
+                case inputValueDirection.left:
+                    formSwitcher.ChangeForm(Form.dream);
+                    break;
+                case inputValueDirection.down:
+                case inputValueDirection.none:
+                default:
+                    break;
+            }
+        }
+    }
+
+    private inputValueDirection ReturnDirection(Vector2 _input)
+    {
+        if (_input == Vector2.left)
+        {
+            return inputValueDirection.left;
+        }
+
+        if (_input == Vector2.right)
+        {
+            return inputValueDirection.right;
+        }
+
+        if (_input == Vector2.up)
+        {
+            return inputValueDirection.up;
+        }
+
+        if (_input == Vector2.down)
+        {
+            return inputValueDirection.down;
+        }
+        return inputValueDirection.none;
     }
     void OnChargedAttack(InputValue _input)
     {
@@ -40,21 +96,26 @@ public abstract class AttackManager : MonoBehaviour
     public void Attack(SimpleAttack attack)
     {
         if (!CanAttack) return;
+        
         if (comboCoroutine != null)
         {
             StopCoroutine(comboCoroutine);
         }
         currentAttack = attack.Attack(manaGauge, player.transform);
+        CanAttack = false;
         currentAttack.Finished += AttackIsFinished;
     }
 
     public virtual void Ultimate()
     {
+        EndForUltimate?.Invoke();
         manaGauge.AddMana(ManaAddAtSuccessCombo);
     }
     protected void AttackIsFinished(bool touchedEnemy)
     {
         if (currentAttack == null) return;
+        player.CanMove = true;
+        player.CanRotate = true;
         if (currentCombo == 0)
         {
             StartCombo();
@@ -101,6 +162,7 @@ public abstract class AttackManager : MonoBehaviour
             currentCombo = 0;
             if (CheckIfAllTouched())
             {
+                Debug.Log("canUltimate");
                 if (ultimateCoroutine != null)
                 {
                     StopCoroutine(ultimateCoroutine);
@@ -117,8 +179,10 @@ public abstract class AttackManager : MonoBehaviour
     protected virtual IEnumerator ForUltimateComboCoroutine()
     {
         Debug.Log("you success the combo");
+        CanUltimate?.Invoke();
         formSwitcher.CanDoUltimate = true;
         yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);
+        EndForUltimate?.Invoke();
         formSwitcher.CanDoUltimate = false;
     }
 }

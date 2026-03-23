@@ -1,9 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.Serialization;
 
 public class DreamShoot : AttackManager
 {
@@ -17,7 +14,7 @@ public class DreamShoot : AttackManager
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 1f;
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 0.1f;
 
     [SerializeField]
     Transform SpawnPoint;
@@ -41,7 +38,7 @@ public class DreamShoot : AttackManager
     [SerializeField] private int numberOfShotsForFinishCombo;
     [SerializeField] private int numberOfShotsForUltimate;
 
-    private bool CanShoot = false;
+    private bool CanShoot = true;
 
     protected override void OnEnable()
     {
@@ -52,19 +49,26 @@ public class DreamShoot : AttackManager
 
     protected override void OnAttack(InputValue _input)
     {
-        if (!CanShoot) return;
-
-        if (_input.isPressed)
+        base.OnAttack(_input);
+        Vector2 inputValue = _input.Get<Vector2>();
+        if (inputValue.sqrMagnitude > 0)
         {
             PrepareShoot();
             return;
         }
 
+        if (inputValue.sqrMagnitude <= 0 && !CanShoot)
+        {
+            UnprepShoot();
+            return;
+        }
+
+        if (!CanShoot) return;
+
         StartCoroutine(DoShoot());
-        return;
     }
 
-    public void PrepareShoot()
+    private void PrepareShoot()
     {
         lastInputTime = Time.time;
         player.CanMove = false;
@@ -77,6 +81,12 @@ public class DreamShoot : AttackManager
 
         if (AutoAimed != null)
             player.transform.LookAt(AutoAimed.transform, Vector3.up);
+    }
+
+    public void UnprepShoot()
+    {
+        player.CanMove = true;
+        aimCone.SetActive(false);
     }
 
     public System.Collections.IEnumerator DoShoot()
@@ -166,6 +176,7 @@ public class DreamShoot : AttackManager
     {
         player.CanMove = true;
         aimCone.SetActive(false);
+        CanShoot = true;
     }
 
 }

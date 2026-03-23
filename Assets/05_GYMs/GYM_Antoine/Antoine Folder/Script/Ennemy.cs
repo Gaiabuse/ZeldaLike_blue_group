@@ -459,8 +459,8 @@ public class Ennemy : MonoBehaviour
     }
 
     protected void ToogleMainAttack(int toogle)
-    {
+    {/*
         if (toogle == 1) MainHitBox.ToggleHitBox(true);
-        else MainHitBox.ToggleHitBox(false);
+        else MainHitBox.ToggleHitBox(false);*/
     }
 }

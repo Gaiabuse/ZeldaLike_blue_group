@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -40,12 +41,14 @@ public class PlayerController : MonoBehaviour
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
 
-    public bool IsWithBox = false;
-    public bool OnWallWithBox = false;
+    [SerializeField] private LayerMask obstacleLayer; 
+    [HideInInspector]public GameObject Boxes;
+    private Vector3 startPos;
     void Start()
     {
-        IsWithBox = false;
+        Boxes = null;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
+        startPos = transform.position;
         if (cameraRotation == null)
         {
             cameraRotation = Camera.main.transform.parent;
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        
         Movement();
         AlignPlayer();
     }
@@ -71,53 +75,50 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 camRight = cameraRotation.right;
-        Vector3 camForward = cameraRotation.forward;
-        Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
-        Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
-        Vector3 moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
+        Vector3 moveDirection = Vector3.zero;
 
-        if (IsWithBox)
+        if (Boxes != null)
         {
-            switch (side)
+            float inputMagnitude = 0;
+
+            if (side == MovingBox.Side.Front || side == MovingBox.Side.Back)
             {
-                case MovingBox.Side.Left:
-                    moveDirection = new Vector3(moveDirection.x, 0, 0);
-                    if (OnWallWithBox && moveDirection.x > 0) moveDirection.x = 0; 
-                    break;
-
-                case MovingBox.Side.Right:
-                    moveDirection = new Vector3(moveDirection.x, 0, 0);
-                    if (OnWallWithBox && moveDirection.x < 0) moveDirection.x = 0; 
-                    break;
-
-                case MovingBox.Side.Front:
-                    moveDirection = new Vector3(0, 0, moveDirection.z);
-                    if (OnWallWithBox && moveDirection.z < 0) moveDirection.z = 0; 
-                    break;
-
-                case MovingBox.Side.Back:
-                    moveDirection = new Vector3(0, 0, moveDirection.z);
-                    if (OnWallWithBox && moveDirection.z > 0) moveDirection.z = 0; 
-                    break;
+                inputMagnitude = direction.y; 
+                moveDirection = Boxes.transform.forward * inputMagnitude;
+            }
+            else
+            {
+                inputMagnitude = direction.x;
+                moveDirection = Boxes.transform.right * inputMagnitude;
+            }
+            
+            if (inputMagnitude != 0)
+            {
+                if (Physics.Raycast(Boxes.transform.position, moveDirection.normalized, 1.0f, obstacleLayer))
+                {
+                    moveDirection = Vector3.zero;
+                }
             }
         }
-
-        if (CanRotate)
+        else
         {
-            UpdateLookDirection(moveDirection);
+            Vector3 camRight = cameraRotation.right;
+            Vector3 camForward = cameraRotation.forward;
+            Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
+            Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
+            moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
         }
+        
+        if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
 
         if (CanMove)
         {
             var decay = smoothedStickProgress < currentStickProgress ? decayAccel : decayDecel;
             smoothedStickProgress = smoothedStickProgress.expDecay(currentStickProgress, decay, Time.deltaTime);
-
-            controller.Move(moveDirection * Time.deltaTime * speed * smoothedStickProgress);
+            controller.Move(moveDirection * (speed * smoothedStickProgress * Time.deltaTime));
         }
 
         controller.Move(gravity * Time.deltaTime);
-
     }
     void OnMove(InputValue _input)
     {
@@ -144,7 +145,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             Debug.Log("release");
-            OnRelease.Invoke();
+            OnRelease?.Invoke();
         }
     }
 
@@ -153,6 +154,25 @@ public class PlayerController : MonoBehaviour
         cameraFollow.OnLook(_input.Get<Vector2>());
     }
 
+    void OnRespawn(InputValue _input)
+    {
+        StartCoroutine(RespawnCoroutine());
+    }
+
+    IEnumerator RespawnCoroutine()
+    {
+        Debug.Log("respawn");
+        controller.enabled = false;
+        transform.position = startPos;
+        Debug.Log("transform.position : " + transform.position + ", start pos : " + startPos);
+        controller.enabled = true;
+        CanMove = false;
+        CanRotate = false;
+        yield return new WaitForSeconds(1f);
+        Debug.Log("transform.position : " + transform.position + ", start pos : " + startPos);
+        CanMove = true;
+        CanRotate = true;
+    }
     void UpdateLookDirection(Vector3 moveDir)
     {
         Vector3 projectedDirection = Vector3.ProjectOnPlane(moveDir, transform.up);

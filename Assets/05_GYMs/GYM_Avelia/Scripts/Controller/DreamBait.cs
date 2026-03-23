@@ -38,7 +38,6 @@ public class DreamBait : MonoBehaviour
 
     void OnDisable()
     {
-        if (currentBaitInstance!= null) Destroy(currentBaitInstance.gameObject);
         // pop the bait
     }
 }

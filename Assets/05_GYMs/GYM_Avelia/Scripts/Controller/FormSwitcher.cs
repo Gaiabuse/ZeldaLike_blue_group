@@ -19,15 +19,18 @@ public class FormSwitcher : MonoBehaviour
     public float TimeForDoUltimate{private set; get;}
     public bool CanDoUltimate;
 
+    public bool canSwitchForm = true;
     private void Start()
     {
         CanDoUltimate = false;
+        canSwitchForm = true;
         TimeForDoUltimate = timeForDoUltimate;
     }
 
-    private void ChangeForm(Form nextForm)
+    public void ChangeForm(Form nextForm)
     {
 
+        if(currentForm == nextForm)return;
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
@@ -64,49 +67,51 @@ public class FormSwitcher : MonoBehaviour
         }
 
         currentForm = nextForm;
+        SwitchForm?.Invoke(currentForm);
+        playerController.CanMove = true;
+        playerController.CanRotate = true;
     }
 
-    void OnTransform(InputValue _input)
+    void OnSwitchLeft(InputValue _input)
     {
-        if (manaGauge.NeedRecharge) return;
-        if (currentForm == Form.neutral)
+        if (manaGauge.NeedRecharge || !canSwitchForm) return;
+        switch (currentForm)
         {
-            lastForm = currentForm;
-            ChangeForm(Form.dream);
-            SwitchForm?.Invoke(currentForm);
-            return;
+            case Form.neutral:
+                ChangeForm(Form.dream);
+                break;
+            case Form.dream:
+                ChangeForm(Form.nightmare);
+                break;
+            case Form.nightmare:
+                ChangeForm(Form.neutral);
+                break;
         }
-        lastForm = currentForm;
-        ChangeForm(Form.neutral);
-        SwitchForm?.Invoke(currentForm);
+        
     }
 
     public void ForcedTransform()
     {
         lastForm = currentForm;
         ChangeForm(Form.neutral);
-        SwitchForm?.Invoke(currentForm);
     }
-    void OnSwitch(InputValue _input)
+    void OnSwitchRight(InputValue _input)
     {
-        if (manaGauge.NeedRecharge) return;
+        if (manaGauge.NeedRecharge || !canSwitchForm) return;
 
         switch (currentForm)
         {
-            case Form.dream:
-                ChangeForm(Form.nightmare);
-                SwitchForm?.Invoke(currentForm);
-                return;
-            case Form.nightmare:
-                ChangeForm(Form.dream);
-                SwitchForm?.Invoke(currentForm);
-                return;
             case Form.neutral:
                 ChangeForm(Form.nightmare);
-                SwitchForm?.Invoke(currentForm);
-                return;
+                break;
+            case Form.dream:
+                ChangeForm(Form.neutral);
+                break;
+            case Form.nightmare:
+                ChangeForm(Form.dream);
+                break;
         }
-
+        SwitchForm?.Invoke(currentForm);
     }
 }
 
