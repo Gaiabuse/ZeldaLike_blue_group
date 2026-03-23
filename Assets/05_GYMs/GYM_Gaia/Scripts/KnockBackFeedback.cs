@@ -6,18 +6,11 @@ using UnityEngine.Events;
 public class KnockBackFeedback : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private float knockBackForce = 5f, delay = 0.15f;
+    [SerializeField] private float knockBackForce = 1f, delay = 0.15f;
     
 
     private Coroutine resetCoroutine;
     
-    public void PlayKnockBack(GameObject sender)
-    {
-        StopAllCoroutines();
-        Vector2 direction = (transform.position - sender.transform.position).normalized;
-        rb.AddForce(direction * knockBackForce, ForceMode.Impulse);
-        resetCoroutine = StartCoroutine(Reset());
-    }
 
     public void PlayKnockBack(Transform sender, float strength)
     {
@@ -33,7 +26,7 @@ public class KnockBackFeedback : MonoBehaviour
         
         rb.linearVelocity = Vector3.zero;
 
-        rb.AddForce(direction * strength, ForceMode.Impulse);
+        rb.AddForce(direction * strength * knockBackForce, ForceMode.Impulse);
         resetCoroutine = StartCoroutine(Reset());
     }
     private IEnumerator Reset()
