@@ -15,7 +15,7 @@ public class CameraFollow : MonoBehaviour
     }
     void LateUpdate()
     {
-        transform.parent.position = target.position;
+        if (target != null) transform.parent.position = target.position;
 
         horizontalRotation += lookInput.x * sensitivity;
 
