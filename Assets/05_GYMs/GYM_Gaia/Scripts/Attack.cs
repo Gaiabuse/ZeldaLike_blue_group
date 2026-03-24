@@ -96,8 +96,8 @@ public class Attack : MonoBehaviour
 
             if (knockBackFeedback != null)
             {
-                Debug.Log(transform.parent.name);
-                knockBackFeedback.PlayKnockBack(transform.parent, knockbackStrength);
+                knockBackFeedback.PlayKnockBack(transform.parent != null ? transform.parent : transform,
+                    knockbackStrength);
             }
         }
     }

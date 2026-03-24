@@ -63,6 +63,7 @@ public abstract class AttackManager : MonoBehaviour
                     break;
             }
         }
+        
     }
 
     private inputValueDirection ReturnDirection(Vector2 _input)
