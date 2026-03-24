@@ -22,12 +22,14 @@ public class Attack : MonoBehaviour
     public Action<bool> Finished;
     private bool touchedEnemy;
 
+    private float knockbackStrength;
     public void SetAttack(AttackData data, TypeOfAttack type, ManaGauge manaGauge)
     {
         this.type = type;
         this.damage = data.damage;
         manaUsed = data.mana;
         this.manaGauge = manaGauge;
+        knockbackStrength = data.knockBackStrength;
     }
     public void SetAttack(float pDamage, AttackData data, TypeOfAttack type, ManaGauge manaGauge)
     {
@@ -74,6 +76,7 @@ public class Attack : MonoBehaviour
 
             SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
 
+            KnockBackFeedback knockBackFeedback = collision.GetComponent<KnockBackFeedback>();
             touchedEnemy = true;
             if (isSheep != null)
             {
@@ -89,6 +92,12 @@ public class Attack : MonoBehaviour
             else
             {
                 if (HitSpark != null) SpawnSpark(HitSpark);
+            }
+
+            if (knockBackFeedback != null)
+            {
+                Debug.Log(transform.parent.name);
+                knockBackFeedback.PlayKnockBack(transform.parent, knockbackStrength);
             }
         }
     }
