@@ -129,25 +129,7 @@ public class PlayerController : MonoBehaviour
 
         direction = ldirection.normalized;
     }
-
-    void OnInteraction(InputValue _input)
-    {
-        //OnInteract?.Invoke();
-    }
-
-    void OnCatchOrRelease(InputValue _input)
-    {
-        if (_input.isPressed)
-        {
-            Debug.Log("catch");
-            OnCatch?.Invoke();
-        }
-        else
-        {
-            Debug.Log("release");
-            OnRelease?.Invoke();
-        }
-    }
+    
 
     void OnLook(InputValue _input)
     {

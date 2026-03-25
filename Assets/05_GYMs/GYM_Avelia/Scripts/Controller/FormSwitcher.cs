@@ -10,7 +10,6 @@ public class FormSwitcher : MonoBehaviour
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action<Form> SwitchForm;
     private Form lastForm = Form.neutral;
-    [SerializeField] private ManaGauge manaGauge;
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
@@ -71,47 +70,12 @@ public class FormSwitcher : MonoBehaviour
         playerController.CanMove = true;
         playerController.CanRotate = true;
     }
-
-    void OnSwitchLeft(InputValue _input)
-    {
-        if (manaGauge.NeedRecharge || !canSwitchForm) return;
-        switch (currentForm)
-        {
-            case Form.neutral:
-                ChangeForm(Form.dream);
-                break;
-            case Form.dream:
-                ChangeForm(Form.nightmare);
-                break;
-            case Form.nightmare:
-                ChangeForm(Form.neutral);
-                break;
-        }
-        
-    }
+    
 
     public void ForcedTransform()
     {
         lastForm = currentForm;
         ChangeForm(Form.neutral);
-    }
-    void OnSwitchRight(InputValue _input)
-    {
-        if (manaGauge.NeedRecharge || !canSwitchForm) return;
-
-        switch (currentForm)
-        {
-            case Form.neutral:
-                ChangeForm(Form.nightmare);
-                break;
-            case Form.dream:
-                ChangeForm(Form.neutral);
-                break;
-            case Form.nightmare:
-                ChangeForm(Form.dream);
-                break;
-        }
-        SwitchForm?.Invoke(currentForm);
     }
 }
 

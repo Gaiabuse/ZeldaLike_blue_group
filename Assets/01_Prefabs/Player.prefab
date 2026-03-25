@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2977839031425142915}
-  m_LocalRotation: {x: 0.16238387, y: -0.34891716, z: 0.061523475, w: 0.9209252}
+  m_LocalRotation: {x: -0.17364809, y: -0, z: 0, w: 0.9848078}
   m_LocalPosition: {x: 0, y: 0, z: -25.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -146,8 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bae4dfff873fb789599c00b232d14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
-  manaGauge: {fileID: 8821143803085910139}
-  timeForDoCombo: 2
+  timeForDoCombo: 5
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 5
   formSwitcher: {fileID: 475458454912018690}
@@ -346,7 +345,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.93725497, g: 0.48235297, b: 0.40784317, a: 1}
+  m_Color: {r: 0.99371064, g: 0.36815667, b: 0.25936466, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -369,7 +368,6 @@ GameObject:
   - component: {fileID: 8015218632366079429}
   - component: {fileID: 8990539340992171462}
   - component: {fileID: 4485196043092998046}
-  - component: {fileID: 8821143803085910139}
   - component: {fileID: 2672575590059249965}
   m_Layer: 9
   m_Name: Player
@@ -441,7 +439,6 @@ MonoBehaviour:
   neutralFormObject: {fileID: 8495912245519105219}
   dreamFormObject: {fileID: 3325453322797383309}
   nightmareFormObject: {fileID: 7780061593918026694}
-  manaGauge: {fileID: 8821143803085910139}
   FormAttackManagers:
   - {fileID: 966973642768248133}
   - {fileID: 999091161340526415}
@@ -548,25 +545,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8821143803085910139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4132325966550006197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a7e87990f793eb4f8455d3e4341dda9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  maxMana: 100
-  manaSlider: {fileID: 0}
-  speedRecharge: 15
-  speedDecrease: 3
-  formSwitcher: {fileID: 475458454912018690}
-  numberOfDivision: 3
-  pourcentageForCanSwitch: 25
 --- !u!143 &2672575590059249965
 CharacterController:
   m_ObjectHideFlags: 0
@@ -804,7 +782,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.64705884, g: 0.9215687, b: 0.8078432, a: 1}
+  m_Color: {r: 0.5058824, g: 0.9215687, b: 0.8078432, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1002,7 +980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54f96836c9944cc8375530f0beb2727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NightmareAttackManager
-  manaGauge: {fileID: 8821143803085910139}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
@@ -1075,7 +1052,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2279037332940745537}
-  - component: {fileID: 7655621285920013279}
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
@@ -1102,20 +1078,6 @@ Transform:
   - {fileID: 3711956616269674796}
   m_Father: {fileID: 1033709999584693957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7655621285920013279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8495912245519105219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e0407bb06debbe2f8f607dd750586b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  ManaToGain: 5
-  numberOfSecondBetweenTicks: 1
 --- !u!114 &5060730504946467261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1131,7 +1093,7 @@ MonoBehaviour:
   ErasedLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  manaGauge: {fileID: 8821143803085910139}
+  maxPointsForCreate: 0
 --- !u!65 &223095147346892054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1165,7 +1127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fb9a0ae76630a34ca57a112efb7a135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NeutralAttackManager
-  manaGauge: {fileID: 8821143803085910139}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
@@ -1380,7 +1341,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.9921569, g: 0.8078432, b: 0.43137258, a: 1}
+  m_Color: {r: 0.9921569, g: 0.8078432, b: 0.28627452, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

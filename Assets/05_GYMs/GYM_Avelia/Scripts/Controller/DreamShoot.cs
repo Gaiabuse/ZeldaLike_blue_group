@@ -5,12 +5,14 @@ using System;
 public class DreamShoot : AttackManager
 {
     [SerializeField]
+    [Tooltip("prefab of the attack")]
     Projectile attack;
 
     [SerializeField]
     PlayerController controller;
 
     [SerializeField]
+    [Tooltip("Visual for see aim (in prefab)")]
     GameObject aimCone;
 
     [SerializeField]
@@ -51,6 +53,19 @@ public class DreamShoot : AttackManager
     {
         base.OnAttack(_input);
         Vector2 inputValue = _input.Get<Vector2>();
+        Debug.Log(switchInProgress);
+        if (inputValue.sqrMagnitude <= 0 && switchInProgress)
+        {
+            if (finishSwitchCoroutine != null)
+            {
+                StopCoroutine(finishSwitchCoroutine);
+            }
+            finishSwitchCoroutine = StartCoroutine(FinishSwitch());
+        }
+        if (switchInProgress)
+        {
+            return;
+        }
         if (inputValue.sqrMagnitude > 0)
         {
             PrepareShoot();
@@ -65,6 +80,7 @@ public class DreamShoot : AttackManager
 
         if (!CanShoot) return;
 
+        switchInProgress = false;
         StartCoroutine(DoShoot());
     }
 
@@ -128,7 +144,7 @@ public class DreamShoot : AttackManager
         Projectile lAttack = Instantiate<Projectile>(attack);
 
         Attack attackPrefab = lAttack.GetComponent<Attack>();
-        attackPrefab.SetAttack(attackPower, data, type, manaGauge);
+        attackPrefab.SetAttack(attackPower, data, type);
 
         currentAttack = attackPrefab;
         currentAttack.Finished += AttackIsFinished;
@@ -159,7 +175,7 @@ public class DreamShoot : AttackManager
 
         Attack attackPrefab = lAttack.GetComponent<Attack>();
 
-        attackPrefab.SetAttack(attackPower, data, type, manaGauge);
+        attackPrefab.SetAttack(attackPower, data, type);
         currentAttack = attackPrefab;
         currentAttack.Finished += AttackIsFinished;
 

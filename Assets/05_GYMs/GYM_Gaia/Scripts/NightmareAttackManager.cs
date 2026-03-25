@@ -28,6 +28,20 @@ public class NightmareAttackManager : AttackManager
     {
         base.OnAttack(_input);
         Vector2 inputValue = _input.Get<Vector2>();
+        Debug.Log(switchInProgress);
+        if (inputValue.sqrMagnitude <= 0 && switchInProgress)
+        {
+            if (finishSwitchCoroutine != null)
+            {
+                StopCoroutine(finishSwitchCoroutine);
+            }
+            finishSwitchCoroutine = StartCoroutine(FinishSwitch());
+        }
+        if (switchInProgress)
+        {
+            return;
+        }
+        
         if (inputValue.sqrMagnitude <= 0)
         {
             player.CanMove = false;
@@ -39,6 +53,7 @@ public class NightmareAttackManager : AttackManager
                 return;
             }
             Attack(comboAttacks[currentCombo]);
+            switchInProgress = false;
         }
     }
 
