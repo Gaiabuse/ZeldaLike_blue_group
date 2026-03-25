@@ -57,7 +57,7 @@ public class Ennemy : MonoBehaviour
     [SerializeField] Color colorMotionless;
     [SerializeField] Vector2 eyeColorIntensity;
 
-    bool TargetInFieldOfView;
+    [SerializeField] bool TargetInFieldOfView;
 
 
     [Header("Patrol Route")]
@@ -96,6 +96,9 @@ public class Ennemy : MonoBehaviour
         hitValueDisplay.text = "";
         hitValueDisplay.transform.localScale = Vector3.zero;
         EyesSetColorTo(colorNormal);
+
+        if (LookRange < 2) LookRange = 2;
+        if (DistanceAlwaysSeeEnnemy > LookRange) DistanceAlwaysSeeEnnemy = LookRange;
     }
 
     protected virtual void FixedUpdate()
@@ -126,9 +129,12 @@ public class Ennemy : MonoBehaviour
 
         if (move == "chase")
         {
-            navMesh.destination = WhereToGoPos;
+            if (TargetInFieldOfView)
+            {
+                navMesh.destination = WhereToGoPos;
 
-            AttackPatern();
+                AttackPatern();
+            }
         }
         else if (move == "lose chase")
         {
@@ -323,13 +329,10 @@ public class Ennemy : MonoBehaviour
                 {
                     TargetInFieldOfView = true;
                     CurrentTarget = Player;
-                    return;
                 }
-                else
-                {
-                    TargetInFieldOfView = false;
-                    return;
-                }
+                else TargetInFieldOfView = false;
+
+                return;
             }
         }
 
@@ -420,12 +423,12 @@ public class Ennemy : MonoBehaviour
     {
         timerGeneral = timer;
         move = "sleep";
-        navMesh.isStopped = true;
 
         if (animator != null)
         {
             EyesSetColorTo(Color.black);
             animator.SetBool("Sleep", true);
+            navMesh.isStopped = true;
         }
     }
 
@@ -444,12 +447,19 @@ public class Ennemy : MonoBehaviour
         }
         else
         {
-            Vector3 anglePose1 = Target.position - LockOn.position;
-            Vector3 anglePose2 = LockOn.position + (LockOn.forward * 0.5f) - LockOn.position;
-
-            if (Vector3.Angle(anglePose1, anglePose2) < RadiusLook)
+            if (Vector3.Distance(Target.position, transform.position) <= LookRange)
             {
-                return true;
+                Vector3 anglePose1 = Target.position - LockOn.position;
+                Vector3 anglePose2 = LockOn.position + (LockOn.forward * 0.5f) - LockOn.position;
+
+                if (Vector3.Angle(anglePose1, anglePose2) < RadiusLook)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
