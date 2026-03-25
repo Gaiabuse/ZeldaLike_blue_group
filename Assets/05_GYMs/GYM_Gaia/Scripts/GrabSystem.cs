@@ -20,6 +20,7 @@ public class GrabSystem : MonoBehaviour
     private GameObject throwMark;
 
     private GameObject currentGrabbedObject;
+
     private bool CanThrow = true, IsThrowing = false;
 
     void Start()
@@ -33,11 +34,12 @@ public class GrabSystem : MonoBehaviour
 
         if (currentGrabbedObject == null)
         {
+            print($"{_input.isPressed} grab");
             ProcessGrab(_input);
             return;
         }
 
-        ProcessGrab(_input);
+        ProcessThrow(_input);
     }
 
     private void ProcessThrow(InputValue _input)
@@ -59,6 +61,7 @@ public class GrabSystem : MonoBehaviour
         {
             ShowGrabPrediction();
             player.CanMove = false;
+            return;
         }
 
         Grab();
@@ -164,5 +167,6 @@ public class GrabSystem : MonoBehaviour
     {
         IsThrowing = false;
         throwMark.SetActive(false);
+        player.CanMove = true;
     }
 }
