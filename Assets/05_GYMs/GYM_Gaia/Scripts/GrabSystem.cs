@@ -23,9 +23,37 @@ public class GrabSystem : MonoBehaviour
 
     private bool CanThrow = true, IsThrowing = false;
 
+    enum GrabbingState
+    {
+        None,
+        ShowGrabPred,
+        ShowThrowPred,
+        TimerLimitThrow,
+    }
+
+    private GrabbingState grabbingState;
+
     void Start()
     {
         throwMark.transform.localPosition = Vector3.forward * throwDistance;
+    }
+
+    void Update()
+    {
+        switch (grabbingState)
+        {
+            case GrabbingState.None:
+                break;
+            case GrabbingState.ShowGrabPred:
+                break;
+            case GrabbingState.ShowThrowPred:
+                ShowGrabPredictionUpdate();
+                break;
+            case GrabbingState.TimerLimitThrow:
+                throw new System.NotImplementedException($"{nameof(Update)} {nameof(GrabSystem)} not finished to be implemented");
+
+        }
+
     }
 
     void OnSecondPower(InputValue _input)
@@ -103,11 +131,20 @@ public class GrabSystem : MonoBehaviour
     private void ShowThrowPrediction()
     {
         throwMark.SetActive(true);
+        grabbingState = GrabbingState.ShowThrowPred;
     }
 
     private void ShowGrabPrediction()
     {
-        // here
+        grabbingState = GrabbingState.ShowGrabPred;
+    }
+
+    private void ShowGrabPredictionUpdate()
+    {
+        Vector3 downPosition = transform.position - downValue;
+        if (Physics.Raycast(downPosition, transform.forward, out RaycastHit hitSwallow, rangeForSwallow, grabLayers))
+        {
+        }
     }
 
     private void Grab()
