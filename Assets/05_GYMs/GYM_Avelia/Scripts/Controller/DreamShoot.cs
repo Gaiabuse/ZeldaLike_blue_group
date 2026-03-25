@@ -52,9 +52,8 @@ public class DreamShoot : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        Vector2 inputValue = _input.Get<Vector2>();
         Debug.Log(switchInProgress);
-        if (inputValue.sqrMagnitude <= 0 && switchInProgress)
+        if (!_input.isPressed&& switchInProgress)
         {
             if (finishSwitchCoroutine != null)
             {
@@ -66,13 +65,13 @@ public class DreamShoot : AttackManager
         {
             return;
         }
-        if (inputValue.sqrMagnitude > 0)
+        if (_input.isPressed)
         {
             PrepareShoot();
             return;
         }
 
-        if (inputValue.sqrMagnitude <= 0 && !CanShoot)
+        if (!_input.isPressed && !CanShoot)
         {
             UnprepShoot();
             return;

@@ -27,9 +27,8 @@ public class NightmareAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        Vector2 inputValue = _input.Get<Vector2>();
         Debug.Log(switchInProgress);
-        if (inputValue.sqrMagnitude <= 0 && switchInProgress)
+        if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
             {
@@ -42,7 +41,7 @@ public class NightmareAttackManager : AttackManager
             return;
         }
         
-        if (inputValue.sqrMagnitude <= 0)
+        if (!_input.isPressed)
         {
             player.CanMove = false;
             player.CanRotate = false;

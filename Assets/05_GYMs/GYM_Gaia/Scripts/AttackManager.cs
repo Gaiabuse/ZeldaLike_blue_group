@@ -47,64 +47,44 @@ public abstract class AttackManager : MonoBehaviour
     }
     protected virtual void OnAttack(InputValue _input)
     {
-
-        Vector2 inputValue = _input.Get<Vector2>();
-
-        if (inputValue.sqrMagnitude >= 0)
+        if (_input.isPressed)
         {
-            HandleDirectionalInput(inputValue);
+            var action = player.playerInput.actions["Attack"];
+        
+            if (action.activeControl != null)
+            {
+                string direction = action.activeControl.name; 
+                
+                HandleDirectionalInput(direction);
+            }
         }
+       
     }
     
-    private void HandleDirectionalInput(Vector2 value)
+    private void HandleDirectionalInput(string direction)
     {
-        inputValueDirection direction = ReturnDirection(value);
         switch (direction)
         {
-            case inputValueDirection.up:
+            case "buttonNorth":
                 if (formSwitcher.currentForm != Form.neutral)
                 {
                     formSwitcher.ChangeForm(Form.neutral);
                 }
                 break;
-            case inputValueDirection.right:
+            case "buttonEast" :
                 if (formSwitcher.currentForm != Form.nightmare)
                 {
                     formSwitcher.ChangeForm(Form.nightmare);
                 }
                 
                 break;
-            case inputValueDirection.left:
+            case "buttonWest":
                 if (formSwitcher.currentForm != Form.dream)
                 {
                     formSwitcher.ChangeForm(Form.dream);
                 }
                 break;
         }
-    }
-
-    private inputValueDirection ReturnDirection(Vector2 _input)
-    {
-        if (_input == Vector2.left)
-        {
-            return inputValueDirection.left;
-        }
-
-        if (_input == Vector2.right)
-        {
-            return inputValueDirection.right;
-        }
-
-        if (_input == Vector2.up)
-        {
-            return inputValueDirection.up;
-        }
-
-        if (_input == Vector2.down)
-        {
-            return inputValueDirection.down;
-        }
-        return inputValueDirection.none;
     }
     void OnChargedAttack(InputValue _input)
     {
