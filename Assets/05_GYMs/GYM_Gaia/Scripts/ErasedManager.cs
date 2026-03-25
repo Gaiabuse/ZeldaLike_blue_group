@@ -5,11 +5,13 @@ using UnityEngine.Serialization;
 
 public class ErasedManager : MonoBehaviour
 {
+    [Tooltip("LayerMax of objects we can Erased and create")]
     [SerializeField] private LayerMask ErasedLayerMask;
-    [SerializeField] private ManaGauge manaGauge;
-
+    [Tooltip("The number of object we can create at the same time.")]
+    [SerializeField] private int maxPointsForCreate;
     private ErasedObject currentObject;
-    private void OnTriggerStay(Collider other)
+    private int currentPointsForCreate;
+    private void OnTriggerEnter(Collider other)
     {
         int otherObjectLayerMask = 1 << other.gameObject.layer;
         if ((ErasedLayerMask.value & otherObjectLayerMask) != 0)
@@ -18,8 +20,12 @@ public class ErasedManager : MonoBehaviour
             if (currentObject == null)
             {
                 currentObject = other.GetComponent<ErasedObject>();
+                return;
             }
-            
+            if (currentObject.gameObject != other.gameObject)
+            {
+                currentObject = other.GetComponent<ErasedObject>();
+            }
         }
     }
 
@@ -35,24 +41,26 @@ public class ErasedManager : MonoBehaviour
         }
        
     }
-
-    public void OnDash(InputValue inputValue)
-    {
-        if (currentObject)
-        {
-            if (currentObject.Erased == false) return;
-            currentObject.Create();
-            manaGauge.DecreaseDivision();
-        }
-    }
+    
 
     public void OnSecondPower(InputValue inputValue)
     {
+        EraseOrCreate();
+    }
+
+    private void EraseOrCreate()
+    {
         if (currentObject)
         {
-            if (currentObject.Erased) return;
-            currentObject.Erase();
-            manaGauge.IncreaseDivision();
+            if (currentObject.Erased&& currentPointsForCreate > 0)
+            {
+                currentObject.Create();
+                currentPointsForCreate--;
+            }else if (currentPointsForCreate < maxPointsForCreate)
+            {
+                currentObject.Erase();
+                currentPointsForCreate++;
+            }
         }
     }
  

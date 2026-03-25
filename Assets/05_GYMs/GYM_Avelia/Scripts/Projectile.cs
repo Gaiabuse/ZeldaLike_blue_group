@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
 
     [SerializeField] private Attack projectileAttack;
     [SerializeField] private LayerMask layerMask;
+    
     void Update()
     {
         transform.transform.position += speed *Time.deltaTime;

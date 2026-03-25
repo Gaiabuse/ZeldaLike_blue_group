@@ -13,7 +13,6 @@ public class Attack : MonoBehaviour
         Nightmare,
         Dream
     }
-    private ManaGauge manaGauge;
 
     public float manaUsed { private set; get; }
     public float damage{private set; get;}
@@ -23,20 +22,18 @@ public class Attack : MonoBehaviour
     private bool touchedEnemy;
 
     private float knockbackStrength;
-    public void SetAttack(AttackData data, TypeOfAttack type, ManaGauge manaGauge)
+    public void SetAttack(AttackData data, TypeOfAttack type)
     {
         this.type = type;
         this.damage = data.damage;
         manaUsed = data.mana;
-        this.manaGauge = manaGauge;
         knockbackStrength = data.knockBackStrength;
     }
-    public void SetAttack(float pDamage, AttackData data, TypeOfAttack type, ManaGauge manaGauge)
+    public void SetAttack(float pDamage, AttackData data, TypeOfAttack type)
     {
         this.type = type;
         this.damage = pDamage;
         manaUsed = data.mana;
-        this.manaGauge = manaGauge;
     }
 
     private void Start()
@@ -46,22 +43,12 @@ public class Attack : MonoBehaviour
     
     private void StartAttack()
     {
-        if (type is not TypeOfAttack.Basic)
-        {
-            manaGauge.AddMana(-manaUsed);
-        }
         this.damage = damage;
     }
     
     public void FinishAttack()
     {
-        if (touchedEnemy)
-        {
-            if (type == TypeOfAttack.Basic)
-            {
-                manaGauge.AddMana(manaUsed);
-            }
-        }
+       
         Finished?.Invoke(touchedEnemy);
         Destroy(gameObject);
     }
@@ -96,8 +83,8 @@ public class Attack : MonoBehaviour
 
             if (knockBackFeedback != null)
             {
-                Debug.Log(transform.parent.name);
-                knockBackFeedback.PlayKnockBack(transform.parent, knockbackStrength);
+                knockBackFeedback.PlayKnockBack(transform.parent != null ? transform.parent : transform,
+                    knockbackStrength);
             }
         }
     }
