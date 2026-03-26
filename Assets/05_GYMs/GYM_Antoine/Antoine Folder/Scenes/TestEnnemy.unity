@@ -967,7 +967,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &521998980
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1864,7 +1864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &1432558552
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1952,7 +1952,7 @@ Transform:
   m_GameObject: {fileID: 1432558551}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 4, z: 5}
+  m_LocalPosition: {x: 10, y: 5, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2003,7 +2003,7 @@ MonoBehaviour:
   colorNormal: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   colorChase: {r: 1, g: 0, b: 0, a: 1}
   colorMotionless: {r: 0, g: 0, b: 0, a: 0}
-  eyeColorIntensity: {x: 5, y: 10}
+  eyeColorIntensity: {x: 3, y: 5}
   TargetInFieldOfView: 0
   PatrolPosition: []
   hitValueDisplay: {fileID: 997822343}
@@ -2020,7 +2020,7 @@ Animator:
   m_GameObject: {fileID: 1432558551}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a1e58efed6913424a8ac1857f711114e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
