@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2977839031425142915}
-  m_LocalRotation: {x: -0.17364809, y: -0, z: 0, w: 0.9848078}
+  m_LocalRotation: {x: 0.16238387, y: -0.34891716, z: 0.061523475, w: 0.9209252}
   m_LocalPosition: {x: 0, y: 0, z: -25.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -154,11 +154,11 @@ MonoBehaviour:
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
   controller: {fileID: 8133830779634646023}
   aimCone: {fileID: 8549774408609409626}
-  ProjectileSpeed: 40
-  autoAimTime: 0.3
-  autoAimRadius: 10
+  ProjectileSpeed: 60.3
+  autoAimTime: 0.33
+  autoAimRadius: 7.34
   offset: 0.2
-  coolDown: 0.75
+  coolDown: 0.1
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -204,7 +204,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxChargedTime: 5
+  MaxChargedTime: 2
   minAttack: 1
   maxAttack: 10
   numberOfShotsForFinishCombo: 5
@@ -224,7 +224,7 @@ MonoBehaviour:
   controller: {fileID: 8133830779634646023}
   characterController: {fileID: 2672575590059249965}
   DashDurationSeconds: 0.2
-  DashLength: 4
+  DashLength: 7
   DashCoolDownSeconds: 0.4
   DashProggression:
     serializedVersion: 2
@@ -408,8 +408,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb5cfb54ccd12235ad032ab29f2eb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  playerInput: {fileID: 0}
   controller: {fileID: 2672575590059249965}
-  speed: 8
+  speed: 10
   rotationSpeed: 8
   gravity: {x: 0, y: -10, z: 0}
   decayAccel: 5
@@ -1040,7 +1041,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2564409545134392940
 Transform:
   m_ObjectHideFlags: 0
@@ -1073,15 +1074,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 8133830779634646023}
-  rangeForGrab: 7
-  grabStrength: -15
-  rangeForSwallow: 1
+  rangeForGrab: 10
+  grabStrength: -10.2
+  rangeForSwallow: 2
   grabLayers:
     serializedVersion: 2
     m_Bits: 3200
   downValue: {x: 0, y: 0.5, z: 0}
-  throwDistance: 3
+  throwDistance: 4
   throwDuration: 0
+  AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
 --- !u!114 &8600280016486079122
@@ -1133,7 +1135,7 @@ MonoBehaviour:
   controller: {fileID: 8133830779634646023}
   characterController: {fileID: 2672575590059249965}
   DashDurationSeconds: 0.2
-  DashLength: 4
+  DashLength: 7
   DashCoolDownSeconds: 0.4
   DashProggression:
     serializedVersion: 2
@@ -1250,6 +1252,10 @@ MonoBehaviour:
   CanAttack: 0
   comboAttacks:
   - AttackData: {fileID: 11400000, guid: 530b8dcfcef250c4c9ca67080001881d, type: 2}
+    type: 0
+  - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
+    type: 0
+  - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
     type: 0
   - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
     type: 0

@@ -893,9 +893,10 @@ MonoBehaviour:
   AttackTrigger: {fileID: 5825918911866091981}
   Neck: {fileID: 5825918911866091981}
   move: patrol
-  DistanceAlwaysSeeEnnemy: 3
+  DistanceAlwaysSeeEnnemy: 4
+  timerGeneral: 0
   LockOn: {fileID: 363813607327498702}
-  LookRange: 5
+  LookRange: 7
   RadiusLook: 75
   LayerBlockRay:
     serializedVersion: 2
@@ -912,12 +913,14 @@ MonoBehaviour:
   colorChase: {r: 1, g: 0, b: 0, a: 1}
   colorMotionless: {r: 0, g: 0, b: 0, a: 0}
   eyeColorIntensity: {x: 10, y: 20}
+  TargetInFieldOfView: 0
   PatrolPosition:
   - {x: 14, y: 1.17, z: 7}
   - {x: -2.5, y: 1.17, z: 7}
   hitValueDisplay: {fileID: 388783653064065937}
   durationDelay: 0.2
   durationDotween: 0.5
+  MainHitBox: {fileID: 0}
 --- !u!114 &1347343894693860761
 MonoBehaviour:
   m_ObjectHideFlags: 0

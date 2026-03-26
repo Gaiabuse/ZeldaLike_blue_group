@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8382039775321904187}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LockOn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 6776960092421116519}
   - component: {fileID: 4509620371513936658}
   - component: {fileID: 110377606970218725}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7137252754749643937}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GoTo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 7875645604592144889}
   - component: {fileID: 7974183013439455216}
   - component: {fileID: 1203972048398212804}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 4094209010837452123}
   - component: {fileID: 4135279416046140632}
   - component: {fileID: 1469359885668911485}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 8287450910153545238}
   - component: {fileID: 6052510108081092417}
   - component: {fileID: 5422770991773000228}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EyeRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,7 +470,7 @@ GameObject:
   - component: {fileID: 7840079140651149866}
   - component: {fileID: 7941151834502438601}
   - component: {fileID: 4173145808307005062}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Armor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -608,7 +608,7 @@ GameObject:
   - component: {fileID: 639821094442656044}
   - component: {fileID: 8061012142376371722}
   - component: {fileID: 2079055886811156454}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 6385746110310543336}
   - component: {fileID: 8072098264572360671}
   - component: {fileID: 4503629660183771207}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EyeLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -840,9 +840,9 @@ GameObject:
   - component: {fileID: 1580059348958034357}
   - component: {fileID: 6364837381328308730}
   - component: {fileID: 1464004040213815050}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sheep Ennemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1011,6 +1011,7 @@ MonoBehaviour:
   Neck: {fileID: 2253334167926640595}
   move: patrol
   DistanceAlwaysSeeEnnemy: 3
+  timerGeneral: 0
   LockOn: {fileID: 8382039775321904187}
   LookRange: 7
   RadiusLook: 40
@@ -1029,12 +1030,14 @@ MonoBehaviour:
   colorChase: {r: 1, g: 0, b: 0, a: 1}
   colorMotionless: {r: 0, g: 0, b: 0, a: 0}
   eyeColorIntensity: {x: 10, y: 20}
+  TargetInFieldOfView: 0
   PatrolPosition:
   - {x: 12, y: 0.65, z: -10}
   - {x: -12, y: 0.65, z: -10}
   hitValueDisplay: {fileID: 2079055886811156454}
   durationDelay: 0.2
   durationDotween: 0.5
+  MainHitBox: {fileID: 0}
   Shell: {fileID: 5977815348077399321}
   shellHere: 1
 --- !u!114 &1464004040213815050
