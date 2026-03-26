@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnnemyFlying : MonoBehaviour
+public class EnnemyFlying : Ennemy
 {
     
 }
