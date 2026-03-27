@@ -36,7 +36,7 @@ public class Ennemy : MonoBehaviour
 
     [Header("Raycast")]
     [SerializeField] Transform LockOn;
-    [SerializeField] int LookRange = 7;
+    [SerializeField] protected int LookRange = 7;
     [SerializeField] int RadiusLook = 45;
 
     [Header("Layer")]
