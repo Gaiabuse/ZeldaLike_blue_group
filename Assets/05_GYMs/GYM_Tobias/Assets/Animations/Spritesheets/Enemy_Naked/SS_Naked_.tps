@@ -353,168 +353,168 @@
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_E</filename>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_SE</filename>
                 </array>
             </struct>
             <key>Attack_N</key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_N</filename>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_NE</filename>
                 </array>
             </struct>
-            <key>Attack_NW</key>
+            <key>Attack_NE</key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_NW</filename>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_E</filename>
+                </array>
+            </struct>
+            <key>Attack_NW </key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_N</filename>
                 </array>
             </struct>
             <key>Attack_S</key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_S</filename>
-                </array>
-            </struct>
-            <key>Attack_SE</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_SE</filename>
-                </array>
-            </struct>
-            <key>Attack_SW</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_SW</filename>
                 </array>
             </struct>
-            <key>Attack_W</key>
+            <key>Attack_SE </key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_S</filename>
+                </array>
+            </struct>
+            <key>Attack_SW </key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_W</filename>
                 </array>
             </struct>
+            <key>Attack_W </key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_NW</filename>
+                </array>
+            </struct>
             <key>Idle_E</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_E</filename>
-                </array>
-            </struct>
-            <key>Idle_N</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_N</filename>
-                </array>
-            </struct>
-            <key>Idle_NE</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_NE</filename>
-                </array>
-            </struct>
-            <key>Idle_NW</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_NW</filename>
-                </array>
-            </struct>
-            <key>Idle_S</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_S</filename>
-                </array>
-            </struct>
-            <key>Idle_SE</key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_SE</filename>
                 </array>
             </struct>
-            <key>Idle_SW</key>
+            <key>Idle_N</key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_NE</filename>
+                </array>
+            </struct>
+            <key>Idle_NE</key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_E</filename>
+                </array>
+            </struct>
+            <key>Idle_NW</key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_N</filename>
+                </array>
+            </struct>
+            <key>Idle_S</key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_SW</filename>
                 </array>
             </struct>
-            <key>Idle_W</key>
+            <key>Idle_SE</key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_S</filename>
+                </array>
+            </struct>
+            <key>Idle_SW</key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_W</filename>
                 </array>
             </struct>
+            <key>Idle_W</key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/EnemyAnimIdle/Naked_Idle_NW</filename>
+                </array>
+            </struct>
             <key>Walk_E</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_E</filename>
-                </array>
-            </struct>
-            <key>Walk_N</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_N</filename>
-                </array>
-            </struct>
-            <key>Walk_NE</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_NE</filename>
-                </array>
-            </struct>
-            <key>Walk_NW</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_NW</filename>
-                </array>
-            </struct>
-            <key>Walk_S</key>
-            <struct type="SpriteSheet">
-                <key>files</key>
-                <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_S</filename>
-                </array>
-            </struct>
-            <key>Walk_SE</key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_SE</filename>
                 </array>
             </struct>
-            <key>Walk_SW</key>
+            <key>Walk_N </key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_NE</filename>
+                </array>
+            </struct>
+            <key>Walk_NE </key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_E</filename>
+                </array>
+            </struct>
+            <key>Walk_NW </key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_N</filename>
+                </array>
+            </struct>
+            <key>Walk_S </key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_SW</filename>
                 </array>
             </struct>
-            <key>Walk_W</key>
+            <key>Walk_SE </key>
+            <struct type="SpriteSheet">
+                <key>files</key>
+                <array>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_S</filename>
+                </array>
+            </struct>
+            <key>Walk_SW </key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
                     <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_W</filename>
                 </array>
             </struct>
-            <key>_Attack_NE</key>
+            <key>Walk_W </key>
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Attack/Naked_Attack_NE</filename>
+                    <filename>../../../../../../../../../School/GA2/ZeldaLike/Enemy_Naked_Walk/Naked_Walk_NW</filename>
                 </array>
             </struct>
         </map>
