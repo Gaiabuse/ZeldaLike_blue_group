@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     public Action OnCatch;
     public Action OnRelease;
-    
+
     public Action Attack;
 
     private float offset = -90f;
@@ -41,8 +41,8 @@ public class PlayerController : MonoBehaviour
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
 
-    [SerializeField] private LayerMask obstacleLayer; 
-    [HideInInspector]public GameObject Boxes;
+    [SerializeField] private LayerMask obstacleLayer;
+    [HideInInspector] public GameObject Boxes;
     private Vector3 startPos;
     void Start()
     {
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+
         Movement();
         AlignPlayer();
     }
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
             if (side == MovingBox.Side.Front || side == MovingBox.Side.Back)
             {
-                inputMagnitude = direction.y; 
+                inputMagnitude = direction.y;
                 moveDirection = Boxes.transform.forward * inputMagnitude;
             }
             else
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
                 inputMagnitude = direction.x;
                 moveDirection = Boxes.transform.right * inputMagnitude;
             }
-            
+
             if (inputMagnitude != 0)
             {
                 if (Physics.Raycast(Boxes.transform.position, moveDirection.normalized, 1.0f, obstacleLayer))
@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
             Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
             moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
         }
-        
+
         if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
 
         if (CanMove)
