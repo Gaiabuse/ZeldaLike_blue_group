@@ -1,7 +1,10 @@
-Shader "Custom/PainterlyCloud"
+﻿Shader "Custom/PainterlyCloudBlend"
 {
     Properties
     {
+        _MainTex ("Base Texture", 2D) = "white" {}
+        _EffectStrength ("Effect Strength", Range(0,1)) = 1
+
         _LightPink ("Light Pink (Highlight)", Color) = (1,0.85,0.9,1)
         _LightOrange ("Light Orange", Color) = (1,0.75,0.55,1)
         _DarkPink ("Dark Pink", Color) = (0.9,0.4,0.6,1)
@@ -29,6 +32,9 @@ Shader "Custom/PainterlyCloud"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+
+            sampler2D _MainTex; 
+            float _EffectStrength; 
 
             float4 _LightPink;
             float4 _LightOrange;
@@ -69,6 +75,8 @@ Shader "Custom/PainterlyCloud"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                float4 baseColor = tex2D(_MainTex, i.uv);
+
                 float3 normal = normalize(i.worldNormal);
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 
@@ -94,29 +102,23 @@ Shader "Custom/PainterlyCloud"
 
                 float edge = tex2D(_NoiseTex, uv * 3).r * _EdgeNoise;
 
-                float3 color;
+                float3 painterColor;
 
                 if (gradient > 0.75 + edge)
-                {
-                    color = _LightPink.rgb;
-                }
+                    painterColor = _LightPink.rgb;
                 else if (gradient > 0.5 + edge)
-                {
-                    color = _LightOrange.rgb;
-                }
+                    painterColor = _LightOrange.rgb;
                 else if (gradient > 0.25 + edge)
-                {
-                    color = _DarkPink.rgb;
-                }
+                    painterColor = _DarkPink.rgb;
                 else
-                {
-                    color = _DarkPurple.rgb;
-                }
+                    painterColor = _DarkPurple.rgb;
 
                 float jitter = (brush - 0.5) * _ColorJitter;
-                color += jitter;
+                painterColor += jitter;
 
-                return float4(color, 1);
+                float3 finalColor = lerp(baseColor.rgb, painterColor, _EffectStrength);
+
+                return float4(finalColor, 1);
             }
 
             ENDCG
