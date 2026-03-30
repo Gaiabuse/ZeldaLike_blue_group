@@ -1402,11 +1402,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 1816164414}
   sensitivity: 0.5
---- !u!1 &1109135162 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5977815348077399321, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-  m_PrefabInstance: {fileID: 6583066221447988937}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1233433318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,6 +1738,10 @@ PrefabInstance:
     - target: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780061593918026694, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: speed
@@ -2413,24 +2412,6 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 1ce4509b604a4f94ba31dfa3830cfa7d, type: 2}
   m_BuildHeightMesh: 0
---- !u!1 &1787247990 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5176675043928758186, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
-  m_PrefabInstance: {fileID: 4440127888602737262}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1787247995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1787247990}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f809e0a38a1d5c4f8a705b7565730fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
-  damage: 3
 --- !u!1 &1816164405 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
@@ -2546,14 +2527,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4521701316487650635, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
-      propertyPath: MainHitBox
-      value: 
-      objectReference: {fileID: 1787247995}
-    - target: {fileID: 4521701316487650635, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
-      propertyPath: LayerBlockRay.m_Bits
-      value: 593
-      objectReference: {fileID: 0}
     - target: {fileID: 5825918911866091981, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11
@@ -2598,21 +2571,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic Ennemy
       objectReference: {fileID: 0}
-    - target: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
-      propertyPath: m_TagString
-      value: Ennemy
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5176675043928758186, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1787247995}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
 --- !u!1001 &6191404502966150406
 PrefabInstance:
@@ -2767,34 +2729,18 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 1816164414}
-    - target: {fileID: 6364837381328308730, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: Shell
-      value: 
-      objectReference: {fileID: 1109135162}
-    - target: {fileID: 6364837381328308730, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: LookRange
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6364837381328308730, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: LayerBlockRay.m_Bits
-      value: 593
+    - target: {fileID: 3996472207783185080, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+      propertyPath: DistanceAttack
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
       propertyPath: m_Name
       value: Sheep Ennemy
       objectReference: {fileID: 0}
     - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
       propertyPath: m_TagString
       value: Ennemy
       objectReference: {fileID: 0}
-    - target: {fileID: 8005219235686153128, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: de5f5612e93f2094d90aec3e0e01b01f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

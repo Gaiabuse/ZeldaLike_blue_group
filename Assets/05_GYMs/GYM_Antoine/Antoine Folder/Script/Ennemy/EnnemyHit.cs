@@ -5,6 +5,13 @@ public class EnnemyHit : MonoBehaviour
     public int damage = 3;
     bool canHit;
 
+    Collider col;
+
+    private void Start()
+    {
+        col = GetComponent<Collider>();
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.CompareTag("Player") && canHit)
@@ -19,5 +26,6 @@ public class EnnemyHit : MonoBehaviour
     public void ToggleHitBox(bool toogle)
     {
         canHit = toogle;
+        col.enabled = toogle;
     }
 }

@@ -15,6 +15,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] float LoseFocusDist = 1f;
 
     [SerializeField] protected Transform AttackTrigger;
+    [SerializeField] float DistanceAttack = 2;
 
     Vector3 WhereToGoPos;
 
@@ -226,7 +227,7 @@ public class GroundEnnemy : EnnemyBase
 
     protected virtual void AttackPatern()
     {
-        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= 2f && CurrentTarget != null)
+        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= DistanceAttack && CurrentTarget != null)
         {
             AttackStart(1);
         }
