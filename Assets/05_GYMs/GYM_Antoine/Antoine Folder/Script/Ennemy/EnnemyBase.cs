@@ -4,6 +4,7 @@ using DG.Tweening.Plugins.Options;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnnemyBase : MonoBehaviour
 {
@@ -25,9 +26,13 @@ public class EnnemyBase : MonoBehaviour
     [SerializeField] protected Transform Leure;
 
     protected bool TargetInFieldOfView;
+    protected Transform CurrentTarget;
 
     [SerializeField] protected string move = "0";
     protected float timerGeneral = 0;
+
+    [Header("Deal Damage")]
+    [SerializeField] protected EnnemyHit MainHitBox;
 
     [Header("Eyes")]
     [SerializeField] protected List<MeshRenderer> Eyes;
@@ -146,5 +151,24 @@ public class EnnemyBase : MonoBehaviour
     protected virtual void Death()
     {
         Destroy(gameObject);
+    }
+
+    protected virtual void AttackStart(int attackID)
+    {
+        EyesSetColorTo(colorChase);
+
+        move = "attack";
+        animator.SetInteger("Attack", attackID);
+    }
+
+    protected virtual void AttackAnimEnd()
+    {
+        animator.SetInteger("Attack", 0);
+    }
+
+    protected void ToogleMainAttack(int toogle)
+    {
+        if (toogle == 1) MainHitBox.ToggleHitBox(true);
+        else MainHitBox.ToggleHitBox(false);
     }
 }
