@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SheepEnnemy : Ennemy
+public class SheepEnnemy : GroundEnnemy
 {
     [SerializeField] GameObject Shell;
     Rigidbody rb;
@@ -16,30 +16,29 @@ public class SheepEnnemy : Ennemy
         col = Shell.GetComponent<SphereCollider>();
         col.enabled = false;
         rb.isKinematic = true;
-    }
 
-    public override void TakeDamage(int damage)
-    {
-        if (shellHere)
-        {
-
-        }
-        else base.TakeDamage(damage);
+        invincible = true;
+        showDamageDisplayInvincible = false;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.isKinematic = false;
-            Shell.transform.SetParent(null, true);
-
-            rb.linearVelocity = Vector3.zero;
-            rb.AddForce(transform.up * 75);
-
-            col.enabled = true;
-
-            shellHere = false;
+            LoseShell();
         }
+    }
+
+    public void LoseShell()
+    {
+        rb.isKinematic = false;
+        Shell.transform.SetParent(null, true);
+        rb.linearVelocity = Vector3.zero;
+        rb.AddForce(transform.up * 75);
+        col.enabled = true;
+        shellHere = false;
+
+        invincible = false;
+        showDamageDisplayInvincible = true;
     }
 }

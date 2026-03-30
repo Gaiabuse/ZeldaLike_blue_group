@@ -7,13 +7,15 @@ public class GroundEnnemy : EnnemyBase
     NavMeshAgent navMesh;
 
     [SerializeField] Transform LockOn;
-    Transform CurrentTarget;
 
     [SerializeField] float LookRange = 5f;
     [SerializeField] float DistanceAlwaysSeeEnnemy = 2f;
     [SerializeField] int RadiusLook = 45;
 
     [SerializeField] float LoseFocusDist = 1f;
+
+    [SerializeField] protected Transform AttackTrigger;
+    [SerializeField] float DistanceAttack = 2;
 
     Vector3 WhereToGoPos;
 
@@ -64,14 +66,8 @@ public class GroundEnnemy : EnnemyBase
             {
                 if (Vector3.Distance(transform.position, WhereToGoPos) < LoseFocusDist)
                 {
-                    EyesSetColorTo(colorNormal);
-                    navMesh.speed = speed.x;
-                    navMesh.acceleration = acceleration.x;
-                    navMesh.angularSpeed = SpeedRotate.x;
-
                     WhereToGoPos = SelectPatrolPosition();
-
-                    move = "patrol";
+                    PatrolStart();
                 }
             }
         }
@@ -79,6 +75,8 @@ public class GroundEnnemy : EnnemyBase
         if (move == "chase" || move == "lose chase")
         {
             navMesh.destination = WhereToGoPos;
+
+            AttackPatern();
         }
 
         if (move == "patrol")
@@ -225,5 +223,46 @@ public class GroundEnnemy : EnnemyBase
 
             WhereToGoPos = Player.position;
         }
+    }
+
+    protected virtual void AttackPatern()
+    {
+        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= DistanceAttack && CurrentTarget != null)
+        {
+            AttackStart(1);
+        }
+    }
+
+    protected override void AttackStart(int attackID)
+    {
+        base.AttackStart(attackID);
+        navMesh.isStopped = true;
+    }
+
+    protected override void AttackAnimEnd()
+    {
+        base.AttackAnimEnd();
+        navMesh.isStopped = false;
+
+        if (CurrentTarget != null)
+        {
+            move = "chase";
+        }
+        else
+        {
+            PatrolStart();
+        }
+    }
+
+    protected void PatrolStart()
+    {
+        EyesSetColorTo(colorNormal);
+
+        WhereToGoPos = SelectPatrolPosition();
+        move = "patrol";
+
+        navMesh.speed = speed.x;
+        navMesh.acceleration = acceleration.x;
+        navMesh.angularSpeed = SpeedRotate.x;
     }
 }
