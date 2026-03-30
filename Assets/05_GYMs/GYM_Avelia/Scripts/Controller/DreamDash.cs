@@ -19,6 +19,9 @@ public class DreamDash : MonoBehaviour
     [SerializeField]
     AnimationCurve DashProggression;
 
+    [SerializeField] 
+    private GameObject dashVFX; 
+
     bool IsDashing = false;
 
     public void OnDash(InputValue _input)
@@ -40,6 +43,8 @@ public class DreamDash : MonoBehaviour
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
         float timer = 0;
+        
+        dashVFX.SetActive(true);
 
         if (IsPlaceLandable(destinationPosition))
         {
@@ -65,6 +70,8 @@ public class DreamDash : MonoBehaviour
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
 
+        dashVFX.SetActive(false);
+        
         IsDashing = false;
     }
 
