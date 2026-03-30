@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public partial class ManaGauge : MonoBehaviour
+public class ManaGauge : MonoBehaviour
 {
     [SerializeField] private float maxMana;
     [SerializeField] private Image manaSlider;

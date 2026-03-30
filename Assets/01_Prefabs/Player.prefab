@@ -146,8 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bae4dfff873fb789599c00b232d14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
-  manaGauge: {fileID: 8821143803085910139}
-  timeForDoCombo: 2
+  timeForDoCombo: 5
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 5
   formSwitcher: {fileID: 475458454912018690}
@@ -155,11 +154,11 @@ MonoBehaviour:
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
   controller: {fileID: 8133830779634646023}
   aimCone: {fileID: 8549774408609409626}
-  ProjectileSpeed: 40
-  autoAimTime: 0.3
-  autoAimRadius: 10
+  ProjectileSpeed: 60.3
+  autoAimTime: 0.33
+  autoAimRadius: 7.34
   offset: 0.2
-  coolDown: 0.75
+  coolDown: 0.1
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -205,7 +204,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  MaxChargedTime: 5
+  MaxChargedTime: 2
   minAttack: 1
   maxAttack: 10
   numberOfShotsForFinishCombo: 5
@@ -225,7 +224,7 @@ MonoBehaviour:
   controller: {fileID: 8133830779634646023}
   characterController: {fileID: 2672575590059249965}
   DashDurationSeconds: 0.2
-  DashLength: 4
+  DashLength: 7
   DashCoolDownSeconds: 0.4
   DashProggression:
     serializedVersion: 2
@@ -346,7 +345,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.93725497, g: 0.48235297, b: 0.40784317, a: 1}
+  m_Color: {r: 0.99371064, g: 0.36815667, b: 0.25936466, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -369,7 +368,6 @@ GameObject:
   - component: {fileID: 8015218632366079429}
   - component: {fileID: 8990539340992171462}
   - component: {fileID: 4485196043092998046}
-  - component: {fileID: 8821143803085910139}
   - component: {fileID: 2672575590059249965}
   m_Layer: 9
   m_Name: Player
@@ -395,6 +393,7 @@ Transform:
   - {fileID: 2564409545134392940}
   - {fileID: 1184184480172319934}
   - {fileID: 135079393512365543}
+  - {fileID: 9080015970992513536}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8133830779634646023
@@ -409,8 +408,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb5cfb54ccd12235ad032ab29f2eb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  playerInput: {fileID: 0}
   controller: {fileID: 2672575590059249965}
-  speed: 8
+  speed: 10
   rotationSpeed: 8
   gravity: {x: 0, y: -10, z: 0}
   decayAccel: 5
@@ -441,7 +441,6 @@ MonoBehaviour:
   neutralFormObject: {fileID: 8495912245519105219}
   dreamFormObject: {fileID: 3325453322797383309}
   nightmareFormObject: {fileID: 7780061593918026694}
-  manaGauge: {fileID: 8821143803085910139}
   FormAttackManagers:
   - {fileID: 966973642768248133}
   - {fileID: 999091161340526415}
@@ -548,25 +547,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8821143803085910139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4132325966550006197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a7e87990f793eb4f8455d3e4341dda9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  maxMana: 100
-  manaSlider: {fileID: 0}
-  speedRecharge: 15
-  speedDecrease: 3
-  formSwitcher: {fileID: 475458454912018690}
-  numberOfDivision: 3
-  pourcentageForCanSwitch: 25
 --- !u!143 &2672575590059249965
 CharacterController:
   m_ObjectHideFlags: 0
@@ -804,7 +784,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.64705884, g: 0.9215687, b: 0.8078432, a: 1}
+  m_Color: {r: 0.5058824, g: 0.9215687, b: 0.8078432, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1061,7 +1041,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2564409545134392940
 Transform:
   m_ObjectHideFlags: 0
@@ -1094,15 +1074,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 8133830779634646023}
-  rangeForGrab: 7
-  grabStrength: -15
-  rangeForSwallow: 1
+  rangeForGrab: 10
+  grabStrength: -10.2
+  rangeForSwallow: 2
   grabLayers:
     serializedVersion: 2
     m_Bits: 3200
   downValue: {x: 0, y: 0.5, z: 0}
-  throwDistance: 3
+  throwDistance: 4
   throwDuration: 0
+  AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
 --- !u!114 &8600280016486079122
@@ -1117,7 +1098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54f96836c9944cc8375530f0beb2727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NightmareAttackManager
-  manaGauge: {fileID: 8821143803085910139}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
@@ -1155,7 +1135,7 @@ MonoBehaviour:
   controller: {fileID: 8133830779634646023}
   characterController: {fileID: 2672575590059249965}
   DashDurationSeconds: 0.2
-  DashLength: 4
+  DashLength: 7
   DashCoolDownSeconds: 0.4
   DashProggression:
     serializedVersion: 2
@@ -1190,7 +1170,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2279037332940745537}
-  - component: {fileID: 7655621285920013279}
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
@@ -1217,20 +1196,6 @@ Transform:
   - {fileID: 3711956616269674796}
   m_Father: {fileID: 1033709999584693957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7655621285920013279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8495912245519105219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e0407bb06debbe2f8f607dd750586b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  ManaToGain: 5
-  numberOfSecondBetweenTicks: 1
 --- !u!114 &5060730504946467261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1246,7 +1211,7 @@ MonoBehaviour:
   ErasedLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  manaGauge: {fileID: 8821143803085910139}
+  maxPointsForCreate: 0
 --- !u!65 &223095147346892054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1280,7 +1245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fb9a0ae76630a34ca57a112efb7a135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NeutralAttackManager
-  manaGauge: {fileID: 8821143803085910139}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
@@ -1288,6 +1252,10 @@ MonoBehaviour:
   CanAttack: 0
   comboAttacks:
   - AttackData: {fileID: 11400000, guid: 530b8dcfcef250c4c9ca67080001881d, type: 2}
+    type: 0
+  - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
+    type: 0
+  - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
     type: 0
   - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
     type: 0
@@ -1495,7 +1463,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.9921569, g: 0.8078432, b: 0.43137258, a: 1}
+  m_Color: {r: 0.9921569, g: 0.8078432, b: 0.28627452, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1617,3 +1585,129 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &3956461772886574195
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1033709999584693957}
+    m_Modifications:
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: ColorModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: InitialModule.size3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].time
+      value: 0.0667699
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].inSlope
+      value: -2.556038
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].inSlope
+      value: 0.16051795
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].outSlope
+      value: -2.556038
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].inWeight
+      value: 0.068117954
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[2].outSlope
+      value: 0.16051795
+      objectReference: {fileID: 0}
+    - target: {fileID: 144954339861392119, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].outWeight
+      value: 0.060520995
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.862
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636921003481686771, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_LengthScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6636921003481686771, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_VelocityScale
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509180639597066068, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+      propertyPath: m_Name
+      value: VFX_SpeedTrail
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+--- !u!4 &9080015970992513536 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5254187217687996019, guid: 63273a10b0549d84c8ee45b7bdb5fa4f, type: 3}
+  m_PrefabInstance: {fileID: 3956461772886574195}
+  m_PrefabAsset: {fileID: 0}

@@ -18,12 +18,24 @@ public class NeutralAttackManager : AttackManager
         base.OnEnable();
         numberOfAttacksInCombo = comboAttacks.Length;
     }
-
+    
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        Vector2 inputValue = _input.Get<Vector2>();
-        if (inputValue.sqrMagnitude <= 0)
+        if (!_input.isPressed && switchInProgress)
+        {
+            if (finishSwitchCoroutine != null)
+            {
+                StopCoroutine(finishSwitchCoroutine);
+            }
+            finishSwitchCoroutine = StartCoroutine(FinishSwitch());
+        }
+        if (switchInProgress)
+        {
+            return; 
+        }
+        
+        if (!_input.isPressed)
         {
             player.CanMove = false;
             player.CanRotate = false;
@@ -34,6 +46,7 @@ public class NeutralAttackManager : AttackManager
                 return;
             }
             Attack(comboAttacks[currentCombo]);
+            switchInProgress = false;
         }
     }
 
