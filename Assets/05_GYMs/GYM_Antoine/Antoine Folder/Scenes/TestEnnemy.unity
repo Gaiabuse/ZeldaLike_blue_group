@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 200370690}
   - component: {fileID: 200370689}
   - component: {fileID: 200370688}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player Leure
   m_TagString: Leure
   m_Icon: {fileID: 0}
@@ -1027,7 +1027,7 @@ Transform:
   m_GameObject: {fileID: 978553549}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.327, z: -0.365}
+  m_LocalPosition: {x: 0, y: 0.327, z: 0.365}
   m_LocalScale: {x: 0.5, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1514,37 +1514,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233433318}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1263826125
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1263826126}
-  m_Layer: 7
-  m_Name: GoTo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1263826126
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263826125}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1432558555}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1432558551
 GameObject:
   m_ObjectHideFlags: 0
@@ -1558,13 +1527,14 @@ GameObject:
   - component: {fileID: 1432558553}
   - component: {fileID: 1432558552}
   - component: {fileID: 1432558557}
+  - component: {fileID: 1432558558}
   m_Layer: 7
   m_Name: Flying Ennemy Test
   m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &1432558552
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1651,7 +1621,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432558551}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 10, y: 5, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1660,11 +1630,9 @@ Transform:
   - {fileID: 1233433319}
   - {fileID: 206987922}
   - {fileID: 978553550}
-  - {fileID: 1476763398}
-  - {fileID: 1263826126}
   - {fileID: 1754679590}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &1432558557
 Animator:
   serializedVersion: 7
@@ -1687,6 +1655,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1432558558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432558551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe5bd4eee6f262249a59aa3ac647011f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlyingEnnemy
+  data: {fileID: 11400000, guid: 57dfe970de7f341459612531b543cf25, type: 2}
+  invincible: 0
+  showDamageDisplayInvincible: 1
+  Player: {fileID: 1816164414}
+  Leure: {fileID: 0}
+  move: 0
+  MainHitBox: {fileID: 0}
+  Eyes:
+  - {fileID: 978553552}
+  colorNormal: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  colorChase: {r: 1, g: 0, b: 0, a: 1}
+  colorMotionless: {r: 0, g: 0, b: 0, a: 1}
+  eyeColorIntensity: {x: 5, y: 15}
+  hitValueDisplay: {fileID: 997822343}
+  durationDelay: 0.3
+  durationDotween: 0.6
+  LookRange: 7
+  LayerTarget:
+    serializedVersion: 2
+    m_Bits: 1536
 --- !u!1001 &1462594732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1771,37 +1771,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1816164406}
   m_SourcePrefab: {fileID: 100100000, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
---- !u!1 &1476763397
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1476763398}
-  m_Layer: 7
-  m_Name: LockOn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1476763398
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476763397}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.65}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1432558555}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1485862121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,7 +1798,7 @@ Transform:
   m_GameObject: {fileID: 1485862121}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 0.5, y: 0.12, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2571,6 +2540,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic Ennemy
       objectReference: {fileID: 0}
+    - target: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2736,6 +2709,10 @@ PrefabInstance:
     - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
       propertyPath: m_Name
       value: Sheep Ennemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
       propertyPath: m_TagString
