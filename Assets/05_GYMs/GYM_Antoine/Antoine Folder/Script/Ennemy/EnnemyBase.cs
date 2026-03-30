@@ -111,8 +111,12 @@ public class EnnemyBase : MonoBehaviour
         dotween = null;
         if (hitValueDisplay)
         {
-            if (showDamageDisplayInvincible) hitValueDisplay.text = damage.ToString();
-            else hitValueDisplay.text = "Nope";
+            if (invincible)
+            {
+                if (showDamageDisplayInvincible) hitValueDisplay.text = damage.ToString();
+                else hitValueDisplay.text = "Nope";
+            }
+            else hitValueDisplay.text = damage.ToString();
 
             ShowHitDisplay();
         }

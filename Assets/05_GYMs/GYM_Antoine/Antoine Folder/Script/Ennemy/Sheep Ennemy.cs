@@ -39,5 +39,6 @@ public class SheepEnnemy : GroundEnnemy
         shellHere = false;
 
         invincible = false;
+        showDamageDisplayInvincible = true;
     }
 }
