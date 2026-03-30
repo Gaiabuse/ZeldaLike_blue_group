@@ -529,8 +529,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   playerInput: {fileID: 0}
   controller: {fileID: 2672575590059249965}
-  speed: 10
-  rotationSpeed: 8
+  speed: 12
+  rotationSpeed: 10
   gravity: {x: 0, y: -10, z: 0}
   decayAccel: 5
   decayDecel: 10
@@ -1293,6 +1293,7 @@ GameObject:
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
+  - component: {fileID: 7934904055037678382}
   m_Layer: 9
   m_Name: NeutralForm
   m_TagString: Untagged
@@ -1387,6 +1388,48 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   durationSleep: 2
+--- !u!114 &7934904055037678382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495912245519105219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4631489e092e159b9e09bc4d6895044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  controller: {fileID: 8133830779634646023}
+  characterController: {fileID: 2672575590059249965}
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.4
+  DashProggression:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
 --- !u!1 &8549774408609409626
 GameObject:
   m_ObjectHideFlags: 0

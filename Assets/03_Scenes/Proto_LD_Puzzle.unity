@@ -2071,12 +2071,23 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 475458454912018690, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
   m_PrefabInstance: {fileID: 621960285}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2066973315}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e8754bb6b333fdaa6cf237822ac6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &353527946 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9204539517672931057, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
+  m_PrefabInstance: {fileID: 1636810408}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &364623368
 GameObject:
   m_ObjectHideFlags: 0
@@ -6585,29 +6596,20 @@ PrefabInstance:
       value: Player (1)
       objectReference: {fileID: 0}
     - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-      propertyPath: speed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: cameraFollow
       value: 
       objectReference: {fileID: 868437276}
     - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-      propertyPath: rotationSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: cameraRotation
       value: 
       objectReference: {fileID: 1419467365}
-    - target: {fileID: 8821143803085910139, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-      propertyPath: manaSlider
-      value: 
-      objectReference: {fileID: 793520943}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2066973321}
   m_SourcePrefab: {fileID: 100100000, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
 --- !u!1 &640641628
 GameObject:
@@ -8399,17 +8401,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &793520943 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4650060719911994191, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
-  m_PrefabInstance: {fileID: 1636810408}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &793778136
 GameObject:
   m_ObjectHideFlags: 0
@@ -23021,6 +23012,40 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+--- !u!1 &2066973315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+  m_PrefabInstance: {fileID: 621960285}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2066973320 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+  m_PrefabInstance: {fileID: 621960285}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066973315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb5cfb54ccd12235ad032ab29f2eb65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+--- !u!114 &2066973321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066973315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f58284eed5298a7428918eb492e8d073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHP
+  maxHP: 100
+  playerController: {fileID: 2066973320}
+  speedRecharge: 10
+  minFillAmount: 0.28
+  maxFillAmount: 1
+  healthBar: {fileID: 353527946}
 --- !u!1 &2084818417
 GameObject:
   m_ObjectHideFlags: 0

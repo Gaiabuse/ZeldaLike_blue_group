@@ -5,13 +5,10 @@ using UnityEngine.UI;
 
 public class TransformIndicator : MonoBehaviour
 {
-    [SerializeField] private Image indicator;
     [SerializeField] private Image lifeGauge;
     [SerializeField] private Image emptyLifeGauge;
     [SerializeField] private Image spellIndicator;
     [FormerlySerializedAs("iconsSprites")]
-    [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
-    [SerializeField] private Sprite[] indicatorSprites;
     [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
     [SerializeField] private Sprite[] lifeFullSprites;
     [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
@@ -37,19 +34,16 @@ public class TransformIndicator : MonoBehaviour
         switch (currentForm)
         {
             case Form.neutral:
-                indicator.sprite = indicatorSprites[0];
                 lifeGauge.sprite = lifeFullSprites[0];
                 emptyLifeGauge.sprite = lifeEmptySprites[0];
                 spellIndicator.sprite = spellIndicatorSprites[0];
                 break;
             case Form.nightmare:
-                indicator.sprite = indicatorSprites[1];
                 lifeGauge.sprite = lifeFullSprites[1];
                 emptyLifeGauge.sprite = lifeEmptySprites[1];
                 spellIndicator.sprite = spellIndicatorSprites[1];
                 break;
             case Form.dream:
-                indicator.sprite = indicatorSprites[2];
                 lifeGauge.sprite = lifeFullSprites[2];
                 emptyLifeGauge.sprite = lifeEmptySprites[2];
                 spellIndicator.sprite = spellIndicatorSprites[2];
