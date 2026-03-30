@@ -22,6 +22,7 @@ public class NeutralAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
+        Debug.Log(switchInProgress);
         if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
@@ -32,7 +33,7 @@ public class NeutralAttackManager : AttackManager
         }
         if (switchInProgress)
         {
-            return; 
+            return;
         }
         
         if (!_input.isPressed)

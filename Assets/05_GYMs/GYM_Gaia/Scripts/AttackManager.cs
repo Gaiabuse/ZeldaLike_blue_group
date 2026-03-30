@@ -38,6 +38,7 @@ public abstract class AttackManager : MonoBehaviour
         CanAttack = true;
         canChargedAttack = false;
         switchInProgress = true;
+        currentCombo = 0;
     }
 
     protected IEnumerator FinishSwitch()
