@@ -71,8 +71,15 @@ public class Attack : MonoBehaviour
         if (collision.transform.CompareTag("Ennemy"))
         {
             Ennemy ennemyScript = collision.transform.GetComponent<Ennemy>();
+            if (ennemyScript == null)
+            {
+                collision.transform.GetComponent<EnnemyBase>().TakeDamage((int)damage);
 
-            ennemyScript.TakeDamage((int)damage);
+            }
+            else
+            {
+                ennemyScript.TakeDamage((int)damage);
+            }
 
             SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
 

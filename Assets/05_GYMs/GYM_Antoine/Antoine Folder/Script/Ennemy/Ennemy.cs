@@ -82,7 +82,6 @@ public class Ennemy : MonoBehaviour
         OgOffsetLookAt = GoTo.localPosition;
 
         HP = data.health;
-
         speed = new Vector2(data.speed, data.chasespeed);
         SpeedRotate = new Vector2(data.speedRotate, data.chasespeedRotate);
         acceleration = new Vector2(data.acceleration, data.chaseacceleration);
