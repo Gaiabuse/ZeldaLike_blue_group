@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     public Action OnCatch;
     public Action OnRelease;
-    
+
     public Action Attack;
 
     private float offset = -90f;
@@ -43,8 +43,8 @@ public class PlayerController : MonoBehaviour
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
 
-    [SerializeField] private LayerMask obstacleLayer; 
-    [HideInInspector]public GameObject Boxes;
+    [SerializeField] private LayerMask obstacleLayer;
+    [HideInInspector] public GameObject Boxes;
     private Vector3 startPos;
     void Start()
     {
@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        
+
         Movement();
         AlignPlayer();
     }
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
             if (side == MovingBox.Side.Front || side == MovingBox.Side.Back)
             {
-                inputMagnitude = direction.y; 
+                inputMagnitude = direction.y;
                 moveDirection = Boxes.transform.forward * inputMagnitude;
             }
             else
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
                 inputMagnitude = direction.x;
                 moveDirection = Boxes.transform.right * inputMagnitude;
             }
-            
+
             if (inputMagnitude != 0)
             {
                 if (Physics.Raycast(Boxes.transform.position, moveDirection.normalized, 1.0f, obstacleLayer))
@@ -105,13 +105,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Vector3 camRight = cameraRotation.right;
-            Vector3 camForward = cameraRotation.forward;
-            Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
-            Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
-            moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
+            moveDirection = ProjectPoint(direction);
         }
-        
+
         if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
 
         if (CanMove)
@@ -123,6 +119,16 @@ public class PlayerController : MonoBehaviour
 
         controller.Move(gravity * Time.deltaTime);
     }
+
+    public Vector3 ProjectPoint(Vector2 dir)
+    {
+        Vector3 camRight = cameraRotation.right;
+        Vector3 camForward = cameraRotation.forward;
+        Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
+        Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
+        return (moveDirForward * dir.y) + (moveDirRight * dir.x);
+    }
+
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();
