@@ -102,11 +102,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Vector3 camRight = cameraRotation.right;
-            Vector3 camForward = cameraRotation.forward;
-            Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
-            Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
-            moveDirection = (moveDirForward * direction.y) + (moveDirRight * direction.x);
+            moveDirection = ProjectPoint(direction);
         }
 
         if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
@@ -120,6 +116,16 @@ public class PlayerController : MonoBehaviour
 
         controller.Move(gravity * Time.deltaTime);
     }
+
+    public Vector3 ProjectPoint(Vector2 dir)
+    {
+        Vector3 camRight = cameraRotation.right;
+        Vector3 camForward = cameraRotation.forward;
+        Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
+        Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
+        return (moveDirForward * dir.y) + (moveDirRight * dir.x);
+    }
+
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();

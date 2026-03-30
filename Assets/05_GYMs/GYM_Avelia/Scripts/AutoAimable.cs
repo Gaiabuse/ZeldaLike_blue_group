@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
 
 public class AutoAimable : MonoBehaviour
 {
@@ -7,13 +8,15 @@ public class AutoAimable : MonoBehaviour
 
 #nullable enable
     public static AutoAimable? GetNearestTargetAround(Vector3 point, float radius)
-    {
-        var overlaps = Physics.OverlapSphere(point, radius);
-
-        return overlaps.Select(a => a.GetComponent<AutoAimable>())
-            .Where(a => !(a == null))
-            .OrderBy(a => Vector3.Distance(point, a.transform.position) * a.weight)
+        => GetTargetAround(point, radius)
             .FirstOrDefault();
-    }
 #nullable disable
+
+    public static IEnumerable<AutoAimable> GetTargetAround(Vector3 point, float radius)
+        => Physics.OverlapSphere(point, radius)
+            .Select(a => a.GetComponent<AutoAimable>())
+            .Where(a => !(a == null))
+            .OrderBy(a => Vector3.Distance(point, a.transform.position) * a.weight);
+
+
 }
