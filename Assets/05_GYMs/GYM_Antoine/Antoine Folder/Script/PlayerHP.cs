@@ -16,6 +16,7 @@ public class PlayerHP : MonoBehaviour
     [Range(0, 1)] [SerializeField] private float maxFillAmount = 0.9f;
     [SerializeField] Image healthBar;
     private Coroutine damageCoroutine;
+    private Coroutine healCoroutine;
     private float HP;
 
     private void Start()
@@ -38,7 +39,16 @@ public class PlayerHP : MonoBehaviour
      
         OnTakeDamage?.Invoke();
     }
-    
+
+    public void Heal(int heal)
+    {
+        if(HP>=maxHP)return;
+        if (healCoroutine != null)
+        {
+            StopCoroutine(healCoroutine);
+        }
+        healCoroutine = StartCoroutine(VisualHeal(heal));
+    }
     private IEnumerator VisualDamage(float newLife)
     {
         while (HP > newLife)
@@ -47,13 +57,11 @@ public class PlayerHP : MonoBehaviour
             UpdateVisuals();
             if (HP <= 0)
             {
-                HP = maxHP;
+               
                 StartCoroutine(playerController.RespawnCoroutine());
-                if (damageCoroutine != null)
-                {
-                    StopCoroutine(damageCoroutine);
-                    damageCoroutine = null;
-                }
+                HP = maxHP;
+                UpdateVisuals();
+                break;
             }
             yield return null;
         }
@@ -65,14 +73,10 @@ public class PlayerHP : MonoBehaviour
         {
             HP = Mathf.MoveTowards(HP, newLife, speedRecharge * Time.deltaTime);
             UpdateVisuals();
-            if (HP <= 0)
-            {
-                HP = maxHP;
-                StartCoroutine(playerController.RespawnCoroutine());
-            }
+            if(HP >= maxHP)break;
             yield return null;
         }
-        damageCoroutine = null;
+        healCoroutine = null;
     }
     
     private void UpdateVisuals()

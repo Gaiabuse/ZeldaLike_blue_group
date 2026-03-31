@@ -7,17 +7,23 @@ using UnityEngine.Serialization;
 
 public class ErasedManager : MonoBehaviour
 {
+    [SerializeField] private PlayerController player;
+    [SerializeField] private PlayerHP playerHP;
     [Tooltip("LayerMax of objects we can Erased and create")]
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
     [SerializeField] private int maxPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
-    private ErasedObject currentObject;
+    [SerializeField] private float numberOfPressForErasedEnemy = 10;
+    [SerializeField] private int hpHealWhenErasedEnemy = 20;
+    private float currentPressForErasedEnemy;
+    private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
     private int currentPointsForCreate;
     private bool erasedAllObjects;
     private Coroutine HoldTimeCoroutine;
+    public bool startEnemyErased{get; private set;}
     private void Start()
     {
         objectsErased = new List<ErasedObject>();
@@ -31,12 +37,12 @@ public class ErasedManager : MonoBehaviour
             Debug.Log(other.gameObject.name);
             if (currentObject == null)
             {
-                currentObject = other.GetComponent<ErasedObject>();
+                currentObject = other.gameObject;
                 return;
             }
             if (currentObject.gameObject != other.gameObject)
             {
-                currentObject = other.GetComponent<ErasedObject>();
+                currentObject = other.gameObject;
             }
         }
     }
@@ -46,38 +52,58 @@ public class ErasedManager : MonoBehaviour
         int otherObjectLayerMask = 1 << other.gameObject.layer;
         if ((ErasedLayerMask.value & otherObjectLayerMask) != 0)
         {
-            if (other.gameObject == currentObject.gameObject)
+            if (currentObject != null)
             {
-                currentObject = null;
+                if (other.gameObject == currentObject)
+                {
+                    currentObject = null;
+                }
             }
         }
-       
     }
-    
-
     public void OnSecondPower(InputValue inputValue)
     {
-        if (inputValue.isPressed)
+        if(startEnemyErased)
         {
-            if(HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
-            HoldTimeCoroutine = StartCoroutine(HoldTime());
+            currentPressForErasedEnemy++;
+            if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
+            {
+                ErasedEnemy();
+            }
+            return;
         }
+        if (currentObject.CompareTag("Ennemy"))
+        {
+            Debug.Log("startEnemyErased");
+            player.CanMove = false;
+            player.CanRotate = false;
+            startEnemyErased = true;
+            currentPressForErasedEnemy = 0;
+        }
+        switch (inputValue.isPressed)
+        {
+            case true:
+            {
+                if(HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
+                HoldTimeCoroutine = StartCoroutine(HoldTime());
+                break;
+            }
+            case false:
+            {
+                if(HoldTimeCoroutine != null)StopCoroutine(HoldTimeCoroutine);
+                if (erasedAllObjects)
+                {
+                    ErasedAllObjects();
+                    erasedAllObjects = false;
+                }
+                else
+                {
+                    EraseOrCreate();
+                }
 
-        if (!inputValue.isPressed)
-        {
-            if(HoldTimeCoroutine != null)StopCoroutine(HoldTimeCoroutine);
-            if (erasedAllObjects)
-            {
-                ErasedAllObjects();
-                erasedAllObjects = false;
+                break;
             }
-            else
-            {
-                EraseOrCreate();
-            }
-            
         }
-            
     }
 
     private IEnumerator HoldTime()
@@ -91,14 +117,15 @@ public class ErasedManager : MonoBehaviour
     {
         if (currentObject)
         {
-            if (currentObject.Erased&& currentPointsForCreate > 0)
+            ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
+            if (erasedObject.Erased&& currentPointsForCreate > 0)
             {
-                currentObject.Create();
+                erasedObject.Create();
                 currentPointsForCreate--;
-                objectsErased.Add(currentObject);
+                objectsErased.Add(erasedObject);
             }else if (currentPointsForCreate < maxPointsForCreate)
             {
-                currentObject.Erase();
+                erasedObject.Erase();
                 currentPointsForCreate++;
             }
         }
@@ -114,6 +141,17 @@ public class ErasedManager : MonoBehaviour
                 currentPointsForCreate++;
             }
         }
+    }
+
+    private void ErasedEnemy()
+    {
+        Destroy(currentObject);
+        currentObject = null;
+        playerHP.Heal(hpHealWhenErasedEnemy);
+        player.CanMove = true;
+        player.CanRotate = true;
+        startEnemyErased = false;
+        currentPressForErasedEnemy = 0;
     }
  
 }
