@@ -45,7 +45,7 @@ public class GroundEnnemy : EnnemyBase
 
         isPlayerInFieldOfView();
 
-        if (TargetInFieldOfView)
+        if (TargetInFieldOfView && move != "stun")
         {
             if (move != "chase")
             {
@@ -211,19 +211,23 @@ public class GroundEnnemy : EnnemyBase
         return whereTo;
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, float stun)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, stun);
 
         if (HP > 0)
         {
-            EyesSetColorTo(colorChase);
-            navMesh.speed = speed.y;
-            navMesh.acceleration = acceleration.y;
-            navMesh.angularSpeed = SpeedRotate.y;
-            move = "chase";
+            if (move != "stun")
+            {
+                move = "chase";
+                EyesSetColorTo(colorChase);
 
-            WhereToGoPos = Player.position;
+                navMesh.speed = speed.y;
+                navMesh.acceleration = acceleration.y;
+                navMesh.angularSpeed = SpeedRotate.y;
+
+                WhereToGoPos = Player.position;
+            }
         }
     }
 
@@ -246,7 +250,7 @@ public class GroundEnnemy : EnnemyBase
         base.AttackAnimEnd();
         navMesh.isStopped = false;
 
-        if (CurrentTarget != null)
+        if (CurrentTarget != null && move != "stun")
         {
             move = "chase";
         }
@@ -266,5 +270,27 @@ public class GroundEnnemy : EnnemyBase
         navMesh.speed = speed.x;
         navMesh.acceleration = acceleration.x;
         navMesh.angularSpeed = SpeedRotate.x;
+    }
+
+    public override void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        base.StunEnnemy(stunTime, infiniteStun);
+        animator.SetBool("Stun", true);
+        navMesh.isStopped = true;
+    }
+
+    protected override void EndStun()
+    {
+        base.EndStun();
+        animator.SetBool("Stun", false);
+        navMesh.isStopped = false;
+
+        WhereToGoPos = Player.position;
+        move = "chase";
+        EyesSetColorTo(colorChase);
+
+        navMesh.speed = speed.y;
+        navMesh.acceleration = acceleration.y;
+        navMesh.angularSpeed = SpeedRotate.y;
     }
 }

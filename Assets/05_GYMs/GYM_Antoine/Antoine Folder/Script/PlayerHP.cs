@@ -57,7 +57,7 @@ public class PlayerHP : MonoBehaviour
             UpdateVisuals();
             if (HP <= 0)
             {
-               
+
                 StartCoroutine(playerController.RespawnCoroutine());
                 HP = maxHP;
                 UpdateVisuals();
