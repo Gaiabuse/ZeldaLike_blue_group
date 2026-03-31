@@ -150,6 +150,7 @@ public abstract class AttackManager : MonoBehaviour
         if (currentCombo >= numberOfAttacksInCombo)
         {
             currentCombo = 0;
+            FormAnimator.SetBool("isAttacking",false);
             if (CheckIfAllTouched())
             {
                 Debug.Log("canUltimate");
@@ -162,6 +163,7 @@ public abstract class AttackManager : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(timeForDoCombo);
+        FormAnimator.SetBool("isAttacking",false);
         currentCombo = 0;
 
     }

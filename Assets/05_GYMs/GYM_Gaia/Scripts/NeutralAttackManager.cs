@@ -49,7 +49,7 @@ public class NeutralAttackManager : AttackManager
                 return;
             }
             Debug.Log("Attack"+currentCombo);
-            
+            FormAnimator.SetBool("isAttacking",false);
             if (currentCombo >= comboAttacks.Length - 1)
             {
                 FormAnimator.SetTrigger("isFinalAttack");
