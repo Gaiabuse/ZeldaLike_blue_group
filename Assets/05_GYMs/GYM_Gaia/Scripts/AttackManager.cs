@@ -79,6 +79,7 @@ public abstract class AttackManager : MonoBehaviour
                     formSwitcher.ChangeForm(Form.neutral);
                 }
                 break;
+
             case "buttonEast":
                 if (formSwitcher.currentForm != Form.nightmare)
                 {
