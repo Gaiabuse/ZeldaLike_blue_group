@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         startPos = transform.position;
         playerInput = GetComponent<PlayerInput>();
+        currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
         {
             cameraRotation = Camera.main.transform.parent;
