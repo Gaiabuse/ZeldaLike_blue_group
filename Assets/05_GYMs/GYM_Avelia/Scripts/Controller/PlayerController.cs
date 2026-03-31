@@ -6,9 +6,20 @@ using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     CharacterController controller;
 
+    [SerializeField]
+    private CameraFollow cameraFollow;
+
+    [SerializeField]
+    public Transform cameraRotation;
+
+    [SerializeField]
+    private DirectionFilter filter;
+
+    [Header("Control Constants")]
     [SerializeField]
     float speed = 10f, rotationSpeed = 15f;
     [SerializeField]
@@ -18,11 +29,6 @@ public class PlayerController : MonoBehaviour
     private float decayAccel = 5f, decayDecel = 10f;
     private float currentStickProgress, smoothedStickProgress;
 
-    [SerializeField]
-    private CameraFollow cameraFollow;
-
-    [SerializeField]
-    public Transform cameraRotation;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -41,8 +47,10 @@ public class PlayerController : MonoBehaviour
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
 
+    [Header("BoxControl")]
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
+
     private Vector3 startPos;
     void Start()
     {
@@ -102,7 +110,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            moveDirection = ProjectPoint(direction);
+            moveDirection = filter.FilterStickInput(direction);
         }
 
         if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);

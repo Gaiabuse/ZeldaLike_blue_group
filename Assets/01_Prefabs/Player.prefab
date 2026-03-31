@@ -371,6 +371,7 @@ GameObject:
   - component: {fileID: 4485196043092998046}
   - component: {fileID: 8821143803085910139}
   - component: {fileID: 2672575590059249965}
+  - component: {fileID: 8007429424890191208}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -410,13 +411,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   controller: {fileID: 2672575590059249965}
+  cameraFollow: {fileID: 0}
+  cameraRotation: {fileID: 0}
+  filter: {fileID: 8007429424890191208}
   speed: 8
   rotationSpeed: 8
   gravity: {x: 0, y: -10, z: 0}
   decayAccel: 5
   decayDecel: 10
-  cameraFollow: {fileID: 0}
-  cameraRotation: {fileID: 0}
   surfaceNormal: {x: 0, y: 0, z: 0}
   CanMove: 1
   CanRotate: 1
@@ -592,6 +594,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8007429424890191208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4132325966550006197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f407856700691cfcb12cd8c2857f9a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DirectionFilter
+  player: {fileID: 8133830779634646023}
+  autoAimRadius: 2
+  strength: 1
+  SnapStrength: 1
+  maxNumberOfEnemy: 5
 --- !u!1 &5295939877534458843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,6 +1122,7 @@ MonoBehaviour:
   downValue: {x: 0, y: 0.5, z: 0}
   throwDistance: 3
   throwDuration: 0
+  AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
 --- !u!114 &8600280016486079122

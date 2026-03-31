@@ -32,7 +32,7 @@ public class DirectionFilter : MonoBehaviour
         Debug.LogWarning($"heavy usage of {nameof(System.Linq)} in {nameof(FilterStickInput)} it could cause some performance problem");
     }
 
-    public Vector3 FilterStickInput(Vector2 direction, Vector3 forwardDir3d)
+    public Vector3 FilterStickInput(Vector2 direction)
     {
 
         var aimableNearRaw = AutoAimable.GetTargetAround(transform.position, autoAimRadius);
@@ -40,7 +40,7 @@ public class DirectionFilter : MonoBehaviour
         if (aimableNearRaw.Count() <= 0) return player.ProjectPoint(direction);
 
         var position = DeconstructIn2d(transform.position);
-        var forwardDir = DeconstructIn2d(forwardDir3d);
+        var forwardDir = Vector2.right;
 
         var angleOfDir = Vector2.SignedAngle(forwardDir, direction);
 
