@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector]public PlayerInput playerInput;
+    [HideInInspector] public Animator currentAnimator;
     [SerializeField]
     CharacterController controller;
 
@@ -132,10 +133,12 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();
+        currentAnimator.SetFloat("xInput", ldirection.x);
+        currentAnimator.SetFloat("yInput", ldirection.x);
         currentStickProgress = ldirection.magnitude;
 
+        currentAnimator.SetBool("isRunning",currentStickProgress <= 0.1);
         if (currentStickProgress <= 0.1) return;
-
         direction = ldirection.normalized;
     }
     

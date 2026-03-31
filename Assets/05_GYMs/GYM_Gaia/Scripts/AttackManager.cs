@@ -7,9 +7,9 @@ using UnityEngine.Serialization;
 public abstract class AttackManager : MonoBehaviour
 {
     
+    public Animator FormAnimator;
     [SerializeField] protected float timeForDoCombo;
     [SerializeField] protected PlayerController player;
-
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
     [SerializeField] protected FormSwitcher formSwitcher;
     [HideInInspector]public bool CanAttack;
@@ -24,14 +24,6 @@ public abstract class AttackManager : MonoBehaviour
     public static Action EndForUltimate;
     protected bool switchInProgress =false;
     protected Coroutine finishSwitchCoroutine;
-    private enum inputValueDirection
-    {
-        up,
-        down,
-        left,
-        right,
-        none
-    }
     protected virtual void OnEnable()
     {
         player.CanMove = true;

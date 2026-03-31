@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class ErasedManager : MonoBehaviour
 {
@@ -15,8 +17,11 @@ public class ErasedManager : MonoBehaviour
     [SerializeField] private int maxPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
-    [SerializeField] private float numberOfPressForErasedEnemy = 10;
+    [SerializeField] private float numberOfPressForErasedEnemy = 20;
     [SerializeField] private int hpHealWhenErasedEnemy = 20;
+
+    [Header("Ui elements")]
+    [SerializeField]private Image buttonPressVisual;
     private float currentPressForErasedEnemy;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
@@ -24,9 +29,21 @@ public class ErasedManager : MonoBehaviour
     private bool erasedAllObjects;
     private Coroutine HoldTimeCoroutine;
     public bool startEnemyErased{get; private set;}
+
+    private void OnEnable()
+    {
+        playerHP.OnTakeDamage += CancelErasedEnemy;
+    }
+
+    private void OnDisable()
+    {
+        playerHP.OnTakeDamage -= CancelErasedEnemy;
+    }
+
     private void Start()
     {
         objectsErased = new List<ErasedObject>();
+        buttonPressVisual.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,24 +78,42 @@ public class ErasedManager : MonoBehaviour
             }
         }
     }
+
+    private void BounceUiVisual()
+    {
+        buttonPressVisual.transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), 0.1f).SetEase(Ease.InBounce).OnComplete((
+            () =>
+            {
+                buttonPressVisual.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutBounce);
+            } ));
+    }
     public void OnSecondPower(InputValue inputValue)
     {
         if(startEnemyErased)
         {
-            currentPressForErasedEnemy++;
-            if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
+            if (inputValue.isPressed)
             {
-                ErasedEnemy();
+                currentPressForErasedEnemy++;
+                BounceUiVisual();
+                if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
+                {
+                
+                    ErasedEnemy();
+                }
+                return;
             }
-            return;
+           
         }
+        if(currentObject == null)return;
         if (currentObject.CompareTag("Ennemy"))
         {
             Debug.Log("startEnemyErased");
+            buttonPressVisual.gameObject.SetActive(true);
             player.CanMove = false;
             player.CanRotate = false;
             startEnemyErased = true;
             currentPressForErasedEnemy = 0;
+            return;
         }
         switch (inputValue.isPressed)
         {
@@ -117,6 +152,7 @@ public class ErasedManager : MonoBehaviour
     {
         if (currentObject)
         {
+            player.currentAnimator.SetTrigger("usingAbility");
             ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
             if (erasedObject.Erased&& currentPointsForCreate > 0)
             {
@@ -142,12 +178,29 @@ public class ErasedManager : MonoBehaviour
             }
         }
     }
+    public void OnDash(InputValue _input)
+    {
+        if (startEnemyErased)
+        {
+            CancelErasedEnemy();
+        }
+    }
 
     private void ErasedEnemy()
     {
         Destroy(currentObject);
         currentObject = null;
+        buttonPressVisual.gameObject.SetActive(false);
         playerHP.Heal(hpHealWhenErasedEnemy);
+        player.CanMove = true;
+        player.CanRotate = true;
+        startEnemyErased = false;
+        currentPressForErasedEnemy = 0;
+    }
+
+    private void CancelErasedEnemy()
+    {
+        buttonPressVisual.gameObject.SetActive(false);
         player.CanMove = true;
         player.CanRotate = true;
         startEnemyErased = false;

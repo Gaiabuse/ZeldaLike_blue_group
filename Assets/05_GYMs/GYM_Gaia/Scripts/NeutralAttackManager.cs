@@ -48,6 +48,16 @@ public class NeutralAttackManager : AttackManager
                 Attack(ChargedAttack);
                 return;
             }
+            Debug.Log("Attack"+currentCombo);
+            
+            if (currentCombo >= comboAttacks.Length - 1)
+            {
+                FormAnimator.SetTrigger("isFinalAttack");
+            }
+            else
+            {
+                FormAnimator.SetTrigger("Attack"+currentCombo);
+            }
             Attack(comboAttacks[currentCombo]);
             switchInProgress = false;
         }
