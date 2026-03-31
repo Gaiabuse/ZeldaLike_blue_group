@@ -9,20 +9,27 @@ public class NeutralAttackManager : AttackManager
 {
     [SerializeField]
     private SimpleAttack[] comboAttacks;
-    [SerializeField] protected SimpleAttack ChargedAttack;
-    [SerializeField]private float rangeOfUltimate;
-    [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private float durationSleep;
+    [SerializeField]
+    protected SimpleAttack ChargedAttack;
+
+    [Header("Ultimate")]
+    [SerializeField]
+    private LayerMask enemyLayer;
+    [Tooltip("In Senconds")]
+    [SerializeField]
+    private float ultimateDuration;
+
     protected override void OnEnable()
     {
         base.OnEnable();
         numberOfAttacksInCombo = comboAttacks.Length;
     }
-    
+
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
         Debug.Log(switchInProgress);
+
         if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
@@ -31,21 +38,21 @@ public class NeutralAttackManager : AttackManager
             }
             finishSwitchCoroutine = StartCoroutine(FinishSwitch());
         }
-        if (switchInProgress)
-        {
-            return;
-        }
-        
+
+        if (switchInProgress) { return; }
+
         if (!_input.isPressed)
         {
             player.CanMove = false;
             player.CanRotate = false;
+
             if (canChargedAttack)
             {
                 canChargedAttack = false;
                 Attack(ChargedAttack);
                 return;
             }
+
             Attack(comboAttacks[currentCombo]);
             switchInProgress = false;
         }
@@ -55,25 +62,19 @@ public class NeutralAttackManager : AttackManager
     {
         base.Ultimate();
         Debug.Log("Ultimate");
-        UltimateActivation();
+        var meow = StartCoroutine(UltimateActivation());
     }
-    private void UltimateActivation()
+
+    private IEnumerator UltimateActivation()
     {
-        Collider[] enmeyHits = Physics.OverlapSphere(transform.position, rangeOfUltimate, enemyLayer);
-        foreach (var enemyCollider in enmeyHits)
+        float timer = 0f;
+
+        float ultiDuration = ultimateDuration;
+
+        while (timer < ultimateDuration)
         {
-           Ennemy ennemy = enemyCollider.GetComponent<Ennemy>();
-           if (ennemy != null)
-           {
-               ennemy.StartSleep(durationSleep);
-           }
+            timer += Time.deltaTime;
+            yield return null;
         }
     }
-    
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.darkBlue;
-        Gizmos.DrawWireSphere(transform.position, rangeOfUltimate); 
-    }
-    
 }
