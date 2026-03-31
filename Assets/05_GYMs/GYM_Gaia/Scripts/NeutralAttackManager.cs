@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 
 public class NeutralAttackManager : AttackManager
 {
+    [SerializeField] private ErasedManager erasedManager;
     [SerializeField]
     private SimpleAttack[] comboAttacks;
     [SerializeField] protected SimpleAttack ChargedAttack;
@@ -22,6 +23,7 @@ public class NeutralAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
+        if(erasedManager.startEnemyErased)return;
         Debug.Log(switchInProgress);
         if (!_input.isPressed && switchInProgress)
         {
