@@ -54,13 +54,17 @@ public class PlayerHP : MonoBehaviour
         while (HP > newLife)
         {
             HP = Mathf.MoveTowards(HP, newLife, speedRecharge * Time.deltaTime);
-            Debug.Log(HP);
             UpdateVisuals();
             if (HP <= 0)
             {
                 HP = maxHP;
                 UpdateVisuals();
                 StartCoroutine(playerController.RespawnCoroutine());
+                if (damageCoroutine != null)
+                {
+                    StopCoroutine(damageCoroutine);
+                    damageCoroutine = null;
+                }
             }
             yield return null;
         }
@@ -71,7 +75,6 @@ public class PlayerHP : MonoBehaviour
         while (HP > newLife)
         {
             HP = Mathf.MoveTowards(HP, newLife, speedRecharge * Time.deltaTime);
-            Debug.Log(HP);
             UpdateVisuals();
             if(HP >= maxHP)break;
             yield return null;

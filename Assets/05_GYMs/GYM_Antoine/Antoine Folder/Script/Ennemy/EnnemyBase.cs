@@ -11,7 +11,7 @@ public class EnnemyBase : MonoBehaviour
     protected Animator animator;
 
     [Header("Data")]
-    [SerializeField] private EnemyData data;
+    [SerializeField] protected EnemyData data;
 
     protected int HP = 5;
     protected Vector2 speed;

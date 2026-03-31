@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -35,6 +36,8 @@ public class GroundEnnemy : EnnemyBase
         navMesh.speed = speed.x;
         navMesh.acceleration = acceleration.x;
         navMesh.angularSpeed = SpeedRotate.x;
+
+        MainHitBox.damage = data.strength;
     }
 
     protected override void FixedUpdate()
