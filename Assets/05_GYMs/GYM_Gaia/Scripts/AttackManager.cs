@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
+[RequireComponent(typeof(Animator))]
 public abstract class AttackManager : MonoBehaviour
 {
     

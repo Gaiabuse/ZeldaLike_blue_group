@@ -205,6 +205,7 @@ GameObject:
   - component: {fileID: 999091161340526415}
   - component: {fileID: 4749926219799942427}
   - component: {fileID: 8715960371389895154}
+  - component: {fileID: 526446285431153308}
   m_Layer: 9
   m_Name: DreamForm
   m_TagString: Untagged
@@ -241,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bae4dfff873fb789599c00b232d14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
-  FormAnimator: {fileID: 0}
+  FormAnimator: {fileID: 526446285431153308}
   timeForDoCombo: 5
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 5
@@ -360,6 +361,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamBait
   BaitPrefab: {fileID: 5512050949420604262, guid: e0f036760597f0219aaf42cf77137e91, type: 3}
+--- !u!95 &526446285431153308
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3325453322797383309}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3904385373315590954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,6 +1274,7 @@ GameObject:
   - component: {fileID: 4667459941524090902}
   - component: {fileID: 8600280016486079122}
   - component: {fileID: 1579369890925037167}
+  - component: {fileID: 8956781601996029030}
   m_Layer: 9
   m_Name: NightmareForm
   m_TagString: Untagged
@@ -1314,7 +1338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54f96836c9944cc8375530f0beb2727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NightmareAttackManager
-  FormAnimator: {fileID: 0}
+  FormAnimator: {fileID: 8956781601996029030}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
@@ -1379,6 +1403,28 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
+--- !u!95 &8956781601996029030
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7780061593918026694}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8495912245519105219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,7 +1517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fb9a0ae76630a34ca57a112efb7a135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NeutralAttackManager
-  FormAnimator: {fileID: 0}
+  FormAnimator: {fileID: 4621402615979532308}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
