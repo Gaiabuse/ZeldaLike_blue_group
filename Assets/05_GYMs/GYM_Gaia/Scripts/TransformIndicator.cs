@@ -38,11 +38,13 @@ public class TransformIndicator : MonoBehaviour
                 emptyLifeGauge.sprite = lifeEmptySprites[0];
                 spellIndicator.sprite = spellIndicatorSprites[0];
                 break;
+
             case Form.nightmare:
                 lifeGauge.sprite = lifeFullSprites[1];
                 emptyLifeGauge.sprite = lifeEmptySprites[1];
                 spellIndicator.sprite = spellIndicatorSprites[1];
                 break;
+
             case Form.dream:
                 lifeGauge.sprite = lifeFullSprites[2];
                 emptyLifeGauge.sprite = lifeEmptySprites[2];

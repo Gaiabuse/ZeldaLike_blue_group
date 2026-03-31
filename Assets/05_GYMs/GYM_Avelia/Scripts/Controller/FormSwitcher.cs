@@ -15,7 +15,7 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField] PlayerController playerController;
     [SerializeField] private float timeForDoUltimate;
-    public float TimeForDoUltimate{private set; get;}
+    public float TimeForDoUltimate { private set; get; }
     public bool CanDoUltimate;
 
     public bool canSwitchForm = true;
@@ -29,10 +29,12 @@ public class FormSwitcher : MonoBehaviour
     public void ChangeForm(Form nextForm)
     {
 
-        if(currentForm == nextForm)return;
+        if (currentForm == nextForm) return;
+
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
+
         switch (nextForm)
         {
             case Form.neutral:
@@ -45,6 +47,7 @@ public class FormSwitcher : MonoBehaviour
 
                 playerController.currentAttackManager = FormAttackManagers[0];
                 break;
+
             case Form.dream:
                 dreamFormObject.SetActive(true);
                 if (CanDoUltimate)
@@ -54,6 +57,7 @@ public class FormSwitcher : MonoBehaviour
                 }
                 playerController.currentAttackManager = FormAttackManagers[1];
                 break;
+
             case Form.nightmare:
                 nightmareFormObject.SetActive(true);
                 if (CanDoUltimate)
@@ -63,6 +67,7 @@ public class FormSwitcher : MonoBehaviour
                 }
                 playerController.currentAttackManager = FormAttackManagers[2];
                 break;
+
         }
 
         currentForm = nextForm;
@@ -70,7 +75,7 @@ public class FormSwitcher : MonoBehaviour
         playerController.CanMove = true;
         playerController.CanRotate = true;
     }
-    
+
 
     public void ForcedTransform()
     {

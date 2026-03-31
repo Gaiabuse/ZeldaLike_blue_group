@@ -6,24 +6,29 @@ using UnityEngine.Serialization;
 
 public abstract class AttackManager : MonoBehaviour
 {
-    
+
     [SerializeField] protected float timeForDoCombo;
     [SerializeField] protected PlayerController player;
 
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
     [SerializeField] protected FormSwitcher formSwitcher;
-    [HideInInspector]public bool CanAttack;
+    [HideInInspector] public bool CanAttack;
+
     protected bool canChargedAttack;
     protected Attack currentAttack;
     protected int currentCombo;
     protected Coroutine comboCoroutine;
+
     protected int numberOfAttacksInCombo;
     private bool[] allAttackTouched;
     private Coroutine ultimateCoroutine;
+
     public static Action CanUltimate;
     public static Action EndForUltimate;
-    protected bool switchInProgress =false;
+
+    protected bool switchInProgress = false;
     protected Coroutine finishSwitchCoroutine;
+
     private enum inputValueDirection
     {
         up,
@@ -32,6 +37,7 @@ public abstract class AttackManager : MonoBehaviour
         right,
         none
     }
+
     protected virtual void OnEnable()
     {
         player.CanMove = true;
@@ -46,22 +52,23 @@ public abstract class AttackManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         switchInProgress = false;
     }
+
     protected virtual void OnAttack(InputValue _input)
     {
         if (_input.isPressed)
         {
             var action = player.playerInput.actions["Attack"];
-        
+
             if (action.activeControl != null)
             {
-                string direction = action.activeControl.name; 
-                
+                string direction = action.activeControl.name;
+
                 HandleDirectionalInput(direction);
             }
         }
-       
+
     }
-    
+
     private void HandleDirectionalInput(string direction)
     {
         switch (direction)
@@ -72,12 +79,12 @@ public abstract class AttackManager : MonoBehaviour
                     formSwitcher.ChangeForm(Form.neutral);
                 }
                 break;
-            case "buttonEast" :
+            case "buttonEast":
                 if (formSwitcher.currentForm != Form.nightmare)
                 {
                     formSwitcher.ChangeForm(Form.nightmare);
                 }
-                
+
                 break;
             case "buttonWest":
                 if (formSwitcher.currentForm != Form.dream)
@@ -87,6 +94,7 @@ public abstract class AttackManager : MonoBehaviour
                 break;
         }
     }
+
     void OnChargedAttack(InputValue _input)
     {
         canChargedAttack = true;
@@ -95,7 +103,7 @@ public abstract class AttackManager : MonoBehaviour
     public void Attack(SimpleAttack attack)
     {
         if (!CanAttack) return;
-        
+
         if (comboCoroutine != null)
         {
             StopCoroutine(comboCoroutine);
@@ -109,6 +117,7 @@ public abstract class AttackManager : MonoBehaviour
     {
         EndForUltimate?.Invoke();
     }
+
     protected void AttackIsFinished(bool touchedEnemy)
     {
         if (currentAttack == null) return;
@@ -122,11 +131,11 @@ public abstract class AttackManager : MonoBehaviour
         if (this.gameObject.activeInHierarchy)
         {
             comboCoroutine = StartCoroutine(ComboCoroutine());
-            
+
         }
         currentAttack.Finished -= AttackIsFinished;
         CanAttack = true;
-       
+
         currentAttack = null;
     }
 
