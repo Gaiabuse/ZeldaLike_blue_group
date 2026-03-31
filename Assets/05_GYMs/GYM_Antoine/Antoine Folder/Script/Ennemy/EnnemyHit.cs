@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnnemyHit : MonoBehaviour
 {
-    public int damage = 3;
+    [SerializeField] private int damage = 3;
     bool canHit;
 
     Collider col;
