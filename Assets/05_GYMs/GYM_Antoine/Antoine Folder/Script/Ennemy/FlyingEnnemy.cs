@@ -3,7 +3,10 @@ using static UnityEngine.GraphicsBuffer;
 
 public class FlyingEnnemy : EnnemyBase
 {
+    [Header("Flying Ennemy")]
     [SerializeField] float LookRange = 5f;
+    [SerializeField] GameObject Projectile;
+    [SerializeField] Vector3 spawnProjectile;
 
     [Header("Layer")]
     [SerializeField] LayerMask LayerTarget;
@@ -36,7 +39,12 @@ public class FlyingEnnemy : EnnemyBase
             Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.25f);
-            
+
+            animator.SetTrigger("Shoot");
+        }
+        if (move == "wait")
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 0.07f);
         }
     }
 
@@ -77,5 +85,16 @@ public class FlyingEnnemy : EnnemyBase
         }
 
         TargetInFieldOfView = false;
+    }
+
+    protected void ShootProjectiles()
+    {
+        GameObject projectile = Instantiate(Projectile);
+        projectile.transform.parent = transform;
+        projectile.transform.localPosition = spawnProjectile;
+        projectile.transform.rotation = transform.rotation;
+        projectile.transform.parent = null;
+
+        projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * 25, ForceMode.Impulse);
     }
 }
