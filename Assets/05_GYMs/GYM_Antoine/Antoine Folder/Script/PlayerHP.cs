@@ -57,14 +57,11 @@ public class PlayerHP : MonoBehaviour
             UpdateVisuals();
             if (HP <= 0)
             {
+               
+                StartCoroutine(playerController.RespawnCoroutine());
                 HP = maxHP;
                 UpdateVisuals();
-                StartCoroutine(playerController.RespawnCoroutine());
-                if (damageCoroutine != null)
-                {
-                    StopCoroutine(damageCoroutine);
-                    damageCoroutine = null;
-                }
+                break;
             }
             yield return null;
         }
