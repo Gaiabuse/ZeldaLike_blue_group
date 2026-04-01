@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-
         Movement();
         AlignPlayer();
     }
@@ -135,10 +134,10 @@ public class PlayerController : MonoBehaviour
     {
         var ldirection = _input.Get<Vector2>();
         currentAnimator.SetFloat("xInput", ldirection.x);
-        currentAnimator.SetFloat("yInput", ldirection.x);
+        currentAnimator.SetFloat("yInput", ldirection.y);
         currentStickProgress = ldirection.magnitude;
 
-        currentAnimator.SetBool("isRunning",currentStickProgress <= 0.1);
+        currentAnimator.SetBool("isRunning",currentStickProgress >= Math.Abs(0.1) );
         if (currentStickProgress <= 0.1) return;
         direction = ldirection.normalized;
     }
