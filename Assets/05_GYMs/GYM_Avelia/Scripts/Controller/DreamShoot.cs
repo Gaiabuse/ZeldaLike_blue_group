@@ -63,10 +63,23 @@ public class DreamShoot : AttackManager
         }
         if (switchInProgress)
         {
+            UnprepShoot();
             return;
         }
         if (_input.isPressed)
         {
+            var action = player.playerInput.actions["Attack"];
+            if (action.activeControl != null)
+            {
+                string dir = action.activeControl.name;
+                if (dir != "buttonWest")
+                {
+                    UnprepShoot();
+                    base.OnAttack(_input);
+                    return; 
+                }
+            }
+        
             PrepareShoot();
             return;
         }

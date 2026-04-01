@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(RespawnCoroutine());
     }
 
-    IEnumerator RespawnCoroutine()
+    public IEnumerator RespawnCoroutine()
     {
         Debug.Log("respawn");
         controller.enabled = false;

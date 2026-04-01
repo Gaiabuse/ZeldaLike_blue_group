@@ -368,6 +368,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
 --- !u!114 &8715960371389895154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,8 +529,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   playerInput: {fileID: 0}
   controller: {fileID: 2672575590059249965}
-  speed: 10
-  rotationSpeed: 8
+  speed: 12
+  rotationSpeed: 10
   gravity: {x: 0, y: -10, z: 0}
   decayAccel: 5
   decayDecel: 10
@@ -1192,8 +1193,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 8133830779634646023}
-  rangeForGrab: 10
-  grabStrength: -10.2
+  rangeForGrab: 14
+  grabStrength: -14
   rangeForSwallow: 2
   grabLayers:
     serializedVersion: 2
@@ -1222,11 +1223,11 @@ MonoBehaviour:
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
   comboAttacks:
-  - AttackData: {fileID: 11400000, guid: 96b6dcca73aeefc4d812763d38e4d761, type: 2}
+  - AttackData: {fileID: 11400000, guid: 16b18c8ee79c6f649bdd0de1043d89cb, type: 2}
     type: 1
-  - AttackData: {fileID: 11400000, guid: 7f4fdbba5f72dba42973ed442c55a712, type: 2}
+  - AttackData: {fileID: 11400000, guid: 2e3b2bc3f5d136c418536f2abbf9d4b4, type: 2}
     type: 1
-  - AttackData: {fileID: 11400000, guid: ce99d0eadce0e414b94135608b77c80a, type: 2}
+  - AttackData: {fileID: 11400000, guid: 8b67946f8e13af24eae8265c2a7e36fb, type: 2}
     type: 1
   ChargedAttack:
     AttackData: {fileID: 11400000, guid: 796a42e5e091a8b4aaf3d0295ed30881, type: 2}
@@ -1279,6 +1280,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
 --- !u!1 &8495912245519105219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1291,6 +1293,7 @@ GameObject:
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
+  - component: {fileID: 7934904055037678382}
   m_Layer: 9
   m_Name: NeutralForm
   m_TagString: Untagged
@@ -1330,6 +1333,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   maxPointsForCreate: 0
+  holdTime: 0
 --- !u!65 &223095147346892054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1369,9 +1373,9 @@ MonoBehaviour:
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
   comboAttacks:
-  - AttackData: {fileID: 11400000, guid: 530b8dcfcef250c4c9ca67080001881d, type: 2}
+  - AttackData: {fileID: 11400000, guid: d24aa6c29e7d3dd4297774edc8df8796, type: 2}
     type: 0
-  - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
+  - AttackData: {fileID: 11400000, guid: d24aa6c29e7d3dd4297774edc8df8796, type: 2}
     type: 0
   - AttackData: {fileID: 11400000, guid: 83d045ce390e10c498aead4edee513a9, type: 2}
     type: 0
@@ -1385,6 +1389,48 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   durationSleep: 2
+--- !u!114 &7934904055037678382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8495912245519105219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4631489e092e159b9e09bc4d6895044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  controller: {fileID: 8133830779634646023}
+  characterController: {fileID: 2672575590059249965}
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.4
+  DashProggression:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
 --- !u!1 &8549774408609409626
 GameObject:
   m_ObjectHideFlags: 0

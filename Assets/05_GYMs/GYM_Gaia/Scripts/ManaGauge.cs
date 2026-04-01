@@ -20,15 +20,6 @@ public class ManaGauge : MonoBehaviour
     private bool isPaused;
     private float currentMaxMana;
     private int currentDivision;
-    private void OnEnable()
-    {
-        FormSwitcher.SwitchForm += OnSwitchForm;
-    }
-
-    private void OnDisable()
-    {
-        FormSwitcher.SwitchForm -= OnSwitchForm;
-    }
 
     private void Start()
     {
@@ -57,41 +48,7 @@ public class ManaGauge : MonoBehaviour
         }
         RechargeCoroutine = null;
     }
-
-    public void DecreaseDivision()
-    {
-        if(currentDivision <=1)return;
-        currentDivision--;
-        currentMaxMana = maxMana/numberOfDivision * currentDivision;
-        if (currentMana >= currentMaxMana)
-        {
-            currentMana = currentMaxMana;
-            UpdateVisuals();
-        }
-        Debug.Log(currentMaxMana);
-    }
-
-    public void IncreaseDivision()
-    {
-        if(currentDivision >=numberOfDivision)return;
-        currentDivision++;
-        float oneDivisionValue = maxMana / numberOfDivision;
-        currentMaxMana =oneDivisionValue * currentDivision;
-        currentMana += oneDivisionValue;
-        UpdateVisuals();
-        if (RechargeCoroutine != null)
-        {
-            StopCoroutine(RechargeCoroutine);
-            RechargeCoroutine = null;
-        }
-        RechargeCoroutine = StartCoroutine(Recharge());
-        if (DecreaseCoroutine != null)
-        {
-            StopCoroutine(DecreaseCoroutine);
-            DecreaseCoroutine = null;
-        }
-        
-    }
+    
 
     private IEnumerator Decrease()
     {
@@ -119,38 +76,7 @@ public class ManaGauge : MonoBehaviour
             .OnComplete(() => isPaused = false);
     }
     
-
-    private void OnSwitchForm(Form currentForm)
-    {
-        if (currentForm == Form.neutral)
-        {
-            if (RechargeCoroutine != null)
-            {
-                StopCoroutine(RechargeCoroutine);
-                RechargeCoroutine = null;
-            }
-            RechargeCoroutine = StartCoroutine(Recharge());
-            if (DecreaseCoroutine != null)
-            {
-                StopCoroutine(DecreaseCoroutine);
-                DecreaseCoroutine = null;
-            }
-        }
-        else
-        {
-            if (DecreaseCoroutine != null)
-            {
-                StopCoroutine(DecreaseCoroutine);
-                DecreaseCoroutine = null;
-            }
-            DecreaseCoroutine = StartCoroutine(Decrease());
-            if (RechargeCoroutine != null)
-            {
-                StopCoroutine(RechargeCoroutine);
-                RechargeCoroutine = null;
-            }
-        }
-    }
+    
     private void UpdateVisuals()
     {
         manaSlider.fillAmount = NormalizeValue(currentMana);

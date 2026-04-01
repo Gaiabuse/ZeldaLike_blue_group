@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -9,8 +11,18 @@ public class ErasedManager : MonoBehaviour
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
     [SerializeField] private int maxPointsForCreate;
+    [Tooltip("Hold time for erased all objects we have create")]
+    [SerializeField] private float holdTime;
     private ErasedObject currentObject;
+    private List<ErasedObject> objectsErased = new List<ErasedObject>();
     private int currentPointsForCreate;
+    private bool erasedAllObjects;
+    private Coroutine HoldTimeCoroutine;
+    private void Start()
+    {
+        objectsErased = new List<ErasedObject>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         int otherObjectLayerMask = 1 << other.gameObject.layer;
@@ -45,9 +57,36 @@ public class ErasedManager : MonoBehaviour
 
     public void OnSecondPower(InputValue inputValue)
     {
-        EraseOrCreate();
+        if (inputValue.isPressed)
+        {
+            if(HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
+            HoldTimeCoroutine = StartCoroutine(HoldTime());
+        }
+
+        if (!inputValue.isPressed)
+        {
+            if(HoldTimeCoroutine != null)StopCoroutine(HoldTimeCoroutine);
+            if (erasedAllObjects)
+            {
+                ErasedAllObjects();
+                erasedAllObjects = false;
+            }
+            else
+            {
+                EraseOrCreate();
+            }
+            
+        }
+            
     }
 
+    private IEnumerator HoldTime()
+    {
+        erasedAllObjects = false;
+        yield return new WaitForSeconds(holdTime);
+        erasedAllObjects = true;
+        HoldTimeCoroutine = null;
+    }
     private void EraseOrCreate()
     {
         if (currentObject)
@@ -56,9 +95,22 @@ public class ErasedManager : MonoBehaviour
             {
                 currentObject.Create();
                 currentPointsForCreate--;
+                objectsErased.Add(currentObject);
             }else if (currentPointsForCreate < maxPointsForCreate)
             {
                 currentObject.Erase();
+                currentPointsForCreate++;
+            }
+        }
+    }
+
+    private void ErasedAllObjects()
+    {
+        if (objectsErased.Count > 0)
+        {
+            foreach (var obj in objectsErased)
+            {
+                obj.Erase();
                 currentPointsForCreate++;
             }
         }
