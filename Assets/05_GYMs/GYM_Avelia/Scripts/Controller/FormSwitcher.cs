@@ -44,6 +44,7 @@ public class FormSwitcher : MonoBehaviour
                 }
 
                 playerController.currentAttackManager = FormAttackManagers[0];
+                playerController.currentAnimator = FormAttackManagers[0].FormAnimator;
                 break;
             case Form.dream:
                 dreamFormObject.SetActive(true);
@@ -53,6 +54,7 @@ public class FormSwitcher : MonoBehaviour
                     CanDoUltimate = false;
                 }
                 playerController.currentAttackManager = FormAttackManagers[1];
+                playerController.currentAnimator = FormAttackManagers[1].FormAnimator;
                 break;
             case Form.nightmare:
                 nightmareFormObject.SetActive(true);
@@ -62,6 +64,7 @@ public class FormSwitcher : MonoBehaviour
                     CanDoUltimate = false;
                 }
                 playerController.currentAttackManager = FormAttackManagers[2];
+                playerController.currentAnimator = FormAttackManagers[2].FormAnimator;
                 break;
         }
 

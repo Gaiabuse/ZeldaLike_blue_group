@@ -16,6 +16,7 @@ public class Attack : MonoBehaviour
 
     public float manaUsed { private set; get; }
     public float damage{private set; get;}
+    [SerializeField] float stun;
     public TypeOfAttack type{private set; get;}
 
     public Action<bool> Finished;
@@ -60,7 +61,7 @@ public class Attack : MonoBehaviour
             Ennemy ennemyScript = collision.transform.GetComponent<Ennemy>();
             if (ennemyScript == null)
             {
-                collision.transform.GetComponent<EnnemyBase>().TakeDamage((int)damage);
+                collision.transform.GetComponent<EnnemyBase>().TakeDamage((int)damage, stun);
 
             }
             else

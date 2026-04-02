@@ -1,17 +1,17 @@
+using System;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnnemyBase : MonoBehaviour
 {
     protected Animator animator;
 
     [Header("Data")]
-    [SerializeField] private EnemyData data;
+    [SerializeField] protected EnemyData data;
 
     protected int HP = 5;
     protected Vector2 speed;
@@ -47,6 +47,7 @@ public class EnnemyBase : MonoBehaviour
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
+    public Action<EnnemyBase> OnDeath;
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -60,6 +61,12 @@ public class EnnemyBase : MonoBehaviour
         speed = new Vector2(data.speed, data.chasespeed);
         SpeedRotate = new Vector2(data.speedRotate, data.chasespeedRotate);
         acceleration = new Vector2(data.acceleration, data.chaseacceleration);
+
+        if (Player == null)
+        {
+            GameObject[] possiblePlayer = GameObject.FindGameObjectsWithTag("Player");
+            Player = possiblePlayer[0].transform;
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -70,6 +77,14 @@ public class EnnemyBase : MonoBehaviour
             if (timerGeneral <= 0)
             {
                 animator.SetBool("Sleep", false);
+            }
+        }
+        if (move == "stun")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                EndStun();
             }
         }
     }
@@ -100,7 +115,7 @@ public class EnnemyBase : MonoBehaviour
         }
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage, float stun)
     {
         if (dotween != null)
         {
@@ -138,6 +153,8 @@ public class EnnemyBase : MonoBehaviour
             {
                 if (move != "attack") move = "chase";
             }
+
+            if (stun > 0) StunEnnemy(stun, false);
         }
     }
 
@@ -154,6 +171,7 @@ public class EnnemyBase : MonoBehaviour
 
     protected virtual void Death()
     {
+        OnDeath?.Invoke(this);
         Destroy(gameObject);
     }
 
@@ -174,5 +192,18 @@ public class EnnemyBase : MonoBehaviour
     {
         if (toogle == 1) MainHitBox.ToggleHitBox(true);
         else MainHitBox.ToggleHitBox(false);
+    }
+
+    public virtual void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        EyesSetColorTo(colorMotionless);
+        move = "stun";
+        timerGeneral = stunTime;
+    }
+
+    protected virtual void EndStun()
+    {
+        EyesSetColorTo(colorNormal);
+        move = "0";
     }
 }

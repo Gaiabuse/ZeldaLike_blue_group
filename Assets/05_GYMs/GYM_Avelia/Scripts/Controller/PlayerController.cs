@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 public class PlayerController : MonoBehaviour
 {
     [HideInInspector]public PlayerInput playerInput;
+    [HideInInspector] public Animator currentAnimator;
     [SerializeField]
     CharacterController controller;
 
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         startPos = transform.position;
         playerInput = GetComponent<PlayerInput>();
+        currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
         {
             cameraRotation = Camera.main.transform.parent;
@@ -65,7 +67,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-
         Movement();
         AlignPlayer();
     }
@@ -132,10 +133,12 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();
+        currentAnimator.SetFloat("xInput", ldirection.x);
+        currentAnimator.SetFloat("yInput", ldirection.y);
         currentStickProgress = ldirection.magnitude;
 
+        currentAnimator.SetBool("isRunning",currentStickProgress >= Math.Abs(0.1) );
         if (currentStickProgress <= 0.1) return;
-
         direction = ldirection.normalized;
     }
     

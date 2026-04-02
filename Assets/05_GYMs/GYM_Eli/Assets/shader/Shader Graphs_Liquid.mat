@@ -7,16 +7,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Cristal
-  m_Shader: {fileID: -6465566751694194690, guid: 255e4c4e42afa5a489406defe9ae73f3, type: 3}
+  m_Name: Shader Graphs_Liquid
+  m_Shader: {fileID: -6465566751694194690, guid: 547ee44dffbf871488aa440dbb119b49, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2010
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -38,19 +38,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BottomLine: 0.852
-    - _Metallic: 0.463
+    - Vector1_1AEEBAF1: 0.26
+    - Vector1_86B367DE: 0.7
     - _QueueControl: 0
-    - _QueueOffset: 10
-    - _TopLine: 0.621
-    - _smoothness: 0.297
+    - _QueueOffset: 0
     m_Colors:
-    - _BaseColor: {r: 0.68917847, g: 1.6055588, b: 1.5963002, a: 0.5372549}
-    - _BottomColor: {r: 1.5788699, g: 0, b: 4.075192, a: 1}
-    - _TopColor: {r: 2.3324182, g: 0, b: 0.31626055, a: 1}
+    - Color_12DEDFED: {r: 0.28502128, g: 0.99056596, b: 0.7492778, a: 1}
+    - Color_1B2A4228: {r: 0, g: 0.8207547, b: 0.29611537, a: 1}
+    - Color_E9C3FC1D: {r: 0, g: 0.6946828, b: 0.764151, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &8637017740228543594
+--- !u!114 &6099050936635566581
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
