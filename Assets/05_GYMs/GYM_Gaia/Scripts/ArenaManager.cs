@@ -73,6 +73,7 @@ public class ArenaManager : MonoBehaviour
         {
             indicators[i].SetActive(false);
             EnnemyBase currentEnnemy = Instantiate(currentHorde.Enemies[i].Enemy,currentHorde.Enemies[i].SpawnPoint,Quaternion.identity);
+            currentEnnemy.alwaysAgro = true;
             currentEnnemy.OnDeath += OnEnemyDeath;
             currentEnnemiesInHordes.Add(currentEnnemy);
         }
@@ -90,7 +91,11 @@ public class ArenaManager : MonoBehaviour
 
     private void CancelArenaFight()
     {
-        currentEnnemiesInHordes = new List<EnnemyBase>();
+        foreach (EnnemyBase enemy in currentEnnemiesInHordes)
+        {
+            Destroy(enemy.gameObject);
+        }
+        currentEnnemiesInHordes.Clear();
         currentHordes = 0;
         BarrierParent.SetActive(false);
         arenaEnter.ArenaIsStarted = false;
