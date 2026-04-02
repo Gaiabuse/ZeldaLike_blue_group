@@ -151,13 +151,14 @@ public class PlayerController : MonoBehaviour
 
     void OnRespawn(InputValue _input)
     {
-        OnPlayerDeath?.Invoke();
+        
         StartCoroutine(RespawnCoroutine());
     }
 
     public IEnumerator RespawnCoroutine()
     {
         Debug.Log("respawn");
+        OnPlayerDeath?.Invoke();
         controller.enabled = false;
         transform.position = startPos;
         Debug.Log("transform.position : " + transform.position + ", start pos : " + startPos);
