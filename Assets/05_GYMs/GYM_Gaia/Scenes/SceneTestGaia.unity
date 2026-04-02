@@ -2630,6 +2630,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347675444}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1363069102 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8664345379714403436, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+  m_PrefabInstance: {fileID: 8772015360694175031}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1363069106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363069102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 029599f676686158fa4ee0a399ded30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Billboard
 --- !u!1 &1399555325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3047048347158460542, guid: a48fa5a2cecf37744b30232c14e237ce, type: 3}
@@ -3041,6 +3058,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   hordes:
+  - Enemies:
+    - Enemy: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      SpawnPoint: {x: 45.1, y: 1.03, z: -8.44}
+    - Enemy: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      SpawnPoint: {x: 45.1, y: 1.03, z: -15.32}
+    - Enemy: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      SpawnPoint: {x: 41.39, y: 1.03, z: -12.48}
   - Enemies:
     - Enemy: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
       SpawnPoint: {x: 45.1, y: 1.03, z: -8.44}
@@ -3566,6 +3590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9141add5b74dba98b7249d13d9e400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArenaEnter
+  ArenaIsStarted: 0
 --- !u!65 &1741868107
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4426,9 +4451,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 1915928875852587533, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: maxHP
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915928875852587533, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 811775620}
+    - target: {fileID: 1915928875852587533, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: minFillAmount
+      value: 0.28
+      objectReference: {fileID: 0}
     - target: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: m_Name
       value: Player
@@ -4444,7 +4477,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8664345379714403436, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1363069106}
   m_SourcePrefab: {fileID: 100100000, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -6,7 +6,7 @@ public class ArenaEnter : MonoBehaviour
 {
     public Action StartArena;
 
-    private bool ArenaIsStarted = false;
+    public bool ArenaIsStarted = false;
     private void OnTriggerEnter(Collider other)
     {
         if(ArenaIsStarted)return;
