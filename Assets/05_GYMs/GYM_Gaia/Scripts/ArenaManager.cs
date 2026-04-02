@@ -16,7 +16,7 @@ public class ArenaManager : MonoBehaviour
     [SerializeField] private float timeBeforeSpawnEnemies;
     [Tooltip("parent des barrière qui bloque le joueur dans l'arène")]
     [SerializeField] private GameObject BarrierParent;
-    [Tooltip("Detecteur de l'entrée de l'arene qui va lancer le combat, l'arena Enter a besoin d'un collider en trigger")]
+    [Tooltip("Detecteur de l'entrée de l'arene qui va lancer le combat")]
     [SerializeField] private ArenaEnter arenaEnter;
     private List<GameObject> indicators;
     private List<EnnemyBase> currentEnnemiesInHordes = new List<EnnemyBase>();
