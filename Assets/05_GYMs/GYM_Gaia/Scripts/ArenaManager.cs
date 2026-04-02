@@ -19,11 +19,14 @@ public class ArenaManager : MonoBehaviour
     private void OnEnable()
     {
         arenaEnter.StartArena += StartArenaFight;
+        PlayerController.OnPlayerDeath += CancelArenaFight;
+        
     }
 
     private void OnDisable()
     {
         arenaEnter.StartArena -= StartArenaFight;
+        PlayerController.OnPlayerDeath -= CancelArenaFight;
     }
 
     void Start()
@@ -83,6 +86,14 @@ public class ArenaManager : MonoBehaviour
             CheckIfHordeIsFinished();
             ennemy.OnDeath -= OnEnemyDeath;
         }
+    }
+
+    private void CancelArenaFight()
+    {
+        currentEnnemiesInHordes = new List<EnnemyBase>();
+        currentHordes = 0;
+        BarrierParent.SetActive(false);
+        arenaEnter.ArenaIsStarted = false;
     }
 
     private void CheckIfHordeIsFinished()

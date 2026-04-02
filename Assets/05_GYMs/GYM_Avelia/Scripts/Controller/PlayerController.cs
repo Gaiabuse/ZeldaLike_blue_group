@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public Action OnCatch;
     public Action OnRelease;
 
+    public static Action OnPlayerDeath;
     public Action Attack;
 
     private float offset = -90f;
@@ -150,6 +151,7 @@ public class PlayerController : MonoBehaviour
 
     void OnRespawn(InputValue _input)
     {
+        OnPlayerDeath?.Invoke();
         StartCoroutine(RespawnCoroutine());
     }
 
