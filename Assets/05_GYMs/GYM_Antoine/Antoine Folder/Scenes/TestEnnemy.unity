@@ -1700,6 +1700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic Ennemy
       objectReference: {fileID: 0}
+    - target: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1761,13 +1765,33 @@ PrefabInstance:
       propertyPath: spawnProjectile.z
       value: 0.65
       objectReference: {fileID: 0}
+    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
+      propertyPath: Cooldown.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
+      propertyPath: 'Cooldown.Array.data[0]'
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
+      propertyPath: 'Cooldown.Array.data[1]'
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
+      propertyPath: 'Cooldown.Array.data[2]'
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
+      propertyPath: 'Cooldown.Array.data[3]'
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4376329963260162329, guid: 389223b118273ef4aa60732feb39755e, type: 3}
       propertyPath: m_Name
       value: Flying Ennemy Test
       objectReference: {fileID: 0}
     - target: {fileID: 4376329963260162329, guid: 389223b118273ef4aa60732feb39755e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

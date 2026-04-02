@@ -1,5 +1,5 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using System.Collections.Generic;
 
 public class FlyingEnnemy : EnnemyBase
 {
@@ -8,8 +8,19 @@ public class FlyingEnnemy : EnnemyBase
     [SerializeField] GameObject Projectile;
     [SerializeField] Vector3 spawnProjectile;
 
+    [SerializeField] List<float> Cooldown;
+    int currentCooldown = 0;
+    float cooldownAttack;
+
     [Header("Layer")]
     [SerializeField] LayerMask LayerTarget;
+
+    protected override void Start()
+    {
+        base.Start();
+        if (Cooldown.Count > 0) cooldownAttack = Cooldown[currentCooldown];
+        else cooldownAttack = 0;
+    }
 
     protected override void FixedUpdate()
     {
@@ -40,7 +51,21 @@ public class FlyingEnnemy : EnnemyBase
 
             transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.25f);
 
-            animator.SetTrigger("Shoot");
+            if (Cooldown.Count > 0)
+            {
+                if (cooldownAttack <= 0)
+                {
+                    animator.SetTrigger("Shoot");
+                    currentCooldown += 1;
+                    if (Cooldown.Count < currentCooldown + 1) currentCooldown = 0;
+                    cooldownAttack = Cooldown[currentCooldown];
+                }
+                else cooldownAttack -= Time.deltaTime;
+            }
+            else
+            {
+                animator.SetTrigger("Shoot");
+            }
         }
         if (move == "wait")
         {
