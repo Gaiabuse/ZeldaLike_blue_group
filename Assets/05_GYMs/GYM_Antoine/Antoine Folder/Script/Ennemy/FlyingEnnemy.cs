@@ -27,7 +27,7 @@ public class FlyingEnnemy : EnnemyBase
         base.FixedUpdate();
 
         isPlayerInFieldOfView();
-        if (TargetInFieldOfView)
+        if (TargetInFieldOfView || alwaysAgro)
         {
             if (move != "attack")
             {

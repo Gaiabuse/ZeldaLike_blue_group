@@ -30,6 +30,8 @@ public class EnnemyBase : MonoBehaviour
     [SerializeField] protected string move = "0";
     protected float timerGeneral = 0;
 
+    public bool alwaysAgro;
+
     [Header("Deal Damage")]
     [SerializeField] protected EnnemyHit MainHitBox;
 
