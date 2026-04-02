@@ -567,6 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
   damage: 3
+  canHit: 0
 --- !u!1 &7754225235769984781
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,6 +842,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Leure: {fileID: 0}
   move: patrol
+  alwaysAgro: 1
   MainHitBox: {fileID: 583629990775373724}
   Eyes:
   - {fileID: 2201577157933080295}
@@ -861,7 +863,7 @@ MonoBehaviour:
   DistanceAttack: 2
   LayerBlockRay:
     serializedVersion: 2
-    m_Bits: 593
+    m_Bits: 1617
   PatrolPosition:
   - {x: 14, y: 1, z: 7}
   - {x: -2.5, y: 1, z: 7}
