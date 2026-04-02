@@ -69,6 +69,8 @@ public class EnnemyBase : MonoBehaviour
             GameObject[] possiblePlayer = GameObject.FindGameObjectsWithTag("Player");
             Player = possiblePlayer[0].transform;
         }
+
+        CurrentTarget = Player;
     }
 
     protected virtual void FixedUpdate()
