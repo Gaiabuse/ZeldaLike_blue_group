@@ -6,11 +6,17 @@ using UnityEngine;
 public class ArenaManager : MonoBehaviour
 {
     
+    [Tooltip("chaque element est une horde d'ennemi")]
     [SerializeField] private List<Horde> hordes;
+    [Tooltip("prefab de ce qui va apparaitre a la position de l'ennemi avant qu'il spawn")]
     [SerializeField] private GameObject indicatorPrefab;
+    [Tooltip("parent des indicateur ")]
     [SerializeField] private Transform indicatorParent;
+    [Tooltip("temps que reste l'indicateur avant le spawn de l'ennemie ")]
     [SerializeField] private float timeBeforeSpawnEnemies;
+    [Tooltip("parent des barrière qui bloque le joueur dans l'arène")]
     [SerializeField] private GameObject BarrierParent;
+    [Tooltip("Detecteur de l'entrée de l'arene qui va lancer le combat, l'arena Enter a besoin d'un collider en trigger")]
     [SerializeField] private ArenaEnter arenaEnter;
     private List<GameObject> indicators;
     private List<EnnemyBase> currentEnnemiesInHordes = new List<EnnemyBase>();
