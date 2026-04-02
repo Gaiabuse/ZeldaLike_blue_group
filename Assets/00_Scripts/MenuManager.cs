@@ -11,11 +11,35 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private string gameScene;
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private GameObject settingsScreen;
+    [SerializeField] private GameObject creditsScreen;
+    
+    private enum MenuState { Title, Settings, Credits }
+    private MenuState currentState = MenuState.Title;
     
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
+    }
+
+    private void Update()
+    {
+        bool backPressed = Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame;
+
+        if (backPressed)
+        {
+            switch (currentState)
+            {
+                case MenuState.Settings:
+                    CloseSettings();
+                    break;
+
+                case MenuState.Credits:
+                    CloseCredits();
+                    break;
+            }
+        }
     }
 
     public void Quit()
@@ -30,22 +54,58 @@ public class MenuManager : MonoBehaviour
     
     public void ShowSettings()
     {
-        Debug.Log("ShowSettings");
+        titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
+            titleScreen.SetActive(false);
+            settingsScreen.SetActive(true);
+            settingsScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+        });
+        
+        currentState = MenuState.Settings;
     }
+    
+    public void CloseSettings()
+    {
+        settingsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
+            settingsScreen.SetActive(false);
+            titleScreen.SetActive(true);
+            titleScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+        });
+        
+        currentState = MenuState.Title;
+    }
+    
     
     public void ShowCredits()
     {
-        Debug.Log("ShowCredits");
+        titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
+            titleScreen.SetActive(false);
+            creditsScreen.SetActive(true);
+            creditsScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+        });
+        
+        currentState = MenuState.Credits;
+    }
+    
+    public void CloseCredits()
+    {
+        creditsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
+            creditsScreen.SetActive(false);
+            titleScreen.SetActive(true);
+            titleScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+        });
+        
+        currentState = MenuState.Title;
     }
     
     private IEnumerator LaunchGameSequence()
     {
         StartCoroutine(RumbleCoroutine(0.5f, 0.5f, 0.5f));
         
-        titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f);
-        titleScreen.SetActive(false);
-        loadingScreen.SetActive(true);
-        loadingScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+        titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
+            titleScreen.SetActive(false);
+            loadingScreen.SetActive(true);
+            loadingScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+        });
         
         // WaitForSecond have to be longer than the rumbling duration to avoid endless rumbling
         yield return new WaitForSeconds(1.5f);
