@@ -45,7 +45,7 @@ public class GroundEnnemy : EnnemyBase
 
         isPlayerInFieldOfView();
 
-        if (TargetInFieldOfView && move != "stun")
+        if (TargetInFieldOfView || alwaysAgro && move != "stun")
         {
             if (move != "chase")
             {
