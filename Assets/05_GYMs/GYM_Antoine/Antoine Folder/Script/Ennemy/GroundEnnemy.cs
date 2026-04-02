@@ -45,55 +45,58 @@ public class GroundEnnemy : EnnemyBase
 
         isPlayerInFieldOfView();
 
-        if (TargetInFieldOfView || alwaysAgro && move != "stun")
+        if (move != "stun")
         {
-            if (move != "chase")
+            if (TargetInFieldOfView || alwaysAgro)
             {
-                EyesSetColorTo(colorChase);
-                navMesh.speed = speed.y;
-                navMesh.acceleration = acceleration.y;
-                navMesh.angularSpeed = SpeedRotate.y;
-                move = "chase";
-            }
-
-            WhereToGoPos = CurrentTarget.position;
-        }
-        else
-        {
-            if (move == "chase")
-            {
-                move = "lose chase";
-            }
-            else if (move == "lose chase")
-            {
-                if (Vector3.Distance(transform.position, WhereToGoPos) < LoseFocusDist)
+                if (move != "chase")
                 {
-                    WhereToGoPos = SelectPatrolPosition();
-                    PatrolStart();
+                    EyesSetColorTo(colorChase);
+                    navMesh.speed = speed.y;
+                    navMesh.acceleration = acceleration.y;
+                    navMesh.angularSpeed = SpeedRotate.y;
+                    move = "chase";
+                }
+
+                WhereToGoPos = CurrentTarget.position;
+            }
+            else
+            {
+                if (move == "chase")
+                {
+                    move = "lose chase";
+                }
+                else if (move == "lose chase")
+                {
+                    if (Vector3.Distance(transform.position, WhereToGoPos) < LoseFocusDist)
+                    {
+                        WhereToGoPos = SelectPatrolPosition();
+                        PatrolStart();
+                    }
                 }
             }
-        }
 
-        if (move == "chase" || move == "lose chase")
-        {
-            navMesh.destination = WhereToGoPos;
-
-            AttackPatern();
-        }
-
-        if (move == "patrol")
-        {
-            navMesh.destination = WhereToGoPos;
-
-            if (Vector3.Distance(transform.position, WhereToGoPos) < 1.5f)
+            if (move == "chase" || move == "lose chase")
             {
-                currentPatrolPose += 1;
+                navMesh.destination = WhereToGoPos;
 
-                if (currentPatrolPose < PatrolPosition.Count) WhereToGoPos = PatrolPosition[currentPatrolPose];
-                else
+                AttackPatern();
+            }
+
+            if (move == "patrol")
+            {
+                navMesh.destination = WhereToGoPos;
+
+                if (Vector3.Distance(transform.position, WhereToGoPos) < 1.5f)
                 {
-                    currentPatrolPose = 0;
-                    WhereToGoPos = PatrolPosition[0];
+                    currentPatrolPose += 1;
+
+                    if (currentPatrolPose < PatrolPosition.Count) WhereToGoPos = PatrolPosition[currentPatrolPose];
+                    else
+                    {
+                        currentPatrolPose = 0;
+                        WhereToGoPos = PatrolPosition[0];
+                    }
                 }
             }
         }
