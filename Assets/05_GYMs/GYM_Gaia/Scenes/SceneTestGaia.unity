@@ -829,7 +829,6 @@ GameObject:
   - component: {fileID: 461387519}
   - component: {fileID: 461387518}
   - component: {fileID: 461387517}
-  - component: {fileID: 461387516}
   m_Layer: 0
   m_Name: Plane (3)
   m_TagString: Untagged
@@ -837,38 +836,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &461387516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461387515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
-  m_SerializedVersion: 0
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
-  m_BuildHeightMesh: 0
 --- !u!64 &461387517
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -978,7 +945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &552829289
 Transform:
   m_ObjectHideFlags: 0
@@ -1701,7 +1668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1063349662
 Transform:
   m_ObjectHideFlags: 0
@@ -2630,23 +2597,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1347675444}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1363069102 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8664345379714403436, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-  m_PrefabInstance: {fileID: 8772015360694175031}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1363069106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1363069102}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 029599f676686158fa4ee0a399ded30d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Billboard
 --- !u!1 &1399555325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3047048347158460542, guid: a48fa5a2cecf37744b30232c14e237ce, type: 3}
@@ -2942,6 +2892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   erasedObject: {fileID: 552829288}
   createdObject: {fileID: 1063349661}
+  navMeshSurface: {fileID: 862346103}
 --- !u!65 &1474855621
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3750,7 +3701,7 @@ GameObject:
   - component: {fileID: 1825658500}
   - component: {fileID: 1825658503}
   - component: {fileID: 1825658502}
-  - component: {fileID: 1825658501}
+  - component: {fileID: 1825658504}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -3773,28 +3724,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 552829289}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &1825658501
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1825658499}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1825658502
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3851,6 +3780,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825658499}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &1825658504
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825658499}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &2054538049
 PrefabInstance:
@@ -4451,21 +4402,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 1915928875852587533, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-      propertyPath: maxHP
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1915928875852587533, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 811775620}
-    - target: {fileID: 1915928875852587533, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-      propertyPath: minFillAmount
-      value: 0.28
-      objectReference: {fileID: 0}
     - target: {fileID: 4132325966550006197, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5060730504946467261, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: navMeshSurface
+      value: 
+      objectReference: {fileID: 862346103}
     - target: {fileID: 8133830779634646023, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: cameraFollow
       value: 
@@ -4477,10 +4424,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8664345379714403436, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1363069106}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
