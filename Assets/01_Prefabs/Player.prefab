@@ -131,12 +131,12 @@ GameObject:
   - component: {fileID: 8323159215994775483}
   - component: {fileID: 9100322262318156959}
   m_Layer: 5
-  m_Name: Image
+  m_Name: UltimateIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6534083858809267189
 RectTransform:
   m_ObjectHideFlags: 0
@@ -145,7 +145,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2977839031425142915}
   m_LocalRotation: {x: 0.16238387, y: -0.34891716, z: 0.061523475, w: 0.9209252}
-  m_LocalPosition: {x: 0, y: 0, z: -25.3}
+  m_LocalPosition: {x: 0, y: 0, z: -27.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.9, y: 15.2}
+  m_AnchoredPosition: {x: 10.9, y: 17.7}
   m_SizeDelta: {x: 51.45672, y: 51.45672}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4203934060861339520
@@ -489,6 +489,7 @@ GameObject:
   - component: {fileID: 8990539340992171462}
   - component: {fileID: 4485196043092998046}
   - component: {fileID: 2672575590059249965}
+  - component: {fileID: 1915928875852587533}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -529,6 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   playerInput: {fileID: 0}
+  currentAnimator: {fileID: 0}
   controller: {fileID: 2672575590059249965}
   speed: 12
   rotationSpeed: 10
@@ -692,6 +694,24 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1915928875852587533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4132325966550006197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f58284eed5298a7428918eb492e8d073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHP
+  maxHP: 100
+  playerController: {fileID: 8133830779634646023}
+  speedRecharge: 5
+  minFillAmount: 0.1
+  maxFillAmount: 0.9
+  healthBar: {fileID: 0}
 --- !u!1 &5295939877534458843
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +842,104 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   AttractionForce: 10
   EnemyAttract: []
+--- !u!1 &6378142010349848721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4190180486685557936}
+  - component: {fileID: 8673647038775808284}
+  - component: {fileID: 6009738547588788358}
+  - component: {fileID: 3832850309767754631}
+  m_Layer: 5
+  m_Name: ErasedEnemyIndicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4190180486685557936
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378142010349848721}
+  m_LocalRotation: {x: 0.16238387, y: -0.34891716, z: 0.061523475, w: 0.9209252}
+  m_LocalPosition: {x: 0, y: 0, z: -34.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 135079393512365543}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 10.9, y: 26.3}
+  m_SizeDelta: {x: 51.45672, y: 51.45672}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8673647038775808284
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378142010349848721}
+  m_CullTransparentMesh: 1
+--- !u!114 &6009738547588788358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378142010349848721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 0714ae0c7ef5a91438b09e48f4425d88, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1818360609 &3832850309767754631
+RotationConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378142010349848721}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_RotationAtRest: {x: 19.999987, y: -41.50108, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 0}
+    weight: 1
+  - sourceTransform: {fileID: 0}
+    weight: 1
 --- !u!1 &7186632017847712217
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,6 +1064,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6534083858809267189}
+  - {fileID: 4190180486685557936}
   m_Father: {fileID: 1033709999584693957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1331,11 +1450,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e460a647baea234faa73a70086b7f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  player: {fileID: 8133830779634646023}
+  playerHP: {fileID: 1915928875852587533}
   ErasedLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   maxPointsForCreate: 0
   holdTime: 0
+  numberOfPressForErasedEnemy: 20
+  hpHealWhenErasedEnemy: 20
+  buttonPressVisual: {fileID: 6009738547588788358}
 --- !u!65 &223095147346892054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1369,12 +1493,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fb9a0ae76630a34ca57a112efb7a135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NeutralAttackManager
-  FormAnimator: {fileID: 0}
+  FormAnimator: {fileID: 7106761302380405736}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
+  erasedManager: {fileID: 5060730504946467261}
   comboAttacks:
   - AttackData: {fileID: 11400000, guid: d24aa6c29e7d3dd4297774edc8df8796, type: 2}
     type: 0
