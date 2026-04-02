@@ -134,8 +134,12 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();
-        currentAnimator.SetFloat("xInput", ldirection.x);
-        currentAnimator.SetFloat("yInput", ldirection.y);
+        if (currentAnimator.GetBool("isRunning"))
+        {
+            currentAnimator.SetFloat("xInput", direction.x);
+            currentAnimator.SetFloat("yInput", direction.y);
+        }
+        
         currentStickProgress = ldirection.magnitude;
 
         currentAnimator.SetBool("isRunning",currentStickProgress >= Math.Abs(0.1) );

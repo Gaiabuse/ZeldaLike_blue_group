@@ -264,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bae4dfff873fb789599c00b232d14a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
-  FormAnimator: {fileID: 0}
+  FormAnimator: {fileID: 1371211844037738547}
   timeForDoCombo: 5
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 5
@@ -393,6 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1783771321277920537}
   - component: {fileID: 1360823958884240099}
+  - component: {fileID: 3707820004919576393}
   m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
@@ -474,6 +475,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &3707820004919576393
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904385373315590954}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8e051e5ddd4d5214f8b2805a889477a2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4132325966550006197
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,6 +973,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8550908858216263901}
   - component: {fileID: 5465860935416153884}
+  - component: {fileID: 1371211844037738547}
   m_Layer: 9
   m_Name: Capsule
   m_TagString: Untagged
@@ -1031,6 +1055,28 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &1371211844037738547
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7186632017847712217}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 011d570dc5eda3a4684be0c35879ea0f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7298695948824800800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,7 +1383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e54f96836c9944cc8375530f0beb2727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NightmareAttackManager
-  FormAnimator: {fileID: 0}
+  FormAnimator: {fileID: 3707820004919576393}
   timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 20
