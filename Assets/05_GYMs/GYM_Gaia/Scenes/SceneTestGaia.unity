@@ -2477,6 +2477,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2376296640198952682, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
+      propertyPath: formSwitcher
+      value: 
+      objectReference: {fileID: 389390804841799452}
     - target: {fileID: 2694280755612582596, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
       propertyPath: m_Name
       value: UIPlayer
@@ -2571,6 +2575,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1033709999584693957, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
   m_PrefabInstance: {fileID: 8772015360694175031}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &389390804841799452 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 475458454912018690, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+  m_PrefabInstance: {fileID: 8772015360694175031}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e8754bb6b333fdaa6cf237822ac6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1001 &617945720173100173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3083,6 +3098,14 @@ PrefabInstance:
     - target: {fileID: 6853517184108811184, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: m_Name
       value: ArenaExemple
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
+      propertyPath: hordes.Array.data[0].Enemies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
+      propertyPath: hordes.Array.data[1].Enemies.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8315865454846924922, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: m_LocalPosition.x

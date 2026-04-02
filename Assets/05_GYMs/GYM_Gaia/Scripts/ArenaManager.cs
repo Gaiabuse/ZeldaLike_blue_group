@@ -22,6 +22,8 @@ public class ArenaManager : MonoBehaviour
     private List<EnnemyBase> currentEnnemiesInHordes = new List<EnnemyBase>();
     private int currentHordes = 0;
 
+    public static Action StartArena;
+    public static Action FinishArena;
     private void OnEnable()
     {
         arenaEnter.StartArena += StartArenaFight;
@@ -60,6 +62,7 @@ public class ArenaManager : MonoBehaviour
 
     private void StartArenaFight()
     {
+        StartArena?.Invoke();
         currentEnnemiesInHordes = new List<EnnemyBase>();
         currentHordes = 0;
         BarrierParent.SetActive(true);
@@ -121,6 +124,7 @@ public class ArenaManager : MonoBehaviour
         if (currentHordes >= hordes.Count)
         {
             BarrierParent.SetActive(false);
+            FinishArena?.Invoke();
         }
         else
         {
