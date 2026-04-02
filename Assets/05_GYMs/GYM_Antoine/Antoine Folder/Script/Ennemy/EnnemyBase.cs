@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -46,6 +47,7 @@ public class EnnemyBase : MonoBehaviour
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
+    public Action<EnnemyBase> OnDeath;
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -169,6 +171,7 @@ public class EnnemyBase : MonoBehaviour
 
     protected virtual void Death()
     {
+        OnDeath?.Invoke(this);
         Destroy(gameObject);
     }
 
