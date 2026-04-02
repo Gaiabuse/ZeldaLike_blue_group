@@ -840,6 +840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1008184865}
+  - component: {fileID: 1008184866}
   m_Layer: 5
   m_Name: Title Screen
   m_TagString: Untagged
@@ -869,6 +870,18 @@ RectTransform:
   m_AnchoredPosition: {x: 114.42749, y: -260.07608}
   m_SizeDelta: {x: 1728.645, y: 520.15216}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1008184866
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008184864}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1052436800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1495,6 +1508,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1450510771}
+  - component: {fileID: 1450510772}
   m_Layer: 5
   m_Name: Loading Screen
   m_TagString: Untagged
@@ -1522,6 +1536,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1450510772
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450510770}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1476539347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,8 +2291,8 @@ GameObject:
   - component: {fileID: 1989530902}
   - component: {fileID: 1989530906}
   - component: {fileID: 1989530905}
-  - component: {fileID: 1989530904}
   - component: {fileID: 1989530903}
+  - component: {fileID: 1989530907}
   m_Layer: 5
   m_Name: BookAnimaton
   m_TagString: Untagged
@@ -2315,23 +2341,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!111 &1989530904
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1989530901}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: b1294846435c8474e9f27e25d0cd107f, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: b1294846435c8474e9f27e25d0cd107f, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
 --- !u!114 &1989530905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2370,6 +2379,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989530901}
   m_CullTransparentMesh: 1
+--- !u!111 &1989530907
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989530901}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: b1294846435c8474e9f27e25d0cd107f, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: b1294846435c8474e9f27e25d0cd107f, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &2046137699
 GameObject:
   m_ObjectHideFlags: 0
