@@ -4,7 +4,6 @@ using DG.Tweening.Plugins.Options;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnnemyBase : MonoBehaviour
 {
@@ -60,6 +59,12 @@ public class EnnemyBase : MonoBehaviour
         speed = new Vector2(data.speed, data.chasespeed);
         SpeedRotate = new Vector2(data.speedRotate, data.chasespeedRotate);
         acceleration = new Vector2(data.acceleration, data.chaseacceleration);
+
+        if (Player == null)
+        {
+            GameObject[] possiblePlayer = GameObject.FindGameObjectsWithTag("Player");
+            Player = possiblePlayer[0].transform;
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -70,6 +75,14 @@ public class EnnemyBase : MonoBehaviour
             if (timerGeneral <= 0)
             {
                 animator.SetBool("Sleep", false);
+            }
+        }
+        if (move == "stun")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                EndStun();
             }
         }
     }
@@ -100,7 +113,7 @@ public class EnnemyBase : MonoBehaviour
         }
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage, float stun)
     {
         if (dotween != null)
         {
@@ -138,6 +151,8 @@ public class EnnemyBase : MonoBehaviour
             {
                 if (move != "attack") move = "chase";
             }
+
+            if (stun > 0) StunEnnemy(stun, false);
         }
     }
 
@@ -174,5 +189,18 @@ public class EnnemyBase : MonoBehaviour
     {
         if (toogle == 1) MainHitBox.ToggleHitBox(true);
         else MainHitBox.ToggleHitBox(false);
+    }
+
+    public virtual void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        EyesSetColorTo(colorMotionless);
+        move = "stun";
+        timerGeneral = stunTime;
+    }
+
+    protected virtual void EndStun()
+    {
+        EyesSetColorTo(colorNormal);
+        move = "0";
     }
 }
