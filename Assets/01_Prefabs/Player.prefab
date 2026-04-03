@@ -507,6 +507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1033709999584693957}
   - component: {fileID: 8133830779634646023}
+  - component: {fileID: 5888648130357620796}
   - component: {fileID: 475458454912018690}
   - component: {fileID: 8015218632366079429}
   - component: {fileID: 8990539340992171462}
@@ -571,6 +572,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   Boxes: {fileID: 0}
+--- !u!114 &5888648130357620796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4132325966550006197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9b5c580a9dc37448140ad889f74d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  playerInput: {fileID: 8015218632366079429}
+  pauseMenu: {fileID: 0}
 --- !u!114 &475458454912018690
 MonoBehaviour:
   m_ObjectHideFlags: 0
