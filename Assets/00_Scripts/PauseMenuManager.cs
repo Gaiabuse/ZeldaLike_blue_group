@@ -1,4 +1,6 @@
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -11,6 +13,8 @@ public class PauseMenuManager : MonoBehaviour
     private enum MenuState { Playing, Pause, Settings }
     private MenuState currentState = MenuState.Playing;
     
+    private TweenerCore<float, float, FloatOptions> pauseDotween;
+    
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; 
@@ -20,7 +24,12 @@ public class PauseMenuManager : MonoBehaviour
     public void ClosePauseMenu()
     {
         Time.timeScale = 1;
-        pauseMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).OnComplete(() =>
+        player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+        if (pauseDotween != null)
+        {
+            pauseDotween.Kill();
+        }
+        pauseDotween = pauseMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).OnComplete(() =>
         {
             pauseMenu.SetActive(false); 
         });
@@ -31,7 +40,11 @@ public class PauseMenuManager : MonoBehaviour
     {
         currentState = MenuState.Pause;
         pauseMenu.SetActive(true);
-        pauseMenu.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).OnComplete(() =>
+        if (pauseDotween != null)
+        {
+            pauseDotween.Kill();
+        }
+        pauseDotween = pauseMenu.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).OnComplete(() =>
         {
             Time.timeScale = 0;
         });

@@ -23,24 +23,20 @@ public class MenuManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    private void Update()
+    private void OnReturn()
     {
-        bool backPressed = Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame;
-
-        if (backPressed)
+        switch (currentState)
         {
-            switch (currentState)
-            {
-                case MenuState.Settings:
-                    CloseSettings();
-                    break;
+            case MenuState.Settings:
+                CloseSettings();
+                break;
 
-                case MenuState.Credits:
-                    CloseCredits();
-                    break;
-            }
+            case MenuState.Credits:
+                CloseCredits();
+                break;
         }
     }
+    
 
     public void Quit()
     {
