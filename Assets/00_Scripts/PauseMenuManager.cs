@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private PlayerController player;
     
     private enum MenuState { Playing, Pause, Settings }
     private MenuState currentState = MenuState.Playing;
@@ -67,10 +68,10 @@ public class PauseMenuManager : MonoBehaviour
         
     }
     
-    
     public void Restart()
     {
-        Debug.Log("restart /not implemented");
+        player.TriggerRespawn();
+        ClosePauseMenu();
     }
 
     public void ReturnToMainMenu()

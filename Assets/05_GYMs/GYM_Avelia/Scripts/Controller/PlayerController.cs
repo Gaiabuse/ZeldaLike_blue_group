@@ -148,7 +148,14 @@ public class PlayerController : MonoBehaviour
         cameraFollow.OnLook(_input.Get<Vector2>());
     }
 
-    void OnRespawn(InputValue _input)
+    /*
+     void OnRespawn(InputValue _input)
+    {
+        StartCoroutine(RespawnCoroutine());
+    }
+    */
+
+    public void TriggerRespawn()
     {
         StartCoroutine(RespawnCoroutine());
     }
