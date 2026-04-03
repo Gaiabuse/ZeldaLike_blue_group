@@ -21,7 +21,7 @@ public class PauseMenuManager : MonoBehaviour
     {
         if (Gamepad.current == null){return;}
         
-        if (Gamepad.current.selectButton.wasPressedThisFrame)
+        if (Gamepad.current.selectButton.wasPressedThisFrame || Gamepad.current.startButton.wasPressedThisFrame)
         {
             switch (currentState)
             {
