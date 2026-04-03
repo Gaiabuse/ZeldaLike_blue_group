@@ -16,25 +16,6 @@ public class PauseMenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
     }
-    
-    void Update()
-    {
-        if (Gamepad.current == null){return;}
-        
-        if (Gamepad.current.selectButton.wasPressedThisFrame || Gamepad.current.startButton.wasPressedThisFrame)
-        {
-            switch (currentState)
-            {
-                case MenuState.Playing:
-                    OpenPauseMenu();
-                    break;
-                
-                case MenuState.Pause:
-                    ClosePauseMenu();
-                    break;
-            }
-        }
-    }
 
     public void ClosePauseMenu()
     {
@@ -46,7 +27,7 @@ public class PauseMenuManager : MonoBehaviour
         currentState = MenuState.Playing;
     }
 
-    private void OpenPauseMenu()
+    public void OpenPauseMenu()
     {
         currentState = MenuState.Pause;
         pauseMenu.SetActive(true);
@@ -83,5 +64,19 @@ public class PauseMenuManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    public void Return()
+    {
+        switch (currentState)
+        {
+            case MenuState.Pause:
+                ClosePauseMenu();
+                break;
+            
+            case MenuState.Settings:
+                CloseSettings();
+                break;
+        }
     }
 }
