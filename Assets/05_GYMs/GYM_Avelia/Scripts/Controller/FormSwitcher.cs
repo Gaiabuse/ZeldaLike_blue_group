@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class FormSwitcher : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class FormSwitcher : MonoBehaviour
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action<Form> SwitchForm;
     private Form lastForm = Form.neutral;
+    
+    [SerializeField] private VisualEffect formSwitchEffect;
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
@@ -36,6 +39,7 @@ public class FormSwitcher : MonoBehaviour
         switch (nextForm)
         {
             case Form.neutral:
+                formSwitchEffect.Play();
                 neutralFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
@@ -47,6 +51,7 @@ public class FormSwitcher : MonoBehaviour
                 playerController.currentAnimator = FormAttackManagers[0].FormAnimator;
                 break;
             case Form.dream:
+                formSwitchEffect.Play();
                 dreamFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
@@ -57,6 +62,7 @@ public class FormSwitcher : MonoBehaviour
                 playerController.currentAnimator = FormAttackManagers[1].FormAnimator;
                 break;
             case Form.nightmare:
+                formSwitchEffect.Play();
                 nightmareFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
