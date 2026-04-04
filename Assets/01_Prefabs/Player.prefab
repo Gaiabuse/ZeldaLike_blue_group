@@ -411,7 +411,7 @@ Transform:
   m_GameObject: {fileID: 3904385373315590954}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -601,6 +601,7 @@ MonoBehaviour:
   neutralFormObject: {fileID: 8495912245519105219}
   dreamFormObject: {fileID: 3325453322797383309}
   nightmareFormObject: {fileID: 7780061593918026694}
+  formSwitchEffect: {fileID: 3773970348831646068}
   FormAttackManagers:
   - {fileID: 966973642768248133}
   - {fileID: 999091161340526415}
@@ -1006,7 +1007,7 @@ Transform:
   m_GameObject: {fileID: 7186632017847712217}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2198,15 +2199,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3623015270944255089, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -29.14345
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3623015270944255089, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.98999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3623015270944255089, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 49.48198
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3623015270944255089, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2244,5 +2245,10 @@ PrefabInstance:
 --- !u!4 &755681106120689979 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3623015270944255089, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
+  m_PrefabInstance: {fileID: 4051901317755364682}
+  m_PrefabAsset: {fileID: 0}
+--- !u!2083052967 &3773970348831646068 stripped
+VisualEffect:
+  m_CorrespondingSourceObject: {fileID: 893094600393704510, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
   m_PrefabInstance: {fileID: 4051901317755364682}
   m_PrefabAsset: {fileID: 0}
