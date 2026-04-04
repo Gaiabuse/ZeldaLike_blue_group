@@ -12,7 +12,9 @@ public class FormSwitcher : MonoBehaviour
     public static Action<Form> SwitchForm;
     private Form lastForm = Form.neutral;
     
-    [SerializeField] private VisualEffect formSwitchEffect;
+    [SerializeField] private VisualEffect switchToNeutralFX;
+    [SerializeField] private VisualEffect switchToDreamFX;
+    [SerializeField] private VisualEffect switchToNightmareFX;
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
@@ -39,7 +41,7 @@ public class FormSwitcher : MonoBehaviour
         switch (nextForm)
         {
             case Form.neutral:
-                formSwitchEffect.Play();
+                switchToNeutralFX.Play();
                 neutralFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
@@ -51,7 +53,7 @@ public class FormSwitcher : MonoBehaviour
                 playerController.currentAnimator = FormAttackManagers[0].FormAnimator;
                 break;
             case Form.dream:
-                formSwitchEffect.Play();
+                switchToDreamFX.Play();
                 dreamFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
@@ -62,7 +64,7 @@ public class FormSwitcher : MonoBehaviour
                 playerController.currentAnimator = FormAttackManagers[1].FormAnimator;
                 break;
             case Form.nightmare:
-                formSwitchEffect.Play();
+                switchToNightmareFX.Play();
                 nightmareFormObject.SetActive(true);
                 if (CanDoUltimate)
                 {
