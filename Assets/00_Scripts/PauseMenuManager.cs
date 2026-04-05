@@ -2,6 +2,7 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,7 @@ public class PauseMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private PlayerController player;
+    [SerializeField] private GameObject firstSelectedButton;
     
     private enum MenuState { Playing, Pause, Settings }
     private MenuState currentState = MenuState.Playing;
@@ -40,6 +42,10 @@ public class PauseMenuManager : MonoBehaviour
     {
         currentState = MenuState.Pause;
         pauseMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(null);
+    
+        // 2. Set the default button
+        EventSystem.current.SetSelectedGameObject(firstSelectedButton);
         if (pauseDotween != null)
         {
             pauseDotween.Kill();
