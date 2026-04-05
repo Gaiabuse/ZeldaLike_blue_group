@@ -31,6 +31,8 @@ public class EnnemyBase : MonoBehaviour
     [SerializeField] protected string move = "0";
     protected float timerGeneral = 0;
 
+    public bool alwaysAgro;
+
     [Header("Deal Damage")]
     [SerializeField] protected EnnemyHit MainHitBox;
 
@@ -67,6 +69,8 @@ public class EnnemyBase : MonoBehaviour
             GameObject[] possiblePlayer = GameObject.FindGameObjectsWithTag("Player");
             Player = possiblePlayer[0].transform;
         }
+
+        CurrentTarget = Player;
     }
 
     protected virtual void FixedUpdate()

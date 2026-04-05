@@ -6,24 +6,35 @@ using UnityEngine;
 public class ArenaManager : MonoBehaviour
 {
     
+    [Tooltip("chaque element est une horde d'ennemi")]
     [SerializeField] private List<Horde> hordes;
+    [Tooltip("prefab de ce qui va apparaitre a la position de l'ennemi avant qu'il spawn")]
     [SerializeField] private GameObject indicatorPrefab;
+    [Tooltip("parent des indicateur ")]
     [SerializeField] private Transform indicatorParent;
+    [Tooltip("temps que reste l'indicateur avant le spawn de l'ennemie ")]
     [SerializeField] private float timeBeforeSpawnEnemies;
+    [Tooltip("parent des barrière qui bloque le joueur dans l'arène")]
     [SerializeField] private GameObject BarrierParent;
+    [Tooltip("Detecteur de l'entrée de l'arene qui va lancer le combat")]
     [SerializeField] private ArenaEnter arenaEnter;
     private List<GameObject> indicators;
     private List<EnnemyBase> currentEnnemiesInHordes = new List<EnnemyBase>();
     private int currentHordes = 0;
 
+    public static Action StartArena;
+    public static Action FinishArena;
     private void OnEnable()
     {
         arenaEnter.StartArena += StartArenaFight;
+        PlayerController.OnPlayerDeath += CancelArenaFight;
+        
     }
 
     private void OnDisable()
     {
         arenaEnter.StartArena -= StartArenaFight;
+        PlayerController.OnPlayerDeath -= CancelArenaFight;
     }
 
     void Start()
@@ -51,6 +62,7 @@ public class ArenaManager : MonoBehaviour
 
     private void StartArenaFight()
     {
+        StartArena?.Invoke();
         currentEnnemiesInHordes = new List<EnnemyBase>();
         currentHordes = 0;
         BarrierParent.SetActive(true);
@@ -70,6 +82,7 @@ public class ArenaManager : MonoBehaviour
         {
             indicators[i].SetActive(false);
             EnnemyBase currentEnnemy = Instantiate(currentHorde.Enemies[i].Enemy,currentHorde.Enemies[i].SpawnPoint,Quaternion.identity);
+            currentEnnemy.alwaysAgro = true;
             currentEnnemy.OnDeath += OnEnemyDeath;
             currentEnnemiesInHordes.Add(currentEnnemy);
         }
@@ -83,6 +96,18 @@ public class ArenaManager : MonoBehaviour
             CheckIfHordeIsFinished();
             ennemy.OnDeath -= OnEnemyDeath;
         }
+    }
+
+    private void CancelArenaFight()
+    {
+        foreach (EnnemyBase enemy in currentEnnemiesInHordes)
+        {
+            Destroy(enemy.gameObject);
+        }
+        currentEnnemiesInHordes.Clear();
+        currentHordes = 0;
+        BarrierParent.SetActive(false);
+        arenaEnter.ArenaIsStarted = false;
     }
 
     private void CheckIfHordeIsFinished()
@@ -99,6 +124,7 @@ public class ArenaManager : MonoBehaviour
         if (currentHordes >= hordes.Count)
         {
             BarrierParent.SetActive(false);
+            FinishArena?.Invoke();
         }
         else
         {

@@ -27,49 +27,53 @@ public class FlyingEnnemy : EnnemyBase
         base.FixedUpdate();
 
         isPlayerInFieldOfView();
-        if (TargetInFieldOfView)
-        {
-            if (move != "attack")
-            {
-                EyesSetColorTo(colorChase);
-                move = "attack";
-            }
-        }
-        else
-        {
-            if (move != "wait")
-            {
-                EyesSetColorTo(colorNormal);
-                move = "wait";
-            }
-        }
 
-        if (move == "attack")
+        if (move != "stun")
         {
-            Vector3 relativePos = CurrentTarget.position - transform.position;
-            Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.25f);
-
-            if (Cooldown.Count > 0)
+            if (TargetInFieldOfView)
             {
-                if (cooldownAttack <= 0)
+                if (move != "attack")
                 {
-                    animator.SetTrigger("Shoot");
-                    currentCooldown += 1;
-                    if (Cooldown.Count < currentCooldown + 1) currentCooldown = 0;
-                    cooldownAttack = Cooldown[currentCooldown];
+                    EyesSetColorTo(colorChase);
+                    move = "attack";
                 }
-                else cooldownAttack -= Time.deltaTime;
             }
             else
             {
-                animator.SetTrigger("Shoot");
+                if (move != "wait")
+                {
+                    EyesSetColorTo(colorNormal);
+                    move = "wait";
+                }
             }
-        }
-        if (move == "wait")
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 0.07f);
+
+            if (move == "attack")
+            {
+                Vector3 relativePos = CurrentTarget.position - transform.position;
+                Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.25f);
+
+                if (Cooldown.Count > 0)
+                {
+                    if (cooldownAttack <= 0)
+                    {
+                        animator.SetTrigger("Shoot");
+                        currentCooldown += 1;
+                        if (Cooldown.Count < currentCooldown + 1) currentCooldown = 0;
+                        cooldownAttack = Cooldown[currentCooldown];
+                    }
+                    else cooldownAttack -= Time.deltaTime;
+                }
+                else
+                {
+                    animator.SetTrigger("Shoot");
+                }
+            }
+            if (move == "wait")
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 0.07f);
+            }
         }
     }
 

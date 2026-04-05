@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -9,6 +10,7 @@ using UnityEngine.UI;
 
 public class ErasedManager : MonoBehaviour
 {
+   
     [SerializeField] private PlayerController player;
     [SerializeField] private PlayerHP playerHP;
     [Tooltip("LayerMax of objects we can Erased and create")]
