@@ -1656,7 +1656,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   maxPointsForCreate: 2
-  holdTime: 1
+  holdTime: 2
   numberOfPressForErasedEnemy: 20
   hpHealWhenErasedEnemy: 20
   buttonPressVisual: {fileID: 6009738547588788358}
@@ -2441,7 +2441,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 215172168880920295, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 215172168880920295, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3002037585751709583, guid: 30d23946233e15a4db9476f3f8aef757, type: 3}
       propertyPath: m_Name
