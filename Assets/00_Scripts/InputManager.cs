@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,42 +7,46 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     
-    private bool _isRealeased = false;
-    private bool _canUnpause = false;
-
+    private bool _isInitialized = false;
+    
     public void OnPause(InputValue value)
     {
-        _isRealeased = !value.isPressed;
-        
-        if (value.isPressed)
+        if (value.isPressed) 
         {
-            pauseMenu.OpenPauseMenu();
-            playerInput.SwitchCurrentActionMap("MenuControl");
-            StartCoroutine(WaitForInputRelease(value));
+            DoPause();
         }
     }
 
     public void OnUnpause(InputValue value)
     {
-        _isRealeased = !value.isPressed;
-        if (!_canUnpause){return;}
-        
         if (value.isPressed)
+        {
+            DoUnpause();
+        }
+    }
+
+    private void DoPause()
+    {
+        pauseMenu.OpenPauseMenu();
+        playerInput.SwitchCurrentActionMap("MenuControl");
+    }
+    
+    private void DoUnpause()
+    {
+        if (_isInitialized)
         {
             pauseMenu.ClosePauseMenu();
             playerInput.SwitchCurrentActionMap("PlayerControl");
+        }
+        else
+        {
+            _isInitialized = true;
         }
     }
 
     public void OnReturn(InputValue value)
     {
-        pauseMenu.Return();
-    }
-
-    private IEnumerator WaitForInputRelease(InputValue value)
-    {
-        _canUnpause = false;
-        yield return new WaitUntil(()=>_isRealeased == true);
-        _canUnpause = true;
+        if (value.isPressed)
+            pauseMenu.Return();
     }
 }

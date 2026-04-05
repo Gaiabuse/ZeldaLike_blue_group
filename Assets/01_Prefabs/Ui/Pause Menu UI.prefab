@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1036985515354918702}
   - component: {fileID: 5179778931195924382}
   - component: {fileID: 2796841924538275554}
+  - component: {fileID: 1407892809352511053}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -121,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4898265552753558365}
         m_TargetAssemblyTypeName: PauseMenuManager, Assembly-CSharp
         m_MethodName: OpenSettings
         m_Mode: 1
@@ -133,6 +134,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1407892809352511053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127145380100688725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb13cf3376b9b9147957a313f82bfd51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTextModdifier
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  secondColor: {r: 0.21568629, g: 0.21568629, b: 0.40784317, a: 1}
 --- !u!1 &445069761170629167
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +160,7 @@ GameObject:
   - component: {fileID: 538356353534000154}
   - component: {fileID: 3907788980832891889}
   - component: {fileID: 7566676735285267056}
+  - component: {fileID: 4535452647982823271}
   m_Layer: 5
   m_Name: Resume
   m_TagString: Untagged
@@ -254,7 +270,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4898265552753558365}
         m_TargetAssemblyTypeName: PauseMenuManager, Assembly-CSharp
         m_MethodName: ClosePauseMenu
         m_Mode: 1
@@ -266,6 +282,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4535452647982823271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445069761170629167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb13cf3376b9b9147957a313f82bfd51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTextModdifier
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  secondColor: {r: 0.21568629, g: 0.21568629, b: 0.40784317, a: 1}
 --- !u!1 &682121910005127328
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +494,7 @@ GameObject:
   - component: {fileID: 824737431148908563}
   - component: {fileID: 7578985336200684442}
   - component: {fileID: 700730935332225022}
+  - component: {fileID: 395693222077814745}
   m_Layer: 5
   m_Name: Restart
   m_TagString: Untagged
@@ -573,7 +604,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4898265552753558365}
         m_TargetAssemblyTypeName: PauseMenuManager, Assembly-CSharp
         m_MethodName: Restart
         m_Mode: 1
@@ -585,6 +616,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &395693222077814745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154884376088760160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb13cf3376b9b9147957a313f82bfd51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTextModdifier
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  secondColor: {r: 0.21568629, g: 0.21568629, b: 0.40784317, a: 1}
 --- !u!1 &1635444686673413578
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,6 +1205,7 @@ GameObject:
   - component: {fileID: 1910120336739582462}
   - component: {fileID: 1772294442544247489}
   - component: {fileID: 5176130971930846596}
+  - component: {fileID: 6567625308703441748}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -1269,7 +1315,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4898265552753558365}
         m_TargetAssemblyTypeName: PauseMenuManager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
@@ -1281,6 +1327,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6567625308703441748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5259730550797578178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb13cf3376b9b9147957a313f82bfd51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTextModdifier
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  secondColor: {r: 0.21568629, g: 0.21568629, b: 0.40784317, a: 1}
 --- !u!1 &6715300570575437963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1398,6 +1458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuManager
   pauseMenu: {fileID: 682121910005127328}
   player: {fileID: 0}
+  firstSelectedButton: {fileID: 445069761170629167}
 --- !u!1 &6810018982303302484
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,7 +1471,7 @@ GameObject:
   - component: {fileID: 505439066509790256}
   - component: {fileID: 2634891404253709231}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Pause title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1548,6 +1609,7 @@ GameObject:
   - component: {fileID: 7341839896912012444}
   - component: {fileID: 6734789954966478018}
   - component: {fileID: 7501742432070945957}
+  - component: {fileID: 3537140898209489433}
   m_Layer: 5
   m_Name: Return Main Menu
   m_TagString: Untagged
@@ -1657,7 +1719,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4898265552753558365}
         m_TargetAssemblyTypeName: PauseMenuManager, Assembly-CSharp
         m_MethodName: ReturnToMainMenu
         m_Mode: 1
@@ -1669,6 +1731,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3537140898209489433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8135387382248094944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb13cf3376b9b9147957a313f82bfd51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonTextModdifier
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  secondColor: {r: 0.21568629, g: 0.21568629, b: 0.40784317, a: 1}
 --- !u!1 &8410913803279061399
 GameObject:
   m_ObjectHideFlags: 0
