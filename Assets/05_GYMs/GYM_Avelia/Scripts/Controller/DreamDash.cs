@@ -4,6 +4,7 @@ using System.Collections;
 
 public class DreamDash : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     PlayerController controller;
 
@@ -11,16 +12,18 @@ public class DreamDash : MonoBehaviour
     CharacterController characterController;
 
     [SerializeField]
-    TagHandle tagWall, tagGround;
+    private GameObject dashVFX;
 
     [SerializeField]
-    float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = 0.5f;
+    LayerMask layerWall, layerGround;
 
+    [Header("DashCharacteristic")]
     [SerializeField]
     AnimationCurve DashProggression;
+    [SerializeField]
+    float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = .5f, offset = .2f;
 
-    [SerializeField] 
-    private GameObject dashVFX; 
+
 
     bool IsDashing = false;
 
@@ -35,22 +38,18 @@ public class DreamDash : MonoBehaviour
     {
         if (IsDashing) yield break;
 
-        IsDashing = true;
-        controller.CanMove = false;
-        controller.CanRotate = false;
-
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
         float timer = 0;
-        
-        dashVFX.SetActive(true);
 
-        if (IsPlaceLandable(destinationPosition))
+        // naive approach that will not work in the future. Rn it is not the priority to do better than that
+        if (!IsPlaceLandable(destinationPosition))
         {
-            characterController.excludeLayers = LayerMask.GetMask("everything");
+            yield break;
         }
 
+        DashSetUp();
 
         while (timer < DashDurationSeconds)
         {
@@ -71,7 +70,7 @@ public class DreamDash : MonoBehaviour
         yield return new WaitForSeconds(DashCoolDownSeconds);
 
         dashVFX.SetActive(false);
-        
+
         IsDashing = false;
     }
 
@@ -81,27 +80,21 @@ public class DreamDash : MonoBehaviour
         if (!IsThereAWall(destination)) return false;
 
         Ray ray = new(origin: destination, direction: Vector3.down);
-        var result_cast = Physics.RaycastAll(ray);
+        return Physics.Raycast(ray, 2f, layerGround);
 
-        foreach (var hit in result_cast)
-        {
-            if (hit.transform.CompareTag(tagGround)) return true;
-
-        }
-
-        throw null;
     }
 
     bool IsThereAWall(Vector3 destination)
+        => Physics.Linecast(transform.position + Vector3.up * offset, destination + Vector3.up * offset, layerWall);
+
+    void DashSetUp()
     {
-        var result_cast = Physics.RaycastAll(transform.position, destination);
+        IsDashing = true;
+        controller.CanMove = false;
+        controller.CanRotate = false;
 
-        foreach (var hit in result_cast)
-        {
-            if (hit.transform.CompareTag(tagWall)) return true;
+        dashVFX.SetActive(true);
 
-        }
-
-        return false;
+        characterController.excludeLayers = LayerMask.GetMask("everything");
     }
 }

@@ -7,17 +7,18 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector]public PlayerInput playerInput;
+    [HideInInspector] public PlayerInput playerInput;
     [SerializeField]
     CharacterController controller;
 
+    [Header("Player Constants")]
+    [SerializeField]
+    private Vector3 gravity = new(0f, -10f, 0f);
     [SerializeField]
     float speed = 10f, rotationSpeed = 15f;
     [SerializeField]
-    private Vector3 gravity = new(0f, -10f, 0f);
+    float decayAccel = 5f, decayDecel = 10f;
 
-    [SerializeField]
-    private float decayAccel = 5f, decayDecel = 10f;
     private float currentStickProgress, smoothedStickProgress;
 
     [SerializeField]
@@ -25,6 +26,13 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     public Transform cameraRotation;
+
+    [Header("Collision")]
+    [SerializeField]
+    public LayerMask layerGround;
+
+    [SerializeField]
+    float offsetRayCast = .1f, lengthRayCast = .3f;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -45,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
+
     private Vector3 startPos;
     void Start()
     {
@@ -114,7 +123,11 @@ public class PlayerController : MonoBehaviour
         {
             var decay = smoothedStickProgress < currentStickProgress ? decayAccel : decayDecel;
             smoothedStickProgress = smoothedStickProgress.expDecay(currentStickProgress, decay, Time.deltaTime);
-            controller.Move(moveDirection * (speed * smoothedStickProgress * Time.deltaTime));
+
+            var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
+            var futurePosition = transform.position + movement;
+
+            if (IsPlaceLandable(futurePosition)) controller.Move(moveDirection);
         }
 
         controller.Move(gravity * Time.deltaTime);
@@ -138,7 +151,7 @@ public class PlayerController : MonoBehaviour
 
         direction = ldirection.normalized;
     }
-    
+
 
     void OnLook(InputValue _input)
     {
@@ -155,15 +168,19 @@ public class PlayerController : MonoBehaviour
         Debug.Log("respawn");
         controller.enabled = false;
         transform.position = startPos;
+
         Debug.Log("transform.position : " + transform.position + ", start pos : " + startPos);
         controller.enabled = true;
         CanMove = false;
         CanRotate = false;
+
         yield return new WaitForSeconds(1f);
         Debug.Log("transform.position : " + transform.position + ", start pos : " + startPos);
+
         CanMove = true;
         CanRotate = true;
     }
+
     void UpdateLookDirection(Vector3 moveDir)
     {
         Vector3 projectedDirection = Vector3.ProjectOnPlane(moveDir, transform.up);
@@ -176,4 +193,9 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
+    bool IsPlaceLandable(Vector3 destination)
+    {
+        Ray ray = new(origin: destination + Vector3.up * offsetRayCast, direction: Vector3.down);
+        return Physics.Raycast(ray, lengthRayCast, layerGround);
+    }
 }
