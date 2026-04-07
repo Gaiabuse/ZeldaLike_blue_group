@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -11,6 +12,7 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private PlayerController player;
     [SerializeField] private GameObject firstSelectedButton;
+    [SerializeField] private GameObject loadingScreen;
     
     private enum MenuState { Playing, Pause, Settings }
     private MenuState currentState = MenuState.Playing;
@@ -77,7 +79,7 @@ public class PauseMenuManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenu");
+        StartCoroutine(LoadMainMenuSequence());
     }
 
     public void Quit()
@@ -97,5 +99,29 @@ public class PauseMenuManager : MonoBehaviour
                 CloseSettings();
                 break;
         }
+    }
+    
+    private IEnumerator<WaitForSeconds> LoadMainMenuSequence()
+    {
+        StartCoroutine(RumbleCoroutine(0.5f, 0.5f, 0.5f));
+        
+        loadingScreen.SetActive(true);
+        loadingScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
+        
+        // WaitForSecond have to be longer than the rumbling duration to avoid endless rumbling
+        yield return new WaitForSeconds(1.5f);
+        
+        AsyncOperation operation = SceneManager.LoadSceneAsync("MainMenu");
+        while (operation != null && !operation.isDone)
+        {
+            yield return null; 
+        }
+    }
+    
+
+    private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high) {
+        Gamepad.current.SetMotorSpeeds(low, high);
+        yield return new WaitForSeconds(duration);
+        Gamepad.current.SetMotorSpeeds(0f, 0f);
     }
 }

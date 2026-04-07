@@ -277,7 +277,7 @@ MonoBehaviour:
   autoAimTime: 0.33
   autoAimRadius: 7.34
   offset: 0.2
-  coolDown: 0.1
+  coolDown: 0.33
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -324,8 +324,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxChargedTime: 2
-  minAttack: 1
-  maxAttack: 10
+  minAttack: 5
+  maxAttack: 27
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 12
 --- !u!114 &4749926219799942427
@@ -349,6 +349,9 @@ MonoBehaviour:
   layerGround:
     serializedVersion: 2
     m_Bits: 0
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.15
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -373,9 +376,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.4
   offset: 0.2
 --- !u!114 &8715960371389895154
 MonoBehaviour:
@@ -1489,6 +1489,9 @@ MonoBehaviour:
   layerGround:
     serializedVersion: 2
     m_Bits: 0
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.15
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -1513,9 +1516,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.4
   offset: 0.2
   dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
 --- !u!1 &8263647557454681255
@@ -1758,6 +1758,9 @@ MonoBehaviour:
   layerGround:
     serializedVersion: 2
     m_Bits: 8
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.15
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -1782,9 +1785,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.4
   offset: 0.2
 --- !u!1 &8549774408609409626
 GameObject:
