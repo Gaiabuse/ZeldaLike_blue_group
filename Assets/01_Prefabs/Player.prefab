@@ -345,13 +345,10 @@ MonoBehaviour:
   dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
   layerWall:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   layerGround:
     serializedVersion: 2
-    m_Bits: 0
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.15
+    m_Bits: 8
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -376,6 +373,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.15
   offset: 0.2
 --- !u!114 &8715960371389895154
 MonoBehaviour:
@@ -1485,13 +1485,10 @@ MonoBehaviour:
   dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
   layerWall:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   layerGround:
     serializedVersion: 2
-    m_Bits: 0
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.15
+    m_Bits: 8
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -1516,8 +1513,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.15
   offset: 0.2
-  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
 --- !u!1 &8263647557454681255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1758,9 +1757,6 @@ MonoBehaviour:
   layerGround:
     serializedVersion: 2
     m_Bits: 8
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.15
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -1785,6 +1781,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.15
   offset: 0.2
 --- !u!1 &8549774408609409626
 GameObject:
