@@ -56,11 +56,16 @@ public class DreamDash : MonoBehaviour
         while (timer < DashDurationSeconds)
         {
             timer += Time.deltaTime;
-
             var portion = timer / DashDurationSeconds;
 
             controller.transform.position = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
-            characterController.Move(Vector3.zero);
+    
+            // Only call Move if the controller is actually enabled
+            if (characterController.enabled) 
+            {
+                characterController.Move(Vector3.zero);
+            }
+    
             yield return null;
         }
 
