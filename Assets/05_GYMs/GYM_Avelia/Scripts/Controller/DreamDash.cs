@@ -31,6 +31,7 @@ public class DreamDash : MonoBehaviour
     {
         if (!controller.CanMove || !_input.isPressed) return;
 
+        controller.currentAnimator.SetTrigger("isDashing");
         StartCoroutine(Dash());
     }
 

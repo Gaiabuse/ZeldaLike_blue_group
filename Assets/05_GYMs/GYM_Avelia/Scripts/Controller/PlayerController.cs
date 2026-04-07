@@ -7,7 +7,8 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public PlayerInput playerInput;
+    [HideInInspector]public PlayerInput playerInput;
+    [HideInInspector] public Animator currentAnimator;
     [SerializeField]
     CharacterController controller;
 
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
     public Action OnCatch;
     public Action OnRelease;
 
+    public static Action OnPlayerDeath;
     public Action Attack;
 
     private float offset = -90f;
@@ -61,6 +63,7 @@ public class PlayerController : MonoBehaviour
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         startPos = transform.position;
         playerInput = GetComponent<PlayerInput>();
+        currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
         {
             cameraRotation = Camera.main.transform.parent;
@@ -144,10 +147,16 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue _input)
     {
         var ldirection = _input.Get<Vector2>();
+        if (currentAnimator.GetBool("isRunning"))
+        {
+            currentAnimator.SetFloat("xInput", direction.x);
+            currentAnimator.SetFloat("yInput", direction.y);
+        }
+        
         currentStickProgress = ldirection.magnitude;
 
+        currentAnimator.SetBool("isRunning",currentStickProgress >= Math.Abs(0.1) );
         if (currentStickProgress <= 0.1) return;
-
         direction = ldirection.normalized;
     }
 
@@ -157,14 +166,23 @@ public class PlayerController : MonoBehaviour
         cameraFollow.OnLook(_input.Get<Vector2>());
     }
 
-    void OnRespawn(InputValue _input)
+    /*
+     void OnRespawn(InputValue _input)
     {
+        StartCoroutine(RespawnCoroutine());
+    }
+    */
+
+    public void TriggerRespawn()
+    {
+        
         StartCoroutine(RespawnCoroutine());
     }
 
     public IEnumerator RespawnCoroutine()
     {
         Debug.Log("respawn");
+        OnPlayerDeath?.Invoke();
         controller.enabled = false;
         transform.position = startPos;
 

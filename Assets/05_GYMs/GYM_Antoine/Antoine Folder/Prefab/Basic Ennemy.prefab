@@ -454,7 +454,6 @@ GameObject:
   - component: {fileID: 3773097687210840517}
   - component: {fileID: 2580610677330013780}
   - component: {fileID: 583629990775373724}
-  - component: {fileID: 5640995526763421157}
   m_Layer: 0
   m_Name: SwordTest
   m_TagString: Untagged
@@ -551,7 +550,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -568,6 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
   damage: 3
+  canHit: 0
 --- !u!1 &7754225235769984781
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,6 +842,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Leure: {fileID: 0}
   move: patrol
+  alwaysAgro: 1
   MainHitBox: {fileID: 583629990775373724}
   Eyes:
   - {fileID: 2201577157933080295}
@@ -862,7 +863,7 @@ MonoBehaviour:
   DistanceAttack: 2
   LayerBlockRay:
     serializedVersion: 2
-    m_Bits: 593
+    m_Bits: 1617
   PatrolPosition:
   - {x: 14, y: 1, z: 7}
   - {x: -2.5, y: 1, z: 7}
@@ -1008,21 +1009,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1086192631601901530, guid: 0f154ade63b21b94aa7a3dc9d42f8d36, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5640995526763421157}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f154ade63b21b94aa7a3dc9d42f8d36, type: 3}
---- !u!114 &5640995526763421157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5176675043928758186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f809e0a38a1d5c4f8a705b7565730fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
-  damage: 3

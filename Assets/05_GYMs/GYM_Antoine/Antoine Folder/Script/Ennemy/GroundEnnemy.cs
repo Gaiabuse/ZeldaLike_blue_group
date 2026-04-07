@@ -35,6 +35,8 @@ public class GroundEnnemy : EnnemyBase
         navMesh.speed = speed.x;
         navMesh.acceleration = acceleration.x;
         navMesh.angularSpeed = SpeedRotate.x;
+
+        MainHitBox.damage = data.strength;
     }
 
     protected override void FixedUpdate()
@@ -43,55 +45,58 @@ public class GroundEnnemy : EnnemyBase
 
         isPlayerInFieldOfView();
 
-        if (TargetInFieldOfView)
+        if (move != "stun")
         {
-            if (move != "chase")
+            if (TargetInFieldOfView || alwaysAgro)
             {
-                EyesSetColorTo(colorChase);
-                navMesh.speed = speed.y;
-                navMesh.acceleration = acceleration.y;
-                navMesh.angularSpeed = SpeedRotate.y;
-                move = "chase";
-            }
-
-            WhereToGoPos = CurrentTarget.position;
-        }
-        else
-        {
-            if (move == "chase")
-            {
-                move = "lose chase";
-            }
-            else if (move == "lose chase")
-            {
-                if (Vector3.Distance(transform.position, WhereToGoPos) < LoseFocusDist)
+                if (move != "chase")
                 {
-                    WhereToGoPos = SelectPatrolPosition();
-                    PatrolStart();
+                    EyesSetColorTo(colorChase);
+                    navMesh.speed = speed.y;
+                    navMesh.acceleration = acceleration.y;
+                    navMesh.angularSpeed = SpeedRotate.y;
+                    move = "chase";
+                }
+
+                WhereToGoPos = CurrentTarget.position;
+            }
+            else
+            {
+                if (move == "chase")
+                {
+                    move = "lose chase";
+                }
+                else if (move == "lose chase")
+                {
+                    if (Vector3.Distance(transform.position, WhereToGoPos) < LoseFocusDist)
+                    {
+                        WhereToGoPos = SelectPatrolPosition();
+                        PatrolStart();
+                    }
                 }
             }
-        }
 
-        if (move == "chase" || move == "lose chase")
-        {
-            navMesh.destination = WhereToGoPos;
-
-            AttackPatern();
-        }
-
-        if (move == "patrol")
-        {
-            navMesh.destination = WhereToGoPos;
-
-            if (Vector3.Distance(transform.position, WhereToGoPos) < 1.5f)
+            if (move == "chase" || move == "lose chase")
             {
-                currentPatrolPose += 1;
+                navMesh.destination = WhereToGoPos;
 
-                if (currentPatrolPose < PatrolPosition.Count) WhereToGoPos = PatrolPosition[currentPatrolPose];
-                else
+                AttackPatern();
+            }
+
+            if (move == "patrol")
+            {
+                navMesh.destination = WhereToGoPos;
+
+                if (Vector3.Distance(transform.position, WhereToGoPos) < 1.5f)
                 {
-                    currentPatrolPose = 0;
-                    WhereToGoPos = PatrolPosition[0];
+                    currentPatrolPose += 1;
+
+                    if (currentPatrolPose < PatrolPosition.Count) WhereToGoPos = PatrolPosition[currentPatrolPose];
+                    else
+                    {
+                        currentPatrolPose = 0;
+                        WhereToGoPos = PatrolPosition[0];
+                    }
                 }
             }
         }
@@ -209,19 +214,23 @@ public class GroundEnnemy : EnnemyBase
         return whereTo;
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, float stun)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, stun);
 
         if (HP > 0)
         {
-            EyesSetColorTo(colorChase);
-            navMesh.speed = speed.y;
-            navMesh.acceleration = acceleration.y;
-            navMesh.angularSpeed = SpeedRotate.y;
-            move = "chase";
+            if (move != "stun")
+            {
+                move = "chase";
+                EyesSetColorTo(colorChase);
 
-            WhereToGoPos = Player.position;
+                navMesh.speed = speed.y;
+                navMesh.acceleration = acceleration.y;
+                navMesh.angularSpeed = SpeedRotate.y;
+
+                WhereToGoPos = Player.position;
+            }
         }
     }
 
@@ -244,7 +253,7 @@ public class GroundEnnemy : EnnemyBase
         base.AttackAnimEnd();
         navMesh.isStopped = false;
 
-        if (CurrentTarget != null)
+        if (CurrentTarget != null && move != "stun")
         {
             move = "chase";
         }
@@ -264,5 +273,27 @@ public class GroundEnnemy : EnnemyBase
         navMesh.speed = speed.x;
         navMesh.acceleration = acceleration.x;
         navMesh.angularSpeed = SpeedRotate.x;
+    }
+
+    public override void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        base.StunEnnemy(stunTime, infiniteStun);
+        animator.SetBool("Stun", true);
+        navMesh.isStopped = true;
+    }
+
+    protected override void EndStun()
+    {
+        base.EndStun();
+        animator.SetBool("Stun", false);
+        navMesh.isStopped = false;
+
+        WhereToGoPos = Player.position;
+        move = "chase";
+        EyesSetColorTo(colorChase);
+
+        navMesh.speed = speed.y;
+        navMesh.acceleration = acceleration.y;
+        navMesh.angularSpeed = SpeedRotate.y;
     }
 }

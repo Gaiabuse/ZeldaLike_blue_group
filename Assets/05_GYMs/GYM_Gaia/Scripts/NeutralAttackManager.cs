@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 
 public class NeutralAttackManager : AttackManager
 {
+    [SerializeField] private ErasedManager erasedManager;
     [SerializeField]
     private SimpleAttack[] comboAttacks;
     [SerializeField] protected SimpleAttack ChargedAttack;
@@ -22,6 +23,7 @@ public class NeutralAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
+        if(erasedManager.startEnemyErased)return;
         Debug.Log(switchInProgress);
         if (!_input.isPressed && switchInProgress)
         {
@@ -45,6 +47,17 @@ public class NeutralAttackManager : AttackManager
                 canChargedAttack = false;
                 Attack(ChargedAttack);
                 return;
+            }
+            
+            Debug.Log("Attack"+currentCombo);
+            FormAnimator.SetBool("isAttacking",true);
+            if (currentCombo >= comboAttacks.Length - 1)
+            {
+                FormAnimator.SetTrigger("isFinalAttack");
+            }
+            else
+            {
+                FormAnimator.SetTrigger("Attack"+currentCombo);
             }
             Attack(comboAttacks[currentCombo]);
             switchInProgress = false;

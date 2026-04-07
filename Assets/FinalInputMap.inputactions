@@ -79,9 +79,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Respawn",
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "cefaf36f-0821-4674-a399-ba1570ff0316",
+                    "id": "439f3bef-ad1c-4ad1-8bbf-b8780232c58d",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -300,17 +300,6 @@
                 },
                 {
                     "name": "",
-                    "id": "4db46fa3-5e8f-4e48-8520-1222dbaf7c17",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Respawn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6e124b4a-c109-4cbc-9444-0bcc5041b699",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
@@ -339,6 +328,87 @@
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c2b9a9c-f9af-47a3-ba10-6be93bfbdbe6",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5a88758-6d72-4055-a595-f7b557f8f1eb",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MenuControl",
+            "id": "b5c0ccbf-7d09-480a-bae0-4deb8a603907",
+            "actions": [
+                {
+                    "name": "Unpause",
+                    "type": "Button",
+                    "id": "dd6fb160-5923-4543-b16b-d7db42bb46be",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "2d63c368-db89-4a4c-814f-ecf2cdadd353",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a9049225-f348-4c37-b7e5-f9f8ab28b3f0",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee2a5803-43f2-4aa1-9fa9-0bdf709d7930",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d6cb0662-dd16-4e46-bc09-3b590e7119e2",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
