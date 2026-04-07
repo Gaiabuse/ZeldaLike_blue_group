@@ -20,8 +20,6 @@ public class ButtonTextModdifier : MonoBehaviour, ISelectHandler, IDeselectHandl
     {
         _text = GetComponentInChildren<TMP_Text>();
         
-
-        Debug.Log(IsThisButtonSelected());
         if (IsThisButtonSelected())
         {
             _text.color = secondColor;
