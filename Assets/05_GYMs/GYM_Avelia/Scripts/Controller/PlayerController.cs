@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector]public PlayerInput playerInput;
+    [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public Animator currentAnimator;
     [SerializeField]
     CharacterController controller;
@@ -121,6 +121,8 @@ public class PlayerController : MonoBehaviour
 
         if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
 
+        if (!controller.enabled) return;
+
         if (CanMove)
         {
             var decay = smoothedStickProgress < currentStickProgress ? decayAccel : decayDecel;
@@ -132,10 +134,7 @@ public class PlayerController : MonoBehaviour
             if (IsPlaceLandable(futurePosition)) controller.Move(movement);
         }
 
-        if (controller.enabled)
-        {
-            controller.Move(gravity * Time.deltaTime);
-        }
+        controller.Move(gravity * Time.deltaTime);
     }
 
     public Vector3 ProjectPoint(Vector2 dir)
@@ -155,10 +154,10 @@ public class PlayerController : MonoBehaviour
             currentAnimator.SetFloat("xInput", direction.x);
             currentAnimator.SetFloat("yInput", direction.y);
         }
-        
+
         currentStickProgress = ldirection.magnitude;
 
-        currentAnimator.SetBool("isRunning",currentStickProgress >= Math.Abs(0.1) );
+        currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));
         if (currentStickProgress <= 0.1) return;
         direction = ldirection.normalized;
     }
@@ -178,7 +177,7 @@ public class PlayerController : MonoBehaviour
 
     public void TriggerRespawn()
     {
-        
+
         StartCoroutine(RespawnCoroutine());
     }
 
