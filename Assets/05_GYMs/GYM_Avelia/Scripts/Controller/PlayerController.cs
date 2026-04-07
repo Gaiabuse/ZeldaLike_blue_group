@@ -74,7 +74,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-
         Movement();
         AlignPlayer();
     }
@@ -127,7 +126,7 @@ public class PlayerController : MonoBehaviour
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
 
-            if (IsPlaceLandable(futurePosition)) controller.Move(moveDirection);
+            if (IsPlaceLandable(futurePosition)) controller.Move(movement);
         }
 
         controller.Move(gravity * Time.deltaTime);

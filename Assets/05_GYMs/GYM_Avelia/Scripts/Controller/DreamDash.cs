@@ -46,6 +46,7 @@ public class DreamDash : MonoBehaviour
         // naive approach that will not work in the future. Rn it is not the priority to do better than that
         if (!IsPlaceLandable(destinationPosition))
         {
+            Debug.LogWarning($"{destinationPosition} is not landable, cannot dash there ");
             yield break;
         }
 
@@ -56,16 +57,15 @@ public class DreamDash : MonoBehaviour
             timer += Time.deltaTime;
 
             var portion = timer / DashDurationSeconds;
-            var destinationThisFrame = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
-            var motion = destinationThisFrame - transform.position;
 
-            characterController.Move(motion);
-
+            controller.transform.position = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
+            characterController.Move(Vector3.zero);
             yield return null;
         }
 
         controller.CanMove = true;
         controller.CanRotate = true;
+        characterController.enabled = true;
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
 
@@ -76,10 +76,9 @@ public class DreamDash : MonoBehaviour
 
     bool IsPlaceLandable(Vector3 destination)
     {
+        if (IsThereAWall(destination)) return false;
 
-        if (!IsThereAWall(destination)) return false;
-
-        Ray ray = new(origin: destination, direction: Vector3.down);
+        Ray ray = new(origin: destination + Vector3.up * offset, direction: Vector3.down);
         return Physics.Raycast(ray, 2f, layerGround);
 
     }
@@ -95,6 +94,6 @@ public class DreamDash : MonoBehaviour
 
         dashVFX.SetActive(true);
 
-        characterController.excludeLayers = LayerMask.GetMask("everything");
+        characterController.enabled = false;
     }
 }

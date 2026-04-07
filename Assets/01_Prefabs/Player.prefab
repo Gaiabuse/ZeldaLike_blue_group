@@ -341,9 +341,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   controller: {fileID: 8133830779634646023}
   characterController: {fileID: 2672575590059249965}
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.4
+  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
+  layerWall:
+    serializedVersion: 2
+    m_Bits: 0
+  layerGround:
+    serializedVersion: 2
+    m_Bits: 0
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -368,7 +372,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.4
+  offset: 0.2
 --- !u!114 &8715960371389895154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,13 +536,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   playerInput: {fileID: 0}
   controller: {fileID: 2672575590059249965}
+  gravity: {x: 0, y: -10, z: 0}
   speed: 12
   rotationSpeed: 10
-  gravity: {x: 0, y: -10, z: 0}
   decayAccel: 5
   decayDecel: 10
   cameraFollow: {fileID: 0}
   cameraRotation: {fileID: 0}
+  layerGround:
+    serializedVersion: 2
+    m_Bits: 8
+  offsetRayCast: 1.27
+  lengthRayCast: 5.4
   surfaceNormal: {x: 0, y: 0, z: 0}
   CanMove: 1
   CanRotate: 1
@@ -1253,9 +1265,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   controller: {fileID: 8133830779634646023}
   characterController: {fileID: 2672575590059249965}
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.4
+  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
+  layerWall:
+    serializedVersion: 2
+    m_Bits: 0
+  layerGround:
+    serializedVersion: 2
+    m_Bits: 0
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -1280,7 +1296,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.4
+  offset: 0.2
 --- !u!1 &8495912245519105219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1333,6 +1352,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   maxPointsForCreate: 0
+  holdTime: 0
 --- !u!65 &223095147346892054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1402,9 +1422,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   controller: {fileID: 8133830779634646023}
   characterController: {fileID: 2672575590059249965}
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.4
+  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
+  layerWall:
+    serializedVersion: 2
+    m_Bits: 64
+  layerGround:
+    serializedVersion: 2
+    m_Bits: 8
   DashProggression:
     serializedVersion: 2
     m_Curve:
@@ -1429,7 +1453,10 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
+  DashDurationSeconds: 0.2
+  DashLength: 7
+  DashCoolDownSeconds: 0.4
+  offset: 0.2
 --- !u!1 &8549774408609409626
 GameObject:
   m_ObjectHideFlags: 0
