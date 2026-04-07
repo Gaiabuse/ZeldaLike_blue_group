@@ -132,7 +132,10 @@ public class PlayerController : MonoBehaviour
             if (IsPlaceLandable(futurePosition)) controller.Move(movement);
         }
 
-        controller.Move(gravity * Time.deltaTime);
+        if (controller.enabled)
+        {
+            controller.Move(gravity * Time.deltaTime);
+        }
     }
 
     public Vector3 ProjectPoint(Vector2 dir)
