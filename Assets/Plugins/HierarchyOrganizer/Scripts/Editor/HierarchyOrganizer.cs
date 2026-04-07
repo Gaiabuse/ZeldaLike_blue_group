@@ -1,8 +1,11 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
+
 
 [InitializeOnLoad]
 public static class HierarchyOrganizer
@@ -205,4 +208,4 @@ public static class HierarchyOrganizer
     }
 
 }
-
+#endif
