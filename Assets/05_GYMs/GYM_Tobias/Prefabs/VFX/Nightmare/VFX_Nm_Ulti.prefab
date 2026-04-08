@@ -26,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101342233934511534}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2590499181856043712}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!2083052967 &6999130433029773772
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -50,13 +50,34 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 2.03
+        m_Name: ShadowPoolLifeTime
+        m_Overridden: 1
+      - m_Value: 1.06
+        m_Name: ShadowPoolMaxSize
+        m_Overridden: 1
+      - m_Value: 0.28
+        m_Name: DarkPoolRotationSpeed
+        m_Overridden: 1
+      - m_Value: 0.49
+        m_Name: BrightPoolRotationSpeed
+        m_Overridden: 1
+      - m_Value: 1.1
+        m_Name: ImpactSize
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 0.0033819855, y: 0.0047072247, z: 0.03773585, w: 0}
+        m_Name: DarkColor
+        m_Overridden: 1
+      - m_Value: {x: 1.5609009, y: 0.12711304, z: 0.11044109, w: 0}
+        m_Name: BrightColor
+        m_Overridden: 1
     m_Uint:
       m_Array: []
     m_Int:
@@ -114,8 +135,8 @@ VFXRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1136166765
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
 --- !u!1 &1657189106102307817
