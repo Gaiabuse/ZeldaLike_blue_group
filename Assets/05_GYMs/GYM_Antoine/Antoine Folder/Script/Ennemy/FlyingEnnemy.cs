@@ -1,13 +1,21 @@
 using UnityEngine;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 
 public class FlyingEnnemy : EnnemyBase
 {
     [Header("Flying Ennemy")]
-    [SerializeField] float LookRange = 5f;
+    [SerializeField] float LookRange = 12f;
+
+    [Header("Melee Setting")]
+    [SerializeField] bool canUseMelee = true;
+    [SerializeField] float FallWhenDistance = 0.5f;
+
+    [Header("Range Setting")]
+    [SerializeField] Vector2 FireRange = new Vector2(9, 12);
+    [SerializeField] bool canUseProjectile = false;
     [SerializeField] GameObject Projectile;
     [SerializeField] Vector3 spawnProjectile;
-
     [SerializeField] List<float> Cooldown;
     int currentCooldown = 0;
     float cooldownAttack;
@@ -32,10 +40,10 @@ public class FlyingEnnemy : EnnemyBase
         {
             if (TargetInFieldOfView)
             {
-                if (move != "attack")
+                if (move != "targetInRange")
                 {
                     EyesSetColorTo(colorChase);
-                    move = "attack";
+                    move = "targetInRange";
                 }
             }
             else
@@ -47,7 +55,20 @@ public class FlyingEnnemy : EnnemyBase
                 }
             }
 
-            if (move == "attack")
+            if (move == "targetInRange")
+            {
+                float DistancePlayer = Vector3.Distance(transform.position, CurrentTarget.position);
+
+                if (canUseProjectile && DistancePlayer <= FireRange.y && DistancePlayer >= FireRange.x)
+                {
+                    if (move != "shoot") move = "shoot";
+                }
+                if (canUseMelee)
+                {
+
+                }
+            }
+            if (move == "shoot")
             {
                 Vector3 relativePos = CurrentTarget.position - transform.position;
                 Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
