@@ -4,8 +4,11 @@ using NUnit.Framework.Constraints;
 
 public class FlyingEnnemy : EnnemyBase
 {
+    Rigidbody rb;
+
     [Header("Flying Ennemy")]
     [SerializeField] float LookRange = 12f;
+    [SerializeField] float DistanceFromGround = 5;
 
     [Header("Melee Setting")]
     [SerializeField] bool canUseMelee = true;
@@ -26,6 +29,10 @@ public class FlyingEnnemy : EnnemyBase
     protected override void Start()
     {
         base.Start();
+        rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.isKinematic = true;
+
         if (Cooldown.Count > 0) cooldownAttack = Cooldown[currentCooldown];
         else cooldownAttack = 0;
     }
@@ -40,7 +47,7 @@ public class FlyingEnnemy : EnnemyBase
         {
             if (TargetInFieldOfView)
             {
-                if (move != "targetInRange")
+                if (move == "wait")
                 {
                     EyesSetColorTo(colorChase);
                     move = "targetInRange";
@@ -48,7 +55,7 @@ public class FlyingEnnemy : EnnemyBase
             }
             else
             {
-                if (move != "wait")
+                if (move == "targetInRange")
                 {
                     EyesSetColorTo(colorNormal);
                     move = "wait";
@@ -58,14 +65,39 @@ public class FlyingEnnemy : EnnemyBase
             if (move == "targetInRange")
             {
                 float DistancePlayer = Vector3.Distance(transform.position, CurrentTarget.position);
+                float DistancePlayerDown = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(CurrentTarget.position.x, CurrentTarget.position.z));
+                Debug.Log(DistancePlayerDown);
 
                 if (canUseProjectile && DistancePlayer <= FireRange.y && DistancePlayer >= FireRange.x)
                 {
                     if (move != "shoot") move = "shoot";
                 }
-                if (canUseMelee)
+                if (canUseMelee && DistancePlayerDown <= FallWhenDistance)
                 {
+                    if (move != "melee")
+                    {
+                        move = "melee";
+                        SetDive(1);
+                    }
+                }
+                else
+                {
+                    //GoToPlayer
+                }
+            }
+            if (move == "recoverDive")
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), 0.5f);
+                transform.Translate(speed.y * Vector3.up * Time.deltaTime);
 
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
+                {
+                    if (hit.distance >= DistanceFromGround)
+                    {
+                        move = "wait";
+                        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                    }
                 }
             }
             if (move == "shoot")
@@ -93,7 +125,7 @@ public class FlyingEnnemy : EnnemyBase
             }
             if (move == "wait")
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 0.07f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), 0.07f);
             }
         }
     }
@@ -146,5 +178,32 @@ public class FlyingEnnemy : EnnemyBase
         projectile.transform.parent = null;
 
         projectile.GetComponent<Rigidbody>().AddForce(projectile.transform.forward * 25, ForceMode.Impulse);
+    }
+
+    void SetDive(int dive)
+    {
+        animator.SetInteger("Dive", dive);
+        if (dive == 0 && move == "melee2")
+        {
+            move = "recoverDive";
+        }
+        if (dive == 2)
+        {
+            rb.useGravity = true;
+            rb.isKinematic = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (move == "melee")
+        {
+            move = "melee2";
+            rb.useGravity = false;
+            rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            SetDive(3);
+        }
     }
 }

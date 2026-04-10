@@ -961,74 +961,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3987803212892058397, guid: df733580aa26fe64d808b3bbc6fe781a, type: 3}
   m_PrefabInstance: {fileID: 6191404502966150406}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &580820549
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 580820550}
-  - component: {fileID: 580820552}
-  - component: {fileID: 580820551}
-  m_Layer: 7
-  m_Name: HitboxMelee
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &580820550
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580820549}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1336798511}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &580820551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580820549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f809e0a38a1d5c4f8a705b7565730fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
-  damage: 5
-  canHit: 0
---- !u!135 &580820552
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580820549}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Radius: 0.65
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &599193369
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1378,11 +1310,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
---- !u!4 &1336798511 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3157253238658455777, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-  m_PrefabInstance: {fileID: 5155382038620558311}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1375837400 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4898265552753558365, guid: bbc9b9863a2a93142a58b557efdc130a, type: 3}
@@ -1860,9 +1787,9 @@ GameObject:
   - component: {fileID: 1766383172}
   - component: {fileID: 1766383171}
   - component: {fileID: 1766383175}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -2155,7 +2082,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3157253238658455777, guid: 389223b118273ef4aa60732feb39755e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3157253238658455777, guid: 389223b118273ef4aa60732feb39755e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2194,71 +2121,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: LookRange
-      value: 12
+      propertyPath: move
+      value: wait
       objectReference: {fileID: 0}
     - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: MainHitBox
-      value: 
-      objectReference: {fileID: 580820551}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 3717776496104129067, guid: a1df370ec769b4a4ab2e0cbbbd732678, type: 3}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: alwaysAgro
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: FireRange.x
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: FireRange.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: spawnProjectile.z
-      value: 0.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: Cooldown.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: canUseMeleeProjectile
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: 'Cooldown.Array.data[0]'
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: 'Cooldown.Array.data[1]'
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: 'Cooldown.Array.data[2]'
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: 'Cooldown.Array.data[3]'
+      propertyPath: FallWhenDistance
       value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 4376329963260162329, guid: 389223b118273ef4aa60732feb39755e, type: 3}
       propertyPath: m_Name
       value: Flying Ennemy Test
       objectReference: {fileID: 0}
-    - target: {fileID: 4376329963260162329, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3157253238658455777, guid: 389223b118273ef4aa60732feb39755e, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 580820550}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 389223b118273ef4aa60732feb39755e, type: 3}
 --- !u!1001 &6191404502966150406

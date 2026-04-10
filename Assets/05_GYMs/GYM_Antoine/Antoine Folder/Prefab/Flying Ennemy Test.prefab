@@ -361,7 +361,6 @@ GameObject:
   - component: {fileID: 4478935064117200790}
   - component: {fileID: 5147084140124857827}
   - component: {fileID: 3826175702634081349}
-  - component: {fileID: 2597358616300150265}
   m_Layer: 0
   m_Name: Eye
   m_TagString: Untagged
@@ -441,27 +440,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2597358616300150265
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167047689597835503}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4376329963260162329
 GameObject:
   m_ObjectHideFlags: 0
@@ -473,8 +451,9 @@ GameObject:
   - component: {fileID: 3157253238658455777}
   - component: {fileID: 6786567321994056736}
   - component: {fileID: 7696649194047948609}
-  - component: {fileID: 9176990613861693512}
   - component: {fileID: 8927931742543417068}
+  - component: {fileID: 9176990613861693512}
+  - component: {fileID: 7550585569384719134}
   - component: {fileID: 4252265134932699148}
   m_Layer: 7
   m_Name: Flying Ennemy Test
@@ -500,6 +479,7 @@ Transform:
   - {fileID: 3486427725878810375}
   - {fileID: 4594217956110394228}
   - {fileID: 4478935064117200790}
+  - {fileID: 327055168933111917}
   - {fileID: 1931429312534472463}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -560,27 +540,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &9176990613861693512
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4376329963260162329}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &8927931742543417068
 Animator:
   serializedVersion: 7
@@ -603,6 +562,54 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!135 &9176990613861693512
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4376329963260162329}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &7550585569384719134
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4376329963260162329}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &4252265134932699148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -620,8 +627,9 @@ MonoBehaviour:
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
   Leure: {fileID: 0}
-  move: 0
-  MainHitBox: {fileID: 0}
+  move: wait
+  alwaysAgro: 0
+  MainHitBox: {fileID: 298266412535583377}
   Eyes:
   - {fileID: 3826175702634081349}
   colorNormal: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -631,9 +639,18 @@ MonoBehaviour:
   hitValueDisplay: {fileID: 7363064155904017418}
   durationDelay: 0.3
   durationDotween: 0.6
-  LookRange: 7
+  LookRange: 12
+  DistanceFromGround: 5
+  canUseMelee: 1
+  FallWhenDistance: 0.75
+  FireRange: {x: 7, y: 10}
+  canUseProjectile: 0
   Projectile: {fileID: 3717776496104129067, guid: a1df370ec769b4a4ab2e0cbbbd732678, type: 3}
   spawnProjectile: {x: 0, y: 0, z: 0.65}
+  Cooldown:
+  - 0.15
+  - 0.15
+  - 0.75
   LayerTarget:
     serializedVersion: 2
     m_Bits: 1536
@@ -648,7 +665,6 @@ GameObject:
   - component: {fileID: 3486427725878810375}
   - component: {fileID: 325838275405749249}
   - component: {fileID: 4734780659917363890}
-  - component: {fileID: 3715198120062952037}
   m_Layer: 0
   m_Name: WingRight
   m_TagString: Untagged
@@ -728,13 +744,46 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3715198120062952037
-BoxCollider:
+--- !u!1 &6229708988824174207
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6153378359107846933}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327055168933111917}
+  - component: {fileID: 778276308329572045}
+  - component: {fileID: 298266412535583377}
+  m_Layer: 7
+  m_Name: HitboxMelee
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &327055168933111917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229708988824174207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3157253238658455777}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &778276308329572045
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229708988824174207}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -743,12 +792,26 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.65
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &298266412535583377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229708988824174207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f809e0a38a1d5c4f8a705b7565730fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
+  damage: 5
+  canHit: 0
 --- !u!1 &8312583513850062970
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +823,6 @@ GameObject:
   - component: {fileID: 4594217956110394228}
   - component: {fileID: 6680387986508938350}
   - component: {fileID: 8201136634483712732}
-  - component: {fileID: 4365892858161732124}
   m_Layer: 0
   m_Name: WingLeft
   m_TagString: Untagged
@@ -840,24 +902,3 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4365892858161732124
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8312583513850062970}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
