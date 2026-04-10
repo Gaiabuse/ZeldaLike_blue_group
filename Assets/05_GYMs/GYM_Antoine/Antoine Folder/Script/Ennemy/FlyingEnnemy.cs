@@ -13,7 +13,6 @@ public class FlyingEnnemy : EnnemyBase
     [Header("Melee Setting")]
     [SerializeField] bool canUseMelee = true;
     [SerializeField] float FallWhenDistance = 0.5f;
-    [SerializeField] float addForceDive = 3;
 
     [Header("Range Setting")]
     [SerializeField] Vector2 FireRange = new Vector2(9, 12);
@@ -46,10 +45,7 @@ public class FlyingEnnemy : EnnemyBase
 
         if (move != "stun")
         {
-            float DistancePlayer = Vector3.Distance(transform.position, CurrentTarget.position);
-            float DistancePlayerDown = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(CurrentTarget.position.x, CurrentTarget.position.z));
-
-            if (TargetInFieldOfView || alwaysAgro)
+            if (TargetInFieldOfView)
             {
                 if (move == "wait")
                 {
@@ -68,7 +64,11 @@ public class FlyingEnnemy : EnnemyBase
 
             if (move == "targetInRange")
             {
-                if (canUseProjectile && DistancePlayer >= FireRange.x && DistancePlayer <= FireRange.y)
+                float DistancePlayer = Vector3.Distance(transform.position, CurrentTarget.position);
+                float DistancePlayerDown = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(CurrentTarget.position.x, CurrentTarget.position.z));
+                Debug.Log(DistancePlayerDown);
+
+                if (canUseProjectile && DistancePlayer <= FireRange.y && DistancePlayer >= FireRange.x)
                 {
                     if (move != "shoot") move = "shoot";
                 }
@@ -82,11 +82,7 @@ public class FlyingEnnemy : EnnemyBase
                 }
                 else
                 {
-                    Vector3 relativePos = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z) - transform.position;
-                    Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.25f);
-
-                    transform.Translate(0, 0, speed.x * Time.deltaTime);
+                    //GoToPlayer
                 }
             }
             if (move == "recoverDive")
@@ -108,6 +104,7 @@ public class FlyingEnnemy : EnnemyBase
             {
                 Vector3 relativePos = CurrentTarget.position - transform.position;
                 Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
+
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.25f);
 
                 if (Cooldown.Count > 0)
@@ -125,8 +122,6 @@ public class FlyingEnnemy : EnnemyBase
                 {
                     animator.SetTrigger("Shoot");
                 }
-
-                if (DistancePlayer < FireRange.x || DistancePlayer > FireRange.y) move = "wait";
             }
             if (move == "wait")
             {
@@ -192,12 +187,10 @@ public class FlyingEnnemy : EnnemyBase
         {
             move = "recoverDive";
         }
-        if (dive == 2 && move == "melee")
+        if (dive == 2)
         {
             rb.useGravity = true;
             rb.isKinematic = false;
-
-            rb.AddForce(Vector3.down * addForceDive, ForceMode.Impulse);
         }
     }
 
@@ -206,11 +199,10 @@ public class FlyingEnnemy : EnnemyBase
         if (move == "melee")
         {
             move = "melee2";
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
             rb.useGravity = false;
             rb.isKinematic = true;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             SetDive(3);
         }
     }
