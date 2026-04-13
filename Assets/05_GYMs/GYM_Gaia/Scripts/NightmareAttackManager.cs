@@ -14,6 +14,8 @@ public class NightmareAttackManager : AttackManager
 
     [SerializeField] private SimpleAttack ultimateAttack;
     [SerializeField] private float timeOfUltimate;
+    
+    private Coroutine ultimateCoroutine;
     private void Awake()
     {
         ultimateObject.SetActive(false);
@@ -60,29 +62,41 @@ public class NightmareAttackManager : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
-        UltimateActivation(true);
-        StartCoroutine(UltimateCoroutine());
+        UltimateActivation();
+        if (ultimateCoroutine != null)
+        {
+            StopCoroutine(ultimateCoroutine);
+        }
+        ultimateCoroutine = StartCoroutine(UltimateCoroutine());
     }
-    private void UltimateActivation(bool isActive)
+    private void UltimateActivation()
     {
-        ultimateObject.SetActive(isActive);
-        CanAttack = !isActive;
+        formSwitcher.canSwitchForm = false;
+        CanAttack = false;
+        ultimateObject.SetActive(true);
         foreach (var go in playerObjects)
         {
-            go.SetActive(!isActive);
+            go.SetActive(!false);
         }
-        if (isActive == false)
+    }
+
+    private void UltimateDesactivation()
+    {
+        formSwitcher.canSwitchForm = true;
+        CanAttack = true;
+        ultimateObject.SetActive(false);
+        foreach (var go in playerObjects)
         {
-            Attack(ultimateAttack);
+            go.SetActive(true);
         }
+        Attack(ultimateAttack);
     }
 
     private IEnumerator UltimateCoroutine()
     {
-        formSwitcher.canSwitchForm = false;
         yield return new WaitForSeconds(timeOfUltimate);
         formSwitcher.canSwitchForm = true;
-        UltimateActivation(false);
-        Attack(ultimateAttack);
+        UltimateDesactivation();
+        ultimateCoroutine = null;
     }
 }

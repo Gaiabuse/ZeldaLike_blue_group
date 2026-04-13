@@ -8,9 +8,16 @@ public class MovingBox : MonoBehaviour
     public enum Side { Left, Right, Front, Back }
     Side side;
     [SerializeField] private GameObject Ui;
+    [SerializeField] private Rigidbody rb;
     private bool canInteract = false;
     [SerializeField]private float speed = 5f;
     private PlayerController player;
+    private Vector3 startPos;
+
+    private void Awake()
+    {
+        startPos = transform.position;
+    }
     private void Start()
     {
         Ui.SetActive(false);
@@ -86,6 +93,13 @@ public class MovingBox : MonoBehaviour
             player.CanRotate = false;
             player.currentAttackManager.CanAttack = false;
         }
+    }
+
+    public void OnRespawn()
+    {
+        rb.angularVelocity = Vector3.zero;
+        rb.position = startPos;
+        transform.position = startPos;
     }
 
     private void ReleaseBox()
