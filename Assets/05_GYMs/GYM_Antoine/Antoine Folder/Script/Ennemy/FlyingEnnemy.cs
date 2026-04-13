@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
 
 public class FlyingEnnemy : EnnemyBase
 {
@@ -135,6 +134,14 @@ public class FlyingEnnemy : EnnemyBase
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(0, 5);
+        }
+    }
+
     void isPlayerInFieldOfView()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, LookRange, LayerTarget);
@@ -213,5 +220,20 @@ public class FlyingEnnemy : EnnemyBase
             rb.isKinematic = true;
             SetDive(3);
         }
+    }
+
+    public override void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        base.StunEnnemy (stunTime, infiniteStun);
+        rb.isKinematic = false;
+        rb.useGravity = true;
+    }
+
+    protected override void EndStun()
+    {
+        base.EndStun();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+        move = "recoverDive";
     }
 }
