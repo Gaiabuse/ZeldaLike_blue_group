@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9090328954170877861}
   - component: {fileID: 3767056059180753700}
   m_Layer: 0
-  m_Name: VFX_Slash
+  m_Name: VFXG_Slash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,16 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: FxToPlayerDistance
+        m_Overridden: 1
+      - m_Value: 1
+        m_Name: SlashSize
+        m_Overridden: 1
+      - m_Value: 0.3
+        m_Name: AttackDuration
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -70,7 +79,10 @@ VisualEffect:
     m_NamedObject:
       m_Array: []
     m_Bool:
-      m_Array: []
+      m_Array:
+      - m_Value: 1
+        m_Name: InverseFX
+        m_Overridden: 1
 --- !u!73398921 &3767056059180753700
 VFXRenderer:
   serializedVersion: 1
@@ -132,7 +144,7 @@ GameObject:
   - component: {fileID: 9190660474244985157}
   - component: {fileID: 9070681728207817647}
   m_Layer: 0
-  m_Name: VFX_N_Slash
+  m_Name: VFX_N_Slash_R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,4 +246,4 @@ MonoBehaviour:
   HitSpark: {fileID: 0}
   BlockHitSpark: {fileID: 0}
   distance: 0
-  stun: 0
+  stun: 0.75
