@@ -192,7 +192,6 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator RespawnCoroutine()
     {
-        Debug.Log("respawn");
         OnRespawn?.Invoke();
         controller.enabled = false;
         Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));

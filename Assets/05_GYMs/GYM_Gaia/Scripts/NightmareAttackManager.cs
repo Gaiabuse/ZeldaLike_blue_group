@@ -3,22 +3,35 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
+using Object = System.Object;
 
 public class NightmareAttackManager : AttackManager
 {
     [SerializeField]
     private SimpleAttack[] comboAttacks;
     [SerializeField] protected SimpleAttack ChargedAttack;
-    [SerializeField] private GameObject[] playerObjects;
-    [SerializeField] private GameObject ultimateObject;
-
-    [SerializeField] private SimpleAttack ultimateAttack;
+    [Header("Ult")]
     [SerializeField] private float timeOfUltimate;
-    
+    [SerializeField] private SimpleAttack ultimateAttack;
+    [Tooltip("dont Open please")]
+    [SerializeField] private UltReference ultReference;
+  
     private Coroutine ultimateCoroutine;
+
+    [Serializable]
+    private class UltReference
+    {
+        public CharacterController characterController;
+        public GameObject playerSprite;
+        public Collider playerCollider;
+        public GameObject ultimateObject;
+        public GrabSystem grab;
+        public DreamDash dash;
+    }
     private void Awake()
     {
-        ultimateObject.SetActive(false);
+        ultReference.ultimateObject.SetActive(false);
     }
     protected override void OnEnable()
     {
@@ -73,22 +86,25 @@ public class NightmareAttackManager : AttackManager
     {
         formSwitcher.canSwitchForm = false;
         CanAttack = false;
-        ultimateObject.SetActive(true);
-        foreach (var go in playerObjects)
-        {
-            go.SetActive(!false);
-        }
+        ultReference.ultimateObject.SetActive(true);
+        ultReference.playerSprite.SetActive(false);
+        ultReference.playerCollider.enabled = false;
+        ultReference.dash.enabled = false;
+        ultReference.grab.enabled = false;
+        formSwitcher.enabled = false;
+        ultReference.characterController.detectCollisions = false;
     }
 
     private void UltimateDesactivation()
     {
         formSwitcher.canSwitchForm = true;
         CanAttack = true;
-        ultimateObject.SetActive(false);
-        foreach (var go in playerObjects)
-        {
-            go.SetActive(true);
-        }
+        ultReference.ultimateObject.SetActive(false);
+        ultReference.playerSprite.SetActive(true);
+        ultReference.playerCollider.enabled = true;
+        ultReference.dash.enabled = true;
+        ultReference.grab.enabled = true;
+        ultReference.characterController.detectCollisions = true;
         Attack(ultimateAttack);
     }
 

@@ -49,6 +49,7 @@ public class EnnemyBase : MonoBehaviour
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
+    private GameObject stunZone = null;
     public Action<EnnemyBase> OnDeath;
     protected virtual void Start()
     {
@@ -89,6 +90,15 @@ public class EnnemyBase : MonoBehaviour
             if (timerGeneral <= 0)
             {
                 EndStun();
+            }
+        }
+
+        if (stunZone != null)
+        {
+            if (!stunZone.activeInHierarchy)
+            {
+                EndStun();
+                stunZone = null;
             }
         }
     }
@@ -168,13 +178,14 @@ public class EnnemyBase : MonoBehaviour
         if (other.CompareTag("StunZone"))
         {
             StunEnnemy(0f,true);
+            if(stunZone != null) stunZone = other.gameObject;
+            
         }
         
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(other.name);
         if (other.CompareTag("StunZone"))
         {
             EndStun();
@@ -228,6 +239,8 @@ public class EnnemyBase : MonoBehaviour
     protected virtual void EndStun()
     {
         EyesSetColorTo(colorNormal);
+        animator.SetBool("Stun", false);
+        timerGeneral = 0;
         move = "0";
     }
 }

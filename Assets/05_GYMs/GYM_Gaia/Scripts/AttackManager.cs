@@ -40,6 +40,7 @@ public abstract class AttackManager : MonoBehaviour
     }
     protected virtual void OnAttack(InputValue _input)
     {
+        if(!CanAttack)return;
         if (_input.isPressed)
         {
             var action = player.playerInput.actions["Attack"];
@@ -56,6 +57,7 @@ public abstract class AttackManager : MonoBehaviour
     
     private void HandleDirectionalInput(string direction)
     {
+        if(!formSwitcher.canSwitchForm)return;
         switch (direction)
         {
             case "buttonNorth":
@@ -133,8 +135,7 @@ public abstract class AttackManager : MonoBehaviour
         {
             currentCombo = 0;
             FormAnimator.SetBool("isAttacking",false);
-        
-            Debug.Log("canUltimate");
+            
             if (ultimateCoroutine != null)
             {
                 StopCoroutine(ultimateCoroutine);
@@ -151,7 +152,6 @@ public abstract class AttackManager : MonoBehaviour
 
     protected virtual IEnumerator ForUltimateComboCoroutine()
     {
-        Debug.Log("you success the combo");
         CanUltimate?.Invoke();
         formSwitcher.CanDoUltimate = true;
         yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);

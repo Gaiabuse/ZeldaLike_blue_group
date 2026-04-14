@@ -95,6 +95,16 @@ public class Attack : MonoBehaviour
                     knockbackStrength);
             }
         }
+
+        if (collision.transform.CompareTag("Garbage"))
+        {
+            GarbageBehaviors dust = collision.transform.GetComponent<GarbageBehaviors>();
+            if (dust != null)
+            {
+                dust.Clean();
+            }
+            touchedEnemy = true; 
+        }
     }
 
     void SpawnSpark(GameObject spark)
