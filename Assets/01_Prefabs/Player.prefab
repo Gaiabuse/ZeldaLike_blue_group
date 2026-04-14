@@ -1365,7 +1365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2564409545134392940
 Transform:
   m_ObjectHideFlags: 0
@@ -1399,8 +1399,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   player: {fileID: 8133830779634646023}
   rangeForGrab: 14
+  sideRangeForGrab: 0.1
   grabStrength: -14
   rangeForSwallow: 2
+  sideRangeForSwallow: 0.1
   grabLayers:
     serializedVersion: 2
     m_Bits: 3200
