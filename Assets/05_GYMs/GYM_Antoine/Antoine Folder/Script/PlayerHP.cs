@@ -35,7 +35,6 @@ public class PlayerHP : MonoBehaviour
 
     private void Start()
     {
-        HP = maxHP;
         UpdateVisuals();
     }
 

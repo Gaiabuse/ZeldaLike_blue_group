@@ -101,7 +101,7 @@ public class Attack : MonoBehaviour
             GarbageBehaviors dust = collision.transform.GetComponent<GarbageBehaviors>();
             if (dust != null)
             {
-                dust.TakeDamage((int)damage);
+                dust.Clean();
             }
             touchedEnemy = true; 
         }

@@ -6,13 +6,18 @@ public class GarbageBehaviors : MonoBehaviour
 {
     [Range(0f, 1f)]
     [SerializeField] private float spawnRatio;
+    [SerializeField] private int containPowder;
     [SerializeField] private bool hasZonyr;
     [SerializeField] private GameObject zonyr;
+    
+    private GameObject player;
     
     private int _hp = 1;
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        
         if (!hasZonyr)
         {
             if (Random.Range(0f, 1f) <= spawnRatio)
@@ -23,16 +28,19 @@ public class GarbageBehaviors : MonoBehaviour
         }
     }
 
-    public void TakeDamage(int damage)
+
+    public void Clean()
     {
-        _hp -= damage;
-        if (_hp <= 0)
+        if (containPowder > 0)
         {
-            if (hasZonyr)
-            {
-                Instantiate(zonyr, transform.position, transform.rotation);
-            }
-            Destroy(gameObject);
+            if (player == null) return;
+            player.GetComponent<PlayerPowder>().GainPowder(containPowder);
         }
+        
+        if (hasZonyr)
+        {
+            Instantiate(zonyr, transform.position, transform.rotation);
+        }
+        Destroy(gameObject);
     }
 }
