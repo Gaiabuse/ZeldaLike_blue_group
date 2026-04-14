@@ -11,8 +11,11 @@ public class GrabSystem : MonoBehaviour
 
     [Header("Grab")]
     [SerializeField] private float rangeForGrab;
+    [SerializeField] private float sideRangeForGrab = 0.1f;
     [SerializeField] private float grabStrength;
+
     [SerializeField] private float rangeForSwallow;
+    [SerializeField] private float sideRangeForSwallow = 0.1f;
     [SerializeField] private LayerMask grabLayers;
     [SerializeField] private Vector3 downValue = Vector3.down;
 
@@ -60,9 +63,7 @@ public class GrabSystem : MonoBehaviour
                 break;
             case GrabbingState.TimerLimitThrow:
                 break;
-
         }
-
     }
 
     void OnSecondPower(InputValue _input)
@@ -71,7 +72,6 @@ public class GrabSystem : MonoBehaviour
 
         if (currentGrabbedObject == null)
         {
-            print($"{_input.isPressed} grab");
             ProcessGrab(_input);
             return;
         }
@@ -158,7 +158,9 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 downPosition = transform.position - downValue;
 
-        if ((DoGrabCheck(downPosition, rangeForSwallow) ?? DoGrabCheck(downPosition, rangeForGrab)) is RaycastHit hit)
+        if ((DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) ??
+                    DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab))
+                is RaycastHit hit)
         {
             PutGrabMarkAtTarget(hit.collider.transform.position);
         }
@@ -176,7 +178,7 @@ public class GrabSystem : MonoBehaviour
         Vector3 downPosition = transform.position - downValue;
 
         // if you don't understand this please check nullable syntax and pattern matching :3 cool stuff
-        if (DoGrabCheck(downPosition, rangeForSwallow) is RaycastHit hitSwallow)
+        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
             if (currentGrabbedObject != null && currentGrabbedObject.transform.parent != null)
@@ -188,17 +190,12 @@ public class GrabSystem : MonoBehaviour
             return;
         }
 
-        RaycastHit? maybeHitGrabbed = DoGrabCheck(downPosition, rangeForGrab);
+        RaycastHit? maybeHitGrabbed = DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab);
 
-        if (maybeHitGrabbed is null)
-        {
-            Debug.DrawRay(downPosition, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
-            return;
-        }
+        if (maybeHitGrabbed is null) return;
 
         RaycastHit hitGrabbed = maybeHitGrabbed ?? throw new Exception("Unreachable");
 
-        Debug.Log(hitGrabbed.collider.gameObject.name);
         Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
 
         Rigidbody grabbedObject = GetRigidbodyFromEnemy(hitGrabbed.collider.gameObject);
@@ -210,7 +207,6 @@ public class GrabSystem : MonoBehaviour
 
         grabbedObject.AddForce(direction * grabStrength, ForceMode.Impulse);
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.green);
     }
 
     private void DoAutoThrowUpdate()
@@ -237,12 +233,15 @@ public class GrabSystem : MonoBehaviour
         grabMark.SetActive(false);
     }
 
-    private RaycastHit? DoGrabCheck(Vector3 down, float range)
+    private RaycastHit? DoGrabCheck(Vector3 down, float range, float siderange)
     {
-        if (Physics.Raycast(down, transform.forward, out RaycastHit hitGrabbed, range, grabLayers))
+        if (Physics.SphereCast(down, siderange, transform.forward, out RaycastHit hitGrabbed, range, grabLayers))
         {
+            Debug.DrawRay(transform.position, transform.forward * range, Color.green);
             return hitGrabbed;
         }
+
+        Debug.DrawRay(transform.position, transform.forward * range, Color.red);
 
         return null;
     }
