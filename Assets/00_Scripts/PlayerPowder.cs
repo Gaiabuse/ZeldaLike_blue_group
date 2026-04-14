@@ -6,10 +6,10 @@ using System;
 public class PlayerPowder : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private float maxPowder = 25f;
-    [SerializeField] private float powder = 20f;
+    [SerializeField] private float maxPowder = 50;
+    [SerializeField] private float powder;
     [SerializeField] private float lerpSpeed = 5f;
-    [SerializeField] private float healRate = 5f;
+    [SerializeField] private float healRate = 10f;
     [SerializeField] private float chargingTime = 1.5f;
 
     [Header("References")]
@@ -49,14 +49,18 @@ public class PlayerPowder : MonoBehaviour
     {
         float amountToHeal = (float)Math.Round(healRate * Time.deltaTime, 2);
 
-        if (amountToHeal > powder) 
-            amountToHeal = powder;
-
+        if (amountToHeal > powder)
+        {
+            amountToHeal = powder;  
+        }
+        
         powder = (float)Math.Round(powder - amountToHeal, 2);
         _hp.Heal(amountToHeal);
 
         if (Gamepad.current != null)
-            Gamepad.current.SetMotorSpeeds(0.5f, 0.5f);
+        {
+            Gamepad.current.SetMotorSpeeds(0.5f, 0.5f);  
+        }
     }
 
     public void OnHeal(InputValue value)
