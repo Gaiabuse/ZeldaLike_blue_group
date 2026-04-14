@@ -485,6 +485,7 @@ GameObject:
   - component: {fileID: 2672575590059249965}
   - component: {fileID: 1915928875852587533}
   - component: {fileID: 1551203807080462892}
+  - component: {fileID: 3607936565226332866}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -731,12 +732,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f58284eed5298a7428918eb492e8d073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHP
-  maxHP: 50
+  maxHP: 100
   playerController: {fileID: 8133830779634646023}
   speedRecharge: 5
-  minFillAmount: 0.28
-  maxFillAmount: 1
+  minFillAmount: 0.11
+  maxFillAmount: 0.83
   healthBar: {fileID: 0}
+  HP: 50
 --- !u!114 &1551203807080462892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,6 +788,26 @@ MonoBehaviour:
   DashLength: 7
   DashCoolDownSeconds: 0.15
   offset: 0.2
+--- !u!114 &3607936565226332866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4132325966550006197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d6f22dbc1bb664daeb6b5afe42a609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerPowder
+  maxPowder: 50
+  powder: 0
+  lerpSpeed: 5
+  healRate: 10
+  chargingTime: 1.5
+  powderBar: {fileID: 0}
+  _hp: {fileID: 1915928875852587533}
+  _playerInput: {fileID: 8015218632366079429}
 --- !u!1 &5295939877534458843
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +820,7 @@ GameObject:
   - component: {fileID: 68708678449883987}
   - component: {fileID: 6666129430664390626}
   - component: {fileID: 4820759046979840672}
-  - component: {fileID: 3602123245990772446}
+  - component: {fileID: 3518130796051488678}
   m_Layer: 9
   m_Name: UltimateMode
   m_TagString: StunZone
@@ -919,7 +941,7 @@ MonoBehaviour:
   AttractionForce: 10
   EnemyAttract: []
   stopDistance: 2.31
---- !u!54 &3602123245990772446
+--- !u!54 &3518130796051488678
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1397,7 +1419,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2564409545134392940
 Transform:
   m_ObjectHideFlags: 0
@@ -1605,7 +1627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2279037332940745537
 Transform:
   m_ObjectHideFlags: 0
@@ -1834,7 +1856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3711956616269674796
 Transform:
   m_ObjectHideFlags: 0
@@ -1954,6 +1976,7 @@ GameObject:
   - component: {fileID: 4716437258875657586}
   - component: {fileID: 7289192857225786942}
   - component: {fileID: 5395334835271010449}
+  - component: {fileID: 5387102716601772544}
   m_Layer: 9
   m_Name: ThrowMark
   m_TagString: Untagged
@@ -2697,6 +2720,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2590499181856043712, guid: 5e74add815c867647b11f47ad7047116, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6911659550291431744, guid: 5e74add815c867647b11f47ad7047116, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6999130433029773772, guid: 5e74add815c867647b11f47ad7047116, type: 3}
