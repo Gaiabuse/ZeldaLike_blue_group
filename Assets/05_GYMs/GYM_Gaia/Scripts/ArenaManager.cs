@@ -22,19 +22,20 @@ public class ArenaManager : MonoBehaviour
     private List<EnnemyBase> currentEnnemiesInHordes = new List<EnnemyBase>();
     private int currentHordes = 0;
 
+    private bool ArenaIsFinished = false;
     public static Action StartArena;
     public static Action FinishArena;
     private void OnEnable()
     {
         arenaEnter.StartArena += StartArenaFight;
-        PlayerController.OnPlayerDeath += CancelArenaFight;
+        PlayerController.OnRespawn += CancelArenaFight;
         
     }
 
     private void OnDisable()
     {
         arenaEnter.StartArena -= StartArenaFight;
-        PlayerController.OnPlayerDeath -= CancelArenaFight;
+        PlayerController.OnRespawn -= CancelArenaFight;
     }
 
     void Start()
@@ -100,6 +101,7 @@ public class ArenaManager : MonoBehaviour
 
     private void CancelArenaFight()
     {
+        if(ArenaIsFinished) return;
         foreach (EnnemyBase enemy in currentEnnemiesInHordes)
         {
             Destroy(enemy.gameObject);
@@ -125,6 +127,7 @@ public class ArenaManager : MonoBehaviour
         {
             BarrierParent.SetActive(false);
             FinishArena?.Invoke();
+            ArenaIsFinished = true;
         }
         else
         {

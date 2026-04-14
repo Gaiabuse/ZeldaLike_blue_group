@@ -162,6 +162,25 @@ public class EnnemyBase : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
+        if (other.CompareTag("StunZone"))
+        {
+            StunEnnemy(0f,true);
+        }
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log(other.name);
+        if (other.CompareTag("StunZone"))
+        {
+            EndStun();
+        }
+    }
+
     protected void ShowHitDisplay()
     {
         if (hitValueDisplay)
@@ -202,7 +221,8 @@ public class EnnemyBase : MonoBehaviour
     {
         EyesSetColorTo(colorMotionless);
         move = "stun";
-        timerGeneral = stunTime;
+        timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
+       
     }
 
     protected virtual void EndStun()
