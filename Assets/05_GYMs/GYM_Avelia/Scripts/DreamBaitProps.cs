@@ -12,10 +12,8 @@ public class DreamBaitProps : MonoBehaviour
     public async Task Explode()
     {
         Explosion.SetActive(true);
-        print("premeow");
 
         await Task.Delay((int)(SecondActive * 1000));
-        print("meow");
         Explosion.SetActive(false);
     }
 }

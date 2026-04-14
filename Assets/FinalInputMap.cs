@@ -102,15 +102,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""10dd2132-0c4b-47d6-8505-dae14feaaee1"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""bf60decd-d61b-43ae-bbee-5184a65a34fc"",
@@ -254,34 +245,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""fffdd18d-5c28-4d53-99f1-c0240aa603a2"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0eeeb3ae-711a-40b8-9bc2-a8c672e1595e"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""728f5883-3752-42e0-9f1f-b5447f039d0f"",
-                    ""path"": ""<Linux::Logic3::PDPFaceoffPremiereWiredProControllerforNintendoSwitch>/Stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -499,6 +468,34 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""HealMap"",
+            ""id"": ""9980c04f-ca42-4007-8722-49df8bf51807"",
+            ""actions"": [
+                {
+                    ""name"": ""Heal"",
+                    ""type"": ""Value"",
+                    ""id"": ""fb81c28a-84b3-43ad-a8d2-65a68a9420aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6e803578-ae3e-4bd0-bd0b-3e6ab9cec42f"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Heal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -506,7 +503,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         // PlayerControl
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_Move = m_PlayerControl.FindAction("Move", throwIfNotFound: true);
-        m_PlayerControl_Look = m_PlayerControl.FindAction("Look", throwIfNotFound: true);
         m_PlayerControl_Interaction = m_PlayerControl.FindAction("Interaction", throwIfNotFound: true);
         m_PlayerControl_Attack = m_PlayerControl.FindAction("Attack", throwIfNotFound: true);
         m_PlayerControl_Dash = m_PlayerControl.FindAction("Dash", throwIfNotFound: true);
@@ -518,12 +514,16 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         m_MenuControl = asset.FindActionMap("MenuControl", throwIfNotFound: true);
         m_MenuControl_Unpause = m_MenuControl.FindAction("Unpause", throwIfNotFound: true);
         m_MenuControl_Return = m_MenuControl.FindAction("Return", throwIfNotFound: true);
+        // HealMap
+        m_HealMap = asset.FindActionMap("HealMap", throwIfNotFound: true);
+        m_HealMap_Heal = m_HealMap.FindAction("Heal", throwIfNotFound: true);
     }
 
     ~@FinalInputMap()
     {
         UnityEngine.Debug.Assert(!m_PlayerControl.enabled, "This will cause a leak and performance issues, FinalInputMap.PlayerControl.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_MenuControl.enabled, "This will cause a leak and performance issues, FinalInputMap.MenuControl.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_HealMap.enabled, "This will cause a leak and performance issues, FinalInputMap.HealMap.Disable() has not been called.");
     }
 
     /// <summary>
@@ -600,7 +600,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerControl;
     private List<IPlayerControlActions> m_PlayerControlActionsCallbackInterfaces = new List<IPlayerControlActions>();
     private readonly InputAction m_PlayerControl_Move;
-    private readonly InputAction m_PlayerControl_Look;
     private readonly InputAction m_PlayerControl_Interaction;
     private readonly InputAction m_PlayerControl_Attack;
     private readonly InputAction m_PlayerControl_Dash;
@@ -623,10 +622,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_PlayerControl_Move;
-        /// <summary>
-        /// Provides access to the underlying input action "PlayerControl/Look".
-        /// </summary>
-        public InputAction @Look => m_Wrapper.m_PlayerControl_Look;
         /// <summary>
         /// Provides access to the underlying input action "PlayerControl/Interaction".
         /// </summary>
@@ -684,9 +679,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
@@ -722,9 +714,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
@@ -886,6 +875,102 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="MenuControlActions" /> instance referencing this action map.
     /// </summary>
     public MenuControlActions @MenuControl => new MenuControlActions(this);
+
+    // HealMap
+    private readonly InputActionMap m_HealMap;
+    private List<IHealMapActions> m_HealMapActionsCallbackInterfaces = new List<IHealMapActions>();
+    private readonly InputAction m_HealMap_Heal;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "HealMap".
+    /// </summary>
+    public struct HealMapActions
+    {
+        private @FinalInputMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public HealMapActions(@FinalInputMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "HealMap/Heal".
+        /// </summary>
+        public InputAction @Heal => m_Wrapper.m_HealMap_Heal;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_HealMap; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="HealMapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(HealMapActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="HealMapActions" />
+        public void AddCallbacks(IHealMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_HealMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_HealMapActionsCallbackInterfaces.Add(instance);
+            @Heal.started += instance.OnHeal;
+            @Heal.performed += instance.OnHeal;
+            @Heal.canceled += instance.OnHeal;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="HealMapActions" />
+        private void UnregisterCallbacks(IHealMapActions instance)
+        {
+            @Heal.started -= instance.OnHeal;
+            @Heal.performed -= instance.OnHeal;
+            @Heal.canceled -= instance.OnHeal;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="HealMapActions.UnregisterCallbacks(IHealMapActions)" />.
+        /// </summary>
+        /// <seealso cref="HealMapActions.UnregisterCallbacks(IHealMapActions)" />
+        public void RemoveCallbacks(IHealMapActions instance)
+        {
+            if (m_Wrapper.m_HealMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="HealMapActions.AddCallbacks(IHealMapActions)" />
+        /// <seealso cref="HealMapActions.RemoveCallbacks(IHealMapActions)" />
+        /// <seealso cref="HealMapActions.UnregisterCallbacks(IHealMapActions)" />
+        public void SetCallbacks(IHealMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_HealMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_HealMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="HealMapActions" /> instance referencing this action map.
+    /// </summary>
+    public HealMapActions @HealMap => new HealMapActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerControl" which allows adding and removing callbacks.
     /// </summary>
@@ -900,13 +985,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLook(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Interaction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -978,5 +1056,20 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReturn(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "HealMap" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="HealMapActions.AddCallbacks(IHealMapActions)" />
+    /// <seealso cref="HealMapActions.RemoveCallbacks(IHealMapActions)" />
+    public interface IHealMapActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Heal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHeal(InputAction.CallbackContext context);
     }
 }
