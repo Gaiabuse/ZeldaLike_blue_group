@@ -52,7 +52,6 @@ public class DreamShoot : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        Debug.Log(switchInProgress);
         if (!_input.isPressed&& switchInProgress)
         {
             if (finishSwitchCoroutine != null)

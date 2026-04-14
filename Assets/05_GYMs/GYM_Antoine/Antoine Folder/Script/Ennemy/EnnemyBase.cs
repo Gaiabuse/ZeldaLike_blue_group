@@ -174,7 +174,6 @@ public class EnnemyBase : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log(other.name);
         if (other.CompareTag("StunZone"))
         {
             EndStun();

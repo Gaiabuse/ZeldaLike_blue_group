@@ -50,7 +50,6 @@ public class PlayerHP : MonoBehaviour
                 StopCoroutine(healCoroutine);
             }
             damageCoroutine = StartCoroutine(VisualDamage(HP-damage));
-            Debug.Log("Outch");
         }
      
         OnTakeDamage?.Invoke();
@@ -66,7 +65,6 @@ public class PlayerHP : MonoBehaviour
 
     private void HealAtMax()
     {
-        Debug.Log("HealAtMax  : " + (maxHP -HP));
         Heal(maxHP-HP);
     }
 
