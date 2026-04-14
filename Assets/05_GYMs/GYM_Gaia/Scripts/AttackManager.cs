@@ -19,7 +19,6 @@ public abstract class AttackManager : MonoBehaviour
     protected int currentCombo;
     protected Coroutine comboCoroutine;
     protected int numberOfAttacksInCombo;
-    private bool[] allAttackTouched;
     private Coroutine ultimateCoroutine;
     public static Action CanUltimate;
     public static Action EndForUltimate;
@@ -111,7 +110,6 @@ public abstract class AttackManager : MonoBehaviour
         {
             StartCombo();
         }
-        allAttackTouched[currentCombo] = touchedEnemy;
         if (this.gameObject.activeInHierarchy)
         {
             comboCoroutine = StartCoroutine(ComboCoroutine());
@@ -122,27 +120,10 @@ public abstract class AttackManager : MonoBehaviour
        
         currentAttack = null;
     }
-
-    protected bool CheckIfAllTouched()
-    {
-        foreach (bool touched in allAttackTouched)
-        {
-            if (!touched)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
+    
     protected void StartCombo()
     {
         currentCombo = 0;
-        allAttackTouched = new bool[numberOfAttacksInCombo];
-        for (var i = 0; i < allAttackTouched.Length; i++)
-        {
-            allAttackTouched[i] = false;
-        }
     }
 
     protected IEnumerator ComboCoroutine()
@@ -152,16 +133,15 @@ public abstract class AttackManager : MonoBehaviour
         {
             currentCombo = 0;
             FormAnimator.SetBool("isAttacking",false);
-            if (CheckIfAllTouched())
+        
+            Debug.Log("canUltimate");
+            if (ultimateCoroutine != null)
             {
-                Debug.Log("canUltimate");
-                if (ultimateCoroutine != null)
-                {
-                    StopCoroutine(ultimateCoroutine);
-                    ultimateCoroutine = null;
-                }
-                ultimateCoroutine = StartCoroutine(ForUltimateComboCoroutine());
+                StopCoroutine(ultimateCoroutine);
+                ultimateCoroutine = null;
             }
+            ultimateCoroutine = StartCoroutine(ForUltimateComboCoroutine());
+            
         }
         yield return new WaitForSeconds(timeForDoCombo);
         FormAnimator.SetBool("isAttacking",false);

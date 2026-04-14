@@ -14,21 +14,9 @@ public class AttractionZone : MonoBehaviour
         if (other.CompareTag("Ennemy"))
         {
             Debug.Log(other.name);
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                Ennemy enemy  = rb.GetComponent<Ennemy>();
-                if (enemy)
-                {
-                    if (!EnemyAttract.Contains(enemy))
-                    {
-                        EnemyAttract.Add(enemy);
-                    }
-                    
-                }
-                Vector3 direction = transform.position - other.transform.position;
-                rb.AddForce(direction * AttractionForce * Time.deltaTime, ForceMode.Impulse);
-            }
+            Vector3 direction = transform.position - other.transform.position;
+            other.transform.Translate(direction.normalized * AttractionForce * Time.deltaTime, Space.World);
+            
         }
     }
 
