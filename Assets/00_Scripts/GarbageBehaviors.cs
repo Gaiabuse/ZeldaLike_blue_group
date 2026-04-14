@@ -1,4 +1,5 @@
 using System;
+using Unity.Transforms;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,6 +18,11 @@ public class GarbageBehaviors : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (containPowder > 0)
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
         
         if (!hasZonyr)
         {
