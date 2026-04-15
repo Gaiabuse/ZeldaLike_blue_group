@@ -29,8 +29,10 @@ public class DreamDash : MonoBehaviour
 
     public void OnDash(InputValue _input)
     {
+        if(!enabled)return;
         if (!controller.CanMove || !_input.isPressed) return;
-
+        
+        dashVFX.SetActive(true);
         controller.currentAnimator.SetTrigger("isDashing");
         StartCoroutine(Dash());
     }
@@ -91,8 +93,6 @@ public class DreamDash : MonoBehaviour
         IsDashing = true;
         controller.CanMove = false;
         controller.CanRotate = false;
-
-        dashVFX.SetActive(true);
 
         characterController.enabled = false;
     }
