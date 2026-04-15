@@ -10,10 +10,6 @@ public class DreamBait : MonoBehaviour
 
     private DreamBaitProps currentBaitInstance;
 
-    void Start() { }
-
-    void Update() { }
-
     async Task OnSecondPower(InputValue _input)
     {
         if (!_input.isPressed) return;
@@ -27,12 +23,14 @@ public class DreamBait : MonoBehaviour
         // probably needs another way to do it but this will do it for now
         await currentBaitInstance.Explode();
         Destroy(currentBaitInstance.gameObject);
+        TransformIndicator.Instance.ShowBaitInput();
 
     }
 
     void DoBaitSpawn()
     {
         currentBaitInstance = Instantiate(BaitPrefab, transform.position, Quaternion.identity);
+        TransformIndicator.Instance.ShowExplodeInput();
     }
 
     void OnDisable()
