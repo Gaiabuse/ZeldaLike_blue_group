@@ -8,30 +8,25 @@ public class AttractionZone : MonoBehaviour
 
     [SerializeField] private List<Ennemy> EnemyAttract;
     
+    [SerializeField] private float stopDistance = 2f;
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ennemy"))
         {
-            Debug.Log(other.name);
-            Rigidbody rb = other.GetComponent<Rigidbody>();
-            if (rb != null)
+            Vector3 offset = transform.position - other.transform.position;
+            float distance = offset.magnitude;
+            
+
+            if (distance > stopDistance)
             {
-                Ennemy enemy  = rb.GetComponent<Ennemy>();
-                if (enemy)
-                {
-                    if (!EnemyAttract.Contains(enemy))
-                    {
-                        EnemyAttract.Add(enemy);
-                    }
-                    
-                }
-                Vector3 direction = transform.position - other.transform.position;
-                rb.AddForce(direction * AttractionForce * Time.deltaTime, ForceMode.Impulse);
+                Vector3 direction = offset.normalized;
+                
+                other.transform.Translate(direction * AttractionForce * Time.deltaTime, Space.World);
             }
         }
     }
-
+    
     private void OnDisable()
     {
         EnemyAttract.Clear();

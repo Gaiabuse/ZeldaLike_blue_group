@@ -39,8 +39,7 @@ public class PlayerController : MonoBehaviour
 
     public Action OnCatch;
     public Action OnRelease;
-
-    public static Action OnPlayerDeath;
+    public static Action OnRespawn;
     public Action Attack;
 
     private float offset = -90f;
@@ -55,13 +54,23 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
-
-    private Vector3 startPos;
+    [SerializeField] private bool respawnAtStart = true;
     void Start()
     {
         Boxes = null;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
-        startPos = transform.position;
+        if (!PlayerPrefs.HasKey("PlayerSpawnX") && !PlayerPrefs.HasKey("PlayerSpawnY")&& !PlayerPrefs.HasKey("PlayerSpawnZ") || respawnAtStart )
+        {
+            PlayerPrefs.SetFloat("PlayerSpawnX",transform.position.x);
+            PlayerPrefs.SetFloat("PlayerSpawnY", transform.position.y);
+            PlayerPrefs.SetFloat("PlayerSpawnZ", transform.position.z);
+            StartCoroutine(RespawnCoroutine());
+        }
+        else
+        {
+            StartCoroutine(RespawnCoroutine());
+        }
+       
         playerInput = GetComponent<PlayerInput>();
         currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
@@ -183,18 +192,16 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator RespawnCoroutine()
     {
-        Debug.Log("respawn");
-        OnPlayerDeath?.Invoke();
+        OnRespawn?.Invoke();
         controller.enabled = false;
+        Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
         transform.position = startPos;
-
-        Debug.Log("transform.position : " + transform.position + ", start pos : " + startPos);
+        
         controller.enabled = true;
         CanMove = false;
         CanRotate = false;
 
         yield return new WaitForSeconds(1f);
-        Debug.Log("transform.position : " + transform.position + ", start pos : " + startPos);
 
         CanMove = true;
         CanRotate = true;
