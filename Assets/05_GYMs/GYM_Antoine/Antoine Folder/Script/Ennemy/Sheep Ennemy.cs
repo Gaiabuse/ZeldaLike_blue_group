@@ -51,14 +51,6 @@ public class SheepEnnemy : GroundEnnemy
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (!collision.transform.CompareTag("Ground") && move == "roll")
-        {
-
-        }
-    }
-
     protected override void AttackPatern()
     {
         /*if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= 1f && CurrentTarget != null)
