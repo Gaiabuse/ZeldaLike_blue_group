@@ -13,10 +13,29 @@ public class TransformIndicator : MonoBehaviour
     [SerializeField] private Sprite[] lifeFullSprites;
     [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
     [SerializeField] private Sprite[] lifeEmptySprites;
-    [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
-    [SerializeField] private Sprite[] spellIndicatorSprites;
+    
+    [SerializeField] private GameObject neutralSpell;
+    [SerializeField] private GameObject nightmareSpell;
+    [SerializeField] private GameObject dreamSpell;
+    [SerializeField] private GameObject baitIcon;
+    [SerializeField] private GameObject explodeIcon;
+    
     [Tooltip("order : 0= l1 1= r1")]
     [SerializeField] private FormSwitcher formSwitcher;
+    
+    public static TransformIndicator Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     private void OnEnable()
     {
@@ -36,18 +55,36 @@ public class TransformIndicator : MonoBehaviour
             case Form.neutral:
                 lifeGauge.sprite = lifeFullSprites[0];
                 emptyLifeGauge.sprite = lifeEmptySprites[0];
-                spellIndicator.sprite = spellIndicatorSprites[0];
+                neutralSpell.SetActive(true);
+                nightmareSpell.SetActive(false);
+                dreamSpell.SetActive(false);
                 break;
             case Form.nightmare:
                 lifeGauge.sprite = lifeFullSprites[1];
                 emptyLifeGauge.sprite = lifeEmptySprites[1];
-                spellIndicator.sprite = spellIndicatorSprites[1];
+                neutralSpell.SetActive(false);
+                nightmareSpell.SetActive(true);
+                dreamSpell.SetActive(false);
                 break;
             case Form.dream:
                 lifeGauge.sprite = lifeFullSprites[2];
                 emptyLifeGauge.sprite = lifeEmptySprites[2];
-                spellIndicator.sprite = spellIndicatorSprites[2];
+                neutralSpell.SetActive(false);
+                nightmareSpell.SetActive(false);
+                dreamSpell.SetActive(true);
                 break;
         }
+    }
+
+    public void DisplayBaitIcon()
+    {
+        baitIcon.SetActive(true);
+        explodeIcon.SetActive(false);
+    }
+
+    public void DisplayExplodeIcon()
+    {
+        explodeIcon.SetActive(true);
+        baitIcon.SetActive(false);
     }
 }
