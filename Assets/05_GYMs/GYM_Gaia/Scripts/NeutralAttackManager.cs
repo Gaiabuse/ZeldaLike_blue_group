@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -13,11 +14,18 @@ public class NeutralAttackManager : AttackManager
     [SerializeField] protected SimpleAttack ChargedAttack;
     [SerializeField]private float rangeOfUltimate;
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private float durationSleep;
+    [SerializeField] private float durationUltimate;
+    [SerializeField] private float durationChooseEnemyMod;
+    [SerializeField] private PlayerInput playerInput;
+    
+    private AutoAimable[] enemies;
+    private AutoAimable currentEnemy;
+    private int enemyIndicator;
     protected override void OnEnable()
     {
         base.OnEnable();
         numberOfAttacksInCombo = comboAttacks.Length;
+        playerInput.actions.FindActionMap("NeutralUltMap").Disable();
     }
     
     protected override void OnAttack(InputValue _input)
@@ -67,25 +75,70 @@ public class NeutralAttackManager : AttackManager
     {
         base.Ultimate();
         Debug.Log("Ultimate");
-        UltimateActivation();
+        ChooseEnemy();
+        playerInput.actions.FindActionMap("PlayerControl").Disable();
+       
     }
-    private void UltimateActivation()
+    private void ChooseEnemy()
     {
-        Collider[] enmeyHits = Physics.OverlapSphere(transform.position, rangeOfUltimate, enemyLayer);
-        foreach (var enemyCollider in enmeyHits)
+        enemies =  AutoAimable.GetTargetAround(transform.position, 30f).ToArray();
+        foreach (AutoAimable enemy in enemies)
         {
-           Ennemy ennemy = enemyCollider.GetComponent<Ennemy>();
-           if (ennemy != null)
-           {
-               ennemy.StartSleep(durationSleep);
-           }
+            enemy.GetComponent<EnnemyBase>().StunEnnemy(0.1f,true);
+        }
+        AutoAimable nearestEnemy = AutoAimable.GetNearestTargetAround(transform.position, 30f);
+        enemyIndicator = GetIfEnemyIsInEnemies(nearestEnemy);
+        Debug.Log(enemyIndicator);
+        if (!playerInput.actions.FindActionMap("NeutralUltMap").enabled)
+        {
+            playerInput.actions.FindActionMap("NeutralUltMap").Enable();
+        }
+    }
+
+    private int GetIfEnemyIsInEnemies(AutoAimable nearestEnemy)
+    {
+        for (var i = 0; i < enemies.Length; i++)
+        {
+            if (nearestEnemy == enemies[i])
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+
+    
+    public void OnChooseLeft(InputValue _input)
+    {
+        if (_input.isPressed)
+        {
+            enemyIndicator--;
+            if (enemyIndicator <= 0)
+            {
+                enemyIndicator = enemies.Length - 1;
+            }
+            currentEnemy = enemies[enemyIndicator];
+            Debug.Log(currentEnemy.name + enemyIndicator);
+        }
+    }
+
+    public void OnChooseRight(InputValue _input)
+    {
+        if (_input.isPressed)
+        {
+            enemyIndicator++;
+            if (enemyIndicator >= enemies.Length)
+            {
+                enemyIndicator = 0;
+            }
+
+            currentEnemy = enemies[enemyIndicator];
+            Debug.Log(currentEnemy.name + enemyIndicator);
         }
     }
     
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.darkBlue;
-        Gizmos.DrawWireSphere(transform.position, rangeOfUltimate); 
-    }
+
     
 }

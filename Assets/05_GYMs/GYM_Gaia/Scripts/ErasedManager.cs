@@ -45,7 +45,13 @@ public class ErasedManager : MonoBehaviour
     private void Start()
     {
         objectsErased = new List<ErasedObject>();
+        currentPointsForCreate = maxPointsForCreate; 
         buttonPressVisual.gameObject.SetActive(false);
+    }
+    
+    void Update()
+    {
+        UpdateNeutralUI();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -99,15 +105,13 @@ public class ErasedManager : MonoBehaviour
                 BounceUiVisual();
                 if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
                 {
-                
                     ErasedEnemy();
                 }
                 return;
             }
-           
         }
-        if(currentObject == null)return;
-        if (currentObject.CompareTag("Ennemy"))
+        
+        if (inputValue.isPressed && currentObject != null && currentObject.CompareTag("Ennemy"))
         {
             Debug.Log("startEnemyErased");
             buttonPressVisual.gameObject.SetActive(true);
@@ -117,56 +121,101 @@ public class ErasedManager : MonoBehaviour
             currentPressForErasedEnemy = 0;
             return;
         }
+        
         switch (inputValue.isPressed)
         {
             case true:
-            {
+                erasedAllObjects = false;
                 if(HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
                 HoldTimeCoroutine = StartCoroutine(HoldTime());
                 break;
-            }
-            case false:
-            {
-                if(HoldTimeCoroutine != null)StopCoroutine(HoldTimeCoroutine);
-                if (erasedAllObjects)
-                {
-                    ErasedAllObjects();
-                    erasedAllObjects = false;
-                }
-                else
-                {
-                    EraseOrCreate();
-                }
 
+            case false:
+                if (HoldTimeCoroutine != null)
+                {
+                    StopCoroutine(HoldTimeCoroutine);
+                    HoldTimeCoroutine = null;
+
+                }
+                
+                if (!erasedAllObjects)
+                {
+                    if (currentObject != null)
+                    {
+                        EraseOrCreate();
+                    }
+                }
+                
+                if (Gamepad.current != null)
+                {
+                    Gamepad.current.SetMotorSpeeds(0f,0f);
+                }
+                
                 break;
-            }
         }
     }
 
     private IEnumerator HoldTime()
     {
         erasedAllObjects = false;
-        yield return new WaitForSeconds(holdTime);
-        erasedAllObjects = true;
+        
+        if (objectsErased.Count > 0)
+        {
+            yield return new WaitForSeconds(0.75f);
+            
+            if (Gamepad.current != null)
+            {
+                Gamepad.current.SetMotorSpeeds(0.25f,0.25f);
+            }
+            
+            yield return new WaitForSeconds(holdTime-0.75f);
+            
+            ErasedAllObjects();
+            erasedAllObjects = true;
+
+            if (Gamepad.current != null)
+            {
+                Gamepad.current.SetMotorSpeeds(0.8f,0.8f);
+            }
+            
+            yield return new WaitForSeconds(0.25f);
+        }
         HoldTimeCoroutine = null;
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0f,0f);
+        }
     }
+
+
     private void EraseOrCreate()
     {
-        if (currentObject)
+        if (currentObject == null) return;
+
+        ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
+        if (erasedObject == null) return;
+        
+        if (erasedObject.Erased && currentPointsForCreate > 0)
         {
-            player.currentAnimator.SetTrigger("usingAbility");
-            ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
-            if (erasedObject.Erased&& currentPointsForCreate > 0)
-            {
-                erasedObject.Create();
-                currentPointsForCreate--;
+            Debug.Log("Creating - Point Spent");
+            erasedObject.Create();
+            currentPointsForCreate--;
+        
+            if (!objectsErased.Contains(erasedObject))
                 objectsErased.Add(erasedObject);
-            }else if (currentPointsForCreate < maxPointsForCreate)
-            {
-                erasedObject.Erase();
-                currentPointsForCreate++;
-            }
         }
+        // ERASE: Make it disappear
+        else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
+        {
+            Debug.Log("Erasing - Point Recovered");
+            erasedObject.Erase();
+            currentPointsForCreate++;
+        
+            if (objectsErased.Contains(erasedObject))
+                objectsErased.Remove(erasedObject);
+        }
+    
+        UpdateNeutralUI();
     }
 
     private void ErasedAllObjects()
@@ -175,9 +224,11 @@ public class ErasedManager : MonoBehaviour
         {
             foreach (var obj in objectsErased)
             {
-                obj.Erase();
-                currentPointsForCreate++;
+                if(obj != null) obj.Erase();
             }
+            objectsErased.Clear();
+            currentPointsForCreate = maxPointsForCreate;
+            UpdateNeutralUI();
         }
     }
     public void OnDash(InputValue _input)
@@ -207,6 +258,21 @@ public class ErasedManager : MonoBehaviour
         player.CanRotate = true;
         startEnemyErased = false;
         currentPressForErasedEnemy = 0;
+    }
+    
+    private void UpdateNeutralUI()
+    {
+        TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
+    
+        if (currentObject != null)
+        {
+            ErasedObject erasedObj = currentObject.GetComponent<ErasedObject>();
+            TransformIndicator.Instance.DisplayNeutralIcon(erasedObj.Erased ? 0 : 1);
+        }
+        else
+        {
+            TransformIndicator.Instance.DisplayNeutralIcon(currentPointsForCreate < maxPointsForCreate ? 1 : 0);
+        }
     }
  
 }

@@ -27,11 +27,12 @@ public class EnnemyBase : MonoBehaviour
 
     protected bool TargetInFieldOfView;
     protected Transform CurrentTarget;
-
-    [SerializeField] protected string move = "0";
+    
     protected float timerGeneral = 0;
 
     public bool alwaysAgro;
+    
+    protected string _move;
 
     [Header("Deal Damage")]
     [SerializeField] protected EnnemyHit MainHitBox;
@@ -53,6 +54,9 @@ public class EnnemyBase : MonoBehaviour
     public Action<EnnemyBase> OnDeath;
     protected virtual void Start()
     {
+        move = "0";
+        EnnemyManager.Instance.enemies.Add(this);
+        
         animator = GetComponent<Animator>();
 
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
@@ -205,6 +209,8 @@ public class EnnemyBase : MonoBehaviour
 
     protected virtual void Death()
     {
+        EnnemyManager.Instance.enemies.Remove(this);
+        EnnemyManager.Instance.Check();
         OnDeath?.Invoke(this);
         Destroy(gameObject);
     }
@@ -242,5 +248,21 @@ public class EnnemyBase : MonoBehaviour
         animator.SetBool("Stun", false);
         timerGeneral = 0;
         move = "0";
+    }
+    
+    public string move
+    {
+        get => _move;
+        set
+        {
+            if (_move == value) return; 
+        
+            _move = value;
+        
+            if (EnnemyManager.Instance != null)
+            {
+                EnnemyManager.Instance.Check();
+            }
+        }
     }
 }
