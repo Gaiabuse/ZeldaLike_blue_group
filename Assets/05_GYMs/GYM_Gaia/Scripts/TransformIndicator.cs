@@ -5,14 +5,11 @@ using UnityEngine.UI;
 
 public class TransformIndicator : MonoBehaviour
 {
-    [SerializeField] private Image lifeGauge;
-    [SerializeField] private Image emptyLifeGauge;
+    [SerializeField] private Image formIcon;
     [SerializeField] private Image spellIndicator;
     [FormerlySerializedAs("iconsSprites")]
     [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
-    [SerializeField] private Sprite[] lifeFullSprites;
-    [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
-    [SerializeField] private Sprite[] lifeEmptySprites;
+    [SerializeField] private Sprite[] formIconSpr;
     
     [SerializeField] private GameObject neutralSpell;
     [SerializeField] private GameObject createIcon;
@@ -61,22 +58,19 @@ public class TransformIndicator : MonoBehaviour
         switch (currentForm)
         {
             case Form.neutral:
-                lifeGauge.sprite = lifeFullSprites[0];
-                emptyLifeGauge.sprite = lifeEmptySprites[0];
+                formIcon.sprite = formIconSpr[0];
                 neutralSpell.SetActive(true);
                 nightmareSpell.SetActive(false);
                 dreamSpell.SetActive(false);
                 break;
             case Form.nightmare:
-                lifeGauge.sprite = lifeFullSprites[1];
-                emptyLifeGauge.sprite = lifeEmptySprites[1];
+                formIcon.sprite = formIconSpr[1];
                 neutralSpell.SetActive(false);
                 nightmareSpell.SetActive(true);
                 dreamSpell.SetActive(false);
                 break;
             case Form.dream:
-                lifeGauge.sprite = lifeFullSprites[2];
-                emptyLifeGauge.sprite = lifeEmptySprites[2];
+                formIcon.sprite = formIconSpr[2];
                 neutralSpell.SetActive(false);
                 nightmareSpell.SetActive(false);
                 dreamSpell.SetActive(true);
