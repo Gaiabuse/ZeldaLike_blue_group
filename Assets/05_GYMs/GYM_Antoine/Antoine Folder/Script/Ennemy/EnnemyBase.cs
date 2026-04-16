@@ -51,6 +51,7 @@ public class EnnemyBase : MonoBehaviour
 
     private GameObject stunZone = null;
     public Action<EnnemyBase> OnDeath;
+
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -212,7 +213,6 @@ public class EnnemyBase : MonoBehaviour
     protected virtual void AttackStart(int attackID)
     {
         EyesSetColorTo(colorChase);
-
         move = "attack";
         animator.SetInteger("Attack", attackID);
     }
