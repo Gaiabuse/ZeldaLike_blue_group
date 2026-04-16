@@ -15,7 +15,12 @@ public class TransformIndicator : MonoBehaviour
     [SerializeField] private Sprite[] lifeEmptySprites;
     
     [SerializeField] private GameObject neutralSpell;
+    
     [SerializeField] private GameObject nightmareSpell;
+    [SerializeField] private GameObject grabIcon;
+    [SerializeField] private GameObject eatIcon;
+    [SerializeField] private GameObject spitIcon;
+    
     [SerializeField] private GameObject dreamSpell;
     [SerializeField] private GameObject baitIcon;
     [SerializeField] private GameObject explodeIcon;
@@ -86,5 +91,27 @@ public class TransformIndicator : MonoBehaviour
     {
         explodeIcon.SetActive(true);
         baitIcon.SetActive(false);
+    }
+
+    public void DisplayNightmareIcon(int icon)
+    {
+        switch (icon)
+        {
+            case 0:
+                grabIcon.SetActive(true);
+                eatIcon.SetActive(false);
+                spitIcon.SetActive(false);
+                break;
+            case 1:
+                grabIcon.SetActive(false);
+                eatIcon.SetActive(true);
+                spitIcon.SetActive(false);
+                break;
+            case 2:
+                grabIcon.SetActive(false);
+                eatIcon.SetActive(false);
+                spitIcon.SetActive(true);
+                break;
+        }
     }
 }
