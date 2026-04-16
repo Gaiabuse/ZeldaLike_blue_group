@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8999398385597853988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: snapshot:/sfx_fight
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: snapshot:/sfx_fight
+  Guid:
+    Data1: -832725677
+    Data2: 1113193749
+    Data3: -1326048847
+    Data4: -2062736827
+  Banks:
+  - {fileID: -3525438231159549951}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 0
 --- !u!114 &-4756388493524483639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,7 +42,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Music .bank
   Name: 'Music '
   StudioPath: 'bank:/Music '
-  lastModified: 639119075135396417
+  lastModified: 639119427031690635
   FileSizes: []
   Exists: 1
 --- !u!114 &-4075089224638027307
@@ -115,7 +142,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 639119075135265567
+  lastModified: 639119427031489255
   FileSizes: []
   Exists: 1
 --- !u!114 &-3080575779557179692
@@ -186,6 +213,7 @@ MonoBehaviour:
   EditorEvents:
   - {fileID: 6655605599108930383}
   - {fileID: -3632951858198679186}
+  - {fileID: -8999398385597853988}
   EditorParameters:
   - {fileID: -4075089224638027307}
   - {fileID: -590867313927902983}
@@ -194,12 +222,14 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: 916323366016289906}
   cacheVersion: 131859
-  cacheTime: 639119075135409854
+  cacheTime: 639119427031720849
   SerializableEventsDict:
   - key: snapshot:/sfx_pause
     index: 0
   - key: event:/Musics/Explo_FightVariation
     index: 1
+  - key: snapshot:/sfx_fight
+    index: 2
 --- !u!114 &916323366016289906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,10 +245,10 @@ MonoBehaviour:
   Path: FMOD/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 639119075135275436
+  lastModified: 639119427031501578
   FileSizes:
   - Name: 
-    Value: 1186
+    Value: 1270
   Exists: 1
 --- !u!114 &2145001905221924172
 MonoBehaviour:
@@ -235,7 +265,7 @@ MonoBehaviour:
   Path: FMOD/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639119075135409854
+  lastModified: 639119427031720849
   FileSizes: []
   Exists: 1
 --- !u!114 &6655605599108930383

@@ -145,6 +145,12 @@ public class ErasedManager : MonoBehaviour
                         EraseOrCreate();
                     }
                 }
+                
+                if (Gamepad.current != null)
+                {
+                    Gamepad.current.SetMotorSpeeds(0f,0f);
+                }
+                
                 break;
         }
     }
@@ -155,15 +161,30 @@ public class ErasedManager : MonoBehaviour
         
         if (objectsErased.Count > 0)
         {
-            yield return new WaitForSeconds(holdTime);
+            yield return new WaitForSeconds(0.75f);
+            
+            if (Gamepad.current != null)
+            {
+                Gamepad.current.SetMotorSpeeds(0.25f,0.25f);
+            }
+            
+            yield return new WaitForSeconds(holdTime-0.75f);
             
             ErasedAllObjects();
             erasedAllObjects = true;
 
+            if (Gamepad.current != null)
+            {
+                Gamepad.current.SetMotorSpeeds(0.8f,0.8f);
+            }
             
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.25f);
         }
         HoldTimeCoroutine = null;
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0f,0f);
+        }
     }
 
 
