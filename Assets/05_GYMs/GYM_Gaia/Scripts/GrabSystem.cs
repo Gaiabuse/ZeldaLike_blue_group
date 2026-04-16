@@ -52,6 +52,23 @@ public class GrabSystem : MonoBehaviour
 
     void Update()
     {
+        if (currentGrabbedObject != null)
+        {
+            TransformIndicator.Instance.DisplayNightmareIcon(2);
+            return;
+        }
+        
+        Vector3 downPosition = transform.position - downValue;
+        
+        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hit)
+        {
+            TransformIndicator.Instance.DisplayNightmareIcon(1);
+        }
+        else
+        {
+            TransformIndicator.Instance.DisplayNightmareIcon(0);
+        }
+        
         switch (grabbingState)
         {
             case GrabbingState.None:
@@ -112,6 +129,7 @@ public class GrabSystem : MonoBehaviour
         grabMark.SetActive(false);
 
         IsThrowing = true;
+        TransformIndicator.Instance.DisplayNightmareIcon(0);
         currentGrabbedObject.SetActive(true);
 
         Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();

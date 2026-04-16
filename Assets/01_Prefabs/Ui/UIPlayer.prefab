@@ -235,7 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3798415482877842526}
   m_Layer: 0
-  m_Name: CreationPower
+  m_Name: NeutralSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -545,86 +545,15 @@ MonoBehaviour:
   - {fileID: 21300000, guid: efa87938376b1fb4b99b4f2fa0bc9387, type: 3}
   - {fileID: 21300000, guid: 52b6785ca71b6a34faacbe2b7c364b28, type: 3}
   - {fileID: 21300000, guid: 845aa86861a4fd54d89b36662f117a7f, type: 3}
-  spellIndicatorSprites:
-  - {fileID: 21300000, guid: 559dae09207cc1443b9a6e8761dab93a, type: 3}
-  - {fileID: 21300000, guid: 2cd1e0132052b934bbef481b9ea82ac0, type: 3}
-  - {fileID: 21300000, guid: 3e0d121cf992d73438449ce860f4cfbc, type: 3}
+  neutralSpell: {fileID: 784698953201729908}
+  nightmareSpell: {fileID: 8555571188878105980}
+  grabIcon: {fileID: 1614615909789840785}
+  eatIcon: {fileID: 6801763868430950367}
+  spitIcon: {fileID: 7292382612505630590}
+  dreamSpell: {fileID: 8296036085154454591}
+  baitIcon: {fileID: 113351943029310740}
+  explodeIcon: {fileID: 440754140441592204}
   formSwitcher: {fileID: 0}
---- !u!1 &2824706827665625361
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6813565328646685202}
-  - component: {fileID: 3897567466584540927}
-  - component: {fileID: 5074876182209210866}
-  m_Layer: 0
-  m_Name: Creations
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &6813565328646685202
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2824706827665625361}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 1626262940051237285}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -187.5, y: 187.5}
-  m_SizeDelta: {x: 500, y: 500}
-  m_Pivot: {x: 1, y: 0}
---- !u!222 &3897567466584540927
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2824706827665625361}
-  m_CullTransparentMesh: 1
---- !u!114 &5074876182209210866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2824706827665625361}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 923868b7d9ba0b2478cd5186ed58933c, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2845491500229878595
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,7 +736,6 @@ RectTransform:
   - {fileID: 8539930710860655527}
   - {fileID: 2634577190660510083}
   - {fileID: 1358222956722110341}
-  - {fileID: 6813565328646685202}
   m_Father: {fileID: 3798415482877842526}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1649,7 +1577,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7072688354647446657}
   m_Layer: 0
-  m_Name: DreamPower
+  m_Name: DreamSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1686,7 +1614,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1280689822667322216}
   m_Layer: 0
-  m_Name: NightmarePower
+  m_Name: NightmareSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
