@@ -40,7 +40,6 @@ public class ErasedManager : MonoBehaviour
     private void OnDisable()
     {
         playerHP.OnTakeDamage -= CancelErasedEnemy;
-        StopVibration();
     }
 
     private void Start()
@@ -136,7 +135,7 @@ public class ErasedManager : MonoBehaviour
                 {
                     StopCoroutine(HoldTimeCoroutine);
                     HoldTimeCoroutine = null;
-                    if (!erasedAllObjects) StopVibration();
+
                 }
                 
                 if (!erasedAllObjects)
@@ -146,7 +145,6 @@ public class ErasedManager : MonoBehaviour
                         EraseOrCreate();
                     }
                 }
-                
                 break;
         }
     }
@@ -157,34 +155,17 @@ public class ErasedManager : MonoBehaviour
         
         if (objectsErased.Count > 0)
         {
-            if (Gamepad.current != null)
-            {
-                Gamepad.current.SetMotorSpeeds(0.35f, 0.35f);
-            }
-
             yield return new WaitForSeconds(holdTime);
             
             ErasedAllObjects();
             erasedAllObjects = true;
-            
-            if (Gamepad.current != null)
-            {
-                Gamepad.current.SetMotorSpeeds(0.8f, 0.8f); 
-            }
+
             
             yield return new WaitForSeconds(0.15f);
-            StopVibration();
         }
         HoldTimeCoroutine = null;
     }
 
-    private void StopVibration()
-    {
-        if (Gamepad.current != null)
-        {
-            Gamepad.current.SetMotorSpeeds(0f, 0f); 
-        }
-    }
 
     private void EraseOrCreate()
     {
