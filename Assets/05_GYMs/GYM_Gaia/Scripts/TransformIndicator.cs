@@ -15,6 +15,9 @@ public class TransformIndicator : MonoBehaviour
     [SerializeField] private Sprite[] lifeEmptySprites;
     
     [SerializeField] private GameObject neutralSpell;
+    [SerializeField] private GameObject createIcon;
+    [SerializeField] private GameObject eraseIcon;
+    [SerializeField] private GameObject[] chargesIcon;
     
     [SerializeField] private GameObject nightmareSpell;
     [SerializeField] private GameObject grabIcon;
@@ -112,6 +115,28 @@ public class TransformIndicator : MonoBehaviour
                 eatIcon.SetActive(false);
                 spitIcon.SetActive(true);
                 break;
+        }
+    }
+
+    public void DisplayNeutralIcon(int icon)
+    {
+        if (icon == 0)
+        {
+            createIcon.SetActive(true);
+            eraseIcon.SetActive(false);
+        }
+        else
+        {
+            createIcon.SetActive(false);
+            eraseIcon.SetActive(true);
+        }
+    }
+
+    public void DisplayNeutralChargeIcon(int icon)
+    {
+        for (int i = 0; i < chargesIcon.Length; i++)
+        {
+            chargesIcon[i].SetActive(i == icon-1); 
         }
     }
 }
