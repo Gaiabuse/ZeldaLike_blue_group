@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -20,7 +19,7 @@ public class PauseMenuManager : MonoBehaviour
     private MenuState currentState = MenuState.Playing;
     
     private TweenerCore<float, float, FloatOptions> pauseDotween;
-
+    
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; 
