@@ -98,37 +98,9 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 moveDirection = Vector3.zero;
+        Vector3 moveDirection = ProjectPoint(direction);
 
-        if (Boxes != null)
-        {
-            float inputMagnitude = 0;
-
-            if (side == MovingBox.Side.Front || side == MovingBox.Side.Back)
-            {
-                inputMagnitude = direction.y;
-                moveDirection = Boxes.transform.forward * inputMagnitude;
-            }
-            else
-            {
-                inputMagnitude = direction.x;
-                moveDirection = Boxes.transform.right * inputMagnitude;
-            }
-
-            if (inputMagnitude != 0)
-            {
-                if (Physics.Raycast(Boxes.transform.position, moveDirection.normalized, 1.0f, obstacleLayer))
-                {
-                    moveDirection = Vector3.zero;
-                }
-            }
-        }
-        else
-        {
-            moveDirection = ProjectPoint(direction);
-        }
-
-        if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
+        if (CanRotate) UpdateLookDirection(moveDirection);
 
         if (!controller.enabled) return;
 
@@ -141,6 +113,7 @@ public class PlayerController : MonoBehaviour
             var futurePosition = transform.position + movement;
 
             if (IsPlaceLandable(futurePosition)) controller.Move(movement);
+            else Debug.LogWarning("not able to find any ground", this);
         }
 
         controller.Move(gravity * Time.deltaTime);

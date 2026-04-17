@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System.Linq;
 
 public class DreamDash : MonoBehaviour
 {
@@ -21,14 +22,15 @@ public class DreamDash : MonoBehaviour
     [SerializeField]
     AnimationCurve DashProggression;
     [SerializeField]
-    float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = .5f, offset = .2f;
-
+    float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = .5f, offset = .2f, tolerance = .5f;
 
 
     bool IsDashing = false;
 
     public void OnDash(InputValue _input)
     {
+        if (!enabled || !controller.CanMove || !_input.isPressed) return;
+
         if(!enabled)return;
         if (!controller.CanMove || !_input.isPressed) return;
         
@@ -44,16 +46,39 @@ public class DreamDash : MonoBehaviour
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
-        float timer = 0;
-
         // naive approach that will not work in the future. Rn it is not the priority to do better than that
         if (!IsPlaceLandable(destinationPosition))
         {
-            Debug.LogWarning($"{destinationPosition} is not landable, cannot dash there ");
-            yield break;
+            Debug.LogWarning($"no place found trying to find a better position", this);
+            if (FindNearGround(destinationPosition) is Vector3 platform)
+            {
+                Debug.Log($"found a better place");
+                destinationPosition = platform;
+            }
+            else yield break;
         }
 
+        print($"{nameof(DreamDash)} setup, {nameof(controller.CanMove)} : {controller.CanMove}");
         DashSetUp();
+
+
+        print($"{nameof(DreamDash)} Movement, {nameof(controller.CanMove)} : {controller.CanMove}");
+
+        //this is executed
+        yield return DoDashMovement(originalPosition, destinationPosition);
+
+        print($"{nameof(DreamDash)} UndoSetup, {nameof(controller.CanMove)} : {controller.CanMove}");
+
+        // yet this isn't ????
+        yield return UndoDashSetUp();
+
+        print($"{nameof(DreamDash)} Finished, {nameof(controller.CanMove)} : {controller.CanMove}");
+
+    }
+
+    IEnumerator DoDashMovement(Vector3 originalPosition, Vector3 destinationPosition)
+    {
+        float timer = 0;
 
         while (timer < DashDurationSeconds)
         {
@@ -64,16 +89,7 @@ public class DreamDash : MonoBehaviour
 
             yield return null;
         }
-
-        controller.CanMove = true;
-        controller.CanRotate = true;
-        characterController.enabled = true;
-
-        yield return new WaitForSeconds(DashCoolDownSeconds);
-
-        dashVFX.SetActive(false);
-
-        IsDashing = false;
+        yield break;
     }
 
     bool IsPlaceLandable(Vector3 destination)
@@ -91,9 +107,52 @@ public class DreamDash : MonoBehaviour
     void DashSetUp()
     {
         IsDashing = true;
+        controller.currentAnimator.SetTrigger("isDashing");
         controller.CanMove = false;
         controller.CanRotate = false;
 
         characterController.enabled = false;
+    }
+
+    IEnumerator UndoDashSetUp()
+    {
+        controller.CanMove = true;
+        controller.CanRotate = true;
+        controller.currentAnimator.SetTrigger("isDashing");
+        characterController.enabled = true;
+
+        yield return new WaitForSeconds(DashCoolDownSeconds);
+
+        dashVFX.SetActive(false);
+
+        IsDashing = false;
+    }
+
+    Vector3? FindNearGround(Vector3 at)
+    {
+        var platforms = Physics.OverlapSphere(at, tolerance, layerGround);
+
+        // fuck you why are you dashing in the void
+        latestAtHitResult = platforms.Length != 0;
+        latestAt = at;
+
+        if (platforms.Length == 0) return null;
+
+        var placeToBeReplacedAt = platforms
+            .Select(x => x.GetComponent<Collider>())
+            .Select(x => Physics.ClosestPoint(at, x, x.transform.position, x.transform.rotation))
+            .OrderBy(x => Vector3.Distance(x, at))
+            .First();
+
+        return placeToBeReplacedAt + Vector3.up * 3f;
+    }
+
+    Vector3 latestAt = Vector3.zero;
+    bool latestAtHitResult = false;
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = latestAtHitResult ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(latestAt, tolerance);
     }
 }
