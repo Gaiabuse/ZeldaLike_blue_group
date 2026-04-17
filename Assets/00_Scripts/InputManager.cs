@@ -18,11 +18,8 @@ public class InputManager : MonoBehaviour
     }
 
     public void OnUnpause(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            DoUnpause();
-        }
+    { 
+        DoUnpause();
     }
 
     private void DoPause()
