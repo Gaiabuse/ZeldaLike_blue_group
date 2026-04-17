@@ -31,9 +31,9 @@ public class DreamDash : MonoBehaviour
     {
         if (!enabled || !controller.CanMove || !_input.isPressed) return;
 
-        if(!enabled)return;
+        if (!enabled) return;
         if (!controller.CanMove || !_input.isPressed) return;
-        
+
         dashVFX.SetActive(true);
         controller.currentAnimator.SetTrigger("isDashing");
         StartCoroutine(Dash());
@@ -133,10 +133,10 @@ public class DreamDash : MonoBehaviour
             .OrderBy(x => Vector3.Distance(x, at))
             .First();
 
-        var extrapolatedPlace = Vector3.LerpUnclamped(
+        var extrapolatedPlace = Vector3.LerpUnclamped(at, placeToBeReplacedAt, 1.1f);
 
-        Ray ray = new(origin: , direction: Vector3.down);
-        return Physics.Raycast(ray, 2f, layerGround);
+        Ray ray = new(origin: extrapolatedPlace, direction: Vector3.down);
+        Physics.Raycast(ray, 2f, layerGround);
 
         return placeToBeReplacedAt + Vector3.up * 3f;
     }
