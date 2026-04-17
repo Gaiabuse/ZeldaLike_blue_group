@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BomberAttack : MonoBehaviour
 {
     [SerializeField] private GameObject bomb;
     [SerializeField] private AnimationCurve bombCurve;
+    [SerializeField] private float chargeSpeed;
     [SerializeField] private float launchSpeed;
     [SerializeField] private float launchHeight;
     [SerializeField] private Transform player;
@@ -15,14 +17,18 @@ public class BomberAttack : MonoBehaviour
     {
         if (isLaunching)
         {
-            Launch();
+            StartCoroutine(LaunchProcedure());
         }
     }
 
-    public void Launch()
+    private IEnumerator LaunchProcedure()
     {
-        GameObject newBomb = Instantiate(bomb, transform.position, transform.rotation);
-        StartCoroutine(Fire(newBomb, transform.position, player.position));
+        Vector3 target = player.position;
+        
+        GameObject newBomb = Instantiate(bomb, transform.position, transform.rotation); 
+        newBomb.GetComponent<StarBomb>().ShowPreview(player);
+        yield return new WaitForSeconds(chargeSpeed);
+        StartCoroutine(Fire(newBomb, transform.position, target));
         isLaunching = false;
     }
 
