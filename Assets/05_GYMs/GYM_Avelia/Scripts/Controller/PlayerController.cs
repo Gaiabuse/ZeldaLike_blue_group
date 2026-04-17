@@ -34,6 +34,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     float offsetRayCast = .1f, lengthRayCast = .3f, rotationOffset = 0.1f;
+    [Header("Anti-Fall Buffer")]
+    [SerializeField] float lookAheadDistance = 0.3f; // How far ahead to push the sensor
+    [SerializeField] float sensorRadius = 0.4f;      // The width of the ray circle
+    [SerializeField] int minRaysRequired = 5;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -194,29 +198,35 @@ public class PlayerController : MonoBehaviour
 
     bool IsPlaceLandable(Vector3 destination)
     {
+        // 1. Calculate the offset based on move direction
+        // We use currentDirection (normalized) to push the sensor forward
+        Vector3 sensorCenter = destination + (currentDirection * lookAheadDistance);
+    
         int rayCount = 8;
-        bool allGrounded = true;
+        int hitCount = 0;
 
         for (int i = 0; i < rayCount; i++)
         {
             float angle = i * (360f / rayCount) * Mathf.Deg2Rad;
 
-            float x = Mathf.Cos(angle) * rotationOffset;
-            float z = Mathf.Sin(angle) * rotationOffset;
+            // 2. Create the circle around the OFFSET center
+            float x = Mathf.Cos(angle) * sensorRadius;
+            float z = Mathf.Sin(angle) * sensorRadius;
 
-            Vector3 localDirection = new Vector3(x, -1f, z).normalized;
+            Vector3 rayOrigin = sensorCenter + new Vector3(x, offsetRayCast, z);
+        
+            Ray ray = new Ray(rayOrigin, Vector3.down);
+            bool hit = Physics.Raycast(ray, lengthRayCast + offsetRayCast, layerGround);
 
-            Vector3 worldDirection = transform.TransformDirection(localDirection);
-            Vector3 rayOrigin = destination + Vector3.up * offsetRayCast;
+            // Visual Debugging
+            Debug.DrawRay(rayOrigin, Vector3.down * (lengthRayCast + offsetRayCast), hit ? Color.green : Color.red);
 
-            Ray ray = new Ray(rayOrigin, worldDirection);
-            bool hit = Physics.Raycast(ray, lengthRayCast, layerGround);
-
-            Debug.DrawRay(rayOrigin, worldDirection * lengthRayCast, hit ? Color.green : Color.red);
-
-            if (!hit) allGrounded = false;
+            if (hit) hitCount++;
         }
 
-        return allGrounded;
+        // 3. Safety: Always ensure the player's actual destination is grounded too
+        bool destinationIsSafe = Physics.Raycast(destination + Vector3.up * offsetRayCast, Vector3.down, lengthRayCast + offsetRayCast, layerGround);
+
+        return destinationIsSafe && (hitCount >= minRaysRequired);
     }
 }
