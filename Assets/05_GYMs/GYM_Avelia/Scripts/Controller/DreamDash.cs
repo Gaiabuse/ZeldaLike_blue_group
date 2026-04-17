@@ -58,22 +58,11 @@ public class DreamDash : MonoBehaviour
             else yield break;
         }
 
-        print($"{nameof(DreamDash)} setup, {nameof(controller.CanMove)} : {controller.CanMove}");
         DashSetUp();
 
-
-        print($"{nameof(DreamDash)} Movement, {nameof(controller.CanMove)} : {controller.CanMove}");
-
-        //this is executed
         yield return DoDashMovement(originalPosition, destinationPosition);
 
-        print($"{nameof(DreamDash)} UndoSetup, {nameof(controller.CanMove)} : {controller.CanMove}");
-
-        // yet this isn't ????
         yield return UndoDashSetUp();
-
-        print($"{nameof(DreamDash)} Finished, {nameof(controller.CanMove)} : {controller.CanMove}");
-
     }
 
     IEnumerator DoDashMovement(Vector3 originalPosition, Vector3 destinationPosition)
@@ -89,6 +78,7 @@ public class DreamDash : MonoBehaviour
 
             yield return null;
         }
+
         yield break;
     }
 
@@ -98,7 +88,6 @@ public class DreamDash : MonoBehaviour
 
         Ray ray = new(origin: destination + Vector3.up * offset, direction: Vector3.down);
         return Physics.Raycast(ray, 2f, layerGround);
-
     }
 
     bool IsThereAWall(Vector3 destination)
@@ -143,6 +132,11 @@ public class DreamDash : MonoBehaviour
             .Select(x => Physics.ClosestPoint(at, x, x.transform.position, x.transform.rotation))
             .OrderBy(x => Vector3.Distance(x, at))
             .First();
+
+        var extrapolatedPlace = Vector3.LerpUnclamped(
+
+        Ray ray = new(origin: , direction: Vector3.down);
+        return Physics.Raycast(ray, 2f, layerGround);
 
         return placeToBeReplacedAt + Vector3.up * 3f;
     }
