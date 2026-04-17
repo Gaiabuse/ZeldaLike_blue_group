@@ -39,10 +39,6 @@ public class PlayerPowder : MonoBehaviour
                     Gamepad.current.SetMotorSpeeds(0.05f, 0.05f);
             }
         }
-        else
-        {
-            StopHealEffects();
-        }
     }
 
     private void DoHeal()
@@ -74,6 +70,7 @@ public class PlayerPowder : MonoBehaviour
         else
         {
             ResetHealingState();
+            StopHealEffects();
         }
     }
 

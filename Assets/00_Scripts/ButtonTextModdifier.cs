@@ -28,11 +28,13 @@ public class ButtonTextModdifier : MonoBehaviour, ISelectHandler, IDeselectHandl
     
     public void OnSelect(BaseEventData eventData)
     {
+        if (_text == null) return;
         _text.color = secondColor;
     }
     
     public void OnDeselect(BaseEventData eventData)
     {
+        if (_text == null) return;
         _text.color = baseColor;
     }
 }
