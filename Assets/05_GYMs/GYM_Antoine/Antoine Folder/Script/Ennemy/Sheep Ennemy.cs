@@ -11,8 +11,7 @@ public class SheepEnnemy : GroundEnnemy
 
     [SerializeField] float DistStartAttack = 5f;
     [SerializeField] float rollSpeed = 35f;
-
-    Vector3 WhereToGoPos;
+    [SerializeField] float rollDuration = 2.5f;
 
     protected override void Start()
     {
@@ -29,10 +28,10 @@ public class SheepEnnemy : GroundEnnemy
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             LoseShell();
-        }
+        }*/
     }
 
     protected override void FixedUpdate()
@@ -42,11 +41,24 @@ public class SheepEnnemy : GroundEnnemy
         if (move == "roll")
         {
             navMesh.destination = WhereToGoPos;
+            timerGeneral -= Time.deltaTime;
 
             if (Vector3.Distance(WhereToGoPos, transform.position) < 2)
             {
                 WhereToGoPos = transform.position + transform.forward * 4;
                 navMesh.destination = WhereToGoPos;
+            }
+            if (timerGeneral <= 0)
+            {
+                move = "rollEnd";
+                animator.SetInteger("Attack", 3);
+                canLookAtPlayer = true;
+                navMesh.isStopped = true;
+                ToogleMainAttack(-1);
+
+                navMesh.speed = speed.x;
+                navMesh.angularSpeed = SpeedRotate.x;
+                WhereToGoPos = CurrentTarget.position;
             }
         }
     }
@@ -57,11 +69,19 @@ public class SheepEnnemy : GroundEnnemy
     {
         AttackStart(-1);
     }*/
-        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) >= DistStartAttack && CurrentTarget != null)
+        if (CurrentTarget != null)
         {
-            AttackStart(1);
-            navMesh.isStopped = false;
-            navMesh.speed = 0;
+            float distTarget = Vector3.Distance(AttackTrigger.position, CurrentTarget.position);
+            if (distTarget >= DistStartAttack && TargetInFieldOfView)
+            {
+                AttackStart(1);
+                navMesh.isStopped = false;
+                navMesh.speed = 0;
+            }
+            else if (distTarget < DistStartAttack)
+            {
+
+            }
         }
     }
 
@@ -85,12 +105,19 @@ public class SheepEnnemy : GroundEnnemy
         {
             ToogleMainAttack(1);
 
+            canLookAtPlayer = false;
             move = "roll";
             WhereToGoPos = CurrentTarget.position;
             navMesh.speed = rollSpeed;
             navMesh.acceleration = rollSpeed * 2;
-            navMesh.angularSpeed = 3;
+            navMesh.angularSpeed = 0;
             navMesh.isStopped = false;
+            timerGeneral = rollDuration;
+        }
+        if (attackID == 4)
+        {
+            animator.SetInteger("Attack", 0);
+            StunEnnemy(2, false);
         }
     }
 }

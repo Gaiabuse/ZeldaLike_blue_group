@@ -17,7 +17,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] float DistanceAttack = 2;
 
-    Vector3 WhereToGoPos;
+    protected Vector3 WhereToGoPos;
 
     [Header("Layer")]
     [SerializeField] LayerMask LayerBlockRay;
@@ -26,6 +26,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] List<Vector3> PatrolPosition;
     int currentPatrolPose;
 
+    protected bool canLookAtPlayer = true;
 
     protected override void Start()
     {
@@ -43,7 +44,7 @@ public class GroundEnnemy : EnnemyBase
     {
         base.FixedUpdate();
 
-        isPlayerInFieldOfView();
+        if (canLookAtPlayer) isPlayerInFieldOfView();
 
         if (move != "stun")
         {
@@ -229,6 +230,7 @@ public class GroundEnnemy : EnnemyBase
                 navMesh.acceleration = acceleration.y;
                 navMesh.angularSpeed = SpeedRotate.y;
 
+                canLookAtPlayer = true;
                 WhereToGoPos = Player.position;
             }
         }
@@ -291,6 +293,7 @@ public class GroundEnnemy : EnnemyBase
         WhereToGoPos = Player.position;
         move = "chase";
         EyesSetColorTo(colorChase);
+        canLookAtPlayer = true;
 
         navMesh.speed = speed.y;
         navMesh.acceleration = acceleration.y;
