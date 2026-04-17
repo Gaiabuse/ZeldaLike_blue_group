@@ -20,12 +20,12 @@ public class StarBomb : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    public void ShowPreview(Transform target)
+    public void ShowPreview(Vector3 target, Transform player)
     {
-        Vector3 pos = target.position;
+        Vector3 pos = target;
         pos.y -= 1;
         targetPreview.transform.position = pos;
-        targetPreview.transform.SetParent(target.parent);
+        targetPreview.transform.SetParent(player.parent);
         targetPreview.SetActive(true);
     }
 
