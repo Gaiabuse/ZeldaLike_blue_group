@@ -33,7 +33,6 @@ public class InputManager : MonoBehaviour
         if (_isInitialized)
         {
             pauseMenu.ClosePauseMenu();
-            playerInput.SwitchCurrentActionMap("PlayerControl");
         }
         else
         {
