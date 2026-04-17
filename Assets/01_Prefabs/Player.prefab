@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 1184184480172319934}
   - component: {fileID: 999091161340526415}
   - component: {fileID: 8715960371389895154}
+  - component: {fileID: 4749926219799942427}
   m_Layer: 9
   m_Name: DreamForm
   m_TagString: Untagged
@@ -317,6 +318,19 @@ MonoBehaviour:
   maxAttack: 27
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 12
+--- !u!114 &8715960371389895154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3325453322797383309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 290ebcb8888f45742a2461c589d5689c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DreamBait
+  BaitPrefab: {fileID: 5512050949420604262, guid: e0f036760597f0219aaf42cf77137e91, type: 3}
 --- !u!114 &4749926219799942427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,19 +381,6 @@ MonoBehaviour:
   DashCoolDownSeconds: 0.15
   offset: 0.2
   tolerance: 0.5
---- !u!114 &8715960371389895154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3325453322797383309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 290ebcb8888f45742a2461c589d5689c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DreamBait
-  BaitPrefab: {fileID: 5512050949420604262, guid: e0f036760597f0219aaf42cf77137e91, type: 3}
 --- !u!1 &3904385373315590954
 GameObject:
   m_ObjectHideFlags: 0
@@ -408,7 +409,7 @@ Transform:
   m_GameObject: {fileID: 3904385373315590954}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: -0.064, y: -0.872, z: -0.055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -828,6 +829,7 @@ MonoBehaviour:
   DashLength: 7
   DashCoolDownSeconds: 0.15
   offset: 0.2
+  tolerance: 0.5
 --- !u!114 &3607936565226332866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,7 +869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8984355832277642329
 Transform:
   m_ObjectHideFlags: 0
@@ -1134,7 +1136,7 @@ Transform:
   m_GameObject: {fileID: 7186632017847712217}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: -0.064, y: -0.872, z: -0.055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1453,6 +1455,7 @@ GameObject:
   - component: {fileID: 2564409545134392940}
   - component: {fileID: 4667459941524090902}
   - component: {fileID: 8600280016486079122}
+  - component: {fileID: 1579369890925037167}
   m_Layer: 9
   m_Name: NightmareForm
   m_TagString: Untagged
@@ -1538,7 +1541,13 @@ MonoBehaviour:
   ultimateAttack:
     AttackData: {fileID: 11400000, guid: 760f0300fde65dd4999ffd86b94002cc, type: 2}
     type: 1
-  timeOfUltimate: 3
+  ultReference:
+    characterController: {fileID: 2672575590059249965}
+    playerSprite: {fileID: 3904385373315590954}
+    playerCollider: {fileID: 4485196043092998046}
+    ultimateObject: {fileID: 5295939877534458843}
+    grab: {fileID: 4667459941524090902}
+    dash: {fileID: 1579369890925037167}
 --- !u!114 &1579369890925037167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1705,6 +1714,7 @@ GameObject:
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
+  - component: {fileID: 7934904055037678382}
   m_Layer: 9
   m_Name: NeutralForm
   m_TagString: Untagged
@@ -1806,7 +1816,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  durationSleep: 2
+  durationUltimate: 0
+  durationChooseEnemyMod: 0
+  playerInput: {fileID: 8015218632366079429}
 --- !u!114 &7934904055037678382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1999,8 +2011,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8664345379714403436}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalRotation: {x: -0.0951505, y: -0.2468277, z: 0.25417325, w: 0.9302787}
+  m_LocalPosition: {x: -0.064, y: -0.872, z: -0.055}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
