@@ -13,6 +13,8 @@ public class SheepEnnemy : GroundEnnemy
     [SerializeField] float rollSpeed = 35f;
     [SerializeField] float rollDuration = 2.5f;
 
+    [SerializeField] bool repositionToAttack = false;
+
     protected override void Start()
     {
         base.Start();
@@ -40,12 +42,11 @@ public class SheepEnnemy : GroundEnnemy
 
         if (move == "roll")
         {
-            navMesh.destination = WhereToGoPos;
             timerGeneral -= Time.deltaTime;
 
-            if (Vector3.Distance(WhereToGoPos, transform.position) < 2)
+            if (Vector3.Distance(navMesh.destination, transform.position) <= 2)
             {
-                WhereToGoPos = transform.position + transform.forward * 4;
+                WhereToGoPos = transform.position + transform.forward * 5;
                 navMesh.destination = WhereToGoPos;
             }
             if (timerGeneral <= 0)
@@ -61,6 +62,25 @@ public class SheepEnnemy : GroundEnnemy
                 WhereToGoPos = CurrentTarget.position;
             }
         }
+        if (repositionToAttack)
+        {
+            if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
+            {
+                repositionToAttack = false;
+                canLookAtPlayer = true;
+
+                AttackStart(1);
+                move = "aim roll";
+                navMesh.isStopped = false;
+                navMesh.speed = 0;
+            }
+        }
+        if (move == "aim roll")
+        {
+            Vector3 relativePos = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z) - transform.position;
+            Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.5f);
+        }
     }
 
     protected override void AttackPatern()
@@ -72,15 +92,19 @@ public class SheepEnnemy : GroundEnnemy
         if (CurrentTarget != null)
         {
             float distTarget = Vector3.Distance(AttackTrigger.position, CurrentTarget.position);
-            if (distTarget >= DistStartAttack && TargetInFieldOfView)
+            if (distTarget >= DistStartAttack && TargetInFieldOfView && !repositionToAttack)
             {
                 AttackStart(1);
+                move = "aim roll";
                 navMesh.isStopped = false;
                 navMesh.speed = 0;
             }
-            else if (distTarget < DistStartAttack)
+            else if (distTarget < DistStartAttack && !repositionToAttack)
             {
-
+                repositionToAttack = true;
+                canLookAtPlayer = false;
+                WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
+                navMesh.destination = WhereToGoPos;
             }
         }
     }
@@ -107,11 +131,15 @@ public class SheepEnnemy : GroundEnnemy
 
             canLookAtPlayer = false;
             move = "roll";
+
             WhereToGoPos = CurrentTarget.position;
+            navMesh.destination = WhereToGoPos;
+
             navMesh.speed = rollSpeed;
-            navMesh.acceleration = rollSpeed * 2;
+            navMesh.acceleration = rollSpeed * 5;
             navMesh.angularSpeed = 0;
             navMesh.isStopped = false;
+
             timerGeneral = rollDuration;
         }
         if (attackID == 4)
