@@ -48,5 +48,6 @@ public class BomberAttack : MonoBehaviour
             yield return null;
         }
         bomb.transform.position = destination;
+        bomb.GetComponent<StarBomb>().StartCountdown();
     }
 }
