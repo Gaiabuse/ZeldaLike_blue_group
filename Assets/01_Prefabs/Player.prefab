@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 6534083858809267189}
   - component: {fileID: 4203934060861339520}
   - component: {fileID: 8323159215994775483}
-  - component: {fileID: 9100322262318156959}
+  - component: {fileID: 2442678737022871753}
   m_Layer: 5
   m_Name: UltimateIndicator
   m_TagString: Untagged
@@ -144,17 +144,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2977839031425142915}
-  m_LocalRotation: {x: 0.16238387, y: -0.34891716, z: 0.061523475, w: 0.9209252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -27.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 135079393512365543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.9, y: 17.7}
-  m_SizeDelta: {x: 51.45672, y: 51.45672}
+  m_AnchoredPosition: {x: 50, y: 60}
+  m_SizeDelta: {x: 327, y: 327}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4203934060861339520
 CanvasRenderer:
@@ -194,28 +194,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1818360609 &9100322262318156959
-RotationConstraint:
+--- !u!114 &2442678737022871753
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2977839031425142915}
   m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_RotationAtRest: {x: 19.999987, y: -41.50108, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 0}
-    weight: 1
-  - sourceTransform: {fileID: 0}
-    weight: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 029599f676686158fa4ee0a399ded30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Billboard
 --- !u!1 &3325453322797383309
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,8 +725,8 @@ MonoBehaviour:
   maxHP: 100
   playerController: {fileID: 8133830779634646023}
   speedRecharge: 5
-  minFillAmount: 0.11
-  maxFillAmount: 0.83
+  minFillAmount: 0.2
+  maxFillAmount: 1
   healthBar: {fileID: 0}
   HP: 50
 --- !u!114 &1551203807080462892
@@ -986,7 +976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4190180486685557936
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1661,7 +1651,7 @@ MonoBehaviour:
   ErasedLayerMask:
     serializedVersion: 2
     m_Bits: 384
-  maxPointsForCreate: 2
+  maxPointsForCreate: 3
   holdTime: 2
   numberOfPressForErasedEnemy: 20
   hpHealWhenErasedEnemy: 20
@@ -1722,7 +1712,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  durationSleep: 2
+  durationUltimate: 30
+  durationChooseEnemyMod: 5
+  playerInput: {fileID: 8015218632366079429}
 --- !u!1 &8549774408609409626
 GameObject:
   m_ObjectHideFlags: 0
