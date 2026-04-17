@@ -7,9 +7,10 @@ public class StarBomb : MonoBehaviour
 {
     [SerializeField] private GameObject explodeZone;
     [SerializeField] private float timeToExplode;
+    [SerializeField] private int damages;
     
     private MeshRenderer meshRenderer;
-
+    private bool hasDealDamage = false;
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -19,11 +20,16 @@ public class StarBomb : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("explode now");
-            Explode();
+            Explode();   
+            
         }
     }
-
+    
+    public void DealDamages(GameObject player)
+    {
+        Debug.Log("Dealing damage");
+        player.GetComponent<PlayerHP>().TakeDamage(damages);
+    }
 
     public void StartCountdown()
     {
