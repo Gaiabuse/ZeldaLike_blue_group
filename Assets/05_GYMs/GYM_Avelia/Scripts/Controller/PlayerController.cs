@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask layerGround;
 
     [SerializeField]
-    float offsetRayCast = .1f, lengthRayCast = .3f;
+    float offsetRayCast = .1f, lengthRayCast = .3f, rotationOffset = 0.1f;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
-
+            
             if (IsPlaceLandable(futurePosition)) controller.Move(movement);
             else Debug.LogWarning("not able to find any ground", this);
         }
@@ -194,7 +194,29 @@ public class PlayerController : MonoBehaviour
 
     bool IsPlaceLandable(Vector3 destination)
     {
-        Ray ray = new(origin: destination + Vector3.up * offsetRayCast, direction: Vector3.down);
-        return Physics.Raycast(ray, lengthRayCast, layerGround);
+        int rayCount = 8;
+        bool allGrounded = true;
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angle = i * (360f / rayCount) * Mathf.Deg2Rad;
+
+            float x = Mathf.Cos(angle) * rotationOffset;
+            float z = Mathf.Sin(angle) * rotationOffset;
+
+            Vector3 localDirection = new Vector3(x, -1f, z).normalized;
+
+            Vector3 worldDirection = transform.TransformDirection(localDirection);
+            Vector3 rayOrigin = destination + Vector3.up * offsetRayCast;
+
+            Ray ray = new Ray(rayOrigin, worldDirection);
+            bool hit = Physics.Raycast(ray, lengthRayCast, layerGround);
+
+            Debug.DrawRay(rayOrigin, worldDirection * lengthRayCast, hit ? Color.green : Color.red);
+
+            if (!hit) allGrounded = false;
+        }
+
+        return allGrounded;
     }
 }
