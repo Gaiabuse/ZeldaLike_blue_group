@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5663133200372307631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: FMOD/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 639120384926413033
+  FileSizes: []
+  Exists: 1
 --- !u!114 &-4756388493524483639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18,6 +36,60 @@ MonoBehaviour:
   lastModified: 639119515561036586
   FileSizes: []
   Exists: 1
+--- !u!114 &-4692471623872249857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/MainTheme/GameState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: GameState
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 155754439
+    data2: 2894152820
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Explo
+  - Fight
+  Exists: 1
+--- !u!114 &-4658772238565054015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Musics/MainTheme
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Musics/MainTheme
+  Guid:
+    Data1: 895168514
+    Data2: 1283565212
+    Data3: -483785310
+    Data4: 997248807
+  Banks:
+  - {fileID: -1692502312652622245}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -4692471623872249857}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 63000
 --- !u!114 &-4075089224638027307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,6 +134,24 @@ MonoBehaviour:
   lastModified: 639119515560935938
   FileSizes: []
   Exists: 1
+--- !u!114 &-1692502312652622245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music .bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: FMOD/Desktop/Music .bank
+  Name: 'Music '
+  StudioPath: 'bank:/Music '
+  lastModified: 639120384926508288
+  FileSizes: []
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,19 +165,19 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EventCache
   EditorBanks:
-  - {fileID: 916323366016289906}
-  - {fileID: -3525438231159549951}
-  - {fileID: -4756388493524483639}
+  - {fileID: 8213335613661368606}
+  - {fileID: -5663133200372307631}
+  - {fileID: -1692502312652622245}
   EditorEvents:
-  - {fileID: 6439483427598288292}
+  - {fileID: -4658772238565054015}
   EditorParameters:
-  - {fileID: -4075089224638027307}
+  - {fileID: 5628302083392590550}
   MasterBanks:
-  - {fileID: -3525438231159549951}
+  - {fileID: -5663133200372307631}
   StringsBanks:
-  - {fileID: 916323366016289906}
+  - {fileID: 8213335613661368606}
   cacheVersion: 131859
-  cacheTime: 639119515561036586
+  cacheTime: 639120384926508288
   SerializableEventsDict:
   - key: event:/Musics/MainTheme
     index: 0
@@ -137,6 +227,32 @@ MonoBehaviour:
   - Name: 
     Value: 964
   Exists: 1
+--- !u!114 &5628302083392590550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/GameState
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: GameState
+  StudioPath: parameter:/GameState
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 155754439
+    data2: 2894152820
+  Type: 2
+  IsGlobal: 1
+  Labels:
+  - Explo
+  - Fight
+  Exists: 1
 --- !u!114 &6439483427598288292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +281,23 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 63000
+--- !u!114 &8213335613661368606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: FMOD/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 639120384926413033
+  FileSizes:
+  - Name: 
+    Value: 964
+  Exists: 1
