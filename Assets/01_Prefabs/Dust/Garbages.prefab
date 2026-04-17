@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6429587206410604717}
   - component: {fileID: 7417604857470399724}
   - component: {fileID: 7596488635380405021}
+  - component: {fileID: 8302564247816943502}
   m_Layer: 13
   m_Name: Garbages
   m_TagString: Garbage
@@ -130,6 +131,26 @@ MonoBehaviour:
   containPowder: 10
   hasZonyr: 0
   zonyr: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+--- !u!114 &8302564247816943502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2853439257365917298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &4066878242368726349
 GameObject:
   m_ObjectHideFlags: 0
