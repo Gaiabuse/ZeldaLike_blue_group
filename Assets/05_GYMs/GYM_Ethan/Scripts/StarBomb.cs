@@ -80,6 +80,7 @@ public class StarBomb : MonoBehaviour
     public async Task Explode()
     {
         if (isExploding) return;
+        if (targetPreview != null) Destroy(targetPreview);
         isExploding = true;
         
         Destroy(explodePreview);

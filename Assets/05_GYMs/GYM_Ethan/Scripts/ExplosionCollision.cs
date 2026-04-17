@@ -7,7 +7,6 @@ public class ExplosionCollision : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            Debug.Log("Toutch player");
             GetComponent<SphereCollider>().enabled = false;
             this.GetComponentInParent<StarBomb>().DealDamages(other.gameObject);
         }
