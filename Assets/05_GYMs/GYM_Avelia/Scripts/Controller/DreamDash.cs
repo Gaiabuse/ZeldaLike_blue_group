@@ -41,23 +41,34 @@ public class DreamDash : MonoBehaviour
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
-
         // naive approach that will not work in the future. Rn it is not the priority to do better than that
         if (!IsPlaceLandable(destinationPosition))
         {
-            print("no place found");
+            Debug.LogWarning($"no place found trying to find a better position", this);
             if (FindNearGround(destinationPosition) is Vector3 platform)
             {
+                Debug.Log($"found a better place");
                 destinationPosition = platform;
             }
             else yield break;
         }
 
+        print($"{nameof(DreamDash)} setup, {nameof(controller.CanMove)} : {controller.CanMove}");
         DashSetUp();
 
+
+        print($"{nameof(DreamDash)} Movement, {nameof(controller.CanMove)} : {controller.CanMove}");
+
+        //this is executed
         yield return DoDashMovement(originalPosition, destinationPosition);
 
+        print($"{nameof(DreamDash)} UndoSetup, {nameof(controller.CanMove)} : {controller.CanMove}");
+
+        // yet this isn't ????
         yield return UndoDashSetUp();
+
+        print($"{nameof(DreamDash)} Finished, {nameof(controller.CanMove)} : {controller.CanMove}");
+
     }
 
     IEnumerator DoDashMovement(Vector3 originalPosition, Vector3 destinationPosition)
@@ -73,6 +84,7 @@ public class DreamDash : MonoBehaviour
 
             yield return null;
         }
+        yield break;
     }
 
     bool IsPlaceLandable(Vector3 destination)
@@ -99,9 +111,8 @@ public class DreamDash : MonoBehaviour
         characterController.enabled = false;
     }
 
-    IEnumerable UndoDashSetUp()
+    IEnumerator UndoDashSetUp()
     {
-        print("mrow");
         controller.CanMove = true;
         controller.CanRotate = true;
         controller.currentAnimator.SetTrigger("isDashing");
@@ -119,6 +130,9 @@ public class DreamDash : MonoBehaviour
         var platforms = Physics.OverlapSphere(at, tolerance, layerGround);
 
         // fuck you why are you dashing in the void
+        latestAtHitResult = platforms.Length != 0;
+        latestAt = at;
+
         if (platforms.Length == 0) return null;
 
         var placeToBeReplacedAt = platforms
@@ -127,6 +141,15 @@ public class DreamDash : MonoBehaviour
             .OrderBy(x => Vector3.Distance(x, at))
             .First();
 
-        return placeToBeReplacedAt + Vector3.up * offset;
+        return placeToBeReplacedAt + Vector3.up * 3f;
+    }
+
+    Vector3 latestAt = Vector3.zero;
+    bool latestAtHitResult = false;
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = latestAtHitResult ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(latestAt, tolerance);
     }
 }
