@@ -184,6 +184,12 @@ public class PlayerController : MonoBehaviour
         CanRotate = true;
     }
 
+    public void Teleport(Vector3 pos)
+    {
+        controller.enabled = false;
+        transform.position = pos;
+        controller.enabled = true;
+    }
     void UpdateLookDirection(Vector3 moveDir)
     {
         Vector3 projectedDirection = Vector3.ProjectOnPlane(moveDir, transform.up);
