@@ -11,16 +11,16 @@ public class IndicatorUltimate : MonoBehaviour
     [SerializeField] private GameObject indicator;
     private TweenerCore<Vector3, Vector3, VectorOptions> tween;
     private bool isShow;
+    private float indicatorSize;
     private void OnEnable()
     {
         AttackManager.CanUltimate += ShowIndicator;
         AttackManager.EndForUltimate += HideIndicator;
     }
 
-    
-    private void Start()
+    void Start()
     {
-        indicator.transform.localScale = Vector3.zero;
+        indicatorSize = indicator.transform.localScale.x;
     }
 
     private void ShowIndicator()
@@ -29,7 +29,7 @@ public class IndicatorUltimate : MonoBehaviour
         isShow = true;
         indicator.SetActive(true);
         if(tween != null)tween.Kill();
-        tween = indicator.transform.DOScale(Vector3.one, dotweenTime).SetEase(Ease.OutBounce);
+        tween = indicator.transform.DOScale(indicatorSize, dotweenTime).SetEase(Ease.OutBounce);
     }
 
     private void HideIndicator()

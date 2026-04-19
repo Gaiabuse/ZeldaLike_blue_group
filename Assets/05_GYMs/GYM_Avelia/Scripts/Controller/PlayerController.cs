@@ -33,7 +33,11 @@ public class PlayerController : MonoBehaviour
     public LayerMask layerGround;
 
     [SerializeField]
-    float offsetRayCast = .1f, lengthRayCast = .3f;
+    float offsetRayCast = .1f, lengthRayCast = .3f, rotationOffset = 0.1f;
+    [Header("Anti-Fall Buffer")]
+    [SerializeField] float lookAheadDistance = 0.3f; // How far ahead to push the sensor
+    [SerializeField] float sensorRadius = 0.4f;      // The width of the ray circle
+    [SerializeField] int minRaysRequired = 5;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -98,37 +102,9 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        Vector3 moveDirection = Vector3.zero;
+        Vector3 moveDirection = ProjectPoint(direction);
 
-        if (Boxes != null)
-        {
-            float inputMagnitude = 0;
-
-            if (side == MovingBox.Side.Front || side == MovingBox.Side.Back)
-            {
-                inputMagnitude = direction.y;
-                moveDirection = Boxes.transform.forward * inputMagnitude;
-            }
-            else
-            {
-                inputMagnitude = direction.x;
-                moveDirection = Boxes.transform.right * inputMagnitude;
-            }
-
-            if (inputMagnitude != 0)
-            {
-                if (Physics.Raycast(Boxes.transform.position, moveDirection.normalized, 1.0f, obstacleLayer))
-                {
-                    moveDirection = Vector3.zero;
-                }
-            }
-        }
-        else
-        {
-            moveDirection = ProjectPoint(direction);
-        }
-
-        if (CanRotate && Boxes == null) UpdateLookDirection(moveDirection);
+        if (CanRotate) UpdateLookDirection(moveDirection);
 
         if (!controller.enabled) return;
 
@@ -139,8 +115,9 @@ public class PlayerController : MonoBehaviour
 
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
-
+            
             if (IsPlaceLandable(futurePosition)) controller.Move(movement);
+            else Debug.LogWarning("not able to find any ground", this);
         }
 
         controller.Move(gravity * Time.deltaTime);
@@ -207,6 +184,12 @@ public class PlayerController : MonoBehaviour
         CanRotate = true;
     }
 
+    public void Teleport(Vector3 pos)
+    {
+        controller.enabled = false;
+        transform.position = pos;
+        controller.enabled = true;
+    }
     void UpdateLookDirection(Vector3 moveDir)
     {
         Vector3 projectedDirection = Vector3.ProjectOnPlane(moveDir, transform.up);
@@ -221,7 +204,35 @@ public class PlayerController : MonoBehaviour
 
     bool IsPlaceLandable(Vector3 destination)
     {
-        Ray ray = new(origin: destination + Vector3.up * offsetRayCast, direction: Vector3.down);
-        return Physics.Raycast(ray, lengthRayCast, layerGround);
+        // 1. Calculate the offset based on move direction
+        // We use currentDirection (normalized) to push the sensor forward
+        Vector3 sensorCenter = destination + (currentDirection * lookAheadDistance);
+    
+        int rayCount = 8;
+        int hitCount = 0;
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angle = i * (360f / rayCount) * Mathf.Deg2Rad;
+
+            // 2. Create the circle around the OFFSET center
+            float x = Mathf.Cos(angle) * sensorRadius;
+            float z = Mathf.Sin(angle) * sensorRadius;
+
+            Vector3 rayOrigin = sensorCenter + new Vector3(x, offsetRayCast, z);
+        
+            Ray ray = new Ray(rayOrigin, Vector3.down);
+            bool hit = Physics.Raycast(ray, lengthRayCast + offsetRayCast, layerGround);
+
+            // Visual Debugging
+            Debug.DrawRay(rayOrigin, Vector3.down * (lengthRayCast + offsetRayCast), hit ? Color.green : Color.red);
+
+            if (hit) hitCount++;
+        }
+
+        // 3. Safety: Always ensure the player's actual destination is grounded too
+        bool destinationIsSafe = Physics.Raycast(destination + Vector3.up * offsetRayCast, Vector3.down, lengthRayCast + offsetRayCast, layerGround);
+
+        return destinationIsSafe && (hitCount >= minRaysRequired);
     }
 }

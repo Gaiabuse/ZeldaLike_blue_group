@@ -234,17 +234,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6b7101a3-04ea-40cc-8e7b-1de701e858ee"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0eeeb3ae-711a-40b8-9bc2-a8c672e1595e"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",

@@ -50,6 +50,8 @@ public class EnnemyBase : MonoBehaviour
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
 
+    [Header("Neutral Ult Display")]
+    [SerializeField] protected GameObject UltIndicator;
     private GameObject stunZone = null;
     public Action<EnnemyBase> OnDeath;
     protected virtual void Start()
@@ -62,6 +64,7 @@ public class EnnemyBase : MonoBehaviour
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
         hitValueDisplay.text = "";
         hitValueDisplay.transform.localScale = Vector3.zero;
+        UltIndicator.SetActive(false);
         EyesSetColorTo(colorNormal);
 
         HP = data.health;
@@ -176,6 +179,10 @@ public class EnnemyBase : MonoBehaviour
         }
     }
 
+    public void SetUltIndicator(bool value)
+    {
+        UltIndicator.SetActive(value);
+    }
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.gameObject.name);
