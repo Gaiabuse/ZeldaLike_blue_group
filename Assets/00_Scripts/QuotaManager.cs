@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class QuotaManager : MonoBehaviour
 {
-    [SerializeField] [Range(0,100)] private int cleanPoints;
+    [Range(0,100)] public int cleanPoints;
     [SerializeField] [Range(0,100)] private int[] quotas = new int[3];
     [SerializeField] private int bonusPoints;
     [SerializeField] private ErasedManager player;
