@@ -16,7 +16,7 @@ public class ErasedManager : MonoBehaviour
     [Tooltip("LayerMax of objects we can Erased and create")]
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
-    [SerializeField] private int maxPointsForCreate;
+    public int maxPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
     [SerializeField] private float numberOfPressForErasedEnemy = 20;

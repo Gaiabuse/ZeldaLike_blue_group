@@ -163,6 +163,15 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenPhone"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b13d9a7-2254-44f0-a05e-d40e90d9caee"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -377,8 +386,8 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6c2b9a9c-f9af-47a3-ba10-6be93bfbdbe6"",
-                    ""path"": ""<Gamepad>/select"",
+                    ""id"": ""f5a88758-6d72-4055-a595-f7b557f8f1eb"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -388,12 +397,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f5a88758-6d72-4055-a595-f7b557f8f1eb"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""id"": ""6c2b9a9c-f9af-47a3-ba10-6be93bfbdbe6"",
+                    ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Pause"",
+                    ""action"": ""OpenPhone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -453,6 +462,34 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""ProgressControl"",
+            ""id"": ""08d1aa44-a4a2-45b1-bd53-ced9aae77247"",
+            ""actions"": [
+                {
+                    ""name"": ""ClosePhone"",
+                    ""type"": ""Button"",
+                    ""id"": ""5afd7622-cebd-4556-943b-db100274b65b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5b6fd894-87ed-4f37-9862-c067f12b7c72"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClosePhone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -547,10 +584,14 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         m_PlayerControl_SecondPower = m_PlayerControl.FindAction("SecondPower", throwIfNotFound: true);
         m_PlayerControl_CatchOrRelease = m_PlayerControl.FindAction("CatchOrRelease", throwIfNotFound: true);
         m_PlayerControl_Pause = m_PlayerControl.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerControl_OpenPhone = m_PlayerControl.FindAction("OpenPhone", throwIfNotFound: true);
         // MenuControl
         m_MenuControl = asset.FindActionMap("MenuControl", throwIfNotFound: true);
         m_MenuControl_Unpause = m_MenuControl.FindAction("Unpause", throwIfNotFound: true);
         m_MenuControl_Return = m_MenuControl.FindAction("Return", throwIfNotFound: true);
+        // ProgressControl
+        m_ProgressControl = asset.FindActionMap("ProgressControl", throwIfNotFound: true);
+        m_ProgressControl_ClosePhone = m_ProgressControl.FindAction("ClosePhone", throwIfNotFound: true);
         // HealMap
         m_HealMap = asset.FindActionMap("HealMap", throwIfNotFound: true);
         m_HealMap_Heal = m_HealMap.FindAction("Heal", throwIfNotFound: true);
@@ -564,6 +605,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     {
         UnityEngine.Debug.Assert(!m_PlayerControl.enabled, "This will cause a leak and performance issues, FinalInputMap.PlayerControl.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_MenuControl.enabled, "This will cause a leak and performance issues, FinalInputMap.MenuControl.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_ProgressControl.enabled, "This will cause a leak and performance issues, FinalInputMap.ProgressControl.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_HealMap.enabled, "This will cause a leak and performance issues, FinalInputMap.HealMap.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_NeutralUltMap.enabled, "This will cause a leak and performance issues, FinalInputMap.NeutralUltMap.Disable() has not been called.");
     }
@@ -649,6 +691,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControl_SecondPower;
     private readonly InputAction m_PlayerControl_CatchOrRelease;
     private readonly InputAction m_PlayerControl_Pause;
+    private readonly InputAction m_PlayerControl_OpenPhone;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerControl".
     /// </summary>
@@ -692,6 +735,10 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/Pause".
         /// </summary>
         public InputAction @Pause => m_Wrapper.m_PlayerControl_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControl/OpenPhone".
+        /// </summary>
+        public InputAction @OpenPhone => m_Wrapper.m_PlayerControl_OpenPhone;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -742,6 +789,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @OpenPhone.started += instance.OnOpenPhone;
+            @OpenPhone.performed += instance.OnOpenPhone;
+            @OpenPhone.canceled += instance.OnOpenPhone;
         }
 
         /// <summary>
@@ -777,6 +827,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @OpenPhone.started -= instance.OnOpenPhone;
+            @OpenPhone.performed -= instance.OnOpenPhone;
+            @OpenPhone.canceled -= instance.OnOpenPhone;
         }
 
         /// <summary>
@@ -917,6 +970,102 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="MenuControlActions" /> instance referencing this action map.
     /// </summary>
     public MenuControlActions @MenuControl => new MenuControlActions(this);
+
+    // ProgressControl
+    private readonly InputActionMap m_ProgressControl;
+    private List<IProgressControlActions> m_ProgressControlActionsCallbackInterfaces = new List<IProgressControlActions>();
+    private readonly InputAction m_ProgressControl_ClosePhone;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "ProgressControl".
+    /// </summary>
+    public struct ProgressControlActions
+    {
+        private @FinalInputMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public ProgressControlActions(@FinalInputMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "ProgressControl/ClosePhone".
+        /// </summary>
+        public InputAction @ClosePhone => m_Wrapper.m_ProgressControl_ClosePhone;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_ProgressControl; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="ProgressControlActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(ProgressControlActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="ProgressControlActions" />
+        public void AddCallbacks(IProgressControlActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Add(instance);
+            @ClosePhone.started += instance.OnClosePhone;
+            @ClosePhone.performed += instance.OnClosePhone;
+            @ClosePhone.canceled += instance.OnClosePhone;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="ProgressControlActions" />
+        private void UnregisterCallbacks(IProgressControlActions instance)
+        {
+            @ClosePhone.started -= instance.OnClosePhone;
+            @ClosePhone.performed -= instance.OnClosePhone;
+            @ClosePhone.canceled -= instance.OnClosePhone;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ProgressControlActions.UnregisterCallbacks(IProgressControlActions)" />.
+        /// </summary>
+        /// <seealso cref="ProgressControlActions.UnregisterCallbacks(IProgressControlActions)" />
+        public void RemoveCallbacks(IProgressControlActions instance)
+        {
+            if (m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="ProgressControlActions.AddCallbacks(IProgressControlActions)" />
+        /// <seealso cref="ProgressControlActions.RemoveCallbacks(IProgressControlActions)" />
+        /// <seealso cref="ProgressControlActions.UnregisterCallbacks(IProgressControlActions)" />
+        public void SetCallbacks(IProgressControlActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ProgressControlActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="ProgressControlActions" /> instance referencing this action map.
+    /// </summary>
+    public ProgressControlActions @ProgressControl => new ProgressControlActions(this);
 
     // HealMap
     private readonly InputActionMap m_HealMap;
@@ -1183,6 +1332,13 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "OpenPhone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnOpenPhone(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MenuControl" which allows adding and removing callbacks.
@@ -1205,6 +1361,21 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReturn(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "ProgressControl" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="ProgressControlActions.AddCallbacks(IProgressControlActions)" />
+    /// <seealso cref="ProgressControlActions.RemoveCallbacks(IProgressControlActions)" />
+    public interface IProgressControlActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "ClosePhone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClosePhone(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "HealMap" which allows adding and removing callbacks.
