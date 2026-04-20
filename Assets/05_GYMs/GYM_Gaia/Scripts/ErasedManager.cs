@@ -274,5 +274,11 @@ public class ErasedManager : MonoBehaviour
             TransformIndicator.Instance.DisplayNeutralIcon(currentPointsForCreate < maxPointsForCreate ? 1 : 0);
         }
     }
- 
+
+    public void GainPointForCreate()
+    {
+        maxPointsForCreate++;
+        currentPointsForCreate++;
+        TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
+    }
 }
