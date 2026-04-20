@@ -205,6 +205,7 @@ public class FlyingEnnemy : EnnemyBase
             rb.isKinematic = false;
 
             rb.AddForce(Vector3.down * addForceDive, ForceMode.Impulse);
+            ToogleMainAttack(1);
         }
     }
 
@@ -219,6 +220,7 @@ public class FlyingEnnemy : EnnemyBase
             rb.useGravity = false;
             rb.isKinematic = true;
             SetDive(3);
+            ToogleMainAttack(-1);
         }
     }
 
