@@ -49,7 +49,7 @@ public class QuotaManager : MonoBehaviour
         if (cleanPoints >= quotas[quotaIndex])
         {
             GainBonusPoints(cleanPoints - quotas[quotaIndex]); //Add bonus points if overflow
-            quotas[quotaIndex] = cleanPoints;
+            cleanPoints = quotas[quotaIndex];
             quotaIndex++;
             player.GainPointForCreate();
         }
