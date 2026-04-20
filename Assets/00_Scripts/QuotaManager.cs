@@ -7,6 +7,7 @@ public class QuotaManager : MonoBehaviour
     [Range(0,100)] public int[] quotas = new int[3];
     [SerializeField] private int bonusPoints;
     [SerializeField] private ErasedManager player;
+    [SerializeField] private ProgressMenuUI progressMenuUI;
     
     private int quotaIndex;
     
@@ -34,7 +35,7 @@ public class QuotaManager : MonoBehaviour
         {
             cleanPoints += progress;
             CheckQuota();
-            //TODO call for update visuel 
+            progressMenuUI.ShowProgressPopUp();
         }
     }
     
