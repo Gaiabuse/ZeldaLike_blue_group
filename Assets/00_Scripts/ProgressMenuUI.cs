@@ -15,6 +15,8 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private Vector2 animMinMaxPosX;
     [SerializeField] private Image progressAnim;
     [SerializeField] private Sprite[] animSprites;
+    [SerializeField] private Vector2 milestonesMinMaxPosX;
+    [SerializeField] private RectTransform[] milestones;
     
     private TweenerCore<float, float, FloatOptions> pauseDotween;
     
@@ -22,6 +24,21 @@ public class ProgressMenuUI : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
+        SetMilestonesPosition();
+    }
+
+    private void SetMilestonesPosition()
+    {
+        for (int i = 0; i < milestones.Length; i++)
+        {
+            float t = QuotaManager.Instance.quotas[i] / 100f;
+            float targetX = Mathf.Lerp(milestonesMinMaxPosX.x, milestonesMinMaxPosX.y, t);
+            
+            Vector2 newPos = milestones[i].anchoredPosition;
+            newPos.x = targetX;
+            milestones[i].anchoredPosition = newPos;
+        }
+        Debug.Log("Alexis est une pute");
     }
 
     public void CloseProgressMenu()
@@ -64,7 +81,7 @@ public class ProgressMenuUI : MonoBehaviour
             .SetUpdate(true)
             .SetEase(Ease.OutCubic);
         
-        float targetX = Mathf.Lerp(-125f, 105f, targetFill);
+        float targetX = Mathf.Lerp(animMinMaxPosX.x, animMinMaxPosX.y, targetFill);
         progressAnimGO.GetComponent<RectTransform>().DOAnchorPosX(targetX, 1.5f)
             .SetUpdate(true)
             .SetEase(Ease.OutCubic);
