@@ -51,7 +51,7 @@ public class QuotaManager : MonoBehaviour
             GainBonusPoints(cleanPoints - quotas[quotaIndex]); //Add bonus points if overflow
             quotas[quotaIndex] = cleanPoints;
             quotaIndex++;
-            player.maxPointsForCreate++;
+            player.GainPointForCreate();
         }
     }
 }

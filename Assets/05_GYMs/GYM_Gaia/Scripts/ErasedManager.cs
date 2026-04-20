@@ -16,7 +16,7 @@ public class ErasedManager : MonoBehaviour
     [Tooltip("LayerMax of objects we can Erased and create")]
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
-    public int maxPointsForCreate;
+    [SerializeField] private int maxPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
     [SerializeField] private float numberOfPressForErasedEnemy = 20;
@@ -274,5 +274,11 @@ public class ErasedManager : MonoBehaviour
             TransformIndicator.Instance.DisplayNeutralIcon(currentPointsForCreate < maxPointsForCreate ? 1 : 0);
         }
     }
- 
+
+    public void GainPointForCreate()
+    {
+        maxPointsForCreate++;
+        currentPointsForCreate++;
+        TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
+    }
 }
