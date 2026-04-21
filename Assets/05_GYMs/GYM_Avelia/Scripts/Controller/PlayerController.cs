@@ -63,9 +63,9 @@ public class PlayerController : MonoBehaviour
     {
         Boxes = null;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
-        if (!PlayerPrefs.HasKey("PlayerSpawnX") && !PlayerPrefs.HasKey("PlayerSpawnY")&& !PlayerPrefs.HasKey("PlayerSpawnZ") || respawnAtStart )
+        if (!PlayerPrefs.HasKey("PlayerSpawnX") && !PlayerPrefs.HasKey("PlayerSpawnY") && !PlayerPrefs.HasKey("PlayerSpawnZ") || respawnAtStart)
         {
-            PlayerPrefs.SetFloat("PlayerSpawnX",transform.position.x);
+            PlayerPrefs.SetFloat("PlayerSpawnX", transform.position.x);
             PlayerPrefs.SetFloat("PlayerSpawnY", transform.position.y);
             PlayerPrefs.SetFloat("PlayerSpawnZ", transform.position.z);
             StartCoroutine(RespawnCoroutine());
@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(RespawnCoroutine());
         }
-       
+
         playerInput = GetComponent<PlayerInput>();
         currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
@@ -115,9 +115,9 @@ public class PlayerController : MonoBehaviour
 
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
-            
+
             if (IsPlaceLandable(futurePosition)) controller.Move(movement);
-            else Debug.LogWarning("not able to find any ground", this);
+            //else Debug.LogWarning("not able to find any ground", this);
         }
 
         controller.Move(gravity * Time.deltaTime);
@@ -173,7 +173,7 @@ public class PlayerController : MonoBehaviour
         controller.enabled = false;
         Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
         transform.position = startPos;
-        
+
         controller.enabled = true;
         CanMove = false;
         CanRotate = false;
@@ -207,7 +207,7 @@ public class PlayerController : MonoBehaviour
         // 1. Calculate the offset based on move direction
         // We use currentDirection (normalized) to push the sensor forward
         Vector3 sensorCenter = destination + (currentDirection * lookAheadDistance);
-    
+
         int rayCount = 8;
         int hitCount = 0;
 
@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
             float z = Mathf.Sin(angle) * sensorRadius;
 
             Vector3 rayOrigin = sensorCenter + new Vector3(x, offsetRayCast, z);
-        
+
             Ray ray = new Ray(rayOrigin, Vector3.down);
             bool hit = Physics.Raycast(ray, lengthRayCast + offsetRayCast, layerGround);
 
