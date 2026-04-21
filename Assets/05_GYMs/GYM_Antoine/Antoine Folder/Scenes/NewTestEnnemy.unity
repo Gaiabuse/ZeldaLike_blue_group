@@ -132,9 +132,9 @@ GameObject:
   - component: {fileID: 55117239}
   - component: {fileID: 55117238}
   - component: {fileID: 55117237}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -741,6 +741,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f58284eed5298a7428918eb492e8d073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHP
+  maxHP: 15
+  playerController: {fileID: 0}
+  speedRecharge: 0
+  minFillAmount: 0.1
+  maxFillAmount: 0.9
+  healthBar: {fileID: 0}
   HP: 15
 --- !u!1001 &1170745198
 PrefabInstance:
@@ -813,7 +819,7 @@ PrefabInstance:
     - target: {fileID: 8821143803085910139, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: manaSlider
       value: 
-      objectReference: {fileID: 1530553345}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -923,17 +929,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
---- !u!114 &1530553345 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4650060719911994191, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
-  m_PrefabInstance: {fileID: 1530553344}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1591722511
 GameObject:
   m_ObjectHideFlags: 0

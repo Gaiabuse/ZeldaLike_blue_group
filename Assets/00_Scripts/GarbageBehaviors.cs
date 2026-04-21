@@ -10,6 +10,8 @@ public class GarbageBehaviors : MonoBehaviour
     [SerializeField] private int containPowder;
     [SerializeField] private bool hasZonyr;
     [SerializeField] private GameObject zonyr;
+    [SerializeField] [Range(0,100)] private int cleanPoints;
+    [SerializeField] [Range(0,2)] private int cleanPointsPLevel;
     
     private GameObject player;
     
@@ -47,6 +49,8 @@ public class GarbageBehaviors : MonoBehaviour
         {
             Instantiate(zonyr, transform.position, transform.rotation);
         }
+        
+        QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsPLevel);
         Destroy(gameObject);
     }
 }
