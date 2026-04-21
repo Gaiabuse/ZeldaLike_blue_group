@@ -195,4 +195,10 @@ public class SheepEnnemy : GroundEnnemy
             StunEnnemy(2, false);
         }
     }
+
+    public override void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        base.StunEnnemy(stunTime, infiniteStun);
+        animator.SetInteger("Attack", 0);
+    }
 }

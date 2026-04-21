@@ -29,7 +29,7 @@ public class GrabSystem : MonoBehaviour
     [SerializeField]
     private GameObject throwMark, grabMark;
 
-    private GameObject currentGrabbedObject;
+    [SerializeField] private GameObject currentGrabbedObject;
 
     private bool CanThrow = true, IsThrowing = false;
 
