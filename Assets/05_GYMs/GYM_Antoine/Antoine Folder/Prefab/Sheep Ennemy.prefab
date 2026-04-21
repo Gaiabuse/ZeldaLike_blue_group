@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
   damage: 3
+  canHit: 0
 --- !u!1 &4870830792294319489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +1011,8 @@ MonoBehaviour:
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
   Leure: {fileID: 0}
-  move: patrol
+  alwaysAgro: 0
+  _move: 
   MainHitBox: {fileID: 2602732938248960864}
   Eyes:
   - {fileID: 4503629660183771207}
@@ -1022,13 +1024,14 @@ MonoBehaviour:
   hitValueDisplay: {fileID: 2079055886811156454}
   durationDelay: 0.2
   durationDotween: 0.5
+  UltIndicator: {fileID: 0}
   LockOn: {fileID: 8382039775321904187}
-  LookRange: 5
+  LookRange: 10
   DistanceAlwaysSeeEnnemy: 2
   RadiusLook: 45
   LoseFocusDist: 1
   AttackTrigger: {fileID: 7875645604592144889}
-  DistanceAttack: 1
+  DistanceAttack: 5
   LayerBlockRay:
     serializedVersion: 2
     m_Bits: 593
@@ -1037,3 +1040,7 @@ MonoBehaviour:
   - {x: -10, y: 0.5, z: -10}
   Shell: {fileID: 5977815348077399321}
   shellHere: 1
+  DistStartAttack: 7
+  rollSpeed: 20
+  rollDuration: 0.75
+  repositionToAttack: 0
