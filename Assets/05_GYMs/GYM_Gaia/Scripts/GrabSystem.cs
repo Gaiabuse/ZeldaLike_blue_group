@@ -201,10 +201,15 @@ public class GrabSystem : MonoBehaviour
             currentGrabbedObject = hitSwallow.collider.gameObject;
             if (currentGrabbedObject != null && currentGrabbedObject.transform.parent != null)
             {
+                SheepEnnemy SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemy>();
+                if (SheepEnnemyScript != null)
+                {
+                    SheepEnnemyScript.LoseShell();
+                }
                 currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+                currentGrabbedObject.SetActive(false);
             }
 
-            currentGrabbedObject.SetActive(false);
             return;
         }
 
