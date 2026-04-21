@@ -141,6 +141,9 @@ public class GrabSystem : MonoBehaviour
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
 
+        EnnemyBase isEnnemy = currentGrabbedObject.GetComponent<EnnemyBase>();
+        if (isEnnemy != null) isEnnemy.StunEnnemy(2, false);
+
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
 
         animation.onComplete += () =>
@@ -199,17 +202,18 @@ public class GrabSystem : MonoBehaviour
         if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
-            if (currentGrabbedObject != null && currentGrabbedObject.transform.parent != null)
+            if (currentGrabbedObject != null)
             {
                 SheepEnnemy SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemy>();
                 if (SheepEnnemyScript != null)
                 {
-                    SheepEnnemyScript.LoseShell();
+                    if (SheepEnnemyScript.shellHere) SheepEnnemyScript.LoseShell();
                 }
-                currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+
+                if (currentGrabbedObject.transform.parent != null) currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+
                 currentGrabbedObject.SetActive(false);
             }
-
             return;
         }
 
