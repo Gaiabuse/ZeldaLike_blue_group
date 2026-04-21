@@ -50,7 +50,7 @@ public class GroundEnnemy : EnnemyBase
         {
             if (TargetInFieldOfView || alwaysAgro)
             {
-                if (move != "chase" && (move == "lose chase" || move == "patrol"))
+                if (move != "chase" && (move == "lose chase" || move == "patrol" || move == "0"))
                 {
                     EyesSetColorTo(colorChase);
                     navMesh.speed = speed.y;

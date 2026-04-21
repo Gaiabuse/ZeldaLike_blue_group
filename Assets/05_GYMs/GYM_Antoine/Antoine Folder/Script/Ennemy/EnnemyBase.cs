@@ -32,7 +32,7 @@ public class EnnemyBase : MonoBehaviour
 
     public bool alwaysAgro;
     
-    protected string _move;
+    [SerializeField] protected string _move;
 
     [Header("Deal Damage")]
     [SerializeField] protected EnnemyHit MainHitBox;
@@ -65,7 +65,7 @@ public class EnnemyBase : MonoBehaviour
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
         hitValueDisplay.text = "";
         hitValueDisplay.transform.localScale = Vector3.zero;
-        UltIndicator.SetActive(false);
+        if (UltIndicator) UltIndicator.SetActive(false);
         EyesSetColorTo(colorNormal);
 
         HP = data.health;
@@ -182,7 +182,7 @@ public class EnnemyBase : MonoBehaviour
 
     public void SetUltIndicator(bool value)
     {
-        UltIndicator.SetActive(value);
+        if (UltIndicator) UltIndicator.SetActive(value);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -193,7 +193,6 @@ public class EnnemyBase : MonoBehaviour
             if(stunZone != null) stunZone = other.gameObject;
             
         }
-        
     }
 
     private void OnTriggerExit(Collider other)

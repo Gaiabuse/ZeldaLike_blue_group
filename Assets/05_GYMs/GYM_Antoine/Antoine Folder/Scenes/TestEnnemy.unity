@@ -1236,6 +1236,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &894091922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 894091924}
+  - component: {fileID: 894091923}
+  m_Layer: 0
+  m_Name: EnnemyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &894091923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894091922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcc94778b8291424faee3cb688a5222c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnnemyManager
+  enemies: []
+  _isInFight: 0
+--- !u!4 &894091924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894091922}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 34.9944, y: 8.6901, z: 48.27597}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &950889093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6895730552359887398, guid: 1dd6479e6ae1c834b8c6ee296decf2ba, type: 3}
@@ -2662,6 +2708,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 419710355}
+    - target: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
       propertyPath: alwaysAgro
       value: 1
       objectReference: {fileID: 0}
@@ -2880,18 +2930,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1760241746}
     m_Modifications:
-    - target: {fileID: 701845571767106419, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1580059348958034357, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_AutoRepath
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1580059348958034357, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_AutoTraverseOffMeshLink
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2253334167926640595, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12
@@ -2956,17 +2994,17 @@ PrefabInstance:
       propertyPath: DistStartAttack
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_Name
-      value: Sheep Ennemy
+    - target: {fileID: 4173145808307005062, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+      propertyPath: m_LinearDamping
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 4173145808307005062, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
+      propertyPath: m_AngularDamping
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7509098710822200046, guid: 6aa71962b8f62cf4b9a5ea9d0e60d05c, type: 3}
-      propertyPath: m_TagString
-      value: Ennemy
+      propertyPath: m_Name
+      value: Sheep Ennemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2983,6 +3021,7 @@ SceneRoots:
   - {fileID: 298076331}
   - {fileID: 410087041}
   - {fileID: 832575519}
+  - {fileID: 894091924}
   - {fileID: 1721104663}
   - {fileID: 73901100}
   - {fileID: 1223590420}
