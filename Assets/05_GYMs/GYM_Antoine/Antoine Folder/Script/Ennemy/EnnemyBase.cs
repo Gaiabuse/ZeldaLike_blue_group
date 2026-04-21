@@ -193,7 +193,6 @@ public class EnnemyBase : MonoBehaviour
             if(stunZone != null) stunZone = other.gameObject;
             
         }
-        
     }
 
     private void OnTriggerExit(Collider other)
