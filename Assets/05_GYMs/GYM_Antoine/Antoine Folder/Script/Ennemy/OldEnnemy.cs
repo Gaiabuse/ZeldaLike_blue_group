@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Ennemy : MonoBehaviour, IDamageable
+public class Ennemy : MonoBehaviour, IEnemyDamageable
 {
     protected Animator animator;
     protected NavMeshAgent navMesh;

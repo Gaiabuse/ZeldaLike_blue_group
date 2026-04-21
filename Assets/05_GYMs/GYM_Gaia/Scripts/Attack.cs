@@ -56,7 +56,7 @@ public class Attack : MonoBehaviour
 
     public void TryDoDamage(Collider collider)
     {
-        IDamageable ennemyScript = collider.transform.GetComponent<IDamageable>();
+        var ennemyScript = collider.transform.GetComponent<IEnemyDamageable>();
         if (ennemyScript == null)
         {
             ennemyScript.TakeDamage((int)damage, stun);
@@ -117,3 +117,6 @@ public interface IDamageable
 {
     void TakeDamage(int damage, float stun = 0f);
 }
+
+public interface IEnemyDamageable : IDamageable { }
+public interface IPlayerDamageable : IDamageable { }

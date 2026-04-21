@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EnnemyBase : MonoBehaviour, IDamageable
+public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 {
     protected Animator animator;
 

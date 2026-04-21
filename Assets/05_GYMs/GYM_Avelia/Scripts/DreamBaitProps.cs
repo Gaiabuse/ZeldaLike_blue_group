@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 
-public class DreamBaitProps : MonoBehaviour
+public class DreamBaitProps : MonoBehaviour, IPlayerDamageable
 {
     [SerializeField]
     private EnemyData data;
@@ -18,5 +18,9 @@ public class DreamBaitProps : MonoBehaviour
 
         await Task.Delay((int)(SecondActive * 1000));
         Explosion.SetActive(false);
+    }
+
+    public void TakeDamage(int damage, float stun)
+    {
     }
 }
