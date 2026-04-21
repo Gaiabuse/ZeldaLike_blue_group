@@ -6,8 +6,10 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
+    [SerializeField] ProgressMenuUI progressMenu;
     
-    private bool _isInitialized = false;
+    private bool _isPauseInitialized = false;
+    private bool _isProgressInitialized = false;
     
     public void OnPause(InputValue value)
     {
@@ -28,15 +30,34 @@ public class InputManager : MonoBehaviour
         playerInput.SwitchCurrentActionMap("MenuControl");
     }
     
+    public void OnOpenPhone(InputValue value)
+    {
+        if (!value.isPressed) return; 
+        progressMenu.OpenProgressMenu();
+        playerInput.SwitchCurrentActionMap("ProgressControl");
+    }
+    
     private void DoUnpause()
     {
-        if (_isInitialized)
+        if (_isPauseInitialized)
         {
             pauseMenu.ClosePauseMenu();
         }
         else
         {
-            _isInitialized = true;
+            _isPauseInitialized = true;
+        }
+    }
+    
+    public void OnClosePhone(InputValue value)
+    {
+        if (_isProgressInitialized)
+        {
+            progressMenu.CloseProgressMenu();
+        }
+        else
+        {
+            _isProgressInitialized = true;
         }
     }
 
