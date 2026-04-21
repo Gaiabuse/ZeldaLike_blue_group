@@ -52,7 +52,7 @@ public class DreamDash : MonoBehaviour
             Debug.LogWarning($"no place found trying to find a better position", this);
             if (FindNearGround(destinationPosition) is Vector3 platform)
             {
-                Debug.Log($"found a better place");
+                Debug.Log($"found a better place {platform}");
                 destinationPosition = platform;
             }
             else yield break;
@@ -119,26 +119,25 @@ public class DreamDash : MonoBehaviour
 
     Vector3? FindNearGround(Vector3 at)
     {
-        var platforms = Physics.OverlapSphere(at, tolerance, layerGround);
-
-        // fuck you why are you dashing in the void
-        latestAtHitResult = platforms.Length != 0;
         latestAt = at;
 
-        if (platforms.Length == 0) return null;
+        var aboveAt = at + Vector3.up;
 
-        var placeToBeReplacedAt = platforms
-            .Select(x => x.GetComponent<Collider>())
-            .Select(x => Physics.ClosestPoint(at, x, x.transform.position, x.transform.rotation))
-            .OrderBy(x => Vector3.Distance(x, at))
-            .First();
+        RaycastHit check1;
 
-        var extrapolatedPlace = Vector3.LerpUnclamped(at, placeToBeReplacedAt, 1.1f);
+        if (!Physics.SphereCast(aboveAt, tolerance, Vector3.down, out check1))
+        {
+            latestAtHitResult = false;
+            return null;
+        }
 
-        Ray ray = new(origin: extrapolatedPlace, direction: Vector3.down);
-        Physics.Raycast(ray, 2f, layerGround);
+        if (IsPlaceLandable(check1.point))
+        {
+            latestAtHitResult = true;
+            return check1.point + Vector3.up;
+        }
 
-        return placeToBeReplacedAt + Vector3.up * 3f;
+        return null;
     }
 
     Vector3 latestAt = Vector3.zero;
