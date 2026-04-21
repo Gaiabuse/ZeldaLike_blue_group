@@ -55,7 +55,7 @@ public class AcidicGlav : Ennemy
         animator.SetBool("Death", true);
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, float stun = 0f)
     {
         if (move == "patrol") AttackStart(2);
         base.TakeDamage(damage);

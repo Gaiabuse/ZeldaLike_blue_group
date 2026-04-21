@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EnnemyBase : MonoBehaviour
+public class EnnemyBase : MonoBehaviour, IDamageable
 {
     protected Animator animator;
 
@@ -27,11 +27,11 @@ public class EnnemyBase : MonoBehaviour
 
     protected bool TargetInFieldOfView;
     protected Transform CurrentTarget;
-    
+
     protected float timerGeneral = 0;
 
     public bool alwaysAgro;
-    
+
     protected string _move;
 
     [Header("Deal Damage")]
@@ -58,7 +58,7 @@ public class EnnemyBase : MonoBehaviour
     {
         move = "0";
         EnnemyManager.Instance.enemies.Add(this);
-        
+
         animator = GetComponent<Animator>();
 
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
@@ -188,11 +188,11 @@ public class EnnemyBase : MonoBehaviour
         Debug.Log(other.gameObject.name);
         if (other.CompareTag("StunZone"))
         {
-            StunEnnemy(0f,true);
-            if(stunZone != null) stunZone = other.gameObject;
-            
+            StunEnnemy(0f, true);
+            if (stunZone != null) stunZone = other.gameObject;
+
         }
-        
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -246,7 +246,7 @@ public class EnnemyBase : MonoBehaviour
         EyesSetColorTo(colorMotionless);
         move = "stun";
         timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
-       
+
     }
 
     protected virtual void EndStun()
@@ -256,16 +256,16 @@ public class EnnemyBase : MonoBehaviour
         timerGeneral = 0;
         move = "0";
     }
-    
+
     public string move
     {
         get => _move;
         set
         {
-            if (_move == value) return; 
-        
+            if (_move == value) return;
+
             _move = value;
-        
+
             if (EnnemyManager.Instance != null)
             {
                 EnnemyManager.Instance.Check();

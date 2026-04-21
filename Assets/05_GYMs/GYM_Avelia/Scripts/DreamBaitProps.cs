@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 public class DreamBaitProps : MonoBehaviour
 {
     [SerializeField]
+    private EnemyData data;
+
+    [SerializeField]
     private GameObject Explosion;
 
     [SerializeField]

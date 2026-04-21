@@ -15,9 +15,9 @@ public class Attack : MonoBehaviour
     }
 
     public float manaUsed { private set; get; }
-    public float damage{private set; get;}
+    public float damage { private set; get; }
     [SerializeField] float stun;
-    public TypeOfAttack type{private set; get;}
+    public TypeOfAttack type { private set; get; }
 
     public Action<bool> Finished;
     private bool touchedEnemy;
@@ -41,53 +41,48 @@ public class Attack : MonoBehaviour
     {
         StartAttack();
     }
-    
+
     private void StartAttack()
     {
         this.damage = damage;
     }
-    
+
     public void FinishAttack()
     {
-       
+
         Finished?.Invoke(touchedEnemy);
         Destroy(gameObject);
     }
 
+    public void TryDoDamage(Collider collider)
+    {
+        IDamageable ennemyScript = collider.transform.GetComponent<IDamageable>();
+        if (ennemyScript == null)
+        {
+            ennemyScript.TakeDamage((int)damage, stun);
+        }
+    }
+
     private void OnTriggerEnter(Collider collision)
     {
+        TryDoDamage(collision);
+
         if (collision.transform.CompareTag("Ennemy"))
         {
-            Ennemy ennemyScript = collision.transform.GetComponent<Ennemy>();
-            if (ennemyScript == null)
-            {
-                collision.transform.GetComponent<EnnemyBase>().TakeDamage((int)damage, stun);
-
-            }
-            else
-            {
-                ennemyScript.TakeDamage((int)damage);
-            }
-
             SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
 
             KnockBackFeedback knockBackFeedback = collision.GetComponent<KnockBackFeedback>();
             touchedEnemy = true;
+
             if (isSheep != null)
             {
                 if (isSheep.shellHere)
                 {
                     if (BlockHitSpark != null) SpawnSpark(BlockHitSpark);
                 }
-                else
-                {
-                    if (HitSpark != null) SpawnSpark(HitSpark);
-                }
+                else if (HitSpark != null) SpawnSpark(HitSpark);
             }
-            else
-            {
-                if (HitSpark != null) SpawnSpark(HitSpark);
-            }
+            else if (HitSpark != null) SpawnSpark(HitSpark);
 
             if (knockBackFeedback != null)
             {
@@ -103,7 +98,7 @@ public class Attack : MonoBehaviour
             {
                 dust.Clean();
             }
-            touchedEnemy = true; 
+            touchedEnemy = true;
         }
     }
 
@@ -116,4 +111,9 @@ public class Attack : MonoBehaviour
 
         Destroy(hitspark.gameObject, 1.5f);
     }
+}
+
+public interface IDamageable
+{
+    void TakeDamage(int damage, float stun = 0f);
 }
