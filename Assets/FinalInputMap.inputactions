@@ -148,17 +148,6 @@
                 },
                 {
                     "name": "",
-                    "id": "6b7101a3-04ea-40cc-8e7b-1de701e858ee",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0eeeb3ae-711a-40b8-9bc2-a8c672e1595e",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -406,6 +395,54 @@
                     "processors": "",
                     "groups": "",
                     "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "NeutralUltMap",
+            "id": "09add025-b14f-494a-a0ce-6e6b1d567a92",
+            "actions": [
+                {
+                    "name": "ChooseLeft",
+                    "type": "Button",
+                    "id": "0d20b37c-1d90-4cd4-9737-d5ef92ce6aa3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChooseRight",
+                    "type": "Button",
+                    "id": "43af3f0f-b4bc-4783-8d65-2f31dcce2792",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ce5df2ea-f48d-466c-a9fd-fbc3c8173a09",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4532d1fd-0fe7-498a-a253-a953e80a9c39",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -13,6 +13,7 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private GameObject firstSelectedButton;
     [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private GameObject pauseSfxTrigger;
     
     private enum MenuState { Playing, Pause, Settings }
     private MenuState currentState = MenuState.Playing;
@@ -27,21 +28,23 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ClosePauseMenu()
     {
+        pauseSfxTrigger.SetActive(false);
         Time.timeScale = 1;
-        player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
         if (pauseDotween != null)
         {
             pauseDotween.Kill();
         }
         pauseDotween = pauseMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).OnComplete(() =>
         {
-            pauseMenu.SetActive(false); 
+            pauseMenu.SetActive(false);
+            player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
         });
         currentState = MenuState.Playing;
     }
 
     public void OpenPauseMenu()
     {
+        pauseSfxTrigger.SetActive(true);
         currentState = MenuState.Pause;
         pauseMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);

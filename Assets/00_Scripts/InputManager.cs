@@ -18,11 +18,8 @@ public class InputManager : MonoBehaviour
     }
 
     public void OnUnpause(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            DoUnpause();
-        }
+    { 
+        DoUnpause();
     }
 
     private void DoPause()
@@ -36,7 +33,6 @@ public class InputManager : MonoBehaviour
         if (_isInitialized)
         {
             pauseMenu.ClosePauseMenu();
-            playerInput.SwitchCurrentActionMap("PlayerControl");
         }
         else
         {

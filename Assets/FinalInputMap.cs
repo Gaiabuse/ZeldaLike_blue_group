@@ -234,17 +234,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6b7101a3-04ea-40cc-8e7b-1de701e858ee"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0eeeb3ae-711a-40b8-9bc2-a8c672e1595e"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -496,6 +485,54 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""NeutralUltMap"",
+            ""id"": ""09add025-b14f-494a-a0ce-6e6b1d567a92"",
+            ""actions"": [
+                {
+                    ""name"": ""ChooseLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""0d20b37c-1d90-4cd4-9737-d5ef92ce6aa3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChooseRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""43af3f0f-b4bc-4783-8d65-2f31dcce2792"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ce5df2ea-f48d-466c-a9fd-fbc3c8173a09"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChooseLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4532d1fd-0fe7-498a-a253-a953e80a9c39"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChooseRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -517,6 +554,10 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         // HealMap
         m_HealMap = asset.FindActionMap("HealMap", throwIfNotFound: true);
         m_HealMap_Heal = m_HealMap.FindAction("Heal", throwIfNotFound: true);
+        // NeutralUltMap
+        m_NeutralUltMap = asset.FindActionMap("NeutralUltMap", throwIfNotFound: true);
+        m_NeutralUltMap_ChooseLeft = m_NeutralUltMap.FindAction("ChooseLeft", throwIfNotFound: true);
+        m_NeutralUltMap_ChooseRight = m_NeutralUltMap.FindAction("ChooseRight", throwIfNotFound: true);
     }
 
     ~@FinalInputMap()
@@ -524,6 +565,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_PlayerControl.enabled, "This will cause a leak and performance issues, FinalInputMap.PlayerControl.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_MenuControl.enabled, "This will cause a leak and performance issues, FinalInputMap.MenuControl.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_HealMap.enabled, "This will cause a leak and performance issues, FinalInputMap.HealMap.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_NeutralUltMap.enabled, "This will cause a leak and performance issues, FinalInputMap.NeutralUltMap.Disable() has not been called.");
     }
 
     /// <summary>
@@ -971,6 +1013,113 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="HealMapActions" /> instance referencing this action map.
     /// </summary>
     public HealMapActions @HealMap => new HealMapActions(this);
+
+    // NeutralUltMap
+    private readonly InputActionMap m_NeutralUltMap;
+    private List<INeutralUltMapActions> m_NeutralUltMapActionsCallbackInterfaces = new List<INeutralUltMapActions>();
+    private readonly InputAction m_NeutralUltMap_ChooseLeft;
+    private readonly InputAction m_NeutralUltMap_ChooseRight;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "NeutralUltMap".
+    /// </summary>
+    public struct NeutralUltMapActions
+    {
+        private @FinalInputMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public NeutralUltMapActions(@FinalInputMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "NeutralUltMap/ChooseLeft".
+        /// </summary>
+        public InputAction @ChooseLeft => m_Wrapper.m_NeutralUltMap_ChooseLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "NeutralUltMap/ChooseRight".
+        /// </summary>
+        public InputAction @ChooseRight => m_Wrapper.m_NeutralUltMap_ChooseRight;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_NeutralUltMap; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="NeutralUltMapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(NeutralUltMapActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="NeutralUltMapActions" />
+        public void AddCallbacks(INeutralUltMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Add(instance);
+            @ChooseLeft.started += instance.OnChooseLeft;
+            @ChooseLeft.performed += instance.OnChooseLeft;
+            @ChooseLeft.canceled += instance.OnChooseLeft;
+            @ChooseRight.started += instance.OnChooseRight;
+            @ChooseRight.performed += instance.OnChooseRight;
+            @ChooseRight.canceled += instance.OnChooseRight;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="NeutralUltMapActions" />
+        private void UnregisterCallbacks(INeutralUltMapActions instance)
+        {
+            @ChooseLeft.started -= instance.OnChooseLeft;
+            @ChooseLeft.performed -= instance.OnChooseLeft;
+            @ChooseLeft.canceled -= instance.OnChooseLeft;
+            @ChooseRight.started -= instance.OnChooseRight;
+            @ChooseRight.performed -= instance.OnChooseRight;
+            @ChooseRight.canceled -= instance.OnChooseRight;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="NeutralUltMapActions.UnregisterCallbacks(INeutralUltMapActions)" />.
+        /// </summary>
+        /// <seealso cref="NeutralUltMapActions.UnregisterCallbacks(INeutralUltMapActions)" />
+        public void RemoveCallbacks(INeutralUltMapActions instance)
+        {
+            if (m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="NeutralUltMapActions.AddCallbacks(INeutralUltMapActions)" />
+        /// <seealso cref="NeutralUltMapActions.RemoveCallbacks(INeutralUltMapActions)" />
+        /// <seealso cref="NeutralUltMapActions.UnregisterCallbacks(INeutralUltMapActions)" />
+        public void SetCallbacks(INeutralUltMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="NeutralUltMapActions" /> instance referencing this action map.
+    /// </summary>
+    public NeutralUltMapActions @NeutralUltMap => new NeutralUltMapActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerControl" which allows adding and removing callbacks.
     /// </summary>
@@ -1071,5 +1220,27 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHeal(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "NeutralUltMap" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="NeutralUltMapActions.AddCallbacks(INeutralUltMapActions)" />
+    /// <seealso cref="NeutralUltMapActions.RemoveCallbacks(INeutralUltMapActions)" />
+    public interface INeutralUltMapActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "ChooseLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChooseLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChooseRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChooseRight(InputAction.CallbackContext context);
     }
 }
