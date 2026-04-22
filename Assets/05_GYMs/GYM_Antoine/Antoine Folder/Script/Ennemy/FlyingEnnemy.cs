@@ -50,7 +50,7 @@ public class FlyingEnnemy : EnnemyBase
 
             if (TargetInFieldOfView || alwaysAgro)
             {
-                if (move == "wait")
+                if (move == "wait" || move == "0")
                 {
                     EyesSetColorTo(colorChase);
                     move = "targetInRange";
