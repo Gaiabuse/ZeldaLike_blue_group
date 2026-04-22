@@ -17,6 +17,7 @@ public class ErasedManager : MonoBehaviour
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
     public int maxPointsForCreate;
+    [SerializeField] private int currentPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
     [SerializeField] private float numberOfPressForErasedEnemy = 20;
@@ -27,7 +28,6 @@ public class ErasedManager : MonoBehaviour
     private float currentPressForErasedEnemy;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
-    private int currentPointsForCreate;
     private bool erasedAllObjects;
     private Coroutine HoldTimeCoroutine;
     public bool startEnemyErased{get; private set;}
@@ -180,27 +180,25 @@ public class ErasedManager : MonoBehaviour
         ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
         if (erasedObject == null) return;
         
-        if (erasedObject.Erased && currentPointsForCreate >= 0)
+        if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
         {
-            if (erasedObject.Erased && currentPointsForCreate > 0)
+            if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
             {
                 erasedObject.Create();
-                currentPointsForCreate--;
+                currentPointsForCreate -= erasedObject.creationCost;
                 if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
             }
             else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
             {
                 erasedObject.Erase();
-                currentPointsForCreate++;
+                currentPointsForCreate += erasedObject.creationCost;
                 if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
             }
         }
-        // ERASE: Make it disappear
         else if (!erasedObject.Erased && currentPointsForCreate <= maxPointsForCreate)
         {
-            Debug.Log("Erasing - Point Recovered");
             erasedObject.Erase();
-            currentPointsForCreate++;
+            currentPointsForCreate += erasedObject.creationCost;
         
             if (objectsErased.Contains(erasedObject))
                 objectsErased.Remove(erasedObject);
