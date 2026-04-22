@@ -16,7 +16,7 @@ public class ErasedManager : MonoBehaviour
     [Tooltip("LayerMax of objects we can Erased and create")]
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
-    [SerializeField] private int maxPointsForCreate;
+    public int maxPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
     [SerializeField] private float numberOfPressForErasedEnemy = 20;
@@ -32,21 +32,12 @@ public class ErasedManager : MonoBehaviour
     private Coroutine HoldTimeCoroutine;
     public bool startEnemyErased{get; private set;}
 
-    private void OnEnable()
-    {
-        playerHP.OnTakeDamage += CancelErasedEnemy;
-    }
 
-    private void OnDisable()
-    {
-        playerHP.OnTakeDamage -= CancelErasedEnemy;
-    }
 
     private void Start()
     {
         objectsErased = new List<ErasedObject>();
         currentPointsForCreate = maxPointsForCreate; 
-        buttonPressVisual.gameObject.SetActive(false);
     }
     
     void Update()
@@ -96,19 +87,6 @@ public class ErasedManager : MonoBehaviour
     }
     public void OnSecondPower(InputValue inputValue)
     {
-        if(startEnemyErased)
-        {
-            if (inputValue.isPressed)
-            {
-                currentPressForErasedEnemy++;
-                BounceUiVisual();
-                if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
-                {
-                    ErasedEnemy();
-                }
-                return;
-            }
-        }
         
         if (inputValue.isPressed && currentObject != null && currentObject.CompareTag("Ennemy"))
         {
@@ -200,7 +178,9 @@ public class ErasedManager : MonoBehaviour
         }
         
         ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
-        if (erasedObject != null)
+        if (erasedObject == null) return;
+        
+        if (erasedObject.Erased && currentPointsForCreate >= 0)
         {
             if (erasedObject.Erased && currentPointsForCreate > 0)
             {
@@ -215,7 +195,17 @@ public class ErasedManager : MonoBehaviour
                 if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
             }
         }
-
+        // ERASE: Make it disappear
+        else if (!erasedObject.Erased && currentPointsForCreate <= maxPointsForCreate)
+        {
+            Debug.Log("Erasing - Point Recovered");
+            erasedObject.Erase();
+            currentPointsForCreate++;
+        
+            if (objectsErased.Contains(erasedObject))
+                objectsErased.Remove(erasedObject);
+        }
+    
         UpdateNeutralUI();
     }
 
@@ -231,34 +221,6 @@ public class ErasedManager : MonoBehaviour
             currentPointsForCreate = maxPointsForCreate;
             UpdateNeutralUI();
         }
-    }
-    public void OnDash(InputValue _input)
-    {
-        if (startEnemyErased)
-        {
-            CancelErasedEnemy();
-        }
-    }
-
-    private void ErasedEnemy()
-    {
-        Destroy(currentObject);
-        currentObject = null;
-        buttonPressVisual.gameObject.SetActive(false);
-        playerHP.Heal(hpHealWhenErasedEnemy);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
-    }
-
-    private void CancelErasedEnemy()
-    {
-        buttonPressVisual.gameObject.SetActive(false);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
     }
     
     private void UpdateNeutralUI()

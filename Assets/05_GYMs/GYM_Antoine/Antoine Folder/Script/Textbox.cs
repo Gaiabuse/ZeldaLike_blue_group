@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class Textbox : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textBox;
-    [SerializeField] TextMeshProUGUI nameBox;
-    [SerializeField] GameObject portrait;
 
+    [SerializeField] float  waitBeforeLetter =0.05f;
+    [SerializeField] float waitDisapear = 3f;
     Animator animator;
 
     float timer;
@@ -21,17 +21,15 @@ public class Textbox : MonoBehaviour
     [SerializeField] int currentLetter = 0;
 
     [Header("TextBox Assets")]
-
-    [SerializeField] List<Sprite> PortraitIcon;
-    [SerializeField] List<Vector2> PortraitSize;
-    [SerializeField] List<Vector2> PortraitPosition;
+    
+    List<Vector2> PortraitSize;
+    List<Vector2> PortraitPosition;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
 
         textBox.text = null;
-        nameBox.text = null;
     }
 
     private void FixedUpdate()
@@ -46,7 +44,6 @@ public class Textbox : MonoBehaviour
                 if (currentName != nameShow) currentName += nameShow[currentLetter];
 
                 textBox.text = currentText;
-                nameBox.text = currentName;
 
                 if (textShow.Length > nameShow.Length)
                 {
@@ -79,7 +76,6 @@ public class Textbox : MonoBehaviour
             {
                 animator.SetBool("Show", false);
                 textBox.text = null;
-                nameBox.text = null;
 
                 TextPhase = 0;
             }
@@ -88,24 +84,17 @@ public class Textbox : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AppearText(0, "You What ?!", "V2", 0.03f, 2);
-        }
     }
 
-    public void AppearText(int Portrait, string text, string name, float waitBeforeLetter, float waitDisapear)
+    public void AppearText( string text)
     {
-        portrait.GetComponent<UnityEngine.UI.Image>().sprite = PortraitIcon[Portrait];
 
-        RectTransform portraitTransform = portrait.GetComponent<RectTransform>();
-
+        /*
         portraitTransform.anchoredPosition = PortraitPosition[Portrait];
-        portraitTransform.localScale = PortraitSize[Portrait];
+        portraitTransform.localScale = PortraitSize[Portrait];*/
 
         animator.SetBool("Show", true);
         textBox.text = null;
-        nameBox.text = null;
 
         currentLetter = 0;
         currentText = null;
