@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 4293524935893490594}
   - component: {fileID: 6793853042282179277}
   - component: {fileID: 3404056202965731034}
+  - component: {fileID: 702568068225810616}
   - component: {fileID: 6882662930269716871}
   m_Layer: 7
   m_Name: Capuchon Ennemy Test
@@ -262,6 +263,28 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!195 &702568068225810616
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5379334827512594446}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &6882662930269716871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01722b8d238fffd408978d87e55d6751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CapuchonEnnemy
-  data: {fileID: 0}
+  data: {fileID: 11400000, guid: 57dfe970de7f341459612531b543cf25, type: 2}
   invincible: 0
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
@@ -302,7 +325,11 @@ MonoBehaviour:
   LayerBlockRay:
     serializedVersion: 2
     m_Bits: 0
-  PatrolPosition: []
+  PatrolPosition:
+  - {x: -5, y: 0.5, z: 5}
+  - {x: -5, y: 0.5, z: -5}
+  - {x: 5, y: 0.5, z: -5}
+  - {x: 5, y: 0.5, z: 5}
 --- !u!1 &5784110671871022597
 GameObject:
   m_ObjectHideFlags: 0

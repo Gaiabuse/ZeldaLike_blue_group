@@ -57,7 +57,7 @@ public class EnnemyBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        move = "0";
+        //move = "0";
         EnnemyManager.Instance.enemies.Add(this);
         
         animator = GetComponent<Animator>();

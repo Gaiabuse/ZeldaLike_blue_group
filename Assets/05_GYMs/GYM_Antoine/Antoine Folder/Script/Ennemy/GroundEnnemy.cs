@@ -37,7 +37,7 @@ public class GroundEnnemy : EnnemyBase
         navMesh.acceleration = acceleration.x;
         navMesh.angularSpeed = SpeedRotate.x;
 
-        MainHitBox.damage = data.strength;
+        if (MainHitBox != null) MainHitBox.damage = data.strength;
     }
 
     protected override void FixedUpdate()
