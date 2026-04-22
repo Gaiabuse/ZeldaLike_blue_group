@@ -59,7 +59,6 @@ public class ErasedManager : MonoBehaviour
         int otherObjectLayerMask = 1 << other.gameObject.layer;
         if ((ErasedLayerMask.value & otherObjectLayerMask) != 0)
         {
-            Debug.Log(other.gameObject.name);
             if (currentObject == null)
             {
                 currentObject = other.gameObject;
@@ -195,7 +194,6 @@ public class ErasedManager : MonoBehaviour
         GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
         if (dust != null)
         {
-            Debug.Log("dust");
             dust.Erase();
             currentObject = null; 
             return; 
@@ -278,7 +276,6 @@ public class ErasedManager : MonoBehaviour
             }
             else if (dust != null)
             {
-                Debug.Log("dust detected");
                 TransformIndicator.Instance.DisplayNeutralIcon(1);
             }
         }

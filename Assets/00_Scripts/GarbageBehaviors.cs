@@ -64,6 +64,12 @@ public class GarbageBehaviors : MonoBehaviour
         }
         
         QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsPLevel);
+
+        if (gameObject.tag == "Glue")
+        {
+            if (transform.parent.gameObject == null) return;
+            GetComponentInParent<Glue>().CleanGlue();
+        }
         Destroy(gameObject);
     }
 }
