@@ -15,7 +15,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] float LoseFocusDist = 1f;
 
     [SerializeField] protected Transform AttackTrigger;
-    [SerializeField] float DistanceAttack = 2;
+    [SerializeField] protected float DistanceAttack = 2;
 
     protected Vector3 WhereToGoPos;
 
@@ -244,7 +244,7 @@ public class GroundEnnemy : EnnemyBase
         }
     }
 
-    protected override void AttackStart(int attackID)
+    public override void AttackStart(int attackID)
     {
         base.AttackStart(attackID);
         navMesh.isStopped = true;

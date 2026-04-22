@@ -57,10 +57,11 @@ public class EnnemyBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        //move = "0";
+        move = "patrol";
         EnnemyManager.Instance.enemies.Add(this);
         
         animator = GetComponent<Animator>();
+        if (animator == null) animator = GetComponentInChildren<Animator>();
 
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
         hitValueDisplay.text = "";
@@ -222,7 +223,7 @@ public class EnnemyBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected virtual void AttackStart(int attackID)
+    public virtual void AttackStart(int attackID)
     {
         EyesSetColorTo(colorChase);
         move = "attack";
