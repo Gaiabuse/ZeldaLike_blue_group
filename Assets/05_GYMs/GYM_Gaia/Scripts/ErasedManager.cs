@@ -191,30 +191,33 @@ public class ErasedManager : MonoBehaviour
     private void EraseOrCreate()
     {
         if (currentObject == null) return;
-
+        
+        GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
+        if (dust != null)
+        {
+            Debug.Log("dust");
+            dust.Erase();
+            currentObject = null; 
+            return; 
+        }
+        
         ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
-        if (erasedObject == null) return;
-        
-        if (erasedObject.Erased && currentPointsForCreate > 0)
+        if (erasedObject != null)
         {
-            Debug.Log("Creating - Point Spent");
-            erasedObject.Create();
-            currentPointsForCreate--;
-        
-            if (!objectsErased.Contains(erasedObject))
-                objectsErased.Add(erasedObject);
+            if (erasedObject.Erased && currentPointsForCreate > 0)
+            {
+                erasedObject.Create();
+                currentPointsForCreate--;
+                if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
+            }
+            else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
+            {
+                erasedObject.Erase();
+                currentPointsForCreate++;
+                if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
+            }
         }
-        // ERASE: Make it disappear
-        else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
-        {
-            Debug.Log("Erasing - Point Recovered");
-            erasedObject.Erase();
-            currentPointsForCreate++;
-        
-            if (objectsErased.Contains(erasedObject))
-                objectsErased.Remove(erasedObject);
-        }
-    
+
         UpdateNeutralUI();
     }
 
@@ -263,11 +266,21 @@ public class ErasedManager : MonoBehaviour
     private void UpdateNeutralUI()
     {
         TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
-    
+
         if (currentObject != null)
         {
             ErasedObject erasedObj = currentObject.GetComponent<ErasedObject>();
-            TransformIndicator.Instance.DisplayNeutralIcon(erasedObj.Erased ? 0 : 1);
+            GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
+
+            if (erasedObj != null)
+            {
+                TransformIndicator.Instance.DisplayNeutralIcon(erasedObj.Erased ? 0 : 1);
+            }
+            else if (dust != null)
+            {
+                Debug.Log("dust detected");
+                TransformIndicator.Instance.DisplayNeutralIcon(1);
+            }
         }
         else
         {
