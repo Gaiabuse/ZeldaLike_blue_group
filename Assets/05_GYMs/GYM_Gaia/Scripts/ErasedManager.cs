@@ -16,7 +16,8 @@ public class ErasedManager : MonoBehaviour
     [Tooltip("LayerMax of objects we can Erased and create")]
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
-    [SerializeField] private int maxPointsForCreate;
+    public int maxPointsForCreate;
+    [SerializeField] private int currentPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
     [SerializeField] private float numberOfPressForErasedEnemy = 20;
@@ -27,26 +28,16 @@ public class ErasedManager : MonoBehaviour
     private float currentPressForErasedEnemy;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
-    private int currentPointsForCreate;
     private bool erasedAllObjects;
     private Coroutine HoldTimeCoroutine;
     public bool startEnemyErased{get; private set;}
 
-    private void OnEnable()
-    {
-        playerHP.OnTakeDamage += CancelErasedEnemy;
-    }
 
-    private void OnDisable()
-    {
-        playerHP.OnTakeDamage -= CancelErasedEnemy;
-    }
 
     private void Start()
     {
         objectsErased = new List<ErasedObject>();
         currentPointsForCreate = maxPointsForCreate; 
-        buttonPressVisual.gameObject.SetActive(false);
     }
     
     void Update()
@@ -59,7 +50,6 @@ public class ErasedManager : MonoBehaviour
         int otherObjectLayerMask = 1 << other.gameObject.layer;
         if ((ErasedLayerMask.value & otherObjectLayerMask) != 0)
         {
-            Debug.Log(other.gameObject.name);
             if (currentObject == null)
             {
                 currentObject = other.gameObject;
@@ -97,19 +87,6 @@ public class ErasedManager : MonoBehaviour
     }
     public void OnSecondPower(InputValue inputValue)
     {
-        if(startEnemyErased)
-        {
-            if (inputValue.isPressed)
-            {
-                currentPressForErasedEnemy++;
-                BounceUiVisual();
-                if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
-                {
-                    ErasedEnemy();
-                }
-                return;
-            }
-        }
         
         if (inputValue.isPressed && currentObject != null && currentObject.CompareTag("Ennemy"))
         {
@@ -191,25 +168,37 @@ public class ErasedManager : MonoBehaviour
     private void EraseOrCreate()
     {
         if (currentObject == null) return;
-
+        
+        GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
+        if (dust != null)
+        {
+            dust.Erase();
+            currentObject = null; 
+            return; 
+        }
+        
         ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
         if (erasedObject == null) return;
         
-        if (erasedObject.Erased && currentPointsForCreate > 0)
+        if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
         {
-            Debug.Log("Creating - Point Spent");
-            erasedObject.Create();
-            currentPointsForCreate--;
-        
-            if (!objectsErased.Contains(erasedObject))
-                objectsErased.Add(erasedObject);
+            if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
+            {
+                erasedObject.Create();
+                currentPointsForCreate -= erasedObject.creationCost;
+                if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
+            }
+            else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
+            {
+                erasedObject.Erase();
+                currentPointsForCreate += erasedObject.creationCost;
+                if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
+            }
         }
-        // ERASE: Make it disappear
-        else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
+        else if (!erasedObject.Erased && currentPointsForCreate <= maxPointsForCreate)
         {
-            Debug.Log("Erasing - Point Recovered");
             erasedObject.Erase();
-            currentPointsForCreate++;
+            currentPointsForCreate += erasedObject.creationCost;
         
             if (objectsErased.Contains(erasedObject))
                 objectsErased.Remove(erasedObject);
@@ -231,43 +220,24 @@ public class ErasedManager : MonoBehaviour
             UpdateNeutralUI();
         }
     }
-    public void OnDash(InputValue _input)
-    {
-        if (startEnemyErased)
-        {
-            CancelErasedEnemy();
-        }
-    }
-
-    private void ErasedEnemy()
-    {
-        Destroy(currentObject);
-        currentObject = null;
-        buttonPressVisual.gameObject.SetActive(false);
-        playerHP.Heal(hpHealWhenErasedEnemy);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
-    }
-
-    private void CancelErasedEnemy()
-    {
-        buttonPressVisual.gameObject.SetActive(false);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
-    }
     
     private void UpdateNeutralUI()
     {
         TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
-    
+
         if (currentObject != null)
         {
             ErasedObject erasedObj = currentObject.GetComponent<ErasedObject>();
-            TransformIndicator.Instance.DisplayNeutralIcon(erasedObj.Erased ? 0 : 1);
+            GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
+
+            if (erasedObj != null)
+            {
+                TransformIndicator.Instance.DisplayNeutralIcon(erasedObj.Erased ? 0 : 1);
+            }
+            else if (dust != null)
+            {
+                TransformIndicator.Instance.DisplayNeutralIcon(1);
+            }
         }
         else
         {

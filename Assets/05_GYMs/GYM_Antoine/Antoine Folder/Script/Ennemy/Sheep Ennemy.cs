@@ -5,7 +5,7 @@ public class SheepEnnemy : GroundEnnemy
 {
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;
-    SphereCollider col;
+    SphereCollider colShell;
 
     public bool shellHere = true;
 
@@ -20,8 +20,8 @@ public class SheepEnnemy : GroundEnnemy
         base.Start();
 
         rbShell = Shell.GetComponent<Rigidbody>();
-        col = Shell.GetComponent<SphereCollider>();
-        col.enabled = false;
+        colShell = Shell.GetComponent<SphereCollider>();
+        colShell.enabled = false;
         rbShell.isKinematic = true;
 
         invincible = true;
@@ -30,56 +30,79 @@ public class SheepEnnemy : GroundEnnemy
 
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             LoseShell();
-        }*/
+        }
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
-        if (move == "roll")
+        if (shellHere)
         {
-            timerGeneral -= Time.deltaTime;
-
-            if (Vector3.Distance(navMesh.destination, transform.position) <= 2)
+            if (move == "roll")
             {
-                WhereToGoPos = transform.position + transform.forward * 5;
-                navMesh.destination = WhereToGoPos;
+                timerGeneral -= Time.deltaTime;
+
+                if (Vector3.Distance(navMesh.destination, transform.position) <= 2)
+                {
+                    WhereToGoPos = transform.position + transform.forward * 5;
+                    navMesh.destination = WhereToGoPos;
+                }
+                if (timerGeneral <= 0)
+                {
+                    move = "rollEnd";
+                    animator.SetInteger("Attack", 3);
+                    canLookAtPlayer = true;
+                    navMesh.isStopped = true;
+                    ToogleMainAttack(-1);
+
+                    navMesh.speed = speed.x;
+                    navMesh.angularSpeed = SpeedRotate.x;
+                    WhereToGoPos = CurrentTarget.position;
+                }
             }
-            if (timerGeneral <= 0)
+            if (repositionToAttack)
             {
-                move = "rollEnd";
-                animator.SetInteger("Attack", 3);
-                canLookAtPlayer = true;
-                navMesh.isStopped = true;
-                ToogleMainAttack(-1);
+                if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
+                {
+                    repositionToAttack = false;
+                    canLookAtPlayer = true;
 
+                    AttackStart(1);
+                    move = "aim roll";
+                    navMesh.isStopped = false;
+                    navMesh.speed = 0;
+                }
+            }
+            if (move == "aim roll")
+            {
+                Vector3 relativePos = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z) - transform.position;
+                Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.5f);
+            }
+        }
+        else
+        {
+            if (move != "getShell" && move != "stun")
+            {
+                EyesSetColorTo(colorNormal);
+                canLookAtPlayer = false;
                 navMesh.speed = speed.x;
                 navMesh.angularSpeed = SpeedRotate.x;
-                WhereToGoPos = CurrentTarget.position;
+                move = "getShell";
             }
-        }
-        if (repositionToAttack)
-        {
-            if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
-            {
-                repositionToAttack = false;
-                canLookAtPlayer = true;
 
-                AttackStart(1);
-                move = "aim roll";
-                navMesh.isStopped = false;
-                navMesh.speed = 0;
+            if (move == "getShell")
+            {
+                navMesh.destination = Shell.transform.position;
+                if (Vector3.Distance(transform.position, Shell.transform.position) < 1.5f)
+                {
+                    ShellBack();
+                }
             }
-        }
-        if (move == "aim roll")
-        {
-            Vector3 relativePos = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z) - transform.position;
-            Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.5f);
         }
     }
 
@@ -89,7 +112,7 @@ public class SheepEnnemy : GroundEnnemy
     {
         AttackStart(-1);
     }*/
-        if (CurrentTarget != null)
+        if (CurrentTarget != null && shellHere)
         {
             float distTarget = Vector3.Distance(AttackTrigger.position, CurrentTarget.position);
             if (distTarget >= DistStartAttack && TargetInFieldOfView && !repositionToAttack)
@@ -114,12 +137,38 @@ public class SheepEnnemy : GroundEnnemy
         rbShell.isKinematic = false;
         Shell.transform.SetParent(null, true);
         rbShell.linearVelocity = Vector3.zero;
-        rbShell.AddForce(transform.up * 75);
-        col.enabled = true;
+
+        rbShell.AddForce(Vector3.up * 250);
+
+        int RandomNumber = UnityEngine.Random.Range(100, 200);
+        if (UnityEngine.Random.Range(0, 1) == 0) RandomNumber = -RandomNumber;
+        rbShell.AddForce(Vector3.right * RandomNumber);
+
+        RandomNumber = UnityEngine.Random.Range(100, 200);
+        if (UnityEngine.Random.Range(0, 1) == 0) RandomNumber = -RandomNumber;
+        rbShell.AddForce(Vector3.forward * RandomNumber);
+
+        colShell.enabled = true;
         shellHere = false;
 
         invincible = false;
         showDamageDisplayInvincible = true;
+    }
+
+    void ShellBack()
+    {
+        rbShell.isKinematic = true;
+        colShell.enabled = false;
+
+        canLookAtPlayer = true;
+        navMesh.speed = speed.y;
+        navMesh.angularSpeed = SpeedRotate.y;
+
+        Shell.transform.SetParent(transform, false);
+        Shell.transform.localPosition = new Vector3(0, 0.07f, 0);
+
+        shellHere = true;
+        move = "chase";
     }
 
     protected override void AttackStart(int attackID)
@@ -147,5 +196,11 @@ public class SheepEnnemy : GroundEnnemy
             animator.SetInteger("Attack", 0);
             StunEnnemy(2, false);
         }
+    }
+
+    public override void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        base.StunEnnemy(stunTime, infiniteStun);
+        animator.SetInteger("Attack", 0);
     }
 }
