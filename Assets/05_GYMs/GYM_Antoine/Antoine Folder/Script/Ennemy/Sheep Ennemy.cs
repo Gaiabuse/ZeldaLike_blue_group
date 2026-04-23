@@ -66,7 +66,7 @@ public class SheepEnnemy : GroundEnnemy
             }
             if (repositionToAttack)
             {
-                if (Vector3.Distance(CurrentTarget.position, transform.position) > DistanceAttack)
+                if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
                 {
                     repositionToAttack = false;
                     canLookAtPlayer = true;

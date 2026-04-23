@@ -381,17 +381,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &222048517 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4158696546758742108, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
-  m_PrefabInstance: {fileID: 8560176473085798366}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01722b8d238fffd408978d87e55d6751, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CapuchonEnnemy
 --- !u!1 &298076330
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,11 +413,6 @@ Transform:
   - {fileID: 1089558075}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -41.501, z: 0}
---- !u!1 &361720099 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8885168119005531121, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
-  m_PrefabInstance: {fileID: 8560176473085798366}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1122,6 +1106,11 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!4 &491321381 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2810747325102137047, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
+  m_PrefabInstance: {fileID: 8560176473085798366}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &521998980 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3987803212892058397, guid: df733580aa26fe64d808b3bbc6fe781a, type: 3}
@@ -2541,19 +2530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
---- !u!114 &1939242759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 361720099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 846e7c9a33c2f414f9202b022aaffbc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwitchAnim
-  ennemyBase: {fileID: 222048517}
 --- !u!1001 &2420248085981640293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2693,7 +2669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2952,9 +2928,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 292344869240790384, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
+      propertyPath: m_LocalRotation.x
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 292344869240790384, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292344869240790384, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4158696546758742108, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
+      propertyPath: Laser
+      value: 
+      objectReference: {fileID: 4685935528305200052, guid: acedc9b607f49ce4ba53a320455521e2, type: 3}
+    - target: {fileID: 4158696546758742108, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
+      propertyPath: RadiusLook
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4158696546758742108, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
+      propertyPath: DistStartAttack
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4158696546758742108, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
+      propertyPath: SpawnLaserWhere
+      value: 
+      objectReference: {fileID: 491321381}
     - target: {fileID: 7201010622136412982, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5
@@ -2995,14 +2995,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7427286493126175109, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7427286493126175109, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7457975410992992693, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
       propertyPath: m_Name
       value: Capuchon Test
@@ -3010,10 +3002,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8885168119005531121, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1939242759}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
