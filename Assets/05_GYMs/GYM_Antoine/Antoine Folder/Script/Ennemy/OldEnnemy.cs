@@ -6,13 +6,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Ennemy : MonoBehaviour
+public class Ennemy : MonoBehaviour, IEnemyDamageable
 {
     protected Animator animator;
     protected NavMeshAgent navMesh;
 
     [Header("Data")]
-    [SerializeField]private EnemyData data;
+    [SerializeField] private EnemyData data;
 
     protected int HP = 5;
     protected Vector2 speed;
@@ -338,7 +338,7 @@ public class Ennemy : MonoBehaviour
         TargetInFieldOfView = false;
     }
 
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage, float stun = 0f)
     {
         if (dotween != null)
         {
@@ -377,9 +377,9 @@ public class Ennemy : MonoBehaviour
                 navMesh.destination = WhereToGoPos;
             }
         }
-      
+
     }
-    
+
     protected void ShowHitDisplay()
     {
         if (hitValueDisplay)
