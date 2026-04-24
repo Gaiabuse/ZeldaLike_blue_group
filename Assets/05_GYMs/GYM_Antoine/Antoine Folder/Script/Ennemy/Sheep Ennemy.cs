@@ -5,7 +5,7 @@ public class SheepEnnemy : GroundEnnemy
 {
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;
-    SphereCollider col;
+    SphereCollider colShell;
 
     public bool shellHere = true;
 
@@ -20,8 +20,8 @@ public class SheepEnnemy : GroundEnnemy
         base.Start();
 
         rbShell = Shell.GetComponent<Rigidbody>();
-        col = Shell.GetComponent<SphereCollider>();
-        col.enabled = false;
+        colShell = Shell.GetComponent<SphereCollider>();
+        colShell.enabled = false;
         rbShell.isKinematic = true;
 
         invincible = true;
@@ -98,25 +98,11 @@ public class SheepEnnemy : GroundEnnemy
             if (move == "getShell")
             {
                 navMesh.destination = Shell.transform.position;
+                if (Vector3.Distance(transform.position, Shell.transform.position) < 1.5f)
+                {
+                    ShellBack();
+                }
             }
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject == Shell.gameObject && !shellHere && move == "getShell")
-        {
-            rbShell.isKinematic = true;
-
-            canLookAtPlayer = true;
-            navMesh.speed = speed.y;
-            navMesh.angularSpeed = SpeedRotate.y;
-
-            Shell.transform.SetParent(transform, false);
-            Shell.transform.localPosition = new Vector3(0, 0.07f, 0);
-
-            shellHere = true;
-            move = "chase";
         }
     }
 
@@ -162,11 +148,27 @@ public class SheepEnnemy : GroundEnnemy
         if (UnityEngine.Random.Range(0, 1) == 0) RandomNumber = -RandomNumber;
         rbShell.AddForce(Vector3.forward * RandomNumber);
 
-        col.enabled = true;
+        colShell.enabled = true;
         shellHere = false;
 
         invincible = false;
         showDamageDisplayInvincible = true;
+    }
+
+    void ShellBack()
+    {
+        rbShell.isKinematic = true;
+        colShell.enabled = false;
+
+        canLookAtPlayer = true;
+        navMesh.speed = speed.y;
+        navMesh.angularSpeed = SpeedRotate.y;
+
+        Shell.transform.SetParent(transform, false);
+        Shell.transform.localPosition = new Vector3(0, 0.07f, 0);
+
+        shellHere = true;
+        move = "chase";
     }
 
     protected override void AttackStart(int attackID)
@@ -194,5 +196,11 @@ public class SheepEnnemy : GroundEnnemy
             animator.SetInteger("Attack", 0);
             StunEnnemy(2, false);
         }
+    }
+
+    public override void StunEnnemy(float stunTime, bool infiniteStun)
+    {
+        base.StunEnnemy(stunTime, infiniteStun);
+        animator.SetInteger("Attack", 0);
     }
 }

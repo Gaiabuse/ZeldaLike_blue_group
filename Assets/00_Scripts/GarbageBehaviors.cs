@@ -23,7 +23,9 @@ public class GarbageBehaviors : MonoBehaviour
 
         if (containPowder > 0)
         {
-            transform.GetChild(1).gameObject.SetActive(true);
+            transform.GetChild(0).gameObject.SetActive(true);
+            int layer = LayerMask.NameToLayer("ErasedObject");
+            gameObject.layer = layer;
         }
         
         if (!hasZonyr)
@@ -39,6 +41,17 @@ public class GarbageBehaviors : MonoBehaviour
 
     public void Clean()
     {
+        if (containPowder > 0) return;
+        DoClean();
+    }
+    
+    public void Erase()
+    {
+        DoClean();
+    }
+
+    private void DoClean()
+    {
         if (containPowder > 0)
         {
             if (player == null) return;
@@ -51,6 +64,12 @@ public class GarbageBehaviors : MonoBehaviour
         }
         
         QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsPLevel);
+
+        if (gameObject.tag == "Glue")
+        {
+            if (transform.parent.gameObject == null) return;
+            GetComponentInParent<Glue>().CleanGlue();
+        }
         Destroy(gameObject);
     }
 }

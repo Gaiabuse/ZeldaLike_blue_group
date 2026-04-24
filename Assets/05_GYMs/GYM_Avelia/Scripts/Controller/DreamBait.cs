@@ -22,7 +22,7 @@ public class DreamBait : MonoBehaviour
 
         // probably needs another way to do it but this will do it for now
         await currentBaitInstance.Explode();
-        Destroy(currentBaitInstance.gameObject);
+        
         TransformIndicator.Instance.DisplayBaitIcon();
 
     }

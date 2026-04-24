@@ -186,7 +186,6 @@ public class EnnemyBase : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.name);
         if (other.CompareTag("StunZone"))
         {
             StunEnnemy(0f,true);
