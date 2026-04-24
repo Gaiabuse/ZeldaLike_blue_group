@@ -21,12 +21,6 @@ public class EnnemyHit : MonoBehaviour
             if (playerHp != null) playerHp.TakeDamage(damage);
             else Debug.Log("No Hp Asign to Player");
         }
-
-        if (collision.CompareTag("Leure") && canHit)
-        {
-            DreamBaitProps dreamBait = collision.GetComponent<DreamBaitProps>();
-            if(dreamBait != null)dreamBait.TakeDamage(damage);
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
