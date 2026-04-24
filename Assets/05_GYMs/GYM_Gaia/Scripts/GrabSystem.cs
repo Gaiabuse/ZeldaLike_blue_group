@@ -57,9 +57,9 @@ public class GrabSystem : MonoBehaviour
             TransformIndicator.Instance.DisplayNightmareIcon(2);
             return;
         }
-        
+
         Vector3 downPosition = transform.position - downValue;
-        
+
         if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hit)
         {
             TransformIndicator.Instance.DisplayNightmareIcon(1);
@@ -68,7 +68,7 @@ public class GrabSystem : MonoBehaviour
         {
             TransformIndicator.Instance.DisplayNightmareIcon(0);
         }
-        
+
         switch (grabbingState)
         {
             case GrabbingState.None:
@@ -132,11 +132,8 @@ public class GrabSystem : MonoBehaviour
         TransformIndicator.Instance.DisplayNightmareIcon(0);
         currentGrabbedObject.SetActive(true);
 
-        Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-        }
+        Collider collider = currentGrabbedObject.GetComponent<Collider>();
+        if (collider != null) collider.enabled = false;
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
@@ -148,7 +145,7 @@ public class GrabSystem : MonoBehaviour
 
         animation.onComplete += () =>
         {
-            if (rb != null) rb.isKinematic = false;
+            if (collider != null) collider.enabled = false;
             CleanUpThrow();
         };
 
