@@ -492,6 +492,17 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""action"": ""ClosePhone"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0972d9fc-d4ef-4566-bf19-a1368ec573ca"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClosePhone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
