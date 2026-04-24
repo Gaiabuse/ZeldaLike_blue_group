@@ -592,8 +592,8 @@ Rigidbody:
   m_GameObject: {fileID: 4376329963260162329}
   serializedVersion: 5
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_LinearDamping: 0.5
+  m_AngularDamping: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -627,8 +627,8 @@ MonoBehaviour:
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
   Leure: {fileID: 0}
-  move: wait
   alwaysAgro: 0
+  _move: 
   MainHitBox: {fileID: 298266412535583377}
   Eyes:
   - {fileID: 3826175702634081349}
@@ -639,6 +639,7 @@ MonoBehaviour:
   hitValueDisplay: {fileID: 7363064155904017418}
   durationDelay: 0.3
   durationDotween: 0.6
+  UltIndicator: {fileID: 0}
   LookRange: 12
   DistanceFromGround: 7
   canUseMelee: 1
