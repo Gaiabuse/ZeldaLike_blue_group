@@ -13,7 +13,7 @@ public class SheepEnnemy : GroundEnnemy
     [SerializeField] float rollSpeed = 35f;
     [SerializeField] float rollDuration = 2.5f;
 
-    [SerializeField] bool repositionToAttack = false;
+    bool repositionToAttack = false;
 
     protected override void Start()
     {
@@ -28,13 +28,13 @@ public class SheepEnnemy : GroundEnnemy
         showDamageDisplayInvincible = false;
     }
 
-    void Update()
+    /*void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             LoseShell();
         }
-    }
+    }*/
 
     protected override void FixedUpdate()
     {
@@ -171,7 +171,7 @@ public class SheepEnnemy : GroundEnnemy
         move = "chase";
     }
 
-    protected override void AttackStart(int attackID)
+    public override void AttackStart(int attackID)
     {
         base.AttackStart(attackID);
         if (attackID == 2)
