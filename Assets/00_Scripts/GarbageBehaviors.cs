@@ -23,7 +23,7 @@ public class GarbageBehaviors : MonoBehaviour
 
         if (containPowder > 0)
         {
-            transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(true);
         }
         
         if (!hasZonyr)

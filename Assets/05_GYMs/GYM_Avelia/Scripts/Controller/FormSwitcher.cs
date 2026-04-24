@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -7,6 +8,7 @@ public class FormSwitcher : MonoBehaviour
 {
     public Form currentForm { get; private set; } = Form.neutral;
 
+    public List<Form> DisponibleForms = new List<Form>();
     [SerializeField]
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action<Form> SwitchForm;
@@ -41,6 +43,7 @@ public class FormSwitcher : MonoBehaviour
         switch (nextForm)
         {
             case Form.neutral:
+                if(!DisponibleForms.Contains(Form.neutral))return;
                 switchToNeutralFX.Play();
                 neutralFormObject.SetActive(true);
                 if (CanDoUltimate)
@@ -53,6 +56,7 @@ public class FormSwitcher : MonoBehaviour
                 playerController.currentAnimator = FormAttackManagers[0].FormAnimator;
                 break;
             case Form.dream:
+                if(!DisponibleForms.Contains(Form.dream))return;
                 switchToDreamFX.Play();
                 dreamFormObject.SetActive(true);
                 if (CanDoUltimate)
@@ -64,6 +68,7 @@ public class FormSwitcher : MonoBehaviour
                 playerController.currentAnimator = FormAttackManagers[1].FormAnimator;
                 break;
             case Form.nightmare:
+                if(!DisponibleForms.Contains(Form.dream))return;
                 switchToNightmareFX.Play();
                 nightmareFormObject.SetActive(true);
                 if (CanDoUltimate)

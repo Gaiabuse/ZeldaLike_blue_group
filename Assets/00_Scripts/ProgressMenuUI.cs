@@ -23,7 +23,7 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private GameObject progressAnimGOPopUp;
     [SerializeField] private RectTransform[] milestonesPopUp;
     
-    private TweenerCore<float, float, FloatOptions> pauseDotween;
+    private TweenerCore<Vector2, Vector2, VectorOptions> pauseDotween;
     
     private void Start()
     {
@@ -47,36 +47,42 @@ public class ProgressMenuUI : MonoBehaviour
         Debug.Log("Alexis est une pute");
     }
 
-    public void CloseProgressMenu()
-    {
-        pauseSfxTrigger.SetActive(false);
-        Time.timeScale = 1;
-        if (pauseDotween != null)
-        {
-            pauseDotween.Kill();
-        }
-        pauseDotween = progressMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).OnComplete(() =>
-        {
-            progressMenu.SetActive(false);
-            player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
-        });
-    }
-
     public void OpenProgressMenu()
     {
         pauseSfxTrigger.SetActive(true);
         progressMenu.SetActive(true);
         
-        if (pauseDotween != null)
-        {
-            pauseDotween.Kill();
-        }
-        pauseDotween = progressMenu.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).OnComplete(() =>
-        {
-            Time.timeScale = 0;
-            UpdatePhoneInfos(progressSlider, progressAnimGO);
-            AnimateSpriteSheet(progressAnim);
-        });
+        RectTransform rect = progressMenu.GetComponent<RectTransform>();
+    
+        if (pauseDotween != null) pauseDotween.Kill();
+        
+        pauseDotween = rect.DOAnchorPos(Vector2.zero, 0.5f)
+            .SetUpdate(true)
+            .SetEase(Ease.OutBack)
+            .OnComplete(() =>
+            {
+                Time.timeScale = 0;
+                UpdatePhoneInfos(progressSlider, progressAnimGO);
+                AnimateSpriteSheet(progressAnim);
+            });
+    }
+
+    public void CloseProgressMenu()
+    {
+        pauseSfxTrigger.SetActive(false);
+        Time.timeScale = 1;
+    
+        RectTransform rect = progressMenu.GetComponent<RectTransform>();
+
+        if (pauseDotween != null) pauseDotween.Kill();
+        
+        pauseDotween = rect.DOAnchorPos(new Vector2(0, -800f), 0.5f)
+            .SetEase(Ease.InBack) 
+            .OnComplete(() =>
+            {
+                progressMenu.SetActive(false);
+                player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+            });
     }
 
     private void UpdatePhoneInfos(Image slider, GameObject anim)
