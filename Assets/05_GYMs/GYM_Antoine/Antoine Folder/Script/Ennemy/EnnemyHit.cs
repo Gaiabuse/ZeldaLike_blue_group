@@ -14,35 +14,35 @@ public class EnnemyHit : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.CompareTag("Player") && canHit)
-        {
-            PlayerHP playerHp = collision.GetComponent<PlayerHP>();
+        if (!canHit) return;
 
-            if (playerHp != null) playerHp.TakeDamage(damage);
-            else Debug.Log("No Hp Asign to Player");
-        }
+        var otherDamageablePlayer = collision.GetComponent<IPlayerDamageable>();
 
-        if (collision.CompareTag("Leure") && canHit)
-        {
-            DreamBaitProps dreamBait = collision.GetComponent<DreamBaitProps>();
-            if(dreamBait != null)dreamBait.TakeDamage(damage);
-        }
+        if (otherDamageablePlayer == null) return;
+
+        otherDamageablePlayer.TakeDamage(damage);
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("Player") && canHit)
-        {
-            PlayerHP playerHp = collision.transform.GetComponent<PlayerHP>();
+        if (!canHit) return;
 
-            if (playerHp != null) playerHp.TakeDamage(damage);
-            else Debug.Log("No Hp Asign to Player");
-        }
+        var otherDamageablePlayer = collision.transform.GetComponent<IPlayerDamageable>();
+
+        if (otherDamageablePlayer == null) return;
+
+        otherDamageablePlayer.TakeDamage(damage);
     }
 
-    public void ToggleHitBox(bool toogle)
+    private void DoDamage(int damage)
     {
-        canHit = toogle;
-        col.enabled = toogle;
+    }
+
+
+    public void ToggleHitBox(bool toggle)
+    {
+        canHit = toggle;
+        col.enabled = toggle;
     }
 }

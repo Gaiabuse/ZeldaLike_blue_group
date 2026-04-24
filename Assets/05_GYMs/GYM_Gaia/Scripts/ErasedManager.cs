@@ -32,12 +32,21 @@ public class ErasedManager : MonoBehaviour
     private Coroutine HoldTimeCoroutine;
     public bool startEnemyErased{get; private set;}
 
+    private void OnEnable()
+    {
+        playerHP.OnTakeDamage += CancelErasedEnemy;
+    }
 
+    private void OnDisable()
+    {
+        playerHP.OnTakeDamage -= CancelErasedEnemy;
+    }
 
     private void Start()
     {
         objectsErased = new List<ErasedObject>();
         currentPointsForCreate = maxPointsForCreate; 
+        buttonPressVisual.gameObject.SetActive(false);
     }
     
     void Update()
@@ -87,6 +96,19 @@ public class ErasedManager : MonoBehaviour
     }
     public void OnSecondPower(InputValue inputValue)
     {
+        if(startEnemyErased)
+        {
+            if (inputValue.isPressed)
+            {
+                currentPressForErasedEnemy++;
+                BounceUiVisual();
+                if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
+                {
+                    ErasedEnemy();
+                }
+                return;
+            }
+        }
         
         if (inputValue.isPressed && currentObject != null && currentObject.CompareTag("Ennemy"))
         {
@@ -219,6 +241,34 @@ public class ErasedManager : MonoBehaviour
             currentPointsForCreate = maxPointsForCreate;
             UpdateNeutralUI();
         }
+    }
+    public void OnDash(InputValue _input)
+    {
+        if (startEnemyErased)
+        {
+            CancelErasedEnemy();
+        }
+    }
+
+    private void ErasedEnemy()
+    {
+        Destroy(currentObject);
+        currentObject = null;
+        buttonPressVisual.gameObject.SetActive(false);
+        playerHP.Heal(hpHealWhenErasedEnemy);
+        player.CanMove = true;
+        player.CanRotate = true;
+        startEnemyErased = false;
+        currentPressForErasedEnemy = 0;
+    }
+
+    private void CancelErasedEnemy()
+    {
+        buttonPressVisual.gameObject.SetActive(false);
+        player.CanMove = true;
+        player.CanRotate = true;
+        startEnemyErased = false;
+        currentPressForErasedEnemy = 0;
     }
     
     private void UpdateNeutralUI()
