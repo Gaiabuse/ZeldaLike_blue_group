@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class EnnemyBase : MonoBehaviour
+public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 {
     protected Animator animator;
 
@@ -27,7 +27,7 @@ public class EnnemyBase : MonoBehaviour
 
     protected bool TargetInFieldOfView;
     protected Transform CurrentTarget;
-    
+
     protected float timerGeneral = 0;
 
     public bool alwaysAgro;
@@ -57,10 +57,11 @@ public class EnnemyBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        move = "0";
+        move = "patrol";
         EnnemyManager.Instance.enemies.Add(this);
-        
+
         animator = GetComponent<Animator>();
+        if (animator == null) animator = GetComponentInChildren<Animator>();
 
         colorNormal *= eyeColorIntensity.x; colorChase *= eyeColorIntensity.y;
         hitValueDisplay.text = "";
@@ -189,9 +190,9 @@ public class EnnemyBase : MonoBehaviour
         Debug.Log(other.gameObject.name);
         if (other.CompareTag("StunZone"))
         {
-            StunEnnemy(0f,true);
-            if(stunZone != null) stunZone = other.gameObject;
-            
+            StunEnnemy(0f, true);
+            if (stunZone != null) stunZone = other.gameObject;
+
         }
     }
 
@@ -222,7 +223,7 @@ public class EnnemyBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected virtual void AttackStart(int attackID)
+    public virtual void AttackStart(int attackID)
     {
         EyesSetColorTo(colorChase);
         move = "attack";
@@ -245,7 +246,7 @@ public class EnnemyBase : MonoBehaviour
         EyesSetColorTo(colorMotionless);
         move = "stun";
         timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
-       
+
     }
 
     protected virtual void EndStun()
@@ -255,16 +256,16 @@ public class EnnemyBase : MonoBehaviour
         timerGeneral = 0;
         move = "0";
     }
-    
+
     public string move
     {
         get => _move;
         set
         {
-            if (_move == value) return; 
-        
+            if (_move == value) return;
+
             _move = value;
-        
+
             if (EnnemyManager.Instance != null)
             {
                 EnnemyManager.Instance.Check();

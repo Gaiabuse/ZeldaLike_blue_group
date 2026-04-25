@@ -15,7 +15,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] float LoseFocusDist = 1f;
 
     [SerializeField] protected Transform AttackTrigger;
-    [SerializeField] float DistanceAttack = 2;
+    [SerializeField] protected float DistanceAttack = 2;
 
     protected Vector3 WhereToGoPos;
 
@@ -26,7 +26,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] List<Vector3> PatrolPosition;
     int currentPatrolPose;
 
-    protected bool canLookAtPlayer = true;
+    [SerializeField] protected bool canLookAtPlayer = true;
 
     protected override void Start()
     {
@@ -37,7 +37,7 @@ public class GroundEnnemy : EnnemyBase
         navMesh.acceleration = acceleration.x;
         navMesh.angularSpeed = SpeedRotate.x;
 
-        MainHitBox.damage = data.strength;
+        if (MainHitBox != null) MainHitBox.damage = data.strength;
     }
 
     protected override void FixedUpdate()
@@ -244,7 +244,7 @@ public class GroundEnnemy : EnnemyBase
         }
     }
 
-    protected override void AttackStart(int attackID)
+    public override void AttackStart(int attackID)
     {
         base.AttackStart(attackID);
         navMesh.isStopped = true;

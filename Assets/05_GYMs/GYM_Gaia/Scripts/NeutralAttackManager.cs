@@ -60,6 +60,14 @@ public class NeutralAttackManager : AttackManager
         
         if (!_input.isPressed)
         {
+            var targetComponent = AutoAimable.GetNearestTargetAround(transform.position, 30f);
+    
+            if (targetComponent != null)
+            {
+                Vector3 targetPos = targetComponent.transform.position;
+                targetPos.y = transform.parent.position.y;
+                transform.parent.LookAt(targetPos);
+            }
             player.CanMove = false;
             player.CanRotate = false;
             if (canChargedAttack)

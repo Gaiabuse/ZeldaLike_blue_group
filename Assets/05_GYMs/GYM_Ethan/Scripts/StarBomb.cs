@@ -10,11 +10,11 @@ public class StarBomb : MonoBehaviour
     [SerializeField] private GameObject explodePreview;
     [SerializeField] private float timeToExplode;
     [SerializeField] private int damages;
-    
+
     private MeshRenderer meshRenderer;
     private bool hasDealDamage = false;
     private bool isExploding = false;
-    
+
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
@@ -33,13 +33,13 @@ public class StarBomb : MonoBehaviour
     {
         if (other.tag == "Player" && !isExploding)
         {
-            Explode();   
+            Explode();
         }
     }
-    
-    public void DealDamages(GameObject player)
+
+    public void DealDamages(IPlayerDamageable player)
     {
-        player.GetComponent<PlayerHP>().TakeDamage(damages);
+        player.TakeDamage(damages);
     }
 
     public void StartCountdown()
@@ -60,21 +60,21 @@ public class StarBomb : MonoBehaviour
         while (elapsed < timeToExplode)
         {
             if (isExploding || !this) yield return null;
-            
+
             elapsed += Time.deltaTime;
-            
+
             if (elapsed - lastBlinkTime >= currentBlinkInterval)
             {
                 lastBlinkTime = elapsed;
                 meshRenderer.enabled = !meshRenderer.enabled;
-                currentBlinkInterval *= 0.75f; 
-                
+                currentBlinkInterval *= 0.75f;
+
                 currentBlinkInterval = Mathf.Max(currentBlinkInterval, 0.05f);
             }
 
             yield return null;
         }
-        Explode(); 
+        Explode();
     }
 
     public async Task Explode()
@@ -82,7 +82,7 @@ public class StarBomb : MonoBehaviour
         if (isExploding) return;
         if (targetPreview != null) Destroy(targetPreview);
         isExploding = true;
-        
+
         Destroy(explodePreview);
         explodeZone.SetActive(true);
 

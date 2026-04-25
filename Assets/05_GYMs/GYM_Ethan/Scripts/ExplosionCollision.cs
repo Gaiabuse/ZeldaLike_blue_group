@@ -5,10 +5,10 @@ public class ExplosionCollision : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            GetComponent<SphereCollider>().enabled = false;
-            this.GetComponentInParent<StarBomb>().DealDamages(other.gameObject);
-        }
+        var damageableOther = other.GetComponent<IPlayerDamageable>();
+        if (damageableOther == null) return;
+
+        GetComponent<SphereCollider>().enabled = false;
+        GetComponentInParent<StarBomb>().DealDamages(damageableOther);
     }
 }

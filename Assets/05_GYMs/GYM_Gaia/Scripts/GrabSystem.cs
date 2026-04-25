@@ -29,7 +29,7 @@ public class GrabSystem : MonoBehaviour
     [SerializeField]
     private GameObject throwMark, grabMark;
 
-    private GameObject currentGrabbedObject;
+    [SerializeField] private GameObject currentGrabbedObject;
 
     private bool CanThrow = true, IsThrowing = false;
 
@@ -57,9 +57,9 @@ public class GrabSystem : MonoBehaviour
             TransformIndicator.Instance.DisplayNightmareIcon(2);
             return;
         }
-        
+
         Vector3 downPosition = transform.position - downValue;
-        
+
         if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hit)
         {
             TransformIndicator.Instance.DisplayNightmareIcon(1);
@@ -68,7 +68,7 @@ public class GrabSystem : MonoBehaviour
         {
             TransformIndicator.Instance.DisplayNightmareIcon(0);
         }
-        
+
         switch (grabbingState)
         {
             case GrabbingState.None:
@@ -132,20 +132,20 @@ public class GrabSystem : MonoBehaviour
         TransformIndicator.Instance.DisplayNightmareIcon(0);
         currentGrabbedObject.SetActive(true);
 
-        Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-        }
+        Collider collider = currentGrabbedObject.GetComponent<Collider>();
+        if (collider != null) collider.enabled = false;
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
+
+        EnnemyBase isEnnemy = currentGrabbedObject.GetComponent<EnnemyBase>();
+        if (isEnnemy != null) isEnnemy.StunEnnemy(2, false);
 
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
 
         animation.onComplete += () =>
         {
-            if (rb != null) rb.isKinematic = false;
+            if (collider != null) collider.enabled = false;
             CleanUpThrow();
         };
 
@@ -199,17 +199,18 @@ public class GrabSystem : MonoBehaviour
         if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
-            if (currentGrabbedObject != null && currentGrabbedObject.transform.parent != null)
+            if (currentGrabbedObject != null)
             {
                 SheepEnnemy SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemy>();
                 if (SheepEnnemyScript != null)
                 {
-                    SheepEnnemyScript.LoseShell();
+                    if (SheepEnnemyScript.shellHere) SheepEnnemyScript.LoseShell();
                 }
-                currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+
+                if (currentGrabbedObject.transform.parent != null) currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+
                 currentGrabbedObject.SetActive(false);
             }
-
             return;
         }
 
