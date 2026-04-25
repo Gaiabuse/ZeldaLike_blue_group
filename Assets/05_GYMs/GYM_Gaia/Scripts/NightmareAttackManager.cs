@@ -3,20 +3,35 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
+using Object = System.Object;
 
 public class NightmareAttackManager : AttackManager
 {
     [SerializeField]
     private SimpleAttack[] comboAttacks;
     [SerializeField] protected SimpleAttack ChargedAttack;
-    [SerializeField] private GameObject[] playerObjects;
-    [SerializeField] private GameObject ultimateObject;
-
-    [SerializeField] private SimpleAttack ultimateAttack;
+    [Header("Ult")]
     [SerializeField] private float timeOfUltimate;
+    [SerializeField] private SimpleAttack ultimateAttack;
+    [Tooltip("dont Open please")]
+    [SerializeField] private UltReference ultReference;
+  
+    private Coroutine ultimateCoroutine;
+
+    [Serializable]
+    private class UltReference
+    {
+        public CharacterController characterController;
+        public GameObject playerSprite;
+        public Collider playerCollider;
+        public GameObject ultimateObject;
+        public GrabSystem grab;
+        public DreamDash dash;
+    }
     private void Awake()
     {
-        ultimateObject.SetActive(false);
+        ultReference.ultimateObject.SetActive(false);
     }
     protected override void OnEnable()
     {
@@ -27,9 +42,30 @@ public class NightmareAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        Vector2 inputValue = _input.Get<Vector2>();
-        if (inputValue.sqrMagnitude <= 0)
+        Debug.Log(switchInProgress);
+        if (!_input.isPressed && switchInProgress)
         {
+            if (finishSwitchCoroutine != null)
+            {
+                StopCoroutine(finishSwitchCoroutine);
+            }
+            finishSwitchCoroutine = StartCoroutine(FinishSwitch());
+        }
+        if (switchInProgress)
+        {
+            return;
+        }
+        
+        if (!_input.isPressed)
+        {
+            var targetComponent = AutoAimable.GetNearestTargetAround(transform.position, 30f);
+    
+            if (targetComponent != null)
+            {
+                Vector3 targetPos = targetComponent.transform.position;
+                targetPos.y = transform.parent.position.y;
+                transform.parent.LookAt(targetPos);
+            }
             player.CanMove = false;
             player.CanRotate = false;
             if (canChargedAttack)
@@ -39,6 +75,7 @@ public class NightmareAttackManager : AttackManager
                 return;
             }
             Attack(comboAttacks[currentCombo]);
+            switchInProgress = false;
         }
     }
 
@@ -46,29 +83,44 @@ public class NightmareAttackManager : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
-        UltimateActivation(true);
-        StartCoroutine(UltimateCoroutine());
+        UltimateActivation();
+        if (ultimateCoroutine != null)
+        {
+            StopCoroutine(ultimateCoroutine);
+        }
+        ultimateCoroutine = StartCoroutine(UltimateCoroutine());
     }
-    private void UltimateActivation(bool isActive)
+    private void UltimateActivation()
     {
-        ultimateObject.SetActive(isActive);
-        CanAttack = !isActive;
-        foreach (var go in playerObjects)
-        {
-            go.SetActive(!isActive);
-        }
-        if (isActive == false)
-        {
-            Attack(ultimateAttack);
-        }
+        formSwitcher.canSwitchForm = false;
+        CanAttack = false;
+        ultReference.ultimateObject.SetActive(true);
+        ultReference.playerSprite.SetActive(false);
+        ultReference.playerCollider.enabled = false;
+        ultReference.dash.enabled = false;
+        ultReference.grab.enabled = false;
+        formSwitcher.enabled = false;
+        ultReference.characterController.detectCollisions = false;
+    }
+
+    private void UltimateDesactivation()
+    {
+        formSwitcher.canSwitchForm = true;
+        CanAttack = true;
+        ultReference.ultimateObject.SetActive(false);
+        ultReference.playerSprite.SetActive(true);
+        ultReference.playerCollider.enabled = true;
+        ultReference.dash.enabled = true;
+        ultReference.grab.enabled = true;
+        ultReference.characterController.detectCollisions = true;
+        Attack(ultimateAttack);
     }
 
     private IEnumerator UltimateCoroutine()
     {
-        formSwitcher.canSwitchForm = false;
         yield return new WaitForSeconds(timeOfUltimate);
         formSwitcher.canSwitchForm = true;
-        UltimateActivation(false);
-        Attack(ultimateAttack);
+        UltimateDesactivation();
+        ultimateCoroutine = null;
     }
 }

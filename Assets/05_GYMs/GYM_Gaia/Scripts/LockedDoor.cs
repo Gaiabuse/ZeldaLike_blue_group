@@ -62,14 +62,12 @@ public class LockedDoor : MonoBehaviour
     public void AddInteraction()
     {
         currentInteraction++;
-        Debug.Log("Add : " + currentInteraction);
         CheckInteraction();
     }
 
     public void RemoveInteraction()
     {
         currentInteraction--;
-        Debug.Log("Remove : " + currentInteraction);
         CheckInteraction();
     }
 }

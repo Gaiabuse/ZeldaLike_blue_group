@@ -38,7 +38,7 @@ public class PressurePlate : MonoBehaviour
     private void FixedUpdate()
     {
         if(!isPressing)return;
-        if (objectOnPressurePlate != null)
+        if (objectOnPressurePlate)
         {
             if (!objectOnPressurePlate.activeInHierarchy)
             {
@@ -46,6 +46,13 @@ public class PressurePlate : MonoBehaviour
                 onUnpressure.Invoke();
                 objectOnPressurePlate = null;
             }
+        }
+        else if(!objectOnPressurePlate)
+        {
+            isPressing = false;
+            onUnpressure.Invoke();
+            objectOnPressurePlate = null;
+            Debug.Log("object destroy");
         }
     }
 

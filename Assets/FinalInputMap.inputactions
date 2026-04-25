@@ -16,15 +16,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "10dd2132-0c4b-47d6-8505-dae14feaaee1",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Interaction",
                     "type": "Button",
                     "id": "bf60decd-d61b-43ae-bbee-5184a65a34fc",
@@ -35,11 +26,11 @@
                 },
                 {
                     "name": "Attack",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "0c803a38-ff4f-4f01-817c-e5eb5f67fe7e",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press(pressPoint=0.5,behavior=2)",
                     "initialStateCheck": true
                 },
                 {
@@ -79,9 +70,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Respawn",
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "cefaf36f-0821-4674-a399-ba1570ff0316",
+                    "id": "439f3bef-ad1c-4ad1-8bbf-b8780232c58d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "OpenPhone",
+                    "type": "Button",
+                    "id": "4b13d9a7-2254-44f0-a05e-d40e90d9caee",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -157,45 +157,12 @@
                 },
                 {
                     "name": "",
-                    "id": "6b7101a3-04ea-40cc-8e7b-1de701e858ee",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fffdd18d-5c28-4d53-99f1-c0240aa603a2",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0eeeb3ae-711a-40b8-9bc2-a8c672e1595e",
                     "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interaction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "728f5883-3752-42e0-9f1f-b5447f039d0f",
-                    "path": "<Linux::Logic3::PDPFaceoffPremiereWiredProControllerforNintendoSwitch>/Stick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -300,69 +267,232 @@
                 },
                 {
                     "name": "",
-                    "id": "4db46fa3-5e8f-4e48-8520-1222dbaf7c17",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Respawn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "2D Vector",
-                    "id": "eada6487-6a64-45d3-81b3-96e9d900cc7d",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "3a5b789a-7a74-43da-ab64-ee7a82445138",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "d5c59f0d-6887-4f40-bb44-d6858ed7ba3a",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "5ebe16f7-d0b0-4911-beb2-7907d0635022",
+                    "id": "6e124b4a-c109-4cbc-9444-0bcc5041b699",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "right",
-                    "id": "6b157b2a-aba8-44d7-83b6-d0a9f02133cf",
+                    "name": "",
+                    "id": "e3c7a34c-001e-497c-8721-649a6b708903",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ecaca3a2-bb2a-4b2a-be49-2c6fc59fc5d1",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f5a88758-6d72-4055-a595-f7b557f8f1eb",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c2b9a9c-f9af-47a3-ba10-6be93bfbdbe6",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenPhone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "MenuControl",
+            "id": "b5c0ccbf-7d09-480a-bae0-4deb8a603907",
+            "actions": [
+                {
+                    "name": "Unpause",
+                    "type": "Button",
+                    "id": "dd6fb160-5923-4543-b16b-d7db42bb46be",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "2d63c368-db89-4a4c-814f-ecf2cdadd353",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a9049225-f348-4c37-b7e5-f9f8ab28b3f0",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ee2a5803-43f2-4aa1-9fa9-0bdf709d7930",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d6cb0662-dd16-4e46-bc09-3b590e7119e2",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "ProgressControl",
+            "id": "08d1aa44-a4a2-45b1-bd53-ced9aae77247",
+            "actions": [
+                {
+                    "name": "ClosePhone",
+                    "type": "Button",
+                    "id": "5afd7622-cebd-4556-943b-db100274b65b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5b6fd894-87ed-4f37-9862-c067f12b7c72",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClosePhone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0972d9fc-d4ef-4566-bf19-a1368ec573ca",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClosePhone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "HealMap",
+            "id": "9980c04f-ca42-4007-8722-49df8bf51807",
+            "actions": [
+                {
+                    "name": "Heal",
+                    "type": "Value",
+                    "id": "fb81c28a-84b3-43ad-a8d2-65a68a9420aa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6e803578-ae3e-4bd0-bd0b-3e6ab9cec42f",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "NeutralUltMap",
+            "id": "09add025-b14f-494a-a0ce-6e6b1d567a92",
+            "actions": [
+                {
+                    "name": "ChooseLeft",
+                    "type": "Button",
+                    "id": "0d20b37c-1d90-4cd4-9737-d5ef92ce6aa3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChooseRight",
+                    "type": "Button",
+                    "id": "43af3f0f-b4bc-4783-8d65-2f31dcce2792",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ce5df2ea-f48d-466c-a9fd-fbc3c8173a09",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4532d1fd-0fe7-498a-a253-a953e80a9c39",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChooseRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

@@ -102,15 +102,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""10dd2132-0c4b-47d6-8505-dae14feaaee1"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""bf60decd-d61b-43ae-bbee-5184a65a34fc"",
@@ -121,11 +112,11 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Attack"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""0c803a38-ff4f-4f01-817c-e5eb5f67fe7e"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": ""Press(pressPoint=0.5,behavior=2)"",
                     ""initialStateCheck"": true
                 },
                 {
@@ -165,9 +156,18 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Respawn"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
-                    ""id"": ""cefaf36f-0821-4674-a399-ba1570ff0316"",
+                    ""id"": ""439f3bef-ad1c-4ad1-8bbf-b8780232c58d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenPhone"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b13d9a7-2254-44f0-a05e-d40e90d9caee"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -243,45 +243,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""6b7101a3-04ea-40cc-8e7b-1de701e858ee"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fffdd18d-5c28-4d53-99f1-c0240aa603a2"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0eeeb3ae-711a-40b8-9bc2-a8c672e1595e"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""728f5883-3752-42e0-9f1f-b5447f039d0f"",
-                    ""path"": ""<Linux::Logic3::PDPFaceoffPremiereWiredProControllerforNintendoSwitch>/Stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -386,69 +353,232 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4db46fa3-5e8f-4e48-8520-1222dbaf7c17"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Respawn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""eada6487-6a64-45d3-81b3-96e9d900cc7d"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""3a5b789a-7a74-43da-ab64-ee7a82445138"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""d5c59f0d-6887-4f40-bb44-d6858ed7ba3a"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""5ebe16f7-d0b0-4911-beb2-7907d0635022"",
+                    ""id"": ""6e124b4a-c109-4cbc-9444-0bcc5041b699"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""6b157b2a-aba8-44d7-83b6-d0a9f02133cf"",
+                    ""name"": """",
+                    ""id"": ""e3c7a34c-001e-497c-8721-649a6b708903"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecaca3a2-bb2a-4b2a-be49-2c6fc59fc5d1"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5a88758-6d72-4055-a595-f7b557f8f1eb"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c2b9a9c-f9af-47a3-ba10-6be93bfbdbe6"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenPhone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""MenuControl"",
+            ""id"": ""b5c0ccbf-7d09-480a-bae0-4deb8a603907"",
+            ""actions"": [
+                {
+                    ""name"": ""Unpause"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd6fb160-5923-4543-b16b-d7db42bb46be"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Return"",
+                    ""type"": ""Button"",
+                    ""id"": ""2d63c368-db89-4a4c-814f-ecf2cdadd353"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a9049225-f348-4c37-b7e5-f9f8ab28b3f0"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee2a5803-43f2-4aa1-9fa9-0bdf709d7930"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d6cb0662-dd16-4e46-bc09-3b590e7119e2"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""ProgressControl"",
+            ""id"": ""08d1aa44-a4a2-45b1-bd53-ced9aae77247"",
+            ""actions"": [
+                {
+                    ""name"": ""ClosePhone"",
+                    ""type"": ""Button"",
+                    ""id"": ""5afd7622-cebd-4556-943b-db100274b65b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5b6fd894-87ed-4f37-9862-c067f12b7c72"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClosePhone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0972d9fc-d4ef-4566-bf19-a1368ec573ca"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClosePhone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""HealMap"",
+            ""id"": ""9980c04f-ca42-4007-8722-49df8bf51807"",
+            ""actions"": [
+                {
+                    ""name"": ""Heal"",
+                    ""type"": ""Value"",
+                    ""id"": ""fb81c28a-84b3-43ad-a8d2-65a68a9420aa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6e803578-ae3e-4bd0-bd0b-3e6ab9cec42f"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Heal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""NeutralUltMap"",
+            ""id"": ""09add025-b14f-494a-a0ce-6e6b1d567a92"",
+            ""actions"": [
+                {
+                    ""name"": ""ChooseLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""0d20b37c-1d90-4cd4-9737-d5ef92ce6aa3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChooseRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""43af3f0f-b4bc-4783-8d65-2f31dcce2792"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ce5df2ea-f48d-466c-a9fd-fbc3c8173a09"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChooseLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4532d1fd-0fe7-498a-a253-a953e80a9c39"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChooseRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -458,19 +588,37 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         // PlayerControl
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_Move = m_PlayerControl.FindAction("Move", throwIfNotFound: true);
-        m_PlayerControl_Look = m_PlayerControl.FindAction("Look", throwIfNotFound: true);
         m_PlayerControl_Interaction = m_PlayerControl.FindAction("Interaction", throwIfNotFound: true);
         m_PlayerControl_Attack = m_PlayerControl.FindAction("Attack", throwIfNotFound: true);
         m_PlayerControl_Dash = m_PlayerControl.FindAction("Dash", throwIfNotFound: true);
         m_PlayerControl_ChargedAttack = m_PlayerControl.FindAction("ChargedAttack", throwIfNotFound: true);
         m_PlayerControl_SecondPower = m_PlayerControl.FindAction("SecondPower", throwIfNotFound: true);
         m_PlayerControl_CatchOrRelease = m_PlayerControl.FindAction("CatchOrRelease", throwIfNotFound: true);
-        m_PlayerControl_Respawn = m_PlayerControl.FindAction("Respawn", throwIfNotFound: true);
+        m_PlayerControl_Pause = m_PlayerControl.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerControl_OpenPhone = m_PlayerControl.FindAction("OpenPhone", throwIfNotFound: true);
+        // MenuControl
+        m_MenuControl = asset.FindActionMap("MenuControl", throwIfNotFound: true);
+        m_MenuControl_Unpause = m_MenuControl.FindAction("Unpause", throwIfNotFound: true);
+        m_MenuControl_Return = m_MenuControl.FindAction("Return", throwIfNotFound: true);
+        // ProgressControl
+        m_ProgressControl = asset.FindActionMap("ProgressControl", throwIfNotFound: true);
+        m_ProgressControl_ClosePhone = m_ProgressControl.FindAction("ClosePhone", throwIfNotFound: true);
+        // HealMap
+        m_HealMap = asset.FindActionMap("HealMap", throwIfNotFound: true);
+        m_HealMap_Heal = m_HealMap.FindAction("Heal", throwIfNotFound: true);
+        // NeutralUltMap
+        m_NeutralUltMap = asset.FindActionMap("NeutralUltMap", throwIfNotFound: true);
+        m_NeutralUltMap_ChooseLeft = m_NeutralUltMap.FindAction("ChooseLeft", throwIfNotFound: true);
+        m_NeutralUltMap_ChooseRight = m_NeutralUltMap.FindAction("ChooseRight", throwIfNotFound: true);
     }
 
     ~@FinalInputMap()
     {
         UnityEngine.Debug.Assert(!m_PlayerControl.enabled, "This will cause a leak and performance issues, FinalInputMap.PlayerControl.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_MenuControl.enabled, "This will cause a leak and performance issues, FinalInputMap.MenuControl.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_ProgressControl.enabled, "This will cause a leak and performance issues, FinalInputMap.ProgressControl.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_HealMap.enabled, "This will cause a leak and performance issues, FinalInputMap.HealMap.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_NeutralUltMap.enabled, "This will cause a leak and performance issues, FinalInputMap.NeutralUltMap.Disable() has not been called.");
     }
 
     /// <summary>
@@ -547,14 +695,14 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerControl;
     private List<IPlayerControlActions> m_PlayerControlActionsCallbackInterfaces = new List<IPlayerControlActions>();
     private readonly InputAction m_PlayerControl_Move;
-    private readonly InputAction m_PlayerControl_Look;
     private readonly InputAction m_PlayerControl_Interaction;
     private readonly InputAction m_PlayerControl_Attack;
     private readonly InputAction m_PlayerControl_Dash;
     private readonly InputAction m_PlayerControl_ChargedAttack;
     private readonly InputAction m_PlayerControl_SecondPower;
     private readonly InputAction m_PlayerControl_CatchOrRelease;
-    private readonly InputAction m_PlayerControl_Respawn;
+    private readonly InputAction m_PlayerControl_Pause;
+    private readonly InputAction m_PlayerControl_OpenPhone;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerControl".
     /// </summary>
@@ -570,10 +718,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_PlayerControl_Move;
-        /// <summary>
-        /// Provides access to the underlying input action "PlayerControl/Look".
-        /// </summary>
-        public InputAction @Look => m_Wrapper.m_PlayerControl_Look;
         /// <summary>
         /// Provides access to the underlying input action "PlayerControl/Interaction".
         /// </summary>
@@ -599,9 +743,13 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @CatchOrRelease => m_Wrapper.m_PlayerControl_CatchOrRelease;
         /// <summary>
-        /// Provides access to the underlying input action "PlayerControl/Respawn".
+        /// Provides access to the underlying input action "PlayerControl/Pause".
         /// </summary>
-        public InputAction @Respawn => m_Wrapper.m_PlayerControl_Respawn;
+        public InputAction @Pause => m_Wrapper.m_PlayerControl_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControl/OpenPhone".
+        /// </summary>
+        public InputAction @OpenPhone => m_Wrapper.m_PlayerControl_OpenPhone;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -631,9 +779,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
@@ -652,9 +797,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @CatchOrRelease.started += instance.OnCatchOrRelease;
             @CatchOrRelease.performed += instance.OnCatchOrRelease;
             @CatchOrRelease.canceled += instance.OnCatchOrRelease;
-            @Respawn.started += instance.OnRespawn;
-            @Respawn.performed += instance.OnRespawn;
-            @Respawn.canceled += instance.OnRespawn;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+            @OpenPhone.started += instance.OnOpenPhone;
+            @OpenPhone.performed += instance.OnOpenPhone;
+            @OpenPhone.canceled += instance.OnOpenPhone;
         }
 
         /// <summary>
@@ -669,9 +817,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
@@ -690,9 +835,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @CatchOrRelease.started -= instance.OnCatchOrRelease;
             @CatchOrRelease.performed -= instance.OnCatchOrRelease;
             @CatchOrRelease.canceled -= instance.OnCatchOrRelease;
-            @Respawn.started -= instance.OnRespawn;
-            @Respawn.performed -= instance.OnRespawn;
-            @Respawn.canceled -= instance.OnRespawn;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+            @OpenPhone.started -= instance.OnOpenPhone;
+            @OpenPhone.performed -= instance.OnOpenPhone;
+            @OpenPhone.canceled -= instance.OnOpenPhone;
         }
 
         /// <summary>
@@ -726,6 +874,412 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PlayerControlActions" /> instance referencing this action map.
     /// </summary>
     public PlayerControlActions @PlayerControl => new PlayerControlActions(this);
+
+    // MenuControl
+    private readonly InputActionMap m_MenuControl;
+    private List<IMenuControlActions> m_MenuControlActionsCallbackInterfaces = new List<IMenuControlActions>();
+    private readonly InputAction m_MenuControl_Unpause;
+    private readonly InputAction m_MenuControl_Return;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "MenuControl".
+    /// </summary>
+    public struct MenuControlActions
+    {
+        private @FinalInputMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public MenuControlActions(@FinalInputMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "MenuControl/Unpause".
+        /// </summary>
+        public InputAction @Unpause => m_Wrapper.m_MenuControl_Unpause;
+        /// <summary>
+        /// Provides access to the underlying input action "MenuControl/Return".
+        /// </summary>
+        public InputAction @Return => m_Wrapper.m_MenuControl_Return;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_MenuControl; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="MenuControlActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(MenuControlActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="MenuControlActions" />
+        public void AddCallbacks(IMenuControlActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MenuControlActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MenuControlActionsCallbackInterfaces.Add(instance);
+            @Unpause.started += instance.OnUnpause;
+            @Unpause.performed += instance.OnUnpause;
+            @Unpause.canceled += instance.OnUnpause;
+            @Return.started += instance.OnReturn;
+            @Return.performed += instance.OnReturn;
+            @Return.canceled += instance.OnReturn;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="MenuControlActions" />
+        private void UnregisterCallbacks(IMenuControlActions instance)
+        {
+            @Unpause.started -= instance.OnUnpause;
+            @Unpause.performed -= instance.OnUnpause;
+            @Unpause.canceled -= instance.OnUnpause;
+            @Return.started -= instance.OnReturn;
+            @Return.performed -= instance.OnReturn;
+            @Return.canceled -= instance.OnReturn;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MenuControlActions.UnregisterCallbacks(IMenuControlActions)" />.
+        /// </summary>
+        /// <seealso cref="MenuControlActions.UnregisterCallbacks(IMenuControlActions)" />
+        public void RemoveCallbacks(IMenuControlActions instance)
+        {
+            if (m_Wrapper.m_MenuControlActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="MenuControlActions.AddCallbacks(IMenuControlActions)" />
+        /// <seealso cref="MenuControlActions.RemoveCallbacks(IMenuControlActions)" />
+        /// <seealso cref="MenuControlActions.UnregisterCallbacks(IMenuControlActions)" />
+        public void SetCallbacks(IMenuControlActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MenuControlActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MenuControlActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="MenuControlActions" /> instance referencing this action map.
+    /// </summary>
+    public MenuControlActions @MenuControl => new MenuControlActions(this);
+
+    // ProgressControl
+    private readonly InputActionMap m_ProgressControl;
+    private List<IProgressControlActions> m_ProgressControlActionsCallbackInterfaces = new List<IProgressControlActions>();
+    private readonly InputAction m_ProgressControl_ClosePhone;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "ProgressControl".
+    /// </summary>
+    public struct ProgressControlActions
+    {
+        private @FinalInputMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public ProgressControlActions(@FinalInputMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "ProgressControl/ClosePhone".
+        /// </summary>
+        public InputAction @ClosePhone => m_Wrapper.m_ProgressControl_ClosePhone;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_ProgressControl; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="ProgressControlActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(ProgressControlActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="ProgressControlActions" />
+        public void AddCallbacks(IProgressControlActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Add(instance);
+            @ClosePhone.started += instance.OnClosePhone;
+            @ClosePhone.performed += instance.OnClosePhone;
+            @ClosePhone.canceled += instance.OnClosePhone;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="ProgressControlActions" />
+        private void UnregisterCallbacks(IProgressControlActions instance)
+        {
+            @ClosePhone.started -= instance.OnClosePhone;
+            @ClosePhone.performed -= instance.OnClosePhone;
+            @ClosePhone.canceled -= instance.OnClosePhone;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ProgressControlActions.UnregisterCallbacks(IProgressControlActions)" />.
+        /// </summary>
+        /// <seealso cref="ProgressControlActions.UnregisterCallbacks(IProgressControlActions)" />
+        public void RemoveCallbacks(IProgressControlActions instance)
+        {
+            if (m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="ProgressControlActions.AddCallbacks(IProgressControlActions)" />
+        /// <seealso cref="ProgressControlActions.RemoveCallbacks(IProgressControlActions)" />
+        /// <seealso cref="ProgressControlActions.UnregisterCallbacks(IProgressControlActions)" />
+        public void SetCallbacks(IProgressControlActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ProgressControlActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ProgressControlActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="ProgressControlActions" /> instance referencing this action map.
+    /// </summary>
+    public ProgressControlActions @ProgressControl => new ProgressControlActions(this);
+
+    // HealMap
+    private readonly InputActionMap m_HealMap;
+    private List<IHealMapActions> m_HealMapActionsCallbackInterfaces = new List<IHealMapActions>();
+    private readonly InputAction m_HealMap_Heal;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "HealMap".
+    /// </summary>
+    public struct HealMapActions
+    {
+        private @FinalInputMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public HealMapActions(@FinalInputMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "HealMap/Heal".
+        /// </summary>
+        public InputAction @Heal => m_Wrapper.m_HealMap_Heal;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_HealMap; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="HealMapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(HealMapActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="HealMapActions" />
+        public void AddCallbacks(IHealMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_HealMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_HealMapActionsCallbackInterfaces.Add(instance);
+            @Heal.started += instance.OnHeal;
+            @Heal.performed += instance.OnHeal;
+            @Heal.canceled += instance.OnHeal;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="HealMapActions" />
+        private void UnregisterCallbacks(IHealMapActions instance)
+        {
+            @Heal.started -= instance.OnHeal;
+            @Heal.performed -= instance.OnHeal;
+            @Heal.canceled -= instance.OnHeal;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="HealMapActions.UnregisterCallbacks(IHealMapActions)" />.
+        /// </summary>
+        /// <seealso cref="HealMapActions.UnregisterCallbacks(IHealMapActions)" />
+        public void RemoveCallbacks(IHealMapActions instance)
+        {
+            if (m_Wrapper.m_HealMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="HealMapActions.AddCallbacks(IHealMapActions)" />
+        /// <seealso cref="HealMapActions.RemoveCallbacks(IHealMapActions)" />
+        /// <seealso cref="HealMapActions.UnregisterCallbacks(IHealMapActions)" />
+        public void SetCallbacks(IHealMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_HealMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_HealMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="HealMapActions" /> instance referencing this action map.
+    /// </summary>
+    public HealMapActions @HealMap => new HealMapActions(this);
+
+    // NeutralUltMap
+    private readonly InputActionMap m_NeutralUltMap;
+    private List<INeutralUltMapActions> m_NeutralUltMapActionsCallbackInterfaces = new List<INeutralUltMapActions>();
+    private readonly InputAction m_NeutralUltMap_ChooseLeft;
+    private readonly InputAction m_NeutralUltMap_ChooseRight;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "NeutralUltMap".
+    /// </summary>
+    public struct NeutralUltMapActions
+    {
+        private @FinalInputMap m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public NeutralUltMapActions(@FinalInputMap wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "NeutralUltMap/ChooseLeft".
+        /// </summary>
+        public InputAction @ChooseLeft => m_Wrapper.m_NeutralUltMap_ChooseLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "NeutralUltMap/ChooseRight".
+        /// </summary>
+        public InputAction @ChooseRight => m_Wrapper.m_NeutralUltMap_ChooseRight;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_NeutralUltMap; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="NeutralUltMapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(NeutralUltMapActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="NeutralUltMapActions" />
+        public void AddCallbacks(INeutralUltMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Add(instance);
+            @ChooseLeft.started += instance.OnChooseLeft;
+            @ChooseLeft.performed += instance.OnChooseLeft;
+            @ChooseLeft.canceled += instance.OnChooseLeft;
+            @ChooseRight.started += instance.OnChooseRight;
+            @ChooseRight.performed += instance.OnChooseRight;
+            @ChooseRight.canceled += instance.OnChooseRight;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="NeutralUltMapActions" />
+        private void UnregisterCallbacks(INeutralUltMapActions instance)
+        {
+            @ChooseLeft.started -= instance.OnChooseLeft;
+            @ChooseLeft.performed -= instance.OnChooseLeft;
+            @ChooseLeft.canceled -= instance.OnChooseLeft;
+            @ChooseRight.started -= instance.OnChooseRight;
+            @ChooseRight.performed -= instance.OnChooseRight;
+            @ChooseRight.canceled -= instance.OnChooseRight;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="NeutralUltMapActions.UnregisterCallbacks(INeutralUltMapActions)" />.
+        /// </summary>
+        /// <seealso cref="NeutralUltMapActions.UnregisterCallbacks(INeutralUltMapActions)" />
+        public void RemoveCallbacks(INeutralUltMapActions instance)
+        {
+            if (m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="NeutralUltMapActions.AddCallbacks(INeutralUltMapActions)" />
+        /// <seealso cref="NeutralUltMapActions.RemoveCallbacks(INeutralUltMapActions)" />
+        /// <seealso cref="NeutralUltMapActions.UnregisterCallbacks(INeutralUltMapActions)" />
+        public void SetCallbacks(INeutralUltMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_NeutralUltMapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="NeutralUltMapActions" /> instance referencing this action map.
+    /// </summary>
+    public NeutralUltMapActions @NeutralUltMap => new NeutralUltMapActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "PlayerControl" which allows adding and removing callbacks.
     /// </summary>
@@ -740,13 +1294,6 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLook(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Interaction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -790,11 +1337,92 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCatchOrRelease(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Respawn" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRespawn(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "OpenPhone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnOpenPhone(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MenuControl" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="MenuControlActions.AddCallbacks(IMenuControlActions)" />
+    /// <seealso cref="MenuControlActions.RemoveCallbacks(IMenuControlActions)" />
+    public interface IMenuControlActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Unpause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUnpause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Return" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReturn(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "ProgressControl" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="ProgressControlActions.AddCallbacks(IProgressControlActions)" />
+    /// <seealso cref="ProgressControlActions.RemoveCallbacks(IProgressControlActions)" />
+    public interface IProgressControlActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "ClosePhone" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClosePhone(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "HealMap" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="HealMapActions.AddCallbacks(IHealMapActions)" />
+    /// <seealso cref="HealMapActions.RemoveCallbacks(IHealMapActions)" />
+    public interface IHealMapActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Heal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHeal(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "NeutralUltMap" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="NeutralUltMapActions.AddCallbacks(INeutralUltMapActions)" />
+    /// <seealso cref="NeutralUltMapActions.RemoveCallbacks(INeutralUltMapActions)" />
+    public interface INeutralUltMapActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "ChooseLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChooseLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ChooseRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnChooseRight(InputAction.CallbackContext context);
     }
 }

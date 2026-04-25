@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using System.Linq;
 
 public class DreamDash : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     PlayerController controller;
 
@@ -11,20 +13,29 @@ public class DreamDash : MonoBehaviour
     CharacterController characterController;
 
     [SerializeField]
-    TagHandle tagWall, tagGround;
+    private GameObject dashVFX;
 
     [SerializeField]
-    float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = 0.5f;
+    LayerMask layerWall, layerGround;
 
+    [Header("DashCharacteristic")]
     [SerializeField]
     AnimationCurve DashProggression;
+    [SerializeField]
+    float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = .5f, offset = .2f, tolerance = .5f;
+
 
     bool IsDashing = false;
 
     public void OnDash(InputValue _input)
     {
+        if (!enabled || !controller.CanMove || !_input.isPressed) return;
+
+        if (!enabled) return;
         if (!controller.CanMove || !_input.isPressed) return;
 
+        dashVFX.SetActive(true);
+        controller.currentAnimator.SetTrigger("isDashing");
         StartCoroutine(Dash());
     }
 
@@ -32,69 +43,109 @@ public class DreamDash : MonoBehaviour
     {
         if (IsDashing) yield break;
 
-        IsDashing = true;
-        controller.CanMove = false;
-        controller.CanRotate = false;
-
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
-        float timer = 0;
-
-        if (IsPlaceLandable(destinationPosition))
+        // naive approach that will not work in the future. Rn it is not the priority to do better than that
+        if (!IsPlaceLandable(destinationPosition))
         {
-            characterController.excludeLayers = LayerMask.GetMask("everything");
+            Debug.LogWarning($"no place found trying to find a better position", this);
+            if (FindNearGround(destinationPosition) is Vector3 platform)
+            {
+                Debug.Log($"found a better place {platform}");
+                destinationPosition = platform;
+            }
+            else yield break;
         }
 
+        DashSetUp();
+
+        yield return DoDashMovement(originalPosition, destinationPosition);
+
+        yield return UndoDashSetUp();
+    }
+
+    IEnumerator DoDashMovement(Vector3 originalPosition, Vector3 destinationPosition)
+    {
+        float timer = 0;
 
         while (timer < DashDurationSeconds)
         {
             timer += Time.deltaTime;
-
             var portion = timer / DashDurationSeconds;
-            var destinationThisFrame = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
-            var motion = destinationThisFrame - transform.position;
 
-            characterController.Move(motion);
+            controller.transform.position = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
 
             yield return null;
         }
 
-        controller.CanMove = true;
-        controller.CanRotate = true;
-
-        yield return new WaitForSeconds(DashCoolDownSeconds);
-
-        IsDashing = false;
+        yield break;
     }
 
     bool IsPlaceLandable(Vector3 destination)
     {
+        if (IsThereAWall(destination)) return false;
 
-        if (!IsThereAWall(destination)) return false;
-
-        Ray ray = new(origin: destination, direction: Vector3.down);
-        var result_cast = Physics.RaycastAll(ray);
-
-        foreach (var hit in result_cast)
-        {
-            if (hit.transform.CompareTag(tagGround)) return true;
-
-        }
-
-        throw null;
+        Ray ray = new(origin: destination + Vector3.up * offset, direction: Vector3.down);
+        return Physics.Raycast(ray, 2f, layerGround);
     }
 
     bool IsThereAWall(Vector3 destination)
+        => Physics.Linecast(transform.position + Vector3.up * offset, destination + Vector3.up * offset, layerWall);
+
+    void DashSetUp()
     {
-        var result_cast = Physics.RaycastAll(transform.position, destination);
+        IsDashing = true;
+        controller.currentAnimator.SetTrigger("isDashing");
+        controller.CanMove = false;
+        controller.CanRotate = false;
 
-        foreach (var hit in result_cast)
+        characterController.enabled = false;
+    }
+
+    IEnumerator UndoDashSetUp()
+    {
+        controller.CanMove = true;
+        controller.CanRotate = true;
+        controller.currentAnimator.SetTrigger("isDashing");
+        characterController.enabled = true;
+
+        yield return new WaitForSeconds(DashCoolDownSeconds);
+
+        dashVFX.SetActive(false);
+
+        IsDashing = false;
+    }
+
+    Vector3? FindNearGround(Vector3 at)
+    {
+        latestAt = at;
+
+        var aboveAt = at + Vector3.up;
+
+        RaycastHit check1;
+
+        if (!Physics.SphereCast(aboveAt, tolerance, Vector3.down, out check1))
         {
-            if (hit.transform.CompareTag(tagWall)) return true;
-
+            latestAtHitResult = false;
+            return null;
         }
 
-        return false;
+        if (IsPlaceLandable(check1.point))
+        {
+            latestAtHitResult = true;
+            return check1.point + Vector3.up;
+        }
+
+        return null;
+    }
+
+    Vector3 latestAt = Vector3.zero;
+    bool latestAtHitResult = false;
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = latestAtHitResult ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(latestAt, tolerance);
     }
 }

@@ -11,8 +11,11 @@ public class GrabSystem : MonoBehaviour
 
     [Header("Grab")]
     [SerializeField] private float rangeForGrab;
+    [SerializeField] private float sideRangeForGrab = 0.1f;
     [SerializeField] private float grabStrength;
+
     [SerializeField] private float rangeForSwallow;
+    [SerializeField] private float sideRangeForSwallow = 0.1f;
     [SerializeField] private LayerMask grabLayers;
     [SerializeField] private Vector3 downValue = Vector3.down;
 
@@ -26,7 +29,7 @@ public class GrabSystem : MonoBehaviour
     [SerializeField]
     private GameObject throwMark, grabMark;
 
-    private GameObject currentGrabbedObject;
+    [SerializeField] private GameObject currentGrabbedObject;
 
     private bool CanThrow = true, IsThrowing = false;
 
@@ -49,6 +52,23 @@ public class GrabSystem : MonoBehaviour
 
     void Update()
     {
+        if (currentGrabbedObject != null)
+        {
+            TransformIndicator.Instance.DisplayNightmareIcon(2);
+            return;
+        }
+
+        Vector3 downPosition = transform.position - downValue;
+
+        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hit)
+        {
+            TransformIndicator.Instance.DisplayNightmareIcon(1);
+        }
+        else
+        {
+            TransformIndicator.Instance.DisplayNightmareIcon(0);
+        }
+
         switch (grabbingState)
         {
             case GrabbingState.None:
@@ -60,9 +80,7 @@ public class GrabSystem : MonoBehaviour
                 break;
             case GrabbingState.TimerLimitThrow:
                 break;
-
         }
-
     }
 
     void OnSecondPower(InputValue _input)
@@ -71,7 +89,6 @@ public class GrabSystem : MonoBehaviour
 
         if (currentGrabbedObject == null)
         {
-            print($"{_input.isPressed} grab");
             ProcessGrab(_input);
             return;
         }
@@ -112,22 +129,23 @@ public class GrabSystem : MonoBehaviour
         grabMark.SetActive(false);
 
         IsThrowing = true;
+        TransformIndicator.Instance.DisplayNightmareIcon(0);
         currentGrabbedObject.SetActive(true);
 
-        Rigidbody rb = currentGrabbedObject.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-        }
+        Collider collider = currentGrabbedObject.GetComponent<Collider>();
+        if (collider != null) collider.enabled = false;
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
+
+        EnnemyBase isEnnemy = currentGrabbedObject.GetComponent<EnnemyBase>();
+        if (isEnnemy != null) isEnnemy.StunEnnemy(2, false);
 
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
 
         animation.onComplete += () =>
         {
-            if (rb != null) rb.isKinematic = false;
+            if (collider != null) collider.enabled = false;
             CleanUpThrow();
         };
 
@@ -158,16 +176,11 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 downPosition = transform.position - downValue;
 
-        if (Physics.Raycast(downPosition, transform.forward, out RaycastHit hitSwallow, rangeForSwallow, grabLayers))
+        if ((DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) ??
+                    DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab))
+                is RaycastHit hit)
         {
-            PutGrabMarkAtTarget(hitSwallow.collider.transform.position);
-            return;
-        }
-
-        if (Physics.Raycast(downPosition, transform.forward, out RaycastHit hitGrabbed, rangeForGrab, grabLayers))
-        {
-            PutGrabMarkAtTarget(hitGrabbed.collider.transform.position);
-            return;
+            PutGrabMarkAtTarget(hit.collider.transform.position);
         }
 
         grabMark.SetActive(false);
@@ -182,45 +195,42 @@ public class GrabSystem : MonoBehaviour
     {
         Vector3 downPosition = transform.position - downValue;
 
-        if (Physics.Raycast(downPosition, transform.forward, out RaycastHit hitSwallow, rangeForSwallow, grabLayers))
+        // if you don't understand this please check nullable syntax and pattern matching :3 cool stuff
+        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
-            if (currentGrabbedObject != null && currentGrabbedObject.transform.parent != null)
+            if (currentGrabbedObject != null)
             {
-                currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+                SheepEnnemy SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemy>();
+                if (SheepEnnemyScript != null)
+                {
+                    if (SheepEnnemyScript.shellHere) SheepEnnemyScript.LoseShell();
+                }
+
+                if (currentGrabbedObject.transform.parent != null) currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+
+                currentGrabbedObject.SetActive(false);
             }
-            currentGrabbedObject.SetActive(false);
             return;
         }
 
-        RaycastHit hitGrabbed;
+        RaycastHit? maybeHitGrabbed = DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab);
 
-        if (!Physics.Raycast(downPosition, transform.forward, out hitGrabbed, rangeForGrab, grabLayers))
-        {
-            Debug.DrawRay(downPosition, transform.TransformDirection(Vector3.forward) * 1000, Color.red);
-            return;
-        }
+        if (maybeHitGrabbed is null) return;
 
-        Debug.Log(hitGrabbed.collider.gameObject.name);
+        RaycastHit hitGrabbed = maybeHitGrabbed ?? throw new Exception("Unreachable");
+
         Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
 
-        Rigidbody grabbedObject;
+        Rigidbody grabbedObject = GetRigidbodyFromEnemy(hitGrabbed.collider.gameObject);
 
-        if (hitGrabbed.collider.transform.parent != null)
+        if (grabbedObject == null)
         {
-            grabbedObject = hitGrabbed.collider.transform.parent.gameObject.AddComponent<Rigidbody>();
-        }
-        else
-        {
-            grabbedObject = hitGrabbed.collider.gameObject.AddComponent<Rigidbody>();
+            grabbedObject = AddRigidbodyToEnemy(hitGrabbed.collider.gameObject);
         }
 
-        if (grabbedObject != null)
-        {
-            grabbedObject.AddForce(direction * grabStrength, ForceMode.Impulse);
-        }
+        grabbedObject.AddForce(direction * grabStrength, ForceMode.Impulse);
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.green);
     }
 
     private void DoAutoThrowUpdate()
@@ -246,4 +256,28 @@ public class GrabSystem : MonoBehaviour
         player.CanMove = true;
         grabMark.SetActive(false);
     }
+
+    private RaycastHit? DoGrabCheck(Vector3 down, float range, float siderange)
+    {
+        if (Physics.SphereCast(down, siderange, transform.forward, out RaycastHit hitGrabbed, range, grabLayers))
+        {
+            Debug.DrawRay(transform.position, transform.forward * range, Color.green);
+            return hitGrabbed;
+        }
+
+        Debug.DrawRay(transform.position, transform.forward * range, Color.red);
+
+        return null;
+    }
+
+    private Rigidbody GetRigidbodyFromEnemy(GameObject enemy)
+        => enemy.transform.parent == null ?
+             enemy.GetComponent<Rigidbody>() :
+             enemy.transform.parent.gameObject.GetComponent<Rigidbody>();
+
+    private Rigidbody AddRigidbodyToEnemy(GameObject enemy)
+        => enemy.transform.parent == null ?
+             enemy.AddComponent<Rigidbody>() :
+             enemy.transform.parent.gameObject.AddComponent<Rigidbody>();
+
 }

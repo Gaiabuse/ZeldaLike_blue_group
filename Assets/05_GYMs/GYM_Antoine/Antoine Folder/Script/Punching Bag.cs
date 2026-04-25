@@ -24,7 +24,7 @@ public class PunchingBag : Ennemy
         }
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(int damage, float stun = 0f)
     {
         if (dotween != null)
         {
