@@ -26,7 +26,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] List<Vector3> PatrolPosition;
     int currentPatrolPose;
 
-    [SerializeField] protected bool canLookAtPlayer = true;
+    protected bool canLookAtPlayer = true;
 
     protected override void Start()
     {
