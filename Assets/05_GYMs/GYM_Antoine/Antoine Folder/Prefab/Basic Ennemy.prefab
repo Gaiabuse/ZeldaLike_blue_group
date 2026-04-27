@@ -939,6 +939,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Leure: {fileID: 0}
   alwaysAgro: 1
+  _move: 
   MainHitBox: {fileID: 583629990775373724}
   Eyes:
   - {fileID: 2201577157933080295}
@@ -960,10 +961,11 @@ MonoBehaviour:
   DistanceAttack: 2
   LayerBlockRay:
     serializedVersion: 2
-    m_Bits: 1617
+    m_Bits: 17
   PatrolPosition:
   - {x: 14, y: 1, z: 7}
   - {x: -2.5, y: 1, z: 7}
+  canLookAtPlayer: 1
 --- !u!114 &143417450501062609
 MonoBehaviour:
   m_ObjectHideFlags: 0
