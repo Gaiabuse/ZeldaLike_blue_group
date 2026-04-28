@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Textbox : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textBox;
-    [SerializeField] TextMeshProUGUI nameBox;
-    [SerializeField] GameObject portrait;
+    //[SerializeField] //TextMeshProUGUI nameBox;
+   // [SerializeField] GameObject portrait;
 
     Animator animator;
 
@@ -27,7 +27,7 @@ public class Textbox : MonoBehaviour
         animator = GetComponent<Animator>();
 
         textBox.text = null;
-        nameBox.text = null;
+       // nameBox.text = null;
     }
 
     private void FixedUpdate()
@@ -42,7 +42,7 @@ public class Textbox : MonoBehaviour
                 if (currentName != nameShow) currentName += nameShow[currentLetter];
 
                 textBox.text = currentText;
-                nameBox.text = currentName;
+               // nameBox.text = currentName;
 
                 if (textShow.Length > nameShow.Length)
                 {
@@ -75,7 +75,7 @@ public class Textbox : MonoBehaviour
             {
                 animator.SetBool("Show", false);
                 textBox.text = null;
-                nameBox.text = null;
+               // nameBox.text = null;
 
                 TextPhase = 0;
             }
@@ -87,11 +87,11 @@ public class Textbox : MonoBehaviour
     public void AppearText(string text)
     {
 
-        RectTransform portraitTransform = portrait.GetComponent<RectTransform>();
+        //RectTransform portraitTransform = portrait.GetComponent<RectTransform>();
         
         animator.SetBool("Show", true);
         textBox.text = null;
-        nameBox.text = null;
+       // nameBox.text = null;
 
         currentLetter = 0;
         currentText = null;
