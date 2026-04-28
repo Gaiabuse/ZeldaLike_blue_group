@@ -194,6 +194,7 @@ public class ErasedManager : MonoBehaviour
         GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
         if (dust != null)
         {
+            Debug.Log("erase dust");
             dust.Erase();
             currentObject = null; 
             return; 
