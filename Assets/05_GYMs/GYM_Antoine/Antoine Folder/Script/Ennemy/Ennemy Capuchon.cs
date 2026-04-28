@@ -32,7 +32,6 @@ public class CapuchonEnnemy : GroundEnnemy
         }
         if (move == "reposition")
         {
-            Debug.Log(Vector3.Distance(CurrentTarget.position, transform.position));
             if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
             {
                 repositionToAttack = false;

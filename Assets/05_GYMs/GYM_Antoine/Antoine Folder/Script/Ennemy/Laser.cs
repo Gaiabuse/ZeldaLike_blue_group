@@ -6,6 +6,10 @@ public class Laser : MonoBehaviour
     [SerializeField] float expandTime = 1f;
     [SerializeField] Vector3 reduceSize = -Vector3.one;
 
+    [SerializeField] int damage = 1;
+
+    PlayerHP playerHp;
+
     int phase = 1;
     float timer = 0;
 
@@ -30,6 +34,15 @@ public class Laser : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (playerHp == null) playerHp = other.GetComponent<PlayerHP>();
+            playerHp.TakeDamage(damage, 0);
         }
     }
 }
