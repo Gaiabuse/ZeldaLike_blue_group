@@ -1377,18 +1377,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AcidicGlav
   data: {fileID: 11400000, guid: 631d0fee56a516f47881c7ae255fea87, type: 2}
   Player: {fileID: 0}
+  Leure: {fileID: 0}
   GoTo: {fileID: 7258169958544101826}
   RotationLookAt: {fileID: 8096822654536359494}
   AttackTrigger: {fileID: 209224168670620816}
   Neck: {fileID: 3823273366394372533}
   move: patrol
   DistanceAlwaysSeeEnnemy: 4
+  timerGeneral: 0
   LockOn: {fileID: 1587097313260391326}
   LookRange: 15
   RadiusLook: 35
   LayerBlockRay:
     serializedVersion: 2
-    m_Bits: 81
+    m_Bits: 17
   WhereToGoPos: {x: 0, y: 0, z: 0}
   OgOffsetLookAt: {x: 0, y: 0, z: 0}
   LoseFocusDist: 1
@@ -1401,6 +1403,7 @@ MonoBehaviour:
   colorChase: {r: 1, g: 0, b: 0, a: 1}
   colorMotionless: {r: 0, g: 0, b: 0, a: 0}
   eyeColorIntensity: {x: 20, y: 100}
+  TargetInFieldOfView: 0
   PatrolPosition:
   - {x: -2, y: 0.1, z: 2}
   - {x: 12, y: 0.1, z: 2}
@@ -1409,6 +1412,7 @@ MonoBehaviour:
   hitValueDisplay: {fileID: 1093971377971077887}
   durationDelay: 0.25
   durationDotween: 0.5
+  MainHitBox: {fileID: 0}
   Sharpness: 3
   NeckRig: {fileID: 5110955372691735422}
   CrystalTail:
