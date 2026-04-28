@@ -20,6 +20,8 @@ public class DreamBait : MonoBehaviour
             return;
         }
 
+        if (!currentBaitInstance.enabled) return;
+
         // probably needs another way to do it but this will do it for now
         await currentBaitInstance.Explode();
         TransformIndicator.Instance.DisplayBaitIcon();
