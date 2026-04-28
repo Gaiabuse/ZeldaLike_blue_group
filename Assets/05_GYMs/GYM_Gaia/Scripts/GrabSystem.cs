@@ -23,7 +23,7 @@ public class GrabSystem : MonoBehaviour
     [Tooltip("The enemy will end up at this distance of the enemy")]
     [SerializeField] private float throwDistance;
     [Tooltip("Duration in seconds")]
-    [SerializeField] private float throwDuration, AutoThrowDuration;
+    [SerializeField] private float throwDuration = .1f, AutoThrowDuration = 2f;
 
     [Header("Visual")]
     [SerializeField]
@@ -263,16 +263,6 @@ public class GrabSystem : MonoBehaviour
 
         return null;
     }
-
-    private Rigidbody GetRigidbodyFromEnemy(GameObject enemy)
-        => enemy.transform.parent == null ?
-             enemy.GetComponent<Rigidbody>() :
-             enemy.transform.parent.gameObject.GetComponent<Rigidbody>();
-
-    private Rigidbody AddRigidbodyToEnemy(GameObject enemy)
-        => enemy.transform.parent == null ?
-             enemy.AddComponent<Rigidbody>() :
-             enemy.transform.parent.gameObject.AddComponent<Rigidbody>();
 
     private void AttractObject(GameObject enemy)
     {
