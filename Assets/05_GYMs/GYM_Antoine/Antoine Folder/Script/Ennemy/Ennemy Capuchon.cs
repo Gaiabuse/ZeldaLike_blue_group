@@ -1,15 +1,12 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class CapuchonEnnemy : GroundEnnemy
 {
     [SerializeField] float DistStartAttack = 5f;
-    [SerializeField] Transform SpawnLaserWhere;
     [SerializeField] GameObject Laser;
-    [SerializeField] bool repositionToAttack = false;
+    bool repositionToAttack = false;
 
-    [SerializeField] float chargeTime = 2f;
-    [SerializeField] float prepShoot = 0.5f;
+    float chargeTime = 2f;
 
     protected override void FixedUpdate()
     {
@@ -24,32 +21,7 @@ public class CapuchonEnnemy : GroundEnnemy
             timerGeneral -= Time.deltaTime;
             if (timerGeneral <= 0)
             {
-                timerGeneral = prepShoot;
-                move = "readyShoot";
-            }
-        }
-        if (move == "readyShoot")
-        {
-            timerGeneral -= Time.deltaTime;
-            if (timerGeneral <= 0)
-            {
-                move = "shoot";
                 AttackStart(3);
-                GameObject laser = Instantiate(Laser);
-                laser.transform.position = SpawnLaserWhere.position;
-                laser.transform.rotation = SpawnLaserWhere.rotation;
-            }
-        }
-        if (repositionToAttack)
-        {
-            if (Vector3.Distance(transform.position, CurrentTarget.position) > DistStartAttack)
-            {
-                repositionToAttack = false;
-                canLookAtPlayer = true;
-
-                AttackStart(1);
-                move = "aim roll";
-                navMesh.speed = 0;
             }
         }
     }
@@ -58,20 +30,15 @@ public class CapuchonEnnemy : GroundEnnemy
     {
         if (CurrentTarget != null)
         {
-            float distTarget = Vector3.Distance(transform.position, CurrentTarget.position);
+            float distTarget = Vector3.Distance(AttackTrigger.position, CurrentTarget.position);
             if (distTarget >= DistStartAttack && TargetInFieldOfView && !repositionToAttack)
             {
                 AttackStart(1);
                 move = "aim start";
             }
-            else if (distTarget < DistStartAttack && !repositionToAttack)
+            else if (distTarget < DistanceAttack && !repositionToAttack)
             {
-                move = "reposition";
 
-                repositionToAttack = true;
-                canLookAtPlayer = false;
-                WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
-                navMesh.destination = WhereToGoPos;
             }
         }
     }
@@ -87,7 +54,7 @@ public class CapuchonEnnemy : GroundEnnemy
         if (attackID == 4)
         {
             animator.SetInteger("Attack", 0);
-            PatrolStart();
+            move = "chase";
             navMesh.isStopped = false;
         }
     }
