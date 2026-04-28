@@ -31,6 +31,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected float timerGeneral = 0;
 
     public bool alwaysAgro;
+
+    [SerializeField] float stunMultiplier = 1f;
     
     [SerializeField] protected string _move;
 
@@ -177,7 +179,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
                 if (move != "attack") move = "chase";
             }
 
-            if (stun > 0) StunEnnemy(stun, false);
+            if (stun > 0) StunEnnemy(stun * stunMultiplier, false);
         }
     }
 
