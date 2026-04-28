@@ -19,13 +19,9 @@ public class Textbox : MonoBehaviour
     string textShow; string nameShow;
     string currentText; string currentName;
     [SerializeField] int currentLetter = 0;
-
-    [Header("TextBox Assets")]
-
-    [SerializeField] List<Sprite> PortraitIcon;
-    [SerializeField] List<Vector2> PortraitSize;
-    [SerializeField] List<Vector2> PortraitPosition;
-
+    
+    [SerializeField] float  waitBeforeLetter =0.05f;
+    [SerializeField] float waitDisapear = 3f;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -86,23 +82,13 @@ public class Textbox : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AppearText(0, "You What ?!", "V2", 0.03f, 2);
-        }
-    }
 
-    public void AppearText(int Portrait, string text, string name, float waitBeforeLetter, float waitDisapear)
+
+    public void AppearText(string text)
     {
-        portrait.GetComponent<UnityEngine.UI.Image>().sprite = PortraitIcon[Portrait];
 
         RectTransform portraitTransform = portrait.GetComponent<RectTransform>();
-
-        portraitTransform.anchoredPosition = PortraitPosition[Portrait];
-        portraitTransform.localScale = PortraitSize[Portrait];
-
+        
         animator.SetBool("Show", true);
         textBox.text = null;
         nameBox.text = null;
