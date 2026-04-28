@@ -20,11 +20,11 @@ public class DirectionFilter : MonoBehaviour
     [SerializeField]
     [Range(0f, 360f)]
     [Tooltip("the strength of the assist \n 0 => no assist \n 360 => you can only assist")]
-    private float strength = 1f;
+    private float AttractionRadius = 255f;
 
     [SerializeField]
     [Tooltip("the strength of the snap higher -> snappier, should be less than 5 probably ? ")]
-    private uint SnapStrength = 1;
+    private uint SnapStrength = 25;
 
     [SerializeField]
     [Tooltip("The number of Enemy the game will assist 0 = no assist, must be positive")]
@@ -59,7 +59,7 @@ public class DirectionFilter : MonoBehaviour
             .OrderBy(x => angleOfDir - x)
             .First();
 
-        var finalAngle = angleOfDir + AttractTo(angleOfDir, aimableNear);
+        var finalAngle = angleOfDir - AttractTo(angleOfDir, aimableNear);
 
         finalAngle *= Mathf.Deg2Rad;
 
@@ -77,17 +77,16 @@ public class DirectionFilter : MonoBehaviour
 
         var angleOfDir = Vector2.SignedAngle(forwardDir, direction);
 
-
         // [WARNING] not optimal but I need to go fast or I'll never be able to test it
         var aimableNear = aimableNearRaw
             .Take(maxNumberOfEnemy)
             .Select(x => DeconstructIn2d(x.transform.position))
             .Select(x => position - x)
-            .Select(x => Vector2.SignedAngle(forwardDir, x))
-            .OrderBy(x => angleOfDir - x)
+            .OrderBy(x => Vector2.Angle(forwardDir, x))
             .First();
 
-        var finalAngle = angleOfDir + AttractTo(angleOfDir, aimableNear);
+        var angleOfNearestEnemy = Vector2.SignedAngle(forwardDir, aimableNear);
+        var finalAngle = angleOfDir - AttractTo(angleOfDir, angleOfNearestEnemy);
 
         //finalAngle *= Mathf.Deg2Rad;
 
@@ -96,13 +95,13 @@ public class DirectionFilter : MonoBehaviour
     // all that should be in a math helper class but tbh I'm just too lazy rn
 
     private float gaussian(float x)
-        => Mathf.Exp(-0.5f * Mathf.Pow(x, SnapStrength * 2f) / Mathf.Pow(strength, SnapStrength * 2f));
+        => Mathf.Exp(-0.5f * Mathf.Pow(x, SnapStrength * 2f) / Mathf.Pow(AttractionRadius, SnapStrength * 2f));
 
     private float AttractTo(float x, float to)
-        => Mathf.Sin(x / strength) * WeightTo(x, to) * strength;
+        => AttractFormula(x - to);
 
-    private float WeightTo(float x, float to)
-        => gaussian(x - to);
+    private float AttractFormula(float x)
+        => Mathf.Sin(x / AttractionRadius) * gaussian(x) * AttractionRadius;
 
     private Vector2 DeconstructIn2d(Vector3 vector)
         => new(vector.x, vector.z);
