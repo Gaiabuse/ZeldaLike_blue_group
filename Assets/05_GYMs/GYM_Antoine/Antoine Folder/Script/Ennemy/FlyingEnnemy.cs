@@ -29,6 +29,9 @@ public class FlyingEnnemy : EnnemyBase
     protected override void Start()
     {
         base.Start();
+
+        move = "0";
+
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.isKinematic = true;
