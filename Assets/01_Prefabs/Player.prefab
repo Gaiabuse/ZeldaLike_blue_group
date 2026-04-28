@@ -314,8 +314,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxChargedTime: 1
-  minAttack: 5
-  maxAttack: 27
+  minAttack: 8
+  maxAttack: 25
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 12
 --- !u!114 &8715960371389895154
@@ -348,7 +348,7 @@ MonoBehaviour:
   dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
   layerWall:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   layerGround:
     serializedVersion: 2
     m_Bits: 8
@@ -599,7 +599,7 @@ MonoBehaviour:
   side: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   Boxes: {fileID: 0}
   respawnAtStart: 1
 --- !u!114 &5888648130357620796
@@ -616,6 +616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   playerInput: {fileID: 8015218632366079429}
   pauseMenu: {fileID: 0}
+  progressMenu: {fileID: 0}
 --- !u!114 &475458454912018690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,7 +802,7 @@ MonoBehaviour:
   dashVFX: {fileID: 5095864304402594560}
   layerWall:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   layerGround:
     serializedVersion: 2
     m_Bits: 8
@@ -1597,13 +1598,14 @@ MonoBehaviour:
   sideRangeForSwallow: 0.1
   grabLayers:
     serializedVersion: 2
-    m_Bits: 3200
+    m_Bits: 1152
   downValue: {x: 0, y: 0.5, z: 0}
   throwDistance: 4
   throwDuration: 0
   AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
+  currentGrabbedObject: {fileID: 0}
 --- !u!114 &8600280016486079122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1660,7 +1662,7 @@ MonoBehaviour:
   dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
   layerWall:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   layerGround:
     serializedVersion: 2
     m_Bits: 8
@@ -1852,6 +1854,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   maxPointsForCreate: 3
+  currentPointsForCreate: 0
   holdTime: 2
   numberOfPressForErasedEnemy: 20
   hpHealWhenErasedEnemy: 20

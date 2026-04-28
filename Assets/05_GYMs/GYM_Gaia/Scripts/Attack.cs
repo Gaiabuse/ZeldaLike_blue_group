@@ -16,6 +16,7 @@ public class Attack : MonoBehaviour
 
     public float manaUsed { private set; get; }
     public float damage { private set; get; }
+
     [SerializeField] float stun;
     public TypeOfAttack type { private set; get; }
 
@@ -69,7 +70,7 @@ public class Attack : MonoBehaviour
 
         if (collision.transform.CompareTag("Ennemy"))
         {
-            SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
+            SheepEnnemyTest isSheep = collision.GetComponent<SheepEnnemyTest>();
 
             KnockBackFeedback knockBackFeedback = collision.GetComponent<KnockBackFeedback>();
             touchedEnemy = true;

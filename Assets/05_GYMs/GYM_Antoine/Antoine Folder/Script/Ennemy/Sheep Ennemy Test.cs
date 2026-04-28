@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SheepEnnemy : GroundEnnemy
+public class SheepEnnemyTest : GroundEnnemy
 {
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;

@@ -26,7 +26,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] List<Vector3> PatrolPosition;
     int currentPatrolPose;
 
-    protected bool canLookAtPlayer = true;
+    [SerializeField] protected bool canLookAtPlayer = true;
 
     protected override void Start()
     {
@@ -43,8 +43,8 @@ public class GroundEnnemy : EnnemyBase
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-
-        if (canLookAtPlayer) isPlayerInFieldOfView();
+        
+        print(navMesh.isStopped);
 
         if (move != "stun")
         {
