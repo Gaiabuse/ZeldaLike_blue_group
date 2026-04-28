@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CapuchonEnnemy : GroundEnnemy
 {
     [SerializeField] float DistStartAttack = 5f;
     [SerializeField] GameObject Laser;
-    bool repositionToAttack = false;
+    [SerializeField] Transform laserSpawn;
+
+    [SerializeField] bool repositionToAttack = false;
 
     float chargeTime = 2f;
 
@@ -22,6 +25,21 @@ public class CapuchonEnnemy : GroundEnnemy
             if (timerGeneral <= 0)
             {
                 AttackStart(3);
+                GameObject laser = Instantiate(Laser);
+                laser.transform.position = laserSpawn.position;
+                laser.transform.rotation = laserSpawn.rotation;
+            }
+        }
+        if (move == "reposition")
+        {
+            Debug.Log(Vector3.Distance(CurrentTarget.position, transform.position));
+            if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
+            {
+                repositionToAttack = false;
+                canLookAtPlayer = true;
+
+                AttackStart(1);
+                move = "aim start";
             }
         }
     }
@@ -36,9 +54,13 @@ public class CapuchonEnnemy : GroundEnnemy
                 AttackStart(1);
                 move = "aim start";
             }
-            else if (distTarget < DistanceAttack && !repositionToAttack)
+            else if (distTarget < DistanceAttack && move != "reposition")
             {
-
+                move = "reposition";
+                repositionToAttack = true;
+                canLookAtPlayer = false;
+                WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
+                navMesh.destination = WhereToGoPos;
             }
         }
     }
@@ -54,8 +76,9 @@ public class CapuchonEnnemy : GroundEnnemy
         if (attackID == 4)
         {
             animator.SetInteger("Attack", 0);
-            move = "chase";
+            PatrolStart();
             navMesh.isStopped = false;
+
         }
     }
 }
