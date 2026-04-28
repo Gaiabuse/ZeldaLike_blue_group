@@ -79,7 +79,10 @@ public class FormSwitcher : MonoBehaviour
         currentForm = nextForm;
         SwitchForm?.Invoke(currentForm);
         playerController.CanMove = true;
-        playerController.CanRotate = true;
+        if (CanDoUltimate)
+        {
+            playerController.CanRotate = true;
+        }
     }
     
 
