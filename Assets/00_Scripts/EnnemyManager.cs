@@ -34,7 +34,7 @@ public class EnnemyManager : MonoBehaviour
         bool foundCombat = false;
         foreach (EnnemyBase en in enemies)
         {
-            if (en.move != "0")
+            if (en.move != "patrol")
             {
                 foundCombat = true;
                 break;

@@ -189,8 +189,6 @@ public class ErasedManager : MonoBehaviour
 
     private void EraseOrCreate()
     {
-        if (currentObject == null) return;
-        
         GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
         if (dust != null)
         {
