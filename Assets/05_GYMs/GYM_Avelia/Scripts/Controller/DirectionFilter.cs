@@ -71,22 +71,21 @@ public class DirectionFilter : MonoBehaviour
     {
         var aimableNearRaw = AutoAimable.GetTargetAround(transform.position, autoAimRadius);
 
-        if (aimableNearRaw.Count() <= 0) return Mathf.Atan2(direction.y, direction.x) * -Mathf.Rad2Deg;
+        var angleOfDir = GetAngle(direction);
+
+        if (aimableNearRaw.Count() <= 0) return angleOfDir;
 
         var position = DeconstructIn2d(transform.position);
-        var forwardDir = Vector2.right;
-
-        var angleOfDir = Vector2.SignedAngle(forwardDir, direction);
 
         // [WARNING] not optimal but I need to go fast or I'll never be able to test it
         var aimableNear = aimableNearRaw
             .Take(maxNumberOfEnemy)
             .Select(x => DeconstructIn2d(x.transform.position))
-            .Select(x => position - x)
+            .Select(x => x - position)
             .OrderBy(x => Vector2.Angle(direction, x))
             .First();
 
-        var angleOfNearestEnemy = Vector2.SignedAngle(forwardDir, aimableNear);
+        var angleOfNearestEnemy = GetAngle(aimableNear);
         var finalAngle = angleOfDir - AttractTo(angleOfDir, angleOfNearestEnemy);
 
         //finalAngle *= Mathf.Deg2Rad;
@@ -107,4 +106,6 @@ public class DirectionFilter : MonoBehaviour
     private Vector2 DeconstructIn2d(Vector3 vector)
         => new(vector.x, vector.z);
 
+    private float GetAngle(Vector2 vector)
+        => Mathf.Atan2(vector.x, vector.y) * Mathf.Rad2Deg;
 }

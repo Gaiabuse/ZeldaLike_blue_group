@@ -19,7 +19,7 @@ public class DirectionSampler : MonoBehaviour
             var box = Instantiate(ToClone);
             var angle = i / AmountofPoints * 2f * Mathf.PI;
             box.transform.position = GetPosition(angle);
-            var correctedAngle = filter.FilterStickInputToAngle(FromAngle(angle)) + 180;
+            var correctedAngle = (filter.FilterStickInputToAngle(FromAngle(angle)) + 360) % 360;
             box.GetComponent<Renderer>().material.color = Color.HSVToRGB(correctedAngle / 360f, 1f, 1f);
         }
     }

@@ -14,6 +14,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "StickMoved",
+                    "type": "Value",
+                    "id": "446d09a7-e440-458e-8cca-6bf92acf2191",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -25,6 +34,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "MouseMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41b59b34-0c27-4951-b266-2e1a9fcacb06",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StickMoved",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33c1c925-aca4-4891-b09e-6fc1e281ac3c",
+                    "path": "<Linux::Logic3::PDPFaceoffPremiereWiredProControllerforNintendoSwitch>/Stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StickMoved",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

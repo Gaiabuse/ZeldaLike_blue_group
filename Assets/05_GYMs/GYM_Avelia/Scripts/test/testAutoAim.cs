@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class testAutoAim : MonoBehaviour, IHasProjectPoints
 {
-    [SerializeField] bool MouseMode = true;
+    [SerializeField] bool MouseMode = true, IsActiveFilter = true;
     Plane plane = new Plane(inNormal: Vector3.down, inPoint: Vector3.zero);
     [SerializeField]
     Camera sceneCamera;
@@ -15,6 +15,7 @@ public class testAutoAim : MonoBehaviour, IHasProjectPoints
 
     Vector3 mousePosition;
     Vector2 direction;
+    float directionfiltered;
 
 
     void Start() { }
@@ -22,9 +23,12 @@ public class testAutoAim : MonoBehaviour, IHasProjectPoints
     void Update()
     {
         UpdateMouseDirection();
-        var directionfiltered = filter.FilterStickInputToAngle(direction);
+        directionfiltered = filter.FilterStickInputToAngle(direction);
 
-        transform.eulerAngles = new(0f, -directionfiltered, 0f);
+        if (IsActiveFilter)
+            transform.eulerAngles = new(0f, directionfiltered, 0f);
+        else
+            transform.eulerAngles = new(0f, Mathf.Atan2(direction.x, direction.y), 0f);
     }
 
     Vector3 IHasProjectPoints.ProjectPoint(Vector2 dir)
@@ -44,7 +48,7 @@ public class testAutoAim : MonoBehaviour, IHasProjectPoints
         if (plane.Raycast(raycam, out float len))
         {
             thingy.position = raycam.GetPoint(len);
-            direction = new(thingy.position.x, thingy.position.z);
+            direction = Vector3.Normalize(new(thingy.position.x, thingy.position.z));
         }
     }
 
@@ -52,5 +56,18 @@ public class testAutoAim : MonoBehaviour, IHasProjectPoints
     {
         if (MouseMode) return;
         direction = _input.Get<Vector2>();
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Ray raydir = new Ray(origin: Vector3.up * 2, direction: new(direction.x, 0f, direction.y));
+
+        Gizmos.DrawRay(raydir);
+
+        Gizmos.color = Color.greenYellow;
+        Ray rayfiltdir = new Ray(origin: Vector3.up * 2, direction: transform.forward);
+
+        Gizmos.DrawRay(rayfiltdir);
     }
 }
