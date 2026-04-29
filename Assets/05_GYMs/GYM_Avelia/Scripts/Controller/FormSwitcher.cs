@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -8,7 +7,6 @@ public class FormSwitcher : MonoBehaviour
 {
     public Form currentForm { get; private set; } = Form.neutral;
 
-    public List<Form> DisponibleForms = new List<Form>();
     [SerializeField]
     GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action<Form> SwitchForm;
@@ -37,7 +35,6 @@ public class FormSwitcher : MonoBehaviour
     {
 
         if(currentForm == nextForm)return;
-        if (!DisponibleForms.Contains(nextForm))return;
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
         nightmareFormObject.SetActive(false);
@@ -82,10 +79,7 @@ public class FormSwitcher : MonoBehaviour
         currentForm = nextForm;
         SwitchForm?.Invoke(currentForm);
         playerController.CanMove = true;
-        if (CanDoUltimate)
-        {
-            playerController.CanRotate = true;
-        }
+        playerController.CanRotate = true;
     }
     
 

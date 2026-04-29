@@ -12,7 +12,7 @@ public class GrabSystem : MonoBehaviour
     [Header("Grab")]
     [SerializeField] private float rangeForGrab;
     [SerializeField] private float sideRangeForGrab = 0.1f;
-    [SerializeField] private float grabActionDuration = 0.1f;
+    [SerializeField] private float grabStrength;
 
     [SerializeField] private float rangeForSwallow;
     [SerializeField] private float sideRangeForSwallow = 0.1f;
@@ -23,7 +23,7 @@ public class GrabSystem : MonoBehaviour
     [Tooltip("The enemy will end up at this distance of the enemy")]
     [SerializeField] private float throwDistance;
     [Tooltip("Duration in seconds")]
-    [SerializeField] private float throwDuration = .1f, AutoThrowDuration = 2f;
+    [SerializeField] private float throwDuration, AutoThrowDuration;
 
     [Header("Visual")]
     [SerializeField]
@@ -207,8 +207,7 @@ public class GrabSystem : MonoBehaviour
                     if (SheepEnnemyScript.shellHere) SheepEnnemyScript.LoseShell();
                 }
 
-                if (currentGrabbedObject.transform.parent != null)
-                    currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+                if (currentGrabbedObject.transform.parent != null) currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
 
                 currentGrabbedObject.SetActive(false);
             }
@@ -223,7 +222,14 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
 
-        AttractObject(hitGrabbed.collider.gameObject);
+        Rigidbody grabbedObject = GetRigidbodyFromEnemy(hitGrabbed.collider.gameObject);
+
+        if (grabbedObject == null)
+        {
+            grabbedObject = AddRigidbodyToEnemy(hitGrabbed.collider.gameObject);
+        }
+
+        grabbedObject.AddForce(direction * grabStrength, ForceMode.Impulse);
 
     }
 
@@ -264,9 +270,14 @@ public class GrabSystem : MonoBehaviour
         return null;
     }
 
-    private void AttractObject(GameObject enemy)
-    {
-        enemy.transform.DOMove(transform.position, grabActionDuration);
-    }
+    private Rigidbody GetRigidbodyFromEnemy(GameObject enemy)
+        => enemy.transform.parent == null ?
+             enemy.GetComponent<Rigidbody>() :
+             enemy.transform.parent.gameObject.GetComponent<Rigidbody>();
+
+    private Rigidbody AddRigidbodyToEnemy(GameObject enemy)
+        => enemy.transform.parent == null ?
+             enemy.AddComponent<Rigidbody>() :
+             enemy.transform.parent.gameObject.AddComponent<Rigidbody>();
 
 }
