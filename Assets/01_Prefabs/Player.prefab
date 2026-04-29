@@ -616,6 +616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   playerInput: {fileID: 8015218632366079429}
   pauseMenu: {fileID: 0}
+  progressMenu: {fileID: 0}
 --- !u!114 &475458454912018690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,7 +802,7 @@ MonoBehaviour:
   dashVFX: {fileID: 5095864304402594560}
   layerWall:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   layerGround:
     serializedVersion: 2
     m_Bits: 8
@@ -1604,6 +1605,7 @@ MonoBehaviour:
   AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
+  currentGrabbedObject: {fileID: 0}
 --- !u!114 &8600280016486079122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1852,6 +1854,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   maxPointsForCreate: 3
+  currentPointsForCreate: 0
   holdTime: 2
   numberOfPressForErasedEnemy: 20
   hpHealWhenErasedEnemy: 20

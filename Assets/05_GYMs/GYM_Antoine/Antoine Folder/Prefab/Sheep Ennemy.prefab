@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 466543313621294605}
   - component: {fileID: 1567582549737142057}
   - component: {fileID: 4931270884686840136}
-  - component: {fileID: 18577131544565587}
+  - component: {fileID: 4080453794386187644}
   m_Layer: 7
   m_Name: Sheep Ennemy
   m_TagString: Ennemy
@@ -205,6 +205,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3523440528103284094}
+  - {fileID: 6737008456721536633}
   - {fileID: 5954388432317891948}
   - {fileID: 8452369889119618306}
   - {fileID: 5845925787705928786}
@@ -253,7 +254,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &18577131544565587
+--- !u!114 &4080453794386187644
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,7 +263,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4595172733182460605}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb173a658ea297f47b50da83d5a7533e, type: 3}
+  m_Script: {fileID: 11500000, guid: c49a5308055c12c4684b34e8e0159980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SheepEnnemy
   data: {fileID: 11400000, guid: 654447289f4aee74aa06926a1c6cce28, type: 2}
@@ -273,7 +274,7 @@ MonoBehaviour:
   alwaysAgro: 0
   stunMultiplier: 1
   _move: 
-  MainHitBox: {fileID: 0}
+  MainHitBox: {fileID: 219669631756677403}
   Eyes: []
   colorNormal: {r: 0, g: 0, b: 0, a: 0}
   colorChase: {r: 0, g: 0, b: 0, a: 0}
@@ -289,7 +290,7 @@ MonoBehaviour:
   RadiusLook: 45
   LoseFocusDist: 1
   AttackTrigger: {fileID: 466543313621294605}
-  DistanceAttack: 2
+  DistanceAttack: 5
   LayerBlockRay:
     serializedVersion: 2
     m_Bits: 1553
@@ -300,8 +301,10 @@ MonoBehaviour:
   Shell: {fileID: 2826450617920441251}
   shellHere: 1
   DistStartAttack: 7
-  rollSpeed: 20
+  ChargeDuration: 0.5
+  rollSpeed: 35
   rollDuration: 0.75
+  stunRollEndDuration: 2
 --- !u!1 &4709928122166143438
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,6 +318,7 @@ GameObject:
   - component: {fileID: 3444658483400392265}
   - component: {fileID: 1068272771960257072}
   - component: {fileID: 936695349394884691}
+  - component: {fileID: 6956632013452052454}
   m_Layer: 0
   m_Name: Sheep Sprite
   m_TagString: Untagged
@@ -442,7 +446,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846e7c9a33c2f414f9202b022aaffbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitchAnim
-  ennemyBase: {fileID: 18577131544565587}
+  ennemyBase: {fileID: 4080453794386187644}
+--- !u!114 &6956632013452052454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4709928122166143438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c003f7b72d2c8d34ab3b0b86a8a1a31c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RotationToAnimator
+  RotationX: PosX
+  RotationY: PosY
+  GetRotation: {fileID: 466543313621294605}
+  Offset: 45
+--- !u!1 &5479905363850982354
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6737008456721536633}
+  - component: {fileID: 8057913671618206977}
+  - component: {fileID: 219669631756677403}
+  m_Layer: 7
+  m_Name: HitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6737008456721536633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5479905363850982354}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 466543313621294605}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &8057913671618206977
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5479905363850982354}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.75
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &219669631756677403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5479905363850982354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f809e0a38a1d5c4f8a705b7565730fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
+  damage: 3
+  canHit: 0
 --- !u!1 &6337016114918726101
 GameObject:
   m_ObjectHideFlags: 0

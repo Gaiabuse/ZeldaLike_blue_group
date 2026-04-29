@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SheepEnnemyTest : GroundEnnemy
+public class SheepEnnemy : GroundEnnemy
 {
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;
@@ -10,8 +10,10 @@ public class SheepEnnemyTest : GroundEnnemy
     public bool shellHere = true;
 
     [SerializeField] float DistStartAttack = 5f;
+    [SerializeField] float ChargeDuration = 0.5f;
     [SerializeField] float rollSpeed = 35f;
     [SerializeField] float rollDuration = 2.5f;
+    [SerializeField] float stunRollEndDuration = 2f;
 
     bool repositionToAttack = false;
 
@@ -53,11 +55,12 @@ public class SheepEnnemyTest : GroundEnnemy
                 }
                 if (timerGeneral <= 0)
                 {
-                    move = "rollEnd";
+                    move = "roll end";
                     animator.SetInteger("Attack", 3);
                     canLookAtPlayer = true;
                     navMesh.isStopped = true;
                     ToogleMainAttack(-1);
+                    timerGeneral = stunRollEndDuration;
 
                     navMesh.speed = speed.x;
                     navMesh.angularSpeed = SpeedRotate.x;
@@ -82,6 +85,37 @@ public class SheepEnnemyTest : GroundEnnemy
                 Vector3 relativePos = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z) - transform.position;
                 Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.5f);
+            }
+            if (move == "charge")
+            {
+                timerGeneral -= Time.deltaTime;
+                if (timerGeneral <= 0)
+                {
+                    ToogleMainAttack(1);
+
+                    canLookAtPlayer = false;
+                    move = "roll";
+
+                    WhereToGoPos = CurrentTarget.position;
+                    navMesh.destination = WhereToGoPos;
+
+                    navMesh.speed = rollSpeed;
+                    navMesh.acceleration = rollSpeed * 5;
+                    navMesh.angularSpeed = 0;
+                    navMesh.isStopped = false;
+
+                    timerGeneral = rollDuration;
+                }
+            }
+            if (move == "roll end")
+            {
+                timerGeneral -= Time.deltaTime;
+                if (timerGeneral <= 0)
+                {
+                    animator.SetInteger("Attack", 0);
+                    navMesh.isStopped = false;
+                    PatrolStart();
+                }
             }
         }
         else
@@ -178,25 +212,8 @@ public class SheepEnnemyTest : GroundEnnemy
         base.AttackStart(attackID);
         if (attackID == 2)
         {
-            ToogleMainAttack(1);
-
-            canLookAtPlayer = false;
-            move = "roll";
-
-            WhereToGoPos = CurrentTarget.position;
-            navMesh.destination = WhereToGoPos;
-
-            navMesh.speed = rollSpeed;
-            navMesh.acceleration = rollSpeed * 5;
-            navMesh.angularSpeed = 0;
-            navMesh.isStopped = false;
-
-            timerGeneral = rollDuration;
-        }
-        if (attackID == 4)
-        {
-            animator.SetInteger("Attack", 0);
-            StunEnnemy(2, false);
+            timerGeneral = ChargeDuration;
+            move = "charge";
         }
     }
 
