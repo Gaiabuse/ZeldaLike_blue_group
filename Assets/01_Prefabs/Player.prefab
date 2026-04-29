@@ -577,12 +577,13 @@ MonoBehaviour:
   currentAnimator: {fileID: 0}
   controller: {fileID: 2672575590059249965}
   gravity: {x: 0, y: -10, z: 0}
+  cameraFollow: {fileID: 0}
+  cameraRotation: {fileID: 0}
+  filter: {fileID: 0}
   speed: 12
   rotationSpeed: 10
   decayAccel: 5
   decayDecel: 10
-  cameraFollow: {fileID: 0}
-  cameraRotation: {fileID: 0}
   layerGround:
     serializedVersion: 2
     m_Bits: 8
@@ -1729,7 +1730,7 @@ MonoBehaviour:
   sideRangeForSwallow: 0.1
   grabLayers:
     serializedVersion: 2
-    m_Bits: 1152
+    m_Bits: 3200
   downValue: {x: 0, y: 0.5, z: 0}
   throwDistance: 4
   throwDuration: 0
