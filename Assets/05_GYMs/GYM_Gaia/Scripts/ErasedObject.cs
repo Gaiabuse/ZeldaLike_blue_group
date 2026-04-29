@@ -8,6 +8,7 @@ public class ErasedObject : MonoBehaviour
 {
     [SerializeField]private GameObject erasedObject;
     [SerializeField]private GameObject createdObject;
+    [SerializeField]private Image eraseIcon;
     [SerializeField]private Image createIcon;
     [SerializeField]private Image createPointsIcon;
     [SerializeField]private List<Sprite> createPointsSprite;
@@ -28,6 +29,10 @@ public class ErasedObject : MonoBehaviour
             createPointsIcon.enabled = true;
             createIcon.enabled = true;
         }
+        else if (other.tag == "Player" && _isCreated)
+        {
+            eraseIcon.enabled = true;
+        }
     }
     
     void OnTriggerExit(Collider other)
@@ -36,6 +41,8 @@ public class ErasedObject : MonoBehaviour
         {
             createPointsIcon.enabled = false;
             createIcon.enabled = false;
+            eraseIcon.enabled = false;
+
         }
     } 
 
@@ -44,6 +51,7 @@ public class ErasedObject : MonoBehaviour
         _isCreated = false;
         createPointsIcon.enabled = false;
         createIcon.enabled = false;
+        eraseIcon.enabled = false;
         Erased = true;
         createdObject.SetActive(!Erased);
         erasedObject.SetActive(Erased);
@@ -55,6 +63,7 @@ public class ErasedObject : MonoBehaviour
         _isCreated = true;
         createPointsIcon.enabled = false;
         createIcon.enabled = false;
+        eraseIcon.enabled = false;
         Erased = false;
         erasedObject.SetActive(Erased);
         createdObject.SetActive(!Erased);
