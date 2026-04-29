@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SheepEnnemy : GroundEnnemy
 {
@@ -69,7 +70,12 @@ public class SheepEnnemy : GroundEnnemy
             }
             if (move == "reposition")
             {
-                if (Vector3.Distance(CurrentTarget.position, transform.position) > DistanceAttack)
+                if (Vector3.Distance(WhereToGoPos, transform.position) <= 2.5f)
+                {
+                    WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
+                    navMesh.destination = WhereToGoPos;
+                }
+                if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
                 {
                     repositionToAttack = false;
                     canLookAtPlayer = true;
@@ -126,6 +132,7 @@ public class SheepEnnemy : GroundEnnemy
                 canLookAtPlayer = false;
                 navMesh.speed = speed.x;
                 navMesh.angularSpeed = SpeedRotate.x;
+                navMesh.acceleration = acceleration.x;
                 move = "getShell";
             }
 
@@ -162,6 +169,10 @@ public class SheepEnnemy : GroundEnnemy
                 canLookAtPlayer = false;
                 WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
                 navMesh.destination = WhereToGoPos;
+
+                navMesh.speed = speed.y;
+                navMesh.angularSpeed = SpeedRotate.y;
+                navMesh.acceleration = acceleration.y;
 
                 move = "reposition";
             }

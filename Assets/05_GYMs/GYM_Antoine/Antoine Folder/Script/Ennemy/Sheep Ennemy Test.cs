@@ -64,7 +64,7 @@ public class SheepEnnemyTest : GroundEnnemy
                     WhereToGoPos = CurrentTarget.position;
                 }
             }
-            if (move == "reposition")
+            if (repositionToAttack)
             {
                 if (Vector3.Distance(CurrentTarget.position, transform.position) > DistanceAttack)
                 {
@@ -128,8 +128,6 @@ public class SheepEnnemyTest : GroundEnnemy
                 canLookAtPlayer = false;
                 WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
                 navMesh.destination = WhereToGoPos;
-
-                move = "reposition";
             }
         }
     }
