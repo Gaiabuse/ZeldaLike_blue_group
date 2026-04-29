@@ -16,17 +16,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Vector3 gravity = new(0f, -10f, 0f);
     [SerializeField]
+    private CameraFollow cameraFollow;
+
+    [SerializeField]
+    public Transform cameraRotation;
+
+    [SerializeField]
+    private DirectionFilter filter;
+
+    [Header("Control Constants")]
+    [SerializeField]
     float speed = 10f, rotationSpeed = 15f;
     [SerializeField]
     float decayAccel = 5f, decayDecel = 10f;
 
     private float currentStickProgress, smoothedStickProgress;
 
-    [SerializeField]
-    private CameraFollow cameraFollow;
-
-    [SerializeField]
-    public Transform cameraRotation;
 
     [Header("Collision")]
     [SerializeField]
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviour
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
 
+    [Header("BoxControl")]
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
