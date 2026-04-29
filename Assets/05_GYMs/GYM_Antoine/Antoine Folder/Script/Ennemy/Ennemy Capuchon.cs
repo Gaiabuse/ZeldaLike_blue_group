@@ -32,6 +32,11 @@ public class CapuchonEnnemy : GroundEnnemy
         }
         if (move == "reposition")
         {
+            if (Vector3.Distance(WhereToGoPos, transform.position) <= 2.5f)
+            {
+                WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
+                navMesh.destination = WhereToGoPos;
+            }
             if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
             {
                 repositionToAttack = false;
