@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class testAutoAim : MonoBehaviour, IHasProjectPoints
 {
+    [SerializeField] bool MouseMode = true;
     Plane plane = new Plane(inNormal: Vector3.down, inPoint: Vector3.zero);
     [SerializeField]
     Camera sceneCamera;
@@ -15,21 +16,14 @@ public class testAutoAim : MonoBehaviour, IHasProjectPoints
     Vector3 mousePosition;
     Vector2 direction;
 
+
     void Start() { }
 
     void Update()
     {
-        var raycam = sceneCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (plane.Raycast(raycam, out float len))
-        {
-            thingy.position = raycam.GetPoint(len);
-            direction = new(thingy.position.x, thingy.position.z);
-        }
-
+        UpdateMouseDirection();
         var directionfiltered = filter.FilterStickInputToAngle(direction);
 
-        print(directionfiltered);
         transform.eulerAngles = new(0f, -directionfiltered, 0f);
     }
 
@@ -40,5 +34,23 @@ public class testAutoAim : MonoBehaviour, IHasProjectPoints
         Vector3 moveDirRight = Vector3.ProjectOnPlane(camRight, transform.up).normalized;
         Vector3 moveDirForward = Vector3.ProjectOnPlane(camForward, transform.up).normalized;
         return (moveDirForward * dir.y) + (moveDirRight * dir.x);
+    }
+
+    void UpdateMouseDirection()
+    {
+        if (!MouseMode) return;
+        var raycam = sceneCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (plane.Raycast(raycam, out float len))
+        {
+            thingy.position = raycam.GetPoint(len);
+            direction = new(thingy.position.x, thingy.position.z);
+        }
+    }
+
+    void OnStickMoved(InputValue _input)
+    {
+        if (MouseMode) return;
+        direction = _input.Get<Vector2>();
     }
 }

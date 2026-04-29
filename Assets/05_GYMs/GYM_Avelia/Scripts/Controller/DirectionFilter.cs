@@ -19,11 +19,12 @@ public class DirectionFilter : MonoBehaviour
 
     [SerializeField]
     [Range(0f, 360f)]
-    [Tooltip("the strength of the assist \n 0 => no assist \n 360 => you can only assist")]
-    private float AttractionRadius = 255f;
+    [Tooltip("the range that will attract the direction")]
+    private float AttractionRadius = 60f;
 
     [SerializeField]
     [Tooltip("the strength of the snap higher -> snappier, should be less than 5 probably ? ")]
+    [Min(1)]
     private uint SnapStrength = 25;
 
     [SerializeField]
@@ -82,7 +83,7 @@ public class DirectionFilter : MonoBehaviour
             .Take(maxNumberOfEnemy)
             .Select(x => DeconstructIn2d(x.transform.position))
             .Select(x => position - x)
-            .OrderBy(x => Vector2.Angle(forwardDir, x))
+            .OrderBy(x => Vector2.Angle(direction, x))
             .First();
 
         var angleOfNearestEnemy = Vector2.SignedAngle(forwardDir, aimableNear);
