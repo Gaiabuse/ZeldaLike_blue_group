@@ -2,11 +2,12 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SheepEnnemy : GroundEnnemy
+public class SheepEnnemySprite : GroundEnnemy
 {
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;
     SphereCollider colShell;
+    SphereCollider sheepCollider;
 
     public bool shellHere = true;
 
@@ -24,20 +25,22 @@ public class SheepEnnemy : GroundEnnemy
 
         rbShell = Shell.GetComponent<Rigidbody>();
         colShell = Shell.GetComponent<SphereCollider>();
+        sheepCollider = GetComponent<SphereCollider>();
         colShell.enabled = false;
         rbShell.isKinematic = true;
 
         invincible = true;
         showDamageDisplayInvincible = false;
+        animator.SetInteger("Shell", 1);
     }
 
-    /*void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             LoseShell();
         }
-    }*/
+    }
 
     protected override void FixedUpdate()
     {
@@ -61,6 +64,7 @@ public class SheepEnnemy : GroundEnnemy
                     canLookAtPlayer = true;
                     navMesh.isStopped = true;
                     ToogleMainAttack(-1);
+                    sheepCollider.isTrigger = false;
                     timerGeneral = stunRollEndDuration;
 
                     navMesh.speed = speed.x;
@@ -102,6 +106,7 @@ public class SheepEnnemy : GroundEnnemy
                     canLookAtPlayer = false;
                     move = "roll";
 
+                    sheepCollider.isTrigger = true;
                     WhereToGoPos = CurrentTarget.position;
                     navMesh.destination = WhereToGoPos;
 
@@ -141,7 +146,7 @@ public class SheepEnnemy : GroundEnnemy
                 navMesh.destination = Shell.transform.position;
                 if (Vector3.Distance(transform.position, Shell.transform.position) < 1.5f)
                 {
-                    ShellBack();
+                    //ShellBack();
                 }
             }
         }
@@ -181,25 +186,38 @@ public class SheepEnnemy : GroundEnnemy
 
     public void LoseShell()
     {
-        rbShell.isKinematic = false;
-        Shell.transform.SetParent(null, true);
-        rbShell.linearVelocity = Vector3.zero;
+        animator.SetInteger("Shell", -1);
+        animator.SetInteger("Attack", 0);
+        navMesh.isStopped = true;
+        move = "lose shell";
+    }
 
-        rbShell.AddForce(Vector3.up * 250);
+    public void SetShell(int shell)
+    {
+        animator.SetInteger("Shell", shell);
+        if (shell == -2)
+        {
+            Shell.SetActive(true);
+            rbShell.isKinematic = false;
+            Shell.transform.SetParent(null, true);
+            rbShell.linearVelocity = Vector3.zero;
 
-        int RandomNumber = UnityEngine.Random.Range(100, 200);
-        if (UnityEngine.Random.Range(0, 1) == 0) RandomNumber = -RandomNumber;
-        rbShell.AddForce(Vector3.right * RandomNumber);
+            rbShell.AddForce(Vector3.up * 250);
 
-        RandomNumber = UnityEngine.Random.Range(100, 200);
-        if (UnityEngine.Random.Range(0, 1) == 0) RandomNumber = -RandomNumber;
-        rbShell.AddForce(Vector3.forward * RandomNumber);
+            int RandomNumber = UnityEngine.Random.Range(100, 200);
+            if (UnityEngine.Random.Range(0, 1) == 0) RandomNumber = -RandomNumber;
+            rbShell.AddForce(Vector3.right * RandomNumber);
 
-        colShell.enabled = true;
-        shellHere = false;
+            RandomNumber = UnityEngine.Random.Range(100, 200);
+            if (UnityEngine.Random.Range(0, 1) == 0) RandomNumber = -RandomNumber;
+            rbShell.AddForce(Vector3.forward * RandomNumber);
 
-        invincible = false;
-        showDamageDisplayInvincible = true;
+            colShell.enabled = true;
+            shellHere = false;
+
+            invincible = false;
+            showDamageDisplayInvincible = true;
+        }
     }
 
     void ShellBack()
