@@ -104,6 +104,7 @@ public class MovingBox : MonoBehaviour
 
     private void ReleaseBox()
     {
+        Debug.Log("nique ton pere");
         if (canInteract)
         {
             Ui.SetActive(true);
