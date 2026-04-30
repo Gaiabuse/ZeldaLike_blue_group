@@ -36,7 +36,8 @@ public class SheepEnnemySprite : GroundEnnemy
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            LoseShell();
+            if (shellHere) LoseShell();
+            else StunEnnemy(1, false);
         }
     }
 
@@ -246,5 +247,9 @@ public class SheepEnnemySprite : GroundEnnemy
     {
         base.StunEnnemy(stunTime, infiniteStun);
         animator.SetInteger("Attack", 0);
+        if (!shellHere)
+        {
+            animator.SetInteger("Shell", -3);
+        }
     }
 }
