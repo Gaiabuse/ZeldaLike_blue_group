@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class SheepEnnemySprite : GroundEnnemy
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;
     SphereCollider colShell;
+    SphereCollider sheepCollider;
 
     public bool shellHere = true;
 
@@ -24,6 +26,7 @@ public class SheepEnnemySprite : GroundEnnemy
 
         rbShell = Shell.GetComponent<Rigidbody>();
         colShell = Shell.GetComponent<SphereCollider>();
+        sheepCollider = GetComponent<SphereCollider>();
         colShell.enabled = false;
         rbShell.isKinematic = true;
 
@@ -63,6 +66,7 @@ public class SheepEnnemySprite : GroundEnnemy
                     canLookAtPlayer = true;
                     navMesh.isStopped = true;
                     ToogleMainAttack(-1);
+                    sheepCollider.isTrigger = false;
                     timerGeneral = stunRollEndDuration;
 
                     navMesh.speed = speed.x;
@@ -104,6 +108,7 @@ public class SheepEnnemySprite : GroundEnnemy
                     canLookAtPlayer = false;
                     move = "roll";
 
+                    sheepCollider.isTrigger = true;
                     WhereToGoPos = CurrentTarget.position;
                     navMesh.destination = WhereToGoPos;
 
@@ -128,22 +133,24 @@ public class SheepEnnemySprite : GroundEnnemy
         }
         else
         {
-            if (move != "getShell" && move != "stun")
+            if (move == "shell lost")
             {
                 EyesSetColorTo(colorNormal);
                 canLookAtPlayer = false;
                 navMesh.speed = speed.x;
                 navMesh.angularSpeed = SpeedRotate.x;
                 navMesh.acceleration = acceleration.x;
+                navMesh.isStopped = false;
                 move = "getShell";
             }
 
             if (move == "getShell")
             {
                 navMesh.destination = Shell.transform.position;
+                Debug.Log(Vector3.Distance(transform.position, Shell.transform.position));
                 if (Vector3.Distance(transform.position, Shell.transform.position) < 1.5f)
                 {
-                    //ShellBack();
+                    ShellBack();
                 }
             }
         }
@@ -198,6 +205,7 @@ public class SheepEnnemySprite : GroundEnnemy
             rbShell.isKinematic = false;
             Shell.transform.SetParent(null, true);
             rbShell.linearVelocity = Vector3.zero;
+            rbShell.angularVelocity = Vector3.zero;
 
             rbShell.AddForce(Vector3.up * 250);
 
@@ -219,6 +227,9 @@ public class SheepEnnemySprite : GroundEnnemy
 
     void ShellBack()
     {
+        rbShell.linearVelocity = Vector3.zero;
+        rbShell.angularVelocity = Vector3.zero;
+
         rbShell.isKinematic = true;
         colShell.enabled = false;
 
@@ -228,9 +239,11 @@ public class SheepEnnemySprite : GroundEnnemy
 
         Shell.transform.SetParent(transform, false);
         Shell.transform.localPosition = new Vector3(0, 0.07f, 0);
+        Shell.SetActive(false);
+        animator.SetInteger("Shell", 1);
 
         shellHere = true;
-        move = "chase";
+        PatrolStart();
     }
 
     public override void AttackStart(int attackID)
@@ -246,10 +259,11 @@ public class SheepEnnemySprite : GroundEnnemy
     public override void StunEnnemy(float stunTime, bool infiniteStun)
     {
         base.StunEnnemy(stunTime, infiniteStun);
-        animator.SetInteger("Attack", 0);
+        repositionToAttack = false;
         if (!shellHere)
         {
             animator.SetInteger("Shell", -3);
+            move = "shell lost";
         }
     }
 }

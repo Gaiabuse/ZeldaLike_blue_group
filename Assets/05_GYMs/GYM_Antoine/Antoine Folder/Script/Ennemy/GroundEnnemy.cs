@@ -281,6 +281,7 @@ public class GroundEnnemy : EnnemyBase
     {
         base.StunEnnemy(stunTime, infiniteStun);
         animator.SetBool("Stun", true);
+        animator.SetInteger("Attack", 0);
         navMesh.isStopped = true;
     }
 

@@ -246,6 +246,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
         EyesSetColorTo(colorMotionless);
+        ToogleMainAttack(-1);
         move = "stun";
         timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
 
