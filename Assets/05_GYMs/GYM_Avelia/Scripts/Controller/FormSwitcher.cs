@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
@@ -21,6 +22,8 @@ public class FormSwitcher : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] private float timeForDoUltimate;
     public float TimeForDoUltimate{private set; get;}
+    public List<Form> DisponibleForms;
+
     public bool CanDoUltimate;
 
     public bool canSwitchForm = true;
