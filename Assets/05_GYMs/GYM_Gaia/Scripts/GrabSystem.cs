@@ -145,7 +145,7 @@ public class GrabSystem : MonoBehaviour
 
         animation.onComplete += () =>
         {
-            if (collider != null) collider.enabled = false;
+            if (collider != null) collider.enabled = true;
             CleanUpThrow();
         };
 
