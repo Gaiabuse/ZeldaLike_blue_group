@@ -17,6 +17,7 @@ public class ErasedObject : MonoBehaviour
     private bool _isCreated;
     private MeshRenderer renderer;
     private MaterialPropertyBlock _propertyBlock;
+    private bool isPlayerInside;
     public bool Erased { get; private set; }
 
     private void Awake()
@@ -32,25 +33,45 @@ public class ErasedObject : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && !_isCreated)
+        if (other.CompareTag("Player"))
         {
-            createPointsIcon.sprite = createPointsSprite[creationCost-1];
-            createPointsIcon.enabled = true;
-            createIcon.enabled = true;
+            isPlayerInside = true;
+            UpdateUIVisibility();
         }
     }
     
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            createPointsIcon.enabled = false;
-            createIcon.enabled = false;
+            isPlayerInside = false;
+            UpdateUIVisibility();
         }
-    } 
+    }
+    
+    private void UpdateUIVisibility()
+    {
+        bool shouldShow = isPlayerInside && !_isCreated;
+        
+        createIcon.enabled = shouldShow;
+        createPointsIcon.enabled = shouldShow;
+
+        if (shouldShow)
+        {
+            createPointsIcon.sprite = createPointsSprite[creationCost - 1];
+            TransformIndicator.Instance.StartBlink(creationCost);
+        }
+        else
+        {
+            TransformIndicator.Instance.StopBlink(creationCost);
+        }
+    }
 
     public void Erase()
     {
+        TransformIndicator.Instance.StopBlink(creationCost);
+        _isCreated = false;
+        Erased = true;
         DOTween.To(() => 0f, x => 
             {
                 renderer.GetPropertyBlock(_propertyBlock);
@@ -60,16 +81,15 @@ public class ErasedObject : MonoBehaviour
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => 
             {
-                _isCreated = false;
-                createPointsIcon.enabled = false;
-                createIcon.enabled = false;
-                Erased = true;
                 erasedObject.layer = LayerMask.NameToLayer("ErasedObject");
+                UpdateUIVisibility();
             });
     }
 
     public void Create()
     {
+        _isCreated = true;
+        Erased = false;
         DOTween.To(() => 1f, x => 
             {
                 renderer.GetPropertyBlock(_propertyBlock);
@@ -79,11 +99,8 @@ public class ErasedObject : MonoBehaviour
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => 
             {
-                _isCreated = true;
-                createPointsIcon.enabled = false;
-                createIcon.enabled = false;
-                Erased = false;
                 erasedObject.layer = LayerMask.NameToLayer("Ground");
+                UpdateUIVisibility();
             });
     }
 }
