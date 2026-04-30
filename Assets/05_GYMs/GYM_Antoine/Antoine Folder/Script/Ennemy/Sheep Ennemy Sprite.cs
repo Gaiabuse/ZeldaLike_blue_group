@@ -147,7 +147,6 @@ public class SheepEnnemySprite : GroundEnnemy
             if (move == "getShell")
             {
                 navMesh.destination = Shell.transform.position;
-                Debug.Log(Vector3.Distance(transform.position, Shell.transform.position));
                 if (Vector3.Distance(transform.position, Shell.transform.position) < 1.5f)
                 {
                     ShellBack();
