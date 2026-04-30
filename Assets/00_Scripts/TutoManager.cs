@@ -84,7 +84,7 @@ public class TutoStep
 
         if (asDialogue)
         {
-            //_textbox.AppearText(dialogue);
+            _textbox.AppearText(0, dialogue, "name", 0.03f, 2);
         }
 
         if (setNumberOfPointsForErased)
