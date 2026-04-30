@@ -37,6 +37,7 @@ public class FormSwitcher : MonoBehaviour
     public void ChangeForm(Form nextForm)
     {
 
+        if (!DisponibleForms.Contains(nextForm)) return;
         if(currentForm == nextForm)return;
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);

@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class Textbox : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI textBox;
-    [SerializeField] TextMeshProUGUI nameBox;
-    [SerializeField] GameObject portrait;
+    [SerializeField] private Image textImg;
+    //[SerializeField] TextMeshProUGUI nameBox;
+    //[SerializeField] GameObject portrait;
 
-    Animator animator;
+    [SerializeField] Animator animator;
 
     float timer;
     float disapearTimer;
@@ -31,7 +32,9 @@ public class Textbox : MonoBehaviour
         animator = GetComponent<Animator>();
 
         textBox.text = null;
-        nameBox.text = null;
+        //nameBox.text = null;
+        Debug.Log("ntm");
+        AppearText(0, "You What ?!", "V2", 0.03f, 2);
     }
 
     private void FixedUpdate()
@@ -41,12 +44,12 @@ public class Textbox : MonoBehaviour
             timer += Time.deltaTime;
             if (timer > maxTimer)
             {
-                
+                textBox.gameObject.SetActive(false);
                 if (currentText != textShow) currentText += textShow[currentLetter];
                 if (currentName != nameShow) currentName += nameShow[currentLetter];
 
                 textBox.text = currentText;
-                nameBox.text = currentName;
+                //nameBox.text = currentName;
 
                 if (textShow.Length > nameShow.Length)
                 {
@@ -79,33 +82,27 @@ public class Textbox : MonoBehaviour
             {
                 animator.SetBool("Show", false);
                 textBox.text = null;
-                nameBox.text = null;
+                //nameBox.text = null;
 
                 TextPhase = 0;
             }
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AppearText(0, "You What ?!", "V2", 0.03f, 2);
-        }
-    }
+    
 
     public void AppearText(int Portrait, string text, string name, float waitBeforeLetter, float waitDisapear)
     {
-        portrait.GetComponent<UnityEngine.UI.Image>().sprite = PortraitIcon[Portrait];
+        textImg.enabled = true;
+        //portrait.GetComponent<UnityEngine.UI.Image>().sprite = PortraitIcon[Portrait];
 
-        RectTransform portraitTransform = portrait.GetComponent<RectTransform>();
+        //RectTransform portraitTransform = portrait.GetComponent<RectTransform>();
 
-        portraitTransform.anchoredPosition = PortraitPosition[Portrait];
-        portraitTransform.localScale = PortraitSize[Portrait];
+        //portraitTransform.anchoredPosition = PortraitPosition[Portrait];
+        //portraitTransform.localScale = PortraitSize[Portrait];
 
         animator.SetBool("Show", true);
         textBox.text = null;
-        nameBox.text = null;
+        //nameBox.text = null;
 
         currentLetter = 0;
         currentText = null;

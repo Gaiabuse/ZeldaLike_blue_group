@@ -201,6 +201,6 @@ public class SheepEnnemyTest : GroundEnnemy
     public override void StunEnnemy(float stunTime, bool infiniteStun)
     {
         base.StunEnnemy(stunTime, infiniteStun);
-        animator.SetInteger("Attack", 0);
+        repositionToAttack = false;
     }
 }
