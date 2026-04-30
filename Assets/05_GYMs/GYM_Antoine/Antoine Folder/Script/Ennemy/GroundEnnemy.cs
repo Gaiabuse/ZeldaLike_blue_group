@@ -43,8 +43,8 @@ public class GroundEnnemy : EnnemyBase
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        
-        print(navMesh.isStopped);
+
+        if (canLookAtPlayer) isPlayerInFieldOfView();
 
         if (move != "stun")
         {
