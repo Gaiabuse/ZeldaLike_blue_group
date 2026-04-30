@@ -7,7 +7,6 @@ public class SheepEnnemySprite : GroundEnnemy
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;
     SphereCollider colShell;
-    SphereCollider sheepCollider;
 
     public bool shellHere = true;
 
@@ -25,7 +24,6 @@ public class SheepEnnemySprite : GroundEnnemy
 
         rbShell = Shell.GetComponent<Rigidbody>();
         colShell = Shell.GetComponent<SphereCollider>();
-        sheepCollider = GetComponent<SphereCollider>();
         colShell.enabled = false;
         rbShell.isKinematic = true;
 
@@ -65,7 +63,6 @@ public class SheepEnnemySprite : GroundEnnemy
                     canLookAtPlayer = true;
                     navMesh.isStopped = true;
                     ToogleMainAttack(-1);
-                    sheepCollider.isTrigger = false;
                     timerGeneral = stunRollEndDuration;
 
                     navMesh.speed = speed.x;
@@ -107,7 +104,6 @@ public class SheepEnnemySprite : GroundEnnemy
                     canLookAtPlayer = false;
                     move = "roll";
 
-                    sheepCollider.isTrigger = true;
                     WhereToGoPos = CurrentTarget.position;
                     navMesh.destination = WhereToGoPos;
 
