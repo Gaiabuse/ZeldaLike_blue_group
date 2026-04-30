@@ -1030,11 +1030,6 @@ namespace FMOD
         private static extern RESULT FMOD5_Debug_Initialize(DEBUG_FLAGS flags, DEBUG_MODE mode, DEBUG_CALLBACK callback, byte[] filename);
 
         #endregion
-
-        public static void Log(string startblink)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public struct Thread

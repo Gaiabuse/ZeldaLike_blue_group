@@ -189,6 +189,8 @@ public class ErasedManager : MonoBehaviour
 
     private void EraseOrCreate()
     {
+        if (currentObject == null) return;
+        
         GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
         if (dust != null)
         {
@@ -204,21 +206,21 @@ public class ErasedManager : MonoBehaviour
         {
             if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
             {
-                currentPointsForCreate -= erasedObject.creationCost;
                 erasedObject.Create();
+                currentPointsForCreate -= erasedObject.creationCost;
                 if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
             }
             else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
             {
-                currentPointsForCreate += erasedObject.creationCost;
                 erasedObject.Erase();
+                currentPointsForCreate += erasedObject.creationCost;
                 if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
             }
         }
         else if (!erasedObject.Erased && currentPointsForCreate <= maxPointsForCreate)
         {
-            currentPointsForCreate += erasedObject.creationCost;
             erasedObject.Erase();
+            currentPointsForCreate += erasedObject.creationCost;
         
             if (objectsErased.Contains(erasedObject))
                 objectsErased.Remove(erasedObject);

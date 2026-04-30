@@ -44,6 +44,7 @@ public class ProgressMenuUI : MonoBehaviour
             newPos.x = targetX;
             milestones[i].anchoredPosition = newPos;
         }
+        Debug.Log("Alexis est une pute");
     }
 
     public void OpenProgressMenu()
