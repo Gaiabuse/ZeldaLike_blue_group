@@ -124,12 +124,14 @@ public class ErasedManager : MonoBehaviour
         switch (inputValue.isPressed)
         {
             case true:
+                Debug.Log("ta mer la pure");
                 erasedAllObjects = false;
                 if(HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
                 HoldTimeCoroutine = StartCoroutine(HoldTime());
                 break;
 
             case false:
+                Debug.Log("^pergrefdsgvsr");
                 if (HoldTimeCoroutine != null)
                 {
                     StopCoroutine(HoldTimeCoroutine);
@@ -189,9 +191,11 @@ public class ErasedManager : MonoBehaviour
 
     private void EraseOrCreate()
     {
+        Debug.Log("^ertzdre");
         GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
         if (dust != null)
         {
+            Debug.Log("^duist");
             dust.Erase();
             currentObject = null; 
             return; 
