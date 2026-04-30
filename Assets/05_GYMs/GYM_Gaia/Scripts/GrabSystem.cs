@@ -130,10 +130,14 @@ public class GrabSystem : MonoBehaviour
 
         IsThrowing = true;
         TransformIndicator.Instance.DisplayNightmareIcon(0);
-        currentGrabbedObject.SetActive(true);
 
-        Collider collider = currentGrabbedObject.GetComponent<Collider>();
-        if (collider != null) collider.enabled = false;
+        Collider collider = currentGrabbedObject.GetComponent<BoxCollider>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
+        
+        currentGrabbedObject.SetActive(true);
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
@@ -145,7 +149,7 @@ public class GrabSystem : MonoBehaviour
 
         animation.onComplete += () =>
         {
-            if (collider != null) collider.enabled = false;
+            if (collider != null) collider.enabled = true;
             CleanUpThrow();
         };
 
