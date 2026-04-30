@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 409558858801512453}
   - component: {fileID: 2042771091872384440}
   - component: {fileID: 7326807851942494853}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Dust
   m_TagString: Garbage
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GarbageBehaviors
   spawnRatio: 0.1
   containPowder: 25
-  hasZonyr: 0
+  hasZonyr: 1
   zonyr: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
   cleanPoints: 11
   cleanPointsPLevel: 0
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 7473227799900838695}
   - component: {fileID: 7621168642895550904}
   - component: {fileID: 5992701791375381286}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4993,7 +4993,7 @@ GameObject:
   - component: {fileID: 5879483817119782452}
   - component: {fileID: 5153250294434818912}
   - component: {fileID: 7423200851356192698}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9831,6 +9831,10 @@ PrefabInstance:
       value: Gros tas de poussiere
       objectReference: {fileID: 0}
     - target: {fileID: 6283507127506418341, guid: 95126d974613bf04489dfcbdb335c6ce, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283507127506418341, guid: 95126d974613bf04489dfcbdb335c6ce, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -9873,6 +9877,10 @@ PrefabInstance:
     - target: {fileID: 6663164556599615519, guid: 95126d974613bf04489dfcbdb335c6ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596165178838124253, guid: 95126d974613bf04489dfcbdb335c6ce, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
