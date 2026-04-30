@@ -145,7 +145,7 @@ public class GrabSystem : MonoBehaviour
 
         animation.onComplete += () =>
         {
-            if (collider != null) collider.enabled = false;
+            if (collider != null) collider.enabled = true;
             CleanUpThrow();
         };
 
@@ -201,16 +201,30 @@ public class GrabSystem : MonoBehaviour
             currentGrabbedObject = hitSwallow.collider.gameObject;
             if (currentGrabbedObject != null)
             {
+                bool isSheep = false;
                 SheepEnnemyTest SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemyTest>();
                 if (SheepEnnemyScript != null)
                 {
-                    if (SheepEnnemyScript.shellHere) SheepEnnemyScript.LoseShell();
+                    if (SheepEnnemyScript.shellHere)
+                    {
+                        SheepEnnemyScript.LoseShell();
+                        isSheep = true;
+                    }
+                }
+                SheepEnnemySprite SheepSprite = currentGrabbedObject.GetComponent<SheepEnnemySprite>();
+                if (SheepSprite != null)
+                {
+                    if (SheepSprite.shellHere)
+                    {
+                        SheepSprite.LoseShell();
+                        isSheep = true;
+                    }
                 }
 
                 if (currentGrabbedObject.transform.parent != null)
                     currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
 
-                currentGrabbedObject.SetActive(false);
+                if (!isSheep) currentGrabbedObject.SetActive(false);
             }
             return;
         }

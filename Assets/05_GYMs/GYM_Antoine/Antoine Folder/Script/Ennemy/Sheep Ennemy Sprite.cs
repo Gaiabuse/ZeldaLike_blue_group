@@ -18,6 +18,8 @@ public class SheepEnnemySprite : GroundEnnemy
     [SerializeField] float rollDuration = 2.5f;
     [SerializeField] float stunRollEndDuration = 2f;
 
+    [SerializeField] float DistanceGetInShell = 2f;
+
     bool repositionToAttack = false;
 
     protected override void Start()
@@ -171,7 +173,7 @@ public class SheepEnnemySprite : GroundEnnemy
                 navMesh.isStopped = false;
                 navMesh.speed = 0;
             }
-            else if (distTarget < DistStartAttack && !repositionToAttack)
+            else if (distTarget < DistStartAttack && !repositionToAttack && distTarget > DistanceGetInShell)
             {
                 repositionToAttack = true;
                 canLookAtPlayer = false;
@@ -184,6 +186,10 @@ public class SheepEnnemySprite : GroundEnnemy
 
                 move = "reposition";
             }
+            else if (distTarget <= DistanceGetInShell)
+            {
+
+            }
         }
     }
 
@@ -192,7 +198,13 @@ public class SheepEnnemySprite : GroundEnnemy
         animator.SetInteger("Shell", -1);
         animator.SetInteger("Attack", 0);
         navMesh.isStopped = true;
+
         move = "lose shell";
+        ToogleMainAttack(-1);
+
+        Vector3 relativePos = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z) - transform.position;
+        Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
+        transform.rotation = lookAtTarget;
     }
 
     public void SetShell(int shell)
@@ -203,6 +215,7 @@ public class SheepEnnemySprite : GroundEnnemy
             Shell.SetActive(true);
             rbShell.isKinematic = false;
             Shell.transform.SetParent(null, true);
+
             rbShell.linearVelocity = Vector3.zero;
             rbShell.angularVelocity = Vector3.zero;
 
