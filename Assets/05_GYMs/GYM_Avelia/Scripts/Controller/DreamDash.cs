@@ -24,6 +24,7 @@ public class DreamDash : MonoBehaviour
     [SerializeField]
     float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = .5f, offset = .2f, tolerance = .5f;
 
+    const float EXTRAPOLATION_FACTOR = .1f;
 
     bool IsDashing = false;
 
@@ -50,6 +51,7 @@ public class DreamDash : MonoBehaviour
         if (!IsPlaceLandable(destinationPosition))
         {
             Debug.LogWarning($"no place found trying to find a better position", this);
+
             if (FindNearGround(destinationPosition) is Vector3 platform)
             {
                 Debug.Log($"found a better place {platform}");
@@ -69,15 +71,16 @@ public class DreamDash : MonoBehaviour
     {
         float timer = 0;
 
-        Vector3 currentLerpPosition = originalPosition; 
+        Vector3 currentLerpPosition = originalPosition;
 
         while (timer < DashDurationSeconds)
         {
+            print($"position = {transform.position}");
             timer += Time.deltaTime;
             var portion = timer / DashDurationSeconds;
             Vector3 targetPosition = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
             Vector3 moveDelta = targetPosition - currentLerpPosition;
-            characterController.Move(moveDelta);
+            transform.position = targetPosition;
             currentLerpPosition = targetPosition;
 
             yield return null;
@@ -88,7 +91,7 @@ public class DreamDash : MonoBehaviour
     {
         if (IsThereAWall(destination)) return false;
 
-        Ray ray = new(origin: destination + Vector3.up * offset, direction: Vector3.down);
+        Ray ray = new(origin: destination, direction: Vector3.down);
         return Physics.Raycast(ray, 2f, layerGround);
     }
 
@@ -97,16 +100,24 @@ public class DreamDash : MonoBehaviour
 
     void DashSetUp()
     {
+        print($"HAI FUCKER");
         IsDashing = true;
         controller.currentAnimator.SetTrigger("isDashing");
         controller.CanMove = false;
         controller.CanRotate = false;
+
+        characterController.enabled = false;
     }
+
+    private LayerMask controllerMask;
+    LayerMask everythingLayer = LayerMask.NameToLayer("everything");
 
     IEnumerator UndoDashSetUp()
     {
         controller.CanMove = true;
         controller.CanRotate = true;
+        characterController.enabled = true;
+
         controller.currentAnimator.SetTrigger("isDashing");
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
@@ -130,10 +141,12 @@ public class DreamDash : MonoBehaviour
             return null;
         }
 
-        if (IsPlaceLandable(check1.point))
+        var extrapolatedLandingPoint = Vector3.LerpUnclamped(aboveAt, check1.point, EXTRAPOLATION_FACTOR);
+
+        if (IsPlaceLandable(extrapolatedLandingPoint))
         {
             latestAtHitResult = true;
-            return check1.point + Vector3.up;
+            return extrapolatedLandingPoint + Vector3.up;
         }
 
         return null;

@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
-    bool IsPlaceLandable(Vector3 destination)
+    public bool IsPlaceLandable(Vector3 destination)
     {
         // 1. Calculate the offset based on move direction
         // We use currentDirection (normalized) to push the sensor forward
