@@ -21,7 +21,7 @@ public class GrabSystem : MonoBehaviour
 
     [Header("Throw")]
     [Tooltip("The enemy will end up at this distance of the enemy")]
-    [SerializeField] private float throwDistance;
+    [SerializeField] private float throwDistance = 4f;
     [Tooltip("Duration in seconds")]
     [SerializeField] private float throwDuration = .1f, AutoThrowDuration = 2f;
 
@@ -52,6 +52,12 @@ public class GrabSystem : MonoBehaviour
 
     void Update()
     {
+        DoIndicatorLogic();
+        DoStateGrab();
+    }
+
+    void DoIndicatorLogic()
+    {
         if (currentGrabbedObject != null)
         {
             TransformIndicator.Instance.DisplayNightmareIcon(2);
@@ -68,7 +74,10 @@ public class GrabSystem : MonoBehaviour
         {
             TransformIndicator.Instance.DisplayNightmareIcon(0);
         }
+    }
 
+    void DoStateGrab()
+    {
         switch (grabbingState)
         {
             case GrabbingState.None:
@@ -137,7 +146,7 @@ public class GrabSystem : MonoBehaviour
         {
             collider.enabled = false;
         }
-        
+
         currentGrabbedObject.SetActive(true);
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
@@ -181,11 +190,12 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 downPosition = transform.position - downValue;
 
-        if ((DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) ??
-                    DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab))
-                is RaycastHit hit)
+        var grabchecks = DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) ?? DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab);
+
+        if (grabchecks is RaycastHit hit)
         {
             PutGrabMarkAtTarget(hit.collider.transform.position);
+            return;
         }
 
         grabMark.SetActive(false);
