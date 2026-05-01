@@ -137,9 +137,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6955685638910113798}
   - component: {fileID: 5045983924701297761}
-  - component: {fileID: 5909968417539160952}
   - component: {fileID: 5780461642815142062}
   - component: {fileID: 1753829606676827125}
+  - component: {fileID: 2314766444803547817}
   m_Layer: 0
   m_Name: VFX_NM_Attack.001
   m_TagString: Untagged
@@ -190,27 +190,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &5909968417539160952
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4266093806420740983}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5.176218, y: 1, z: 3.5673633}
-  m_Center: {x: -0.13620186, y: 0, z: -2.6795409}
 --- !u!111 &5780461642815142062
 Animation:
   m_ObjectHideFlags: 0
@@ -244,3 +223,24 @@ MonoBehaviour:
   BlockHitSpark: {fileID: 0}
   distance: 0
   stun: 0
+--- !u!65 &2314766444803547817
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4266093806420740983}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.9932137, y: 1.6666929, z: 6.029416}
+  m_Center: {x: 0.35186863, y: 0.7, z: -1.1}
