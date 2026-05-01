@@ -17,7 +17,7 @@ public class ErasedManager : MonoBehaviour
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
     public int maxPointsForCreate;
-    [SerializeField] private int currentPointsForCreate;
+    public int currentPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
     [SerializeField] private float numberOfPressForErasedEnemy = 20;
@@ -31,6 +31,20 @@ public class ErasedManager : MonoBehaviour
     private bool erasedAllObjects;
     private Coroutine HoldTimeCoroutine;
     public bool startEnemyErased{get; private set;}
+    
+    public static ErasedManager Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void OnEnable()
     {
