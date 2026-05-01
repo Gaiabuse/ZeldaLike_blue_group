@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5318037661655833559}
   - component: {fileID: 9079454641044606613}
   - component: {fileID: 1597963211309590331}
-  - component: {fileID: 9053408999115262531}
+  - component: {fileID: 6380544062438564481}
   - component: {fileID: -6132025799421107317}
   m_Layer: 7
   m_Name: Ennemy Classic
@@ -178,7 +178,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9053408999115262531
+--- !u!114 &6380544062438564481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,9 +187,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4363910428082818555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 295e52cd7980c0842922165fc101af9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 616406d6f9db53d46999b0a5ed679d9a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GroundEnnemy
+  m_EditorClassIdentifier: Assembly-CSharp::ClassicEnnemy
   data: {fileID: 11400000, guid: 57dfe970de7f341459612531b543cf25, type: 2}
   invincible: 0
   showDamageDisplayInvincible: 1
@@ -215,6 +215,7 @@ MonoBehaviour:
   LoseFocusDist: 1
   AttackTrigger: {fileID: 5318037661655833559}
   DistanceAttack: 1.5
+  chargeAttackTime: 0.75
   LayerBlockRay:
     serializedVersion: 2
     m_Bits: 17
