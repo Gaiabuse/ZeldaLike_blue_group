@@ -45,9 +45,6 @@ public class PlayerController : MonoBehaviour
     public Action OnRelease;
     public static Action OnRespawn;
     public Action Attack;
-    
-    public bool LockRotation;
-    public bool LockMove;
 
     private float offset = -90f;
 
@@ -55,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
+    public bool LockRotation;
 
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
@@ -93,24 +91,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (LockRotation)
-        {
-            CanRotate = false;
-        }
-        else
-        {
-            CanRotate = true;
-        }
-
-        if (LockMove)
-        {
-            CanMove = false;
-        }
-        else
-        {
-            CanMove = true;
-        }
-        if (CanMove) Movement();
+        if (LockRotation) CanRotate = false;
+        Movement();
         AlignPlayer();
     }
 

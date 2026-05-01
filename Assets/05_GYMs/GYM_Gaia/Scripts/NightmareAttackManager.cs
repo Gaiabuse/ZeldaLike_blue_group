@@ -91,7 +91,6 @@ public class NightmareAttackManager : AttackManager
     }
     private void UltimateActivation()
     {
-        player.LockRotation = true;
         formSwitcher.canSwitchForm = false;
         CanAttack = false;
         ultReference.ultimateObject.SetActive(true);
@@ -101,6 +100,7 @@ public class NightmareAttackManager : AttackManager
         ultReference.grab.enabled = false;
         formSwitcher.enabled = false;
         ultReference.characterController.detectCollisions = false;
+        player.LockRotation = true;
     }
 
     private void UltimateDesactivation()
@@ -119,7 +119,7 @@ public class NightmareAttackManager : AttackManager
 
     private IEnumerator UltimateCoroutine()
     {
-        player.CanRotate = false;
+        player.LockRotation = true;
         yield return new WaitForSeconds(timeOfUltimate);
         formSwitcher.canSwitchForm = true;
         UltimateDesactivation();

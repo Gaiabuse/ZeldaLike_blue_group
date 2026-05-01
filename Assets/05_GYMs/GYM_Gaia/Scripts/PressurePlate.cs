@@ -29,6 +29,18 @@ public class PressurePlate : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(isPressing)return;
+        if (ContainsLayer(layerMask, other.gameObject.layer))
+        {
+            if(!other.gameObject.activeInHierarchy)return;
+            isPressing = true;
+            objectOnPressurePlate = other.gameObject;
+            onPressure.Invoke();
+        }
+    }
+
     private void FixedUpdate()
     {
         if(!isPressing)return;

@@ -99,14 +99,14 @@ public class DreamDash : MonoBehaviour
     {
         IsDashing = true;
         controller.currentAnimator.SetTrigger("isDashing");
-        controller.LockMove = true;
-        controller.CanRotate = true;
+        controller.CanMove = false;
+        controller.CanRotate = false;
     }
 
     IEnumerator UndoDashSetUp()
     {
-        controller.LockMove = false;
-        controller.CanRotate = false;
+        controller.CanMove = true;
+        controller.CanRotate = true;
         controller.currentAnimator.SetTrigger("isDashing");
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
