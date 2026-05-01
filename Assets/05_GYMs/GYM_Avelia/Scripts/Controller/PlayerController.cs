@@ -68,9 +68,10 @@ public class PlayerController : MonoBehaviour
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         if (!PlayerPrefs.HasKey("PlayerSpawnX") && !PlayerPrefs.HasKey("PlayerSpawnY") && !PlayerPrefs.HasKey("PlayerSpawnZ") || respawnAtStart)
         {
-            PlayerPrefs.SetFloat("PlayerSpawnX", transform.position.x);
-            PlayerPrefs.SetFloat("PlayerSpawnY", transform.position.y);
-            PlayerPrefs.SetFloat("PlayerSpawnZ", transform.position.z);
+            PlayerPrefs.SetFloat("PlayerSpawnX", transform.localPosition.x);
+            PlayerPrefs.SetFloat("PlayerSpawnY", transform.localPosition.y);
+            PlayerPrefs.SetFloat("PlayerSpawnZ", transform.localPosition.z);
+            Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
             StartCoroutine(RespawnCoroutine());
         }
         else
@@ -193,7 +194,8 @@ public class PlayerController : MonoBehaviour
         OnRespawn?.Invoke();
         controller.enabled = false;
         Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
-        transform.position = startPos;
+        Debug.Log("start pos "+ startPos);
+        transform.localPosition = startPos;
 
         controller.enabled = true;
         CanMove = false;
