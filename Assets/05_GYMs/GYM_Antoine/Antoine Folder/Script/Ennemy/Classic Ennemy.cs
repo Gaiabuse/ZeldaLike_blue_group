@@ -344,6 +344,6 @@ public class ClassicEnnemy : EnnemyBase
             EnnemyManager.Instance.Check();
         }
         animator.SetBool("IsDead", true);
-        
+        OnDeath?.Invoke(this);
     }
 }

@@ -76,7 +76,7 @@ public class NightmareAttackManager : AttackManager
                 transform.parent.LookAt(targetPos);
             }
             player.CanMove = false;
-            player.LockRotation = true;
+            player.CanRotate = false;
             if (canChargedAttack)
             {
                 canChargedAttack = false;
@@ -99,6 +99,7 @@ public class NightmareAttackManager : AttackManager
         }
         ultimateCoroutine = StartCoroutine(UltimateCoroutine());
     }
+    
     private void UltimateActivation()
     {
         formSwitcher.canSwitchForm = false;
@@ -134,5 +135,6 @@ public class NightmareAttackManager : AttackManager
         formSwitcher.canSwitchForm = true;
         UltimateDesactivation();
         ultimateCoroutine = null;
+        player.LockRotation = false;
     }
 }
