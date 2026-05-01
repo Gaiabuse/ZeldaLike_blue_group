@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SheepEnnemy : GroundEnnemy
+public class SheepEnnemyTest : GroundEnnemy
 {
     [SerializeField] GameObject Shell;
     Rigidbody rbShell;
@@ -201,6 +201,6 @@ public class SheepEnnemy : GroundEnnemy
     public override void StunEnnemy(float stunTime, bool infiniteStun)
     {
         base.StunEnnemy(stunTime, infiniteStun);
-        animator.SetInteger("Attack", 0);
+        repositionToAttack = false;
     }
 }

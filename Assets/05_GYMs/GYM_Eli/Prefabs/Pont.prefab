@@ -92,6 +92,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pont
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3422392391876932418, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -106,15 +118,15 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 149312856201522093}
+      addedObject: {fileID: 7028823161800271866}
   m_SourcePrefab: {fileID: 100100000, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}
 --- !u!1 &3310435689849552242 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}
   m_PrefabInstance: {fileID: 2391532801889189923}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &149312856201522093
-BoxCollider:
+--- !u!64 &7028823161800271866
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -131,6 +143,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 21.14, y: 5.8, z: 31.85}
-  m_Center: {x: -0.7, y: -4.35, z: 1.6665802}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4184194187712009410, guid: 2ea054cbc8d1c8948a46565b7f6e8023, type: 3}

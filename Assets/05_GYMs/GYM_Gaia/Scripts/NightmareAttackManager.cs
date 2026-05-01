@@ -42,7 +42,6 @@ public class NightmareAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        Debug.Log(switchInProgress);
         if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
@@ -67,7 +66,7 @@ public class NightmareAttackManager : AttackManager
                 transform.parent.LookAt(targetPos);
             }
             player.CanMove = false;
-            player.CanRotate = false;
+            player.LockRotation = true;
             if (canChargedAttack)
             {
                 canChargedAttack = false;
@@ -101,12 +100,14 @@ public class NightmareAttackManager : AttackManager
         ultReference.grab.enabled = false;
         formSwitcher.enabled = false;
         ultReference.characterController.detectCollisions = false;
+        player.LockRotation = true;
     }
 
     private void UltimateDesactivation()
     {
         formSwitcher.canSwitchForm = true;
         CanAttack = true;
+        player.LockRotation = false;
         ultReference.ultimateObject.SetActive(false);
         ultReference.playerSprite.SetActive(true);
         ultReference.playerCollider.enabled = true;
@@ -118,6 +119,7 @@ public class NightmareAttackManager : AttackManager
 
     private IEnumerator UltimateCoroutine()
     {
+        player.LockRotation = true;
         yield return new WaitForSeconds(timeOfUltimate);
         formSwitcher.canSwitchForm = true;
         UltimateDesactivation();

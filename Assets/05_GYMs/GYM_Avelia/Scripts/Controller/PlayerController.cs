@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
+    public bool LockRotation;
 
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
@@ -92,7 +93,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movement();
+        if (LockRotation) CanRotate = false;
+        if (CanMove) Movement();
         AlignPlayer();
     }
 

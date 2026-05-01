@@ -13,14 +13,11 @@ public class DreamBait : MonoBehaviour
     async Task OnSecondPower(InputValue _input)
     {
         if (!_input.isPressed) return;
-
         if (currentBaitInstance == null)
         {
             DoBaitSpawn();
             return;
         }
-
-        if (!currentBaitInstance.enabled) return;
 
         // probably needs another way to do it but this will do it for now
         await currentBaitInstance.Explode();

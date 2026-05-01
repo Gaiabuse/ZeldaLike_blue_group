@@ -9,6 +9,7 @@ public class TriggerTuto: MonoBehaviour
     public Action ActivateTutoStep;
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("TriggerTuto");
         if(tutoActivated || !other.CompareTag("Player"))return;
         tutoActivated = true;
         ActivateTutoStep?.Invoke();

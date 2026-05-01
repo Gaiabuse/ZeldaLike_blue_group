@@ -99,6 +99,7 @@ public class DreamShoot : AttackManager
     {
         lastInputTime = Time.time;
         player.CanMove = false;
+        player.CanRotate = true;
         // we should try to do something to make things seem more sensitive
 
         aimCone.SetActive(true);

@@ -26,7 +26,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] List<Vector3> PatrolPosition;
     int currentPatrolPose;
 
-    protected bool canLookAtPlayer = true;
+    [SerializeField] protected bool canLookAtPlayer = true;
 
     protected override void Start()
     {
@@ -281,6 +281,7 @@ public class GroundEnnemy : EnnemyBase
     {
         base.StunEnnemy(stunTime, infiniteStun);
         animator.SetBool("Stun", true);
+        animator.SetInteger("Attack", 0);
         navMesh.isStopped = true;
     }
 

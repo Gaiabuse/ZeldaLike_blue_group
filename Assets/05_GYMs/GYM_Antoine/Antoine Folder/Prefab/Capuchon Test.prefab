@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2908274205800354346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4554973231111023981}
+  m_Layer: 0
+  m_Name: LaserSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4554973231111023981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2908274205800354346}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 292344869240790384}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &4523097972143028614
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +334,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Leure: {fileID: 0}
   alwaysAgro: 0
+  stunMultiplier: 1
   _move: patrol
   MainHitBox: {fileID: 0}
   Eyes:
@@ -316,22 +348,25 @@ MonoBehaviour:
   durationDotween: 15
   UltIndicator: {fileID: 0}
   LockOn: {fileID: 7427286493126175109}
-  LookRange: 10
-  DistanceAlwaysSeeEnnemy: 3
-  RadiusLook: 90
+  LookRange: 12
+  DistanceAlwaysSeeEnnemy: 5
+  RadiusLook: 180
   LoseFocusDist: 1
   AttackTrigger: {fileID: 292344869240790384}
   DistanceAttack: 6
   LayerBlockRay:
     serializedVersion: 2
-    m_Bits: 1553
+    m_Bits: 17
   PatrolPosition:
   - {x: 0, y: 0.5, z: 5}
   - {x: 0, y: 0.5, z: -15}
   - {x: 10, y: 0.5, z: -15}
   - {x: 10, y: 0.5, z: 5}
-  DistStartAttack: 5
-  Laser: {fileID: 0}
+  canLookAtPlayer: 1
+  DistStartAttack: 10
+  Laser: {fileID: 878856344629665346, guid: cb630a9b7bc5b5141868e46f6fe23c59, type: 3}
+  laserSpawn: {fileID: 4554973231111023981}
+  repositionToAttack: 0
 --- !u!1 &7648283388668518914
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,6 +624,7 @@ GameObject:
   - component: {fileID: 8055692081709493008}
   - component: {fileID: 491273480574467030}
   - component: {fileID: 164131819566155382}
+  - component: {fileID: 8755151979187244873}
   m_Layer: 7
   m_Name: Capuchon Test Body
   m_TagString: Ennemy
@@ -611,6 +647,7 @@ Transform:
   m_Children:
   - {fileID: 4687543015834087871}
   - {fileID: 314990025098956270}
+  - {fileID: 4554973231111023981}
   m_Father: {fileID: 7201010622136412982}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1976357381059449550
@@ -713,3 +750,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8755151979187244873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8885168119005531121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846e7c9a33c2f414f9202b022aaffbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwitchAnim
+  ennemyBase: {fileID: 4158696546758742108}
