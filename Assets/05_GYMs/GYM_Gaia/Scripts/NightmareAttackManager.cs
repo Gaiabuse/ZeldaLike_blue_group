@@ -42,6 +42,16 @@ public class NightmareAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
+        var attackAction = player.playerInput.actions["Attack"];
+        if (attackAction.activeControl != null)
+        {
+            string direction = attackAction.activeControl.name;
+
+            if (direction != "buttonEast")
+            {
+                return;
+            }
+        }
         if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)

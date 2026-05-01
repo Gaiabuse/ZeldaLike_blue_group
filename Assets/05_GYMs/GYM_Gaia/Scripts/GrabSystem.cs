@@ -241,8 +241,9 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
 
-        AttractObject(hitGrabbed.collider.gameObject);
-
+        AttractObject(hitGrabbed.transform.parent != null
+            ? hitGrabbed.transform.parent.gameObject
+            : hitGrabbed.collider.gameObject);
     }
 
     private void DoAutoThrowUpdate()

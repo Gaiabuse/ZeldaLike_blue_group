@@ -208,19 +208,31 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected void ShowHitDisplay()
     {
-        if (hitValueDisplay)
-        {
-            dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(() =>
+        if (hitValueDisplay == null || hitValueDisplay.gameObject == null) return;
+
+        dotween = hitValueDisplay.transform.DOScale(1f, durationDotween)
+            .SetEase(Ease.OutBounce)
+            .OnComplete(() =>
             {
-                hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
+                if (hitValueDisplay != null)
+                {
+                    hitValueDisplay.transform.DOScale(0f, durationDotween)
+                        .SetEase(Ease.OutBounce)
+                        .SetDelay(durationDelay);
+                }
             });
-        }
     }
 
     protected virtual void Death()
     {
-        EnnemyManager.Instance.enemies.Remove(this);
-        EnnemyManager.Instance.Check();
+        dotween?.Kill(); 
+        transform.DOKill(); 
+        
+        if (EnnemyManager.Instance != null)
+        {
+            EnnemyManager.Instance.enemies.Remove(this);
+            EnnemyManager.Instance.Check();
+        }
         OnDeath?.Invoke(this);
         Destroy(gameObject);
     }

@@ -21,6 +21,10 @@ public class MovingBox : MonoBehaviour
     private void Start()
     {
         Ui.SetActive(false);
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,6 +39,11 @@ public class MovingBox : MonoBehaviour
                 player.OnCatch += CatchBox;
                 player.OnRelease += ReleaseBox;
             }
+        }
+
+        if (other.CompareTag("DeathZone"))
+        {
+            OnRespawn();
         }
     }
 

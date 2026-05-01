@@ -93,7 +93,12 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (LockRotation) CanRotate = false;
+        if (LockRotation)
+        {
+            CanRotate = false;
+        }
+        Vector3 moveDirection = ProjectPoint(direction);
+        if (CanRotate) UpdateLookDirection(moveDirection);
         if (CanMove) Movement();
         AlignPlayer();
     }
@@ -113,9 +118,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 moveDirection = ProjectPoint(direction);
-
-        if (CanRotate) UpdateLookDirection(moveDirection);
-
+        
         if (!controller.enabled) return;
 
         if (CanMove)
@@ -131,6 +134,14 @@ public class PlayerController : MonoBehaviour
         }
 
         controller.Move(gravity * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DeathZone"))
+        {
+            TriggerRespawn();
+        }
     }
 
     public Vector3 ProjectPoint(Vector2 dir)
