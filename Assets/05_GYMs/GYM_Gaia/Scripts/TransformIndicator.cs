@@ -33,7 +33,9 @@ public class TransformIndicator : MonoBehaviour
     private bool hasToBlink;
     private Coroutine blinkCoroutine;
     private Coroutine fadeCoroutine;
-    
+    public Image createIconImg;
+    public Image createPointsIconeateIconImg;
+
     public static TransformIndicator Instance;
 
     private void Awake()
@@ -149,11 +151,13 @@ public class TransformIndicator : MonoBehaviour
     }
     public void StopBlink(int iconIndex)
     {
+        int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
         hasToBlink = false;
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
         
-        var cg = chargesIcon[iconIndex+1].GetComponent<CanvasGroup>();
+        if (index+1 < 0) return;
+        var cg = chargesIcon[index+1].GetComponent<CanvasGroup>();
         if (cg != null)
         {
             cg.alpha = 1f;
@@ -162,9 +166,16 @@ public class TransformIndicator : MonoBehaviour
 
     public IEnumerator BlinkNeutralChargeIcon(int iconIndex)
     {
-        int index = iconIndex;
+        int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
         CanvasGroup canvasGroupOut = chargesIcon[index+1].GetComponent<CanvasGroup>();
-        chargesIcon[index].SetActive(true);
+        if (index >= 0)
+        {
+            chargesIcon[index].SetActive(true);
+            CanvasGroup cg = chargesIcon[index].GetComponent<CanvasGroup>();
+            if (cg == null) cg = chargesIcon[index].AddComponent<CanvasGroup>();
+            cg.alpha = 1f;
+            chargesIcon[index].SetActive(true);
+        }
         
         if (canvasGroupOut == null) canvasGroupOut = chargesIcon[index+1].AddComponent<CanvasGroup>();
 

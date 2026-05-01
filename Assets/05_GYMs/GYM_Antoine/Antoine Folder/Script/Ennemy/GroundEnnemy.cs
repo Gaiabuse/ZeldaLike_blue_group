@@ -42,6 +42,7 @@ public class GroundEnnemy : EnnemyBase
 
     protected override void FixedUpdate()
     {
+        if (this == null || navMesh == null || !navMesh.isOnNavMesh) return;
         base.FixedUpdate();
 
         if (canLookAtPlayer) isPlayerInFieldOfView();

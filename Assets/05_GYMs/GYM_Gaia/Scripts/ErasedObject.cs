@@ -27,6 +27,8 @@ public class ErasedObject : MonoBehaviour
 
     private void Start()
     {
+        createIcon = TransformIndicator.Instance.createIconImg;
+        createPointsIcon = TransformIndicator.Instance.createPointsIconeateIconImg;
         renderer = erasedObject.GetComponent<MeshRenderer>();
         Erase();
     }
@@ -53,8 +55,8 @@ public class ErasedObject : MonoBehaviour
     {
         bool shouldShow = isPlayerInside && !_isCreated;
         
-        createIcon.enabled = shouldShow;
-        createPointsIcon.enabled = shouldShow;
+        if(createIcon)createIcon.enabled = shouldShow;
+        if(createPointsIcon)createPointsIcon.enabled = shouldShow;
 
         if (shouldShow)
         {

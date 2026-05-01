@@ -118,6 +118,7 @@ public class ArenaManager : MonoBehaviour
     {
         if (currentEnnemiesInHordes.Count <= 0)
         {
+            Debug.Log("check1");
             currentHordes++;
             CheckIfArenaIsFinished();
         }
@@ -125,6 +126,7 @@ public class ArenaManager : MonoBehaviour
 
     private void CheckIfArenaIsFinished()
     {
+        Debug.Log("check2 : " +currentHordes +"/"+ hordes.Count);
         if (currentHordes >= hordes.Count)
         {
             BarrierParent.SetActive(false);

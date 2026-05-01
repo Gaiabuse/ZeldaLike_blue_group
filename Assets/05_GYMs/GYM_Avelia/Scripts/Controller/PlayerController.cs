@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float lookAheadDistance = 0.3f; // How far ahead to push the sensor
     [SerializeField] float sensorRadius = 0.4f;      // The width of the ray circle
     [SerializeField] int minRaysRequired = 5;
+    [SerializeField] float YLevelDeathPlane = -10f;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -52,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
+    public bool LockRotation;
 
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
@@ -59,15 +61,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
+
     void Start()
     {
         Boxes = null;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         if (!PlayerPrefs.HasKey("PlayerSpawnX") && !PlayerPrefs.HasKey("PlayerSpawnY") && !PlayerPrefs.HasKey("PlayerSpawnZ") || respawnAtStart)
         {
-            PlayerPrefs.SetFloat("PlayerSpawnX", transform.position.x);
-            PlayerPrefs.SetFloat("PlayerSpawnY", transform.position.y);
-            PlayerPrefs.SetFloat("PlayerSpawnZ", transform.position.z);
+            PlayerPrefs.SetFloat("PlayerSpawnX", transform.localPosition.x);
+            PlayerPrefs.SetFloat("PlayerSpawnY", transform.localPosition.y);
+            PlayerPrefs.SetFloat("PlayerSpawnZ", transform.localPosition.z);
+            Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
             StartCoroutine(RespawnCoroutine());
         }
         else
@@ -90,7 +94,13 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movement();
+        if (LockRotation)
+        {
+            CanRotate = false;
+        }
+        Vector3 moveDirection = ProjectPoint(direction);
+        if (CanRotate) UpdateLookDirection(moveDirection);
+        if (CanMove) Movement();
         AlignPlayer();
     }
 
@@ -102,10 +112,14 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
+        if (transform.position.y < YLevelDeathPlane)
+        {
+            TriggerRespawn();
+            return;
+        }
+
         Vector3 moveDirection = ProjectPoint(direction);
-
-        if (CanRotate) UpdateLookDirection(moveDirection);
-
+        
         if (!controller.enabled) return;
 
         if (CanMove)
@@ -121,6 +135,14 @@ public class PlayerController : MonoBehaviour
         }
 
         controller.Move(gravity * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DeathZone"))
+        {
+            TriggerRespawn();
+        }
     }
 
     public Vector3 ProjectPoint(Vector2 dir)
@@ -172,7 +194,8 @@ public class PlayerController : MonoBehaviour
         OnRespawn?.Invoke();
         controller.enabled = false;
         Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
-        transform.position = startPos;
+        Debug.Log("start pos "+ startPos);
+        transform.localPosition = startPos;
 
         controller.enabled = true;
         CanMove = false;

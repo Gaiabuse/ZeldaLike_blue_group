@@ -67,6 +67,7 @@ public class TutoStep
     }
     private void StartTutoStep()
     {
+        Debug.Log("startTutoStep");
         if (disponibleForms.Count != 0)
         {
             _formSwitcher.DisponibleForms.Clear();
@@ -84,7 +85,7 @@ public class TutoStep
 
         if (asDialogue)
         {
-            _textbox.AppearText(0, dialogue, "name", 0.03f, 2);
+            _textbox.AppearText(dialogue);
         }
 
         if (setNumberOfPointsForErased)

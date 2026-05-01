@@ -41,6 +41,7 @@ public class DreamShoot : AttackManager
     [SerializeField] private int numberOfShotsForUltimate;
 
     private bool CanShoot = true;
+    private bool prepShoot = false;
 
     protected override void OnEnable()
     {
@@ -95,10 +96,17 @@ public class DreamShoot : AttackManager
         StartCoroutine(DoShoot());
     }
 
+    private void FixedUpdate()
+    {
+        player.CanMove = !prepShoot;
+    }
+
     private void PrepareShoot()
     {
         lastInputTime = Time.time;
+        prepShoot = true;
         player.CanMove = false;
+        player.CanRotate = true;
         // we should try to do something to make things seem more sensitive
 
         aimCone.SetActive(true);
@@ -113,12 +121,14 @@ public class DreamShoot : AttackManager
     public void UnprepShoot()
     {
         player.CanMove = true;
+        prepShoot = false;
         aimCone.SetActive(false);
     }
 
     public System.Collections.IEnumerator DoShoot()
     {
         player.CanMove = true;
+        prepShoot = false;
         aimCone.SetActive(false);
 
         var amountOfTimeWaited = Time.time - lastInputTime;

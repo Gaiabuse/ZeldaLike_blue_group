@@ -1,127 +1,45 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Textbox : MonoBehaviour
 {
+    [SerializeField] Transform textBoxTransform;
     [SerializeField] TextMeshProUGUI textBox;
-    [SerializeField] TextMeshProUGUI nameBox;
-    [SerializeField] GameObject portrait;
+    [SerializeField] float delayBeforeDisappear = 1f;
+    [SerializeField] float tweenDuration = 0.2f;
+    string textShow;
+    
+    TweenerCore<Vector3, Vector3, VectorOptions> showTextTween;
 
-    Animator animator;
-
-    float timer;
-    float disapearTimer;
-    float maxTimer;
-    int TextPhase = 0;
-
-    string textShow; string nameShow;
-    string currentText; string currentName;
-    [SerializeField] int currentLetter = 0;
-
-    [Header("TextBox Assets")]
-
-    [SerializeField] List<Sprite> PortraitIcon;
-    [SerializeField] List<Vector2> PortraitSize;
-    [SerializeField] List<Vector2> PortraitPosition;
-
+    TweenerCore<Vector3, Vector3, VectorOptions> hideTextTween;
     private void Start()
     {
-        animator = GetComponent<Animator>();
-
         textBox.text = null;
-        nameBox.text = null;
+        textBoxTransform.localScale = Vector3.zero;
     }
+    
 
-    private void FixedUpdate()
+    public void AppearText(string text)
     {
-        if (TextPhase == 1)
+        if (hideTextTween != null)
         {
-            timer += Time.deltaTime;
-            if (timer > maxTimer)
-            {
-                
-                if (currentText != textShow) currentText += textShow[currentLetter];
-                if (currentName != nameShow) currentName += nameShow[currentLetter];
-
-                textBox.text = currentText;
-                nameBox.text = currentName;
-
-                if (textShow.Length > nameShow.Length)
-                {
-                    if (currentLetter == textShow.Length || TextPhase != 1)
-                    {
-                        TextPhase = 2;
-                        currentLetter = 0;
-                        maxTimer = disapearTimer;
-                    }
-                }
-                else
-                {
-                    if (currentLetter == nameShow.Length || TextPhase != 1)
-                    {
-                        TextPhase = 2;
-                        currentLetter = 0;
-                        maxTimer = disapearTimer;
-                    }
-                }
-
-                timer = 0;
-                currentLetter += 1;
-            }
+            hideTextTween.Kill();
+            textBoxTransform.localScale = Vector3.zero;
         }
-
-        if (TextPhase == 2)
+        if (showTextTween != null)
         {
-            timer += Time.deltaTime;
-            if (timer >= maxTimer)
-            {
-                animator.SetBool("Show", false);
-                textBox.text = null;
-                nameBox.text = null;
-
-                TextPhase = 0;
-            }
+            showTextTween.Kill();
         }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AppearText(0, "You What ?!", "V2", 0.03f, 2);
-        }
-    }
-
-    public void AppearText(int Portrait, string text, string name, float waitBeforeLetter, float waitDisapear)
-    {
-        portrait.GetComponent<UnityEngine.UI.Image>().sprite = PortraitIcon[Portrait];
-
-        RectTransform portraitTransform = portrait.GetComponent<RectTransform>();
-
-        portraitTransform.anchoredPosition = PortraitPosition[Portrait];
-        portraitTransform.localScale = PortraitSize[Portrait];
-
-        animator.SetBool("Show", true);
+        showTextTween = textBoxTransform.DOScale(Vector3.one, tweenDuration).SetEase(Ease.OutBounce);
         textBox.text = null;
-        nameBox.text = null;
-
-        currentLetter = 0;
-        currentText = null;
-        currentName = null;
-
         textShow = text;
-        nameShow = name;
-
-        maxTimer = waitBeforeLetter;
-        TextPhase = 0;
-
-        disapearTimer = waitDisapear;
+        textBox.text = textShow;
+        hideTextTween = textBoxTransform.DOScale(Vector3.zero, tweenDuration).SetEase(Ease.InBounce).SetDelay(delayBeforeDisappear + tweenDuration);
     }
-
-    protected void ShowText()
-    {
-        TextPhase = 1;
-    }
+    
 }

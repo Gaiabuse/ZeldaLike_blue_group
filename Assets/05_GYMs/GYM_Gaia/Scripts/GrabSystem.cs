@@ -102,6 +102,7 @@ public class GrabSystem : MonoBehaviour
         {
             ShowThrowPrediction();
             player.CanMove = false;
+            player.CanRotate = true;
             return;
         }
 
@@ -130,10 +131,14 @@ public class GrabSystem : MonoBehaviour
 
         IsThrowing = true;
         TransformIndicator.Instance.DisplayNightmareIcon(0);
-        currentGrabbedObject.SetActive(true);
 
-        Collider collider = currentGrabbedObject.GetComponent<Collider>();
-        if (collider != null) collider.enabled = false;
+        Collider collider = currentGrabbedObject.GetComponent<BoxCollider>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
+        
+        currentGrabbedObject.SetActive(true);
 
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
         var landingSpot = transform.position + transform.forward * throwDistance;
@@ -237,8 +242,9 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
 
-        AttractObject(hitGrabbed.collider.gameObject);
-
+        AttractObject(hitGrabbed.transform.parent != null
+            ? hitGrabbed.transform.parent.gameObject
+            : hitGrabbed.collider.gameObject);
     }
 
     private void DoAutoThrowUpdate()

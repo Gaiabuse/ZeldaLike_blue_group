@@ -13,7 +13,6 @@ public class DreamBait : MonoBehaviour
     async Task OnSecondPower(InputValue _input)
     {
         if (!_input.isPressed) return;
-
         if (currentBaitInstance == null)
         {
             DoBaitSpawn();

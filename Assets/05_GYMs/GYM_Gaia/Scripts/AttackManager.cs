@@ -24,6 +24,8 @@ public abstract class AttackManager : MonoBehaviour
     public static Action EndForUltimate;
     protected bool switchInProgress =false;
     protected Coroutine finishSwitchCoroutine;
+    protected bool isInUltMod = false;
+
     protected virtual void OnEnable()
     {
         player.CanMove = true;
@@ -130,12 +132,13 @@ public abstract class AttackManager : MonoBehaviour
 
     protected IEnumerator ComboCoroutine()
     {
+    
         currentCombo++;
         if (currentCombo >= numberOfAttacksInCombo)
         {
             currentCombo = 0;
             FormAnimator.SetBool("isAttacking",false);
-            
+            if(isInUltMod)yield break;
             if (ultimateCoroutine != null)
             {
                 StopCoroutine(ultimateCoroutine);
