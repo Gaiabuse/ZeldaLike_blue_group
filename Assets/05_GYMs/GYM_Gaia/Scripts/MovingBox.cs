@@ -10,7 +10,7 @@ public class MovingBox : MonoBehaviour
     [SerializeField] private GameObject Ui;
     [SerializeField] private Rigidbody rb;
     private bool canInteract = false;
-    [SerializeField]private float speed = 5f;
+    [SerializeField] private float speed = 5f;
     private PlayerController player;
     private Vector3 startPos;
 
@@ -22,7 +22,7 @@ public class MovingBox : MonoBehaviour
     {
         Ui.SetActive(false);
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -39,21 +39,21 @@ public class MovingBox : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider other)
-    { 
+    {
         if (other.CompareTag("Player"))
         {
             Vector3 hitDirection = other.transform.position - transform.position;
-            
+
             float dotForward = Vector3.Dot(hitDirection, transform.forward);
             float dotRight = Vector3.Dot(hitDirection, transform.right);
-            
+
             if (Mathf.Abs(dotForward) > Mathf.Abs(dotRight))
             {
-                side = dotForward > 0 ?  Side.Front : Side.Back;
+                side = dotForward > 0 ? Side.Front : Side.Back;
             }
             else
             {
-                side = dotRight > 0 ?Side.Right : Side.Left;
+                side = dotRight > 0 ? Side.Right : Side.Left;
             }
         }
     }
@@ -65,7 +65,7 @@ public class MovingBox : MonoBehaviour
             if (player != null)
             {
                 ReleaseBox();
-                
+
                 player.OnCatch -= CatchBox;
                 player.OnRelease -= ReleaseBox;
                 player = null;
@@ -76,7 +76,7 @@ public class MovingBox : MonoBehaviour
                 Ui.SetActive(false);
                 canInteract = false;
             }
-          
+
         }
     }
 
@@ -118,5 +118,5 @@ public class MovingBox : MonoBehaviour
     {
         player.side = side;
     }
-  
+
 }
