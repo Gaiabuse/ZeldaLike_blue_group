@@ -128,15 +128,6 @@ public class ClassicEnnemy : EnnemyBase
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            print(HP);
-            TakeDamage(35, 1);
-        }
-    }
-
     void isPlayerInFieldOfView()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(LockOn.position, LookRange, LayerBlockRay);
