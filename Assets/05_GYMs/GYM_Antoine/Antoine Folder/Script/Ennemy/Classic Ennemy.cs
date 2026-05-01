@@ -327,4 +327,9 @@ public class ClassicEnnemy : EnnemyBase
         navMesh.acceleration = acceleration.y;
         navMesh.angularSpeed = SpeedRotate.y;
     }
+
+    protected override void Death()
+    {
+        animator.SetBool("Death", true);
+    }
 }
