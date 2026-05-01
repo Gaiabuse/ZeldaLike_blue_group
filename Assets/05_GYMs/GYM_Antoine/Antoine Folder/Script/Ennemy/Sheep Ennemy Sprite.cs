@@ -42,13 +42,19 @@ public class SheepEnnemySprite : GroundEnnemy
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (shellHere) LoseShell();
-            else StunEnnemy(1, false);
+            else if (move != "stun") StunEnnemy(5, false);
+            else
+            {
+                TakeDamage(20, 0.5f);
+                Debug.Log(HP);
+            }
         }
     }
 
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+        float distPlayer = Vector3.Distance(CurrentTarget.position, transform.position);
 
         if (shellHere)
         {
@@ -83,7 +89,6 @@ public class SheepEnnemySprite : GroundEnnemy
                     WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
                     navMesh.destination = WhereToGoPos;
                 }
-                float distPlayer = Vector3.Distance(CurrentTarget.position, transform.position);
                 if (distPlayer > DistStartAttack && distPlayer > DistanceGetInShell)
                 {
                     repositionToAttack = false;
@@ -137,6 +142,17 @@ public class SheepEnnemySprite : GroundEnnemy
                     PatrolStart();
                 }
             }
+            if (move == "shell")
+            {
+                if (distPlayer >= DistanceGetInShell + 1)
+                {
+                    animator.SetInteger("Shell", 1);
+                    WhereToGoPos = CurrentTarget.position;
+                    navMesh.destination = WhereToGoPos;
+                    navMesh.isStopped = false;
+                    move = "patrol";
+                }
+            }
         }
         else
         {
@@ -168,32 +184,35 @@ public class SheepEnnemySprite : GroundEnnemy
     {
         AttackStart(-1);
     }*/
-        if (CurrentTarget != null && shellHere)
+        if (move != "stun")
         {
-            float distTarget = Vector3.Distance(AttackTrigger.position, CurrentTarget.position);
-            if (distTarget >= DistStartAttack && TargetInFieldOfView && !repositionToAttack && move != "shell")
+            if (CurrentTarget != null && shellHere)
             {
-                AttackStart(1);
-                move = "aim roll";
-                navMesh.isStopped = false;
-                navMesh.speed = 0;
-            }
-            else if (distTarget < DistStartAttack && !repositionToAttack && distTarget > DistanceGetInShell && move != "shell")
-            {
-                repositionToAttack = true;
-                canLookAtPlayer = false;
-                WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
-                navMesh.destination = WhereToGoPos;
+                float distTarget = Vector3.Distance(AttackTrigger.position, CurrentTarget.position);
+                if (distTarget >= DistStartAttack && TargetInFieldOfView && !repositionToAttack && move != "shell")
+                {
+                    AttackStart(1);
+                    move = "aim roll";
+                    navMesh.isStopped = false;
+                    navMesh.speed = 0;
+                }
+                else if (distTarget < DistStartAttack && !repositionToAttack && distTarget > DistanceGetInShell && move != "shell")
+                {
+                    repositionToAttack = true;
+                    canLookAtPlayer = false;
+                    WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
+                    navMesh.destination = WhereToGoPos;
 
-                navMesh.speed = speed.y;
-                navMesh.angularSpeed = SpeedRotate.y;
-                navMesh.acceleration = acceleration.y;
+                    navMesh.speed = speed.y;
+                    navMesh.angularSpeed = SpeedRotate.y;
+                    navMesh.acceleration = acceleration.y;
 
-                move = "reposition";
-            }
-            else if (distTarget <= DistanceGetInShell && move != "shell")
-            {
-                GetInShell();
+                    move = "reposition";
+                }
+                else if (distTarget <= DistanceGetInShell && move != "shell")
+                {
+                    GetInShell();
+                }
             }
         }
     }
@@ -268,6 +287,7 @@ public class SheepEnnemySprite : GroundEnnemy
         move = "shell";
         animator.SetInteger("Shell", 2);
         navMesh.isStopped = true;
+        repositionToAttack = false;
     }
 
     public override void AttackStart(int attackID)
@@ -284,10 +304,17 @@ public class SheepEnnemySprite : GroundEnnemy
     {
         base.StunEnnemy(stunTime, infiniteStun);
         repositionToAttack = false;
-        if (!shellHere)
+        if (!shellHere && move != "stun")
         {
             animator.SetInteger("Shell", -3);
             move = "shell lost";
         }
+    }
+
+
+    protected override void Death()
+    {
+        animator.SetBool("Death", true);
+        move = "death";
     }
 }
