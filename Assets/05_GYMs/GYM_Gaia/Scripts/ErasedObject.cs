@@ -27,6 +27,8 @@ public class ErasedObject : MonoBehaviour
 
     private void Start()
     {
+        createIcon = TransformIndicator.Instance.createIconImg;
+        createPointsIcon = TransformIndicator.Instance.crcreatePointsIconeateIconImg;
         renderer = erasedObject.GetComponent<MeshRenderer>();
         Erase();
     }

@@ -33,7 +33,9 @@ public class TransformIndicator : MonoBehaviour
     private bool hasToBlink;
     private Coroutine blinkCoroutine;
     private Coroutine fadeCoroutine;
-    
+    public Image createIconImg;
+    public Image crcreatePointsIconeateIconImg;
+
     public static TransformIndicator Instance;
 
     private void Awake()

@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if (LockRotation) CanRotate = false;
-        Movement();
+        if (CanMove) Movement();
         AlignPlayer();
     }
 
