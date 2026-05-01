@@ -232,7 +232,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         animator.SetInteger("Attack", attackID);
     }
 
-    protected virtual void AttackAnimEnd()
+    public virtual void AttackAnimEnd()
     {
         animator.SetInteger("Attack", 0);
     }

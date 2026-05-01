@@ -17,6 +17,7 @@ public class ClassicEnnemy : EnnemyBase
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] protected float DistanceAttack = 2;
     [SerializeField] float chargeAttackTime = 1.5f;
+    [SerializeField] float waitAfterAttack = 1.5f;
 
     protected Vector3 WhereToGoPos;
 
@@ -111,7 +112,17 @@ public class ClassicEnnemy : EnnemyBase
                 if (timerGeneral <= 0)
                 {
                     move = "attack";
+                    timerGeneral = waitAfterAttack;
                     animator.SetTrigger("tAttack");
+                }
+            }
+
+            if (move == "attack")
+            {
+                timerGeneral -= Time.deltaTime;
+                if (timerGeneral <= 0)
+                {
+                    AttackAnimEnd();
                 }
             }
         }
@@ -270,20 +281,12 @@ public class ClassicEnnemy : EnnemyBase
         navMesh.isStopped = true;
     }
 
-    protected override void AttackAnimEnd()
+    public override void AttackAnimEnd()
     {
-        base.AttackAnimEnd();
         navMesh.isStopped = false;
+        navMesh.speed = speed.y;
 
-        if (CurrentTarget != null && move != "stun")
-        {
-            move = "chase";
-            animator.SetBool("IsChasing", true);
-        }
-        else
-        {
-            PatrolStart();
-        }
+        PatrolStart();
     }
 
     protected void PatrolStart()

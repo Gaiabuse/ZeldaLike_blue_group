@@ -250,7 +250,7 @@ public class GroundEnnemy : EnnemyBase
         navMesh.isStopped = true;
     }
 
-    protected override void AttackAnimEnd()
+    public override void AttackAnimEnd()
     {
         base.AttackAnimEnd();
         navMesh.isStopped = false;
