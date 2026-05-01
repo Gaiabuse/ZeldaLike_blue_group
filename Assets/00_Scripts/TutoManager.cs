@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+
+// We wrap this so it's only included in the Editor
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class TutoManager : MonoBehaviour
 {
@@ -53,6 +57,7 @@ public class TutoStep
     private FormSwitcher _formSwitcher;
     private Textbox _textbox;
     private ErasedManager _erasedManager;
+    
     public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager)
     {
         _formSwitcher = formSwitcher;
@@ -65,6 +70,7 @@ public class TutoStep
     {
         colliderTrigger.ActivateTutoStep -= StartTutoStep;
     }
+    
     private void StartTutoStep()
     {
         Debug.Log("startTutoStep");
@@ -93,9 +99,10 @@ public class TutoStep
             _erasedManager.maxPointsForCreate = numberOfPointsForErased;
         }
     }
-
 }
 
+// We wrap the entire custom editor class so the build completely ignores it
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(TutoStep))]
 public class TutoStepEditor : PropertyDrawer 
 {
@@ -111,10 +118,8 @@ public class TutoStepEditor : PropertyDrawer
         SerializedProperty numberOfPointsForErased = property.FindPropertyRelative("numberOfPointsForErased");
         SerializedProperty dialogue = property.FindPropertyRelative("dialogue");
         
- 
         position.height = EditorGUIUtility.singleLineHeight;
         property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, label);
-
 
         if (property.isExpanded)
         {
@@ -146,6 +151,7 @@ public class TutoStepEditor : PropertyDrawer
 
         EditorGUI.EndProperty();
     }
+    
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         if (!property.isExpanded) return EditorGUIUtility.singleLineHeight;
@@ -157,5 +163,4 @@ public class TutoStepEditor : PropertyDrawer
         return lines * (EditorGUIUtility.singleLineHeight + 2);
     }
 }
-
-
+#endif
