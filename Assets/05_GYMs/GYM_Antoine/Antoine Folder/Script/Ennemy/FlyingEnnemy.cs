@@ -80,6 +80,7 @@ public class FlyingEnnemy : EnnemyBase
                 {
                     if (move != "melee")
                     {
+                        lastY = transform.position.y;
                         move = "melee";
                         SetDive(1);
                         timerGeneral = MaxFallTime;
@@ -102,22 +103,16 @@ public class FlyingEnnemy : EnnemyBase
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
                 {
-                    if (hit.distance <= 100)
+                    if (hit.distance >= DistanceFromGround)
                     {
-                        if (hit.distance >= DistanceFromGround)
-                        {
-                            move = "wait";
-                            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-                        }
+                        move = "wait";
+                        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
                     }
-                    else
-                    {
-                        if (transform.position.y > lastY)
-                        {
-                            move = "wait";
-                            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-                        }
-                    }
+                }
+                if (transform.position.y > lastY)
+                {
+                    move = "wait";
+                    transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
                 }
             }
             if (move == "shoot")
@@ -248,7 +243,6 @@ public class FlyingEnnemy : EnnemyBase
             move = "melee2";
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            lastY = transform.position.y;
 
             rb.useGravity = false;
             rb.isKinematic = true;
