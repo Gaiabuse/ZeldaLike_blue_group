@@ -74,7 +74,7 @@ public class ClassicEnnemy : EnnemyBase
                 }
                 else if (move == "lose chase")
                 {
-                    if (Vector3.Distance(transform.position, WhereToGoPos) < LoseFocusDist)
+                    if (Vector3.Distance(transform.position, WhereToGoPos) <= LoseFocusDist)
                     {
                         WhereToGoPos = SelectPatrolPosition();
                         PatrolStart();
@@ -93,7 +93,7 @@ public class ClassicEnnemy : EnnemyBase
             {
                 navMesh.destination = WhereToGoPos;
 
-                if (Vector3.Distance(transform.position, WhereToGoPos) < 1.5f)
+                if (Vector3.Distance(transform.position, WhereToGoPos) <= 1.5f)
                 {
                     currentPatrolPose += 1;
 
