@@ -39,7 +39,8 @@ public class ClassicEnnemy : EnnemyBase
         navMesh.angularSpeed = SpeedRotate.x;
 
         if (MainHitBox != null) MainHitBox.damage = data.strength;
-        animator.SetBool("IsChasing", true);
+        animator.SetBool("IsMoving", true);
+        animator.SetBool("IsChasing", false);
     }
 
     protected override void FixedUpdate()
@@ -59,6 +60,7 @@ public class ClassicEnnemy : EnnemyBase
                     navMesh.acceleration = acceleration.y;
                     navMesh.angularSpeed = SpeedRotate.y;
                     move = "chase";
+                    animator.SetBool("IsChasing", true);
                 }
 
                 WhereToGoPos = CurrentTarget.position;
@@ -236,6 +238,7 @@ public class ClassicEnnemy : EnnemyBase
             if (move != "stun")
             {
                 move = "chase";
+                animator.SetBool("IsChasing", true);
 
                 EyesSetColorTo(colorChase);
 
@@ -275,6 +278,7 @@ public class ClassicEnnemy : EnnemyBase
         if (CurrentTarget != null && move != "stun")
         {
             move = "chase";
+            animator.SetBool("IsChasing", true);
         }
         else
         {
@@ -286,6 +290,7 @@ public class ClassicEnnemy : EnnemyBase
     {
         EyesSetColorTo(colorNormal);
 
+        animator.SetBool("IsChasing", false);
         WhereToGoPos = SelectPatrolPosition();
         move = "patrol";
 
