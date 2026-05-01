@@ -102,6 +102,7 @@ public class GrabSystem : MonoBehaviour
         {
             ShowThrowPrediction();
             player.CanMove = false;
+            player.CanRotate = true;
             return;
         }
 
