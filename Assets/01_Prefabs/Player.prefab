@@ -788,9 +788,11 @@ MonoBehaviour:
   lookAheadDistance: 0.7
   sensorRadius: 0.4
   minRaysRequired: 5
+  YLevelDeathPlane: -10
   surfaceNormal: {x: 0, y: 0, z: 0}
   CanMove: 1
   CanRotate: 1
+  LockRotation: 0
   currentAttackManager: {fileID: 966973642768248133}
   side: 1
   obstacleLayer:
@@ -999,7 +1001,7 @@ MonoBehaviour:
   dashVFX: {fileID: 5095864304402594560}
   layerWall:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   layerGround:
     serializedVersion: 2
     m_Bits: 8
@@ -1625,14 +1627,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 614b70e7da3bb7e4fb2d9c607b5e2fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Textbox
+  textBoxTransform: {fileID: 0}
   textBox: {fileID: 5847869887264641354}
-  textImg: {fileID: 0}
-  animator: {fileID: 0}
-  currentLetter: 0
-  PortraitIcon:
-  - {fileID: 21300000, guid: 396d3d38a0643964cb943f280d75ed83, type: 3}
-  PortraitSize: []
-  PortraitPosition: []
+  delayBeforeDisappear: 1
+  tweenDuration: 0.2
 --- !u!95 &840876037109605652
 Animator:
   serializedVersion: 7
@@ -2307,14 +2305,13 @@ GameObject:
   - component: {fileID: 2564409545134392940}
   - component: {fileID: 4667459941524090902}
   - component: {fileID: 8600280016486079122}
-  - component: {fileID: 1579369890925037167}
   m_Layer: 9
   m_Name: NightmareForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2564409545134392940
 Transform:
   m_ObjectHideFlags: 0
@@ -2400,57 +2397,7 @@ MonoBehaviour:
     playerCollider: {fileID: 4485196043092998046}
     ultimateObject: {fileID: 5295939877534458843}
     grab: {fileID: 4667459941524090902}
-    dash: {fileID: 1579369890925037167}
---- !u!114 &1579369890925037167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7780061593918026694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4631489e092e159b9e09bc4d6895044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  controller: {fileID: 8133830779634646023}
-  characterController: {fileID: 2672575590059249965}
-  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
-  layerWall:
-    serializedVersion: 2
-    m_Bits: 0
-  layerGround:
-    serializedVersion: 2
-    m_Bits: 8
-  DashProggression:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.15
-  offset: 0.2
-  tolerance: 0.5
+    dash: {fileID: 0}
 --- !u!1 &8263647557454681255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2711,7 +2658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2279037332940745537
 Transform:
   m_ObjectHideFlags: 0
@@ -2811,12 +2758,16 @@ MonoBehaviour:
     m_Bits: 128
   playerInput: {fileID: 8015218632366079429}
   durationUltimate: 45
-  durationChooseEnemyMod: 4
-  targetIndicator: {fileID: 5426947640183739638}
+  ultimateAttacks: []
   knockbackDistance: 2
   dashOffset: 1
-  ultDamage: 15
   ultStun: 2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &7934904055037678382
 MonoBehaviour:
   m_ObjectHideFlags: 0
