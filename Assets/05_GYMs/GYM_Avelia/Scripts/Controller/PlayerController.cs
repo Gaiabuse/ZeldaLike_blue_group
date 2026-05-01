@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float lookAheadDistance = 0.3f; // How far ahead to push the sensor
     [SerializeField] float sensorRadius = 0.4f;      // The width of the ray circle
     [SerializeField] int minRaysRequired = 5;
+    [SerializeField] float YLevelDeathPlane = -10f;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -59,6 +60,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
+
     void Start()
     {
         Boxes = null;
@@ -102,6 +104,12 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
+        if (transform.position.y < YLevelDeathPlane)
+        {
+            TriggerRespawn();
+            return;
+        }
+
         Vector3 moveDirection = ProjectPoint(direction);
 
         if (CanRotate) UpdateLookDirection(moveDirection);

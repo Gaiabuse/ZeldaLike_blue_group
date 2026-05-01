@@ -599,7 +599,7 @@ MonoBehaviour:
   side: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   Boxes: {fileID: 0}
   respawnAtStart: 1
 --- !u!114 &5888648130357620796
@@ -616,6 +616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   playerInput: {fileID: 8015218632366079429}
   pauseMenu: {fileID: 0}
+  progressMenu: {fileID: 0}
 --- !u!114 &475458454912018690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,7 +802,7 @@ MonoBehaviour:
   dashVFX: {fileID: 5095864304402594560}
   layerWall:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
   layerGround:
     serializedVersion: 2
     m_Bits: 8
@@ -1592,7 +1593,7 @@ MonoBehaviour:
   player: {fileID: 8133830779634646023}
   rangeForGrab: 14
   sideRangeForGrab: 0.1
-  grabStrength: -14
+  grabActionDuration: 0.1
   rangeForSwallow: 2
   sideRangeForSwallow: 0.1
   grabLayers:
@@ -1604,6 +1605,7 @@ MonoBehaviour:
   AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
+  currentGrabbedObject: {fileID: 0}
 --- !u!114 &8600280016486079122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1852,6 +1854,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   maxPointsForCreate: 3
+  currentPointsForCreate: 0
   holdTime: 2
   numberOfPressForErasedEnemy: 20
   hpHealWhenErasedEnemy: 20
