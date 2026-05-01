@@ -95,6 +95,74 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1243991779963369906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1555435320699992745}
+  - component: {fileID: 7852801730920861909}
+  - component: {fileID: 6489296102402575350}
+  m_Layer: 7
+  m_Name: HitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1555435320699992745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243991779963369906}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5318037661655833559}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7852801730920861909
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243991779963369906}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 0.65
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6489296102402575350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243991779963369906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f809e0a38a1d5c4f8a705b7565730fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnnemyHit
+  damage: 3
+  canHit: 0
 --- !u!1 &4363910428082818555
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +199,7 @@ Transform:
   - {fileID: 8198841737220093267}
   - {fileID: 7957176140517520768}
   - {fileID: 77274531133580494}
+  - {fileID: 1555435320699992745}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &9079454641044606613
@@ -198,7 +267,7 @@ MonoBehaviour:
   alwaysAgro: 0
   stunMultiplier: 1
   _move: patrol
-  MainHitBox: {fileID: 0}
+  MainHitBox: {fileID: 6489296102402575350}
   Eyes: []
   colorNormal: {r: 0, g: 0, b: 0, a: 0}
   colorChase: {r: 0, g: 0, b: 0, a: 0}
@@ -210,12 +279,13 @@ MonoBehaviour:
   UltIndicator: {fileID: 443917859553740831}
   LockOn: {fileID: 77274531133580494}
   LookRange: 7
-  DistanceAlwaysSeeEnnemy: 2
+  DistanceAlwaysSeeEnnemy: 3
   RadiusLook: 45
-  LoseFocusDist: 1
+  LoseFocusDist: 2
   AttackTrigger: {fileID: 5318037661655833559}
   DistanceAttack: 1.5
   chargeAttackTime: 0.75
+  waitAfterAttack: 1.5
   LayerBlockRay:
     serializedVersion: 2
     m_Bits: 17
@@ -671,8 +741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846e7c9a33c2f414f9202b022aaffbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitchAnim
-  ennemyBase: {fileID: 0}
-  sheep: {fileID: 0}
+  ennemyBase: {fileID: 6380544062438564481}
 --- !u!114 &3980098256287983163
 MonoBehaviour:
   m_ObjectHideFlags: 0

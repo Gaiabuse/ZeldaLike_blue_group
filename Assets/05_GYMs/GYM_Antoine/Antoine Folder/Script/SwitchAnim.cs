@@ -4,7 +4,12 @@ using UnityEngine;
 public class SwitchAnim : MonoBehaviour
 {
     [SerializeField] EnnemyBase ennemyBase;
-    [SerializeField] SheepEnnemySprite sheep;
+    SheepEnnemySprite sheep;
+
+    private void Start()
+    {
+        sheep = ennemyBase.GetComponent<SheepEnnemySprite>();
+    }
 
     void SwitchAttack(int anim)
     {
@@ -13,11 +18,16 @@ public class SwitchAnim : MonoBehaviour
 
     void SheepSwitchShell(int anim)
     {
-        sheep.SetShell(anim);
+        if (sheep != null) sheep.SetShell(anim);
     }
 
     void DestroyEnnemy()
     {
         Destroy(ennemyBase.gameObject);
+    }
+
+    void ToogleHitBox(int toogle)
+    {
+        ennemyBase.ToogleMainAttack(toogle);
     }
 }
