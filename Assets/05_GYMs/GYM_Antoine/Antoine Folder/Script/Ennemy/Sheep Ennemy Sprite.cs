@@ -83,7 +83,8 @@ public class SheepEnnemySprite : GroundEnnemy
                     WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
                     navMesh.destination = WhereToGoPos;
                 }
-                if (Vector3.Distance(CurrentTarget.position, transform.position) > DistStartAttack)
+                float distPlayer = Vector3.Distance(CurrentTarget.position, transform.position);
+                if (distPlayer > DistStartAttack && distPlayer > DistanceGetInShell)
                 {
                     repositionToAttack = false;
                     canLookAtPlayer = true;
@@ -92,6 +93,10 @@ public class SheepEnnemySprite : GroundEnnemy
                     move = "aim roll";
                     navMesh.isStopped = false;
                     navMesh.speed = 0;
+                }
+                if (distPlayer <= DistanceGetInShell)
+                {
+                    GetInShell();
                 }
             }
             if (move == "aim roll")
@@ -166,14 +171,14 @@ public class SheepEnnemySprite : GroundEnnemy
         if (CurrentTarget != null && shellHere)
         {
             float distTarget = Vector3.Distance(AttackTrigger.position, CurrentTarget.position);
-            if (distTarget >= DistStartAttack && TargetInFieldOfView && !repositionToAttack)
+            if (distTarget >= DistStartAttack && TargetInFieldOfView && !repositionToAttack && move != "shell")
             {
                 AttackStart(1);
                 move = "aim roll";
                 navMesh.isStopped = false;
                 navMesh.speed = 0;
             }
-            else if (distTarget < DistStartAttack && !repositionToAttack && distTarget > DistanceGetInShell)
+            else if (distTarget < DistStartAttack && !repositionToAttack && distTarget > DistanceGetInShell && move != "shell")
             {
                 repositionToAttack = true;
                 canLookAtPlayer = false;
@@ -186,9 +191,9 @@ public class SheepEnnemySprite : GroundEnnemy
 
                 move = "reposition";
             }
-            else if (distTarget <= DistanceGetInShell)
+            else if (distTarget <= DistanceGetInShell && move != "shell")
             {
-
+                GetInShell();
             }
         }
     }
@@ -256,6 +261,13 @@ public class SheepEnnemySprite : GroundEnnemy
 
         shellHere = true;
         PatrolStart();
+    }
+
+    void GetInShell()
+    {
+        move = "shell";
+        animator.SetInteger("Shell", 2);
+        navMesh.isStopped = true;
     }
 
     public override void AttackStart(int attackID)
