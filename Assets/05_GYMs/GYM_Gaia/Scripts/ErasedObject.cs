@@ -72,6 +72,7 @@ public class ErasedObject : MonoBehaviour
         TransformIndicator.Instance.StopBlink(creationCost);
         _isCreated = false;
         Erased = true;
+        erasedObject.layer = LayerMask.NameToLayer("ErasedObject");
         DOTween.To(() => 0f, x => 
             {
                 renderer.GetPropertyBlock(_propertyBlock);
@@ -81,7 +82,6 @@ public class ErasedObject : MonoBehaviour
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => 
             {
-                erasedObject.layer = LayerMask.NameToLayer("ErasedObject");
                 UpdateUIVisibility();
             });
     }
