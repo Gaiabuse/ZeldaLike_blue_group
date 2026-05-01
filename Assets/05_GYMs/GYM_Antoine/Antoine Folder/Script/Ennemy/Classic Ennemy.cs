@@ -128,6 +128,15 @@ public class ClassicEnnemy : EnnemyBase
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            print(HP);
+            TakeDamage(35, 1);
+        }
+    }
+
     void isPlayerInFieldOfView()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(LockOn.position, LookRange, LayerBlockRay);
@@ -244,6 +253,12 @@ public class ClassicEnnemy : EnnemyBase
     {
         base.TakeDamage(damage, stun);
 
+        animator.SetBool("IsChasing", false);
+        animator.SetBool("IsMoving", false);
+
+        animator.SetTrigger("tHit");
+        navMesh.velocity = Vector3.zero;
+
         if (HP > 0)
         {
             if (move != "stun")
@@ -318,6 +333,7 @@ public class ClassicEnnemy : EnnemyBase
 
         WhereToGoPos = Player.position;
         move = "chase";
+        animator.SetBool("IsMoving", true);
         animator.SetBool("IsChasing", true);
 
         EyesSetColorTo(colorChase);
@@ -330,6 +346,6 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
-        animator.SetBool("Death", true);
+        animator.SetBool("IsDead", true);
     }
 }
