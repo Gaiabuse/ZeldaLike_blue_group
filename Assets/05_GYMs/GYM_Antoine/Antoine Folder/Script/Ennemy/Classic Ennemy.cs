@@ -337,6 +337,13 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
+        if (EnnemyManager.Instance != null)
+        {
+            Debug.Log("remove");
+            EnnemyManager.Instance.enemies.Remove(this);
+            EnnemyManager.Instance.Check();
+        }
         animator.SetBool("IsDead", true);
+        
     }
 }

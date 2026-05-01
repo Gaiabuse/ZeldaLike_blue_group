@@ -60,6 +60,7 @@ public class ErasedObject : MonoBehaviour
 
         if (shouldShow)
         {
+            Debug.Log(creationCost - 1);
             createPointsIcon.sprite = createPointsSprite[creationCost - 1];
             TransformIndicator.Instance.StartBlink(creationCost);
         }
