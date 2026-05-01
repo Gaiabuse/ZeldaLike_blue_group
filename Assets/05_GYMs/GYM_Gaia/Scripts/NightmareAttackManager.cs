@@ -66,7 +66,7 @@ public class NightmareAttackManager : AttackManager
                 transform.parent.LookAt(targetPos);
             }
             player.CanMove = false;
-            player.CanRotate = false;
+            player.LockRotation = true;
             if (canChargedAttack)
             {
                 canChargedAttack = false;
@@ -91,6 +91,7 @@ public class NightmareAttackManager : AttackManager
     }
     private void UltimateActivation()
     {
+        player.LockRotation = true;
         formSwitcher.canSwitchForm = false;
         CanAttack = false;
         ultReference.ultimateObject.SetActive(true);
@@ -106,7 +107,7 @@ public class NightmareAttackManager : AttackManager
     {
         formSwitcher.canSwitchForm = true;
         CanAttack = true;
-        player.CanRotate = true;
+        player.LockRotation = false;
         ultReference.ultimateObject.SetActive(false);
         ultReference.playerSprite.SetActive(true);
         ultReference.playerCollider.enabled = true;

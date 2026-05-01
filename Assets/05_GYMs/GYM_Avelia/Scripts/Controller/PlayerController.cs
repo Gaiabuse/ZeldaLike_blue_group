@@ -45,6 +45,8 @@ public class PlayerController : MonoBehaviour
     public Action OnRelease;
     public static Action OnRespawn;
     public Action Attack;
+    
+    public bool LockRotation;
 
     private float offset = -90f;
 
@@ -92,6 +94,14 @@ public class PlayerController : MonoBehaviour
     {
         Movement();
         AlignPlayer();
+        if (LockRotation)
+        {
+            CanRotate = false;
+        }
+        else
+        {
+            CanRotate = true;
+        }
     }
 
     void AlignPlayer()

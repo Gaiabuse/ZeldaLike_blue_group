@@ -154,6 +154,7 @@ public class TransformIndicator : MonoBehaviour
         if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
         if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
         
+        if (index+1 < 0) return;
         var cg = chargesIcon[index+1].GetComponent<CanvasGroup>();
         if (cg != null)
         {
@@ -164,7 +165,6 @@ public class TransformIndicator : MonoBehaviour
     public IEnumerator BlinkNeutralChargeIcon(int iconIndex)
     {
         int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
-        Debug.Log(index);
         CanvasGroup canvasGroupOut = chargesIcon[index+1].GetComponent<CanvasGroup>();
         if (index >= 0)
         {

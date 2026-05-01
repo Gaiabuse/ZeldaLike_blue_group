@@ -938,7 +938,8 @@ MonoBehaviour:
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
   Leure: {fileID: 0}
-  alwaysAgro: 1
+  alwaysAgro: 0
+  stunMultiplier: 1
   _move: patrol
   MainHitBox: {fileID: 583629990775373724}
   Eyes:
@@ -965,6 +966,7 @@ MonoBehaviour:
   PatrolPosition:
   - {x: 14, y: 1, z: 7}
   - {x: -2.5, y: 1, z: 7}
+  canLookAtPlayer: 1
 --- !u!114 &143417450501062609
 MonoBehaviour:
   m_ObjectHideFlags: 0
