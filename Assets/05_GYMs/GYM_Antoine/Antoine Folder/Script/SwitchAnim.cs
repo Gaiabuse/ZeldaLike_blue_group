@@ -26,8 +26,8 @@ public class SwitchAnim : MonoBehaviour
         Destroy(ennemyBase.gameObject);
     }
 
-    void AttackAnimEnd()
+    void ToogleHitBox(int toogle)
     {
-        ennemyBase.AttackAnimEnd();
+        ennemyBase.ToogleMainAttack(toogle);
     }
 }

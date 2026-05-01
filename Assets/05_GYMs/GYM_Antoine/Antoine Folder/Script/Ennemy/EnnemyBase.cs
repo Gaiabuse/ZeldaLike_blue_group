@@ -249,7 +249,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         animator.SetInteger("Attack", 0);
     }
 
-    protected void ToogleMainAttack(int toogle)
+    public void ToogleMainAttack(int toogle)
     {
         if (toogle == 1) MainHitBox.ToggleHitBox(true);
         else MainHitBox.ToggleHitBox(false);
