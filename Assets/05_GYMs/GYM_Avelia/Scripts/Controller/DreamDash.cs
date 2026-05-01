@@ -75,11 +75,9 @@ public class DreamDash : MonoBehaviour
 
         while (timer < DashDurationSeconds)
         {
-            print($"position = {transform.position}");
             timer += Time.deltaTime;
             var portion = timer / DashDurationSeconds;
             Vector3 targetPosition = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
-            Vector3 moveDelta = targetPosition - currentLerpPosition;
             transform.position = targetPosition;
             currentLerpPosition = targetPosition;
 
@@ -108,9 +106,6 @@ public class DreamDash : MonoBehaviour
 
         characterController.enabled = false;
     }
-
-    private LayerMask controllerMask;
-    LayerMask everythingLayer = LayerMask.NameToLayer("everything");
 
     IEnumerator UndoDashSetUp()
     {
