@@ -17,13 +17,7 @@ public class PressurePlate : MonoBehaviour
     {
         return ((mask.value & (1 << layer)) > 0);
     }
-
-    private void Start()
-    {
-        isPressing = false;
-    }
     
-
     private void OnTriggerEnter(Collider other)
     {
         if(isPressing)return;
@@ -52,19 +46,6 @@ public class PressurePlate : MonoBehaviour
             isPressing = false;
             onUnpressure.Invoke();
             objectOnPressurePlate = null;
-            Debug.Log("object destroy");
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(isPressing)return;
-        if (ContainsLayer(layerMask, other.gameObject.layer))
-        {
-            if(!other.gameObject.activeInHierarchy)return;
-            isPressing = true;
-            objectOnPressurePlate = other.gameObject;
-            onPressure.Invoke();
         }
     }
 

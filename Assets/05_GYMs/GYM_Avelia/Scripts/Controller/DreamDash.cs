@@ -69,17 +69,19 @@ public class DreamDash : MonoBehaviour
     {
         float timer = 0;
 
+        Vector3 currentLerpPosition = originalPosition; 
+
         while (timer < DashDurationSeconds)
         {
             timer += Time.deltaTime;
             var portion = timer / DashDurationSeconds;
-
-            controller.transform.position = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
+            Vector3 targetPosition = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
+            Vector3 moveDelta = targetPosition - currentLerpPosition;
+            characterController.Move(moveDelta);
+            currentLerpPosition = targetPosition;
 
             yield return null;
         }
-
-        yield break;
     }
 
     bool IsPlaceLandable(Vector3 destination)
@@ -97,18 +99,15 @@ public class DreamDash : MonoBehaviour
     {
         IsDashing = true;
         controller.currentAnimator.SetTrigger("isDashing");
-        controller.CanMove = false;
-        controller.CanRotate = false;
-
-        characterController.enabled = false;
+        controller.LockMove = true;
+        controller.CanRotate = true;
     }
 
     IEnumerator UndoDashSetUp()
     {
-        controller.CanMove = true;
-        controller.CanRotate = true;
+        controller.LockMove = false;
+        controller.CanRotate = false;
         controller.currentAnimator.SetTrigger("isDashing");
-        characterController.enabled = true;
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
 

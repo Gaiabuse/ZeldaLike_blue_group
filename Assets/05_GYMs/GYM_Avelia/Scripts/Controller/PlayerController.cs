@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     public Action Attack;
     
     public bool LockRotation;
+    public bool LockMove;
 
     private float offset = -90f;
 
@@ -92,8 +93,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movement();
-        AlignPlayer();
         if (LockRotation)
         {
             CanRotate = false;
@@ -102,6 +101,17 @@ public class PlayerController : MonoBehaviour
         {
             CanRotate = true;
         }
+
+        if (LockMove)
+        {
+            CanMove = false;
+        }
+        else
+        {
+            CanMove = true;
+        }
+        if (CanMove) Movement();
+        AlignPlayer();
     }
 
     void AlignPlayer()
