@@ -15,4 +15,9 @@ public class SwitchAnim : MonoBehaviour
     {
         sheep.SetShell(anim);
     }
+
+    void DestroyEnnemy()
+    {
+        Destroy(ennemyBase.gameObject);
+    }
 }
