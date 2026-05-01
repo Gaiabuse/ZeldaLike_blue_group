@@ -8,6 +8,8 @@ public class FlyingEnnemy : EnnemyBase
     [Header("Flying Ennemy")]
     [SerializeField] float LookRange = 12f;
     [SerializeField] float DistanceFromGround = 5;
+    [SerializeField] float MaxFallTime = 5;
+    float lastY;
 
     [Header("Melee Setting")]
     [SerializeField] bool canUseMelee = true;
@@ -29,7 +31,7 @@ public class FlyingEnnemy : EnnemyBase
     protected override void Start()
     {
         base.Start();
-
+        lastY = transform.position.y;
         move = "0";
 
         rb = GetComponent<Rigidbody>();
@@ -80,6 +82,7 @@ public class FlyingEnnemy : EnnemyBase
                     {
                         move = "melee";
                         SetDive(1);
+                        timerGeneral = MaxFallTime;
                     }
                 }
                 else
@@ -99,10 +102,21 @@ public class FlyingEnnemy : EnnemyBase
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
                 {
-                    if (hit.distance >= DistanceFromGround)
+                    if (hit.distance <= 100)
                     {
-                        move = "wait";
-                        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                        if (hit.distance >= DistanceFromGround)
+                        {
+                            move = "wait";
+                            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                        }
+                    }
+                    else
+                    {
+                        if (transform.position.y > lastY)
+                        {
+                            move = "wait";
+                            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                        }
                     }
                 }
             }
@@ -133,6 +147,21 @@ public class FlyingEnnemy : EnnemyBase
             if (move == "wait")
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0), 0.07f);
+            }
+            if (move == "melee")
+            {
+                timerGeneral -= Time.deltaTime;
+                if (timerGeneral <= 0)
+                {
+                    move = "melee2";
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+
+                    rb.useGravity = false;
+                    rb.isKinematic = true;
+                    SetDive(3);
+                    ToogleMainAttack(-1);
+                }
             }
         }
     }
@@ -219,6 +248,7 @@ public class FlyingEnnemy : EnnemyBase
             move = "melee2";
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
+            lastY = transform.position.y;
 
             rb.useGravity = false;
             rb.isKinematic = true;
