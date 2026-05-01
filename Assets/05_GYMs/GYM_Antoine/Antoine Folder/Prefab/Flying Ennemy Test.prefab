@@ -455,6 +455,7 @@ GameObject:
   - component: {fileID: 9176990613861693512}
   - component: {fileID: 7550585569384719134}
   - component: {fileID: 4252265134932699148}
+  - component: {fileID: 8783421296533929329}
   m_Layer: 7
   m_Name: Flying Ennemy Test
   m_TagString: Ennemy
@@ -628,6 +629,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Leure: {fileID: 0}
   alwaysAgro: 0
+  stunMultiplier: 1
   _move: wait
   MainHitBox: {fileID: 298266412535583377}
   Eyes:
@@ -642,6 +644,7 @@ MonoBehaviour:
   UltIndicator: {fileID: 0}
   LookRange: 12
   DistanceFromGround: 7
+  MaxFallTime: 5
   canUseMelee: 1
   FallWhenDistance: 0.75
   addForceDive: 30
@@ -656,6 +659,19 @@ MonoBehaviour:
   LayerTarget:
     serializedVersion: 2
     m_Bits: 1536
+--- !u!114 &8783421296533929329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4376329963260162329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6ba7f4b89739e4598df1f1c16687fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
+  weight: 1
 --- !u!1 &6153378359107846933
 GameObject:
   m_ObjectHideFlags: 0

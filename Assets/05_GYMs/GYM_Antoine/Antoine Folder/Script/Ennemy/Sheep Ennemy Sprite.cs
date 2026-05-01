@@ -308,6 +308,13 @@ public class SheepEnnemySprite : GroundEnnemy
 
     protected override void Death()
     {
+        if (EnnemyManager.Instance != null)
+        {
+            Debug.Log("remove");
+            EnnemyManager.Instance.enemies.Remove(this);
+            EnnemyManager.Instance.Check();
+        }
+        OnDeath?.Invoke(this);
         animator.SetBool("Death", true);
         move = "death";
     }
