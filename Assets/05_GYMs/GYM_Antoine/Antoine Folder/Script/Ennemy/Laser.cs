@@ -13,6 +13,15 @@ public class Laser : MonoBehaviour
     int phase = 1;
     float timer = 0;
 
+    private void Start()
+    {
+        if (reduceSize.x > 0 && reduceSize.y > 0 && reduceSize.z > 0)
+        {
+            reduceSize.x = -reduceSize.x;
+            reduceSize.z = -reduceSize.z;
+        }
+    }
+
     private void FixedUpdate()
     {
         if (phase == 1)
