@@ -18,7 +18,7 @@ public class AutoAimable : MonoBehaviour
     public static IEnumerable<AutoAimable> GetTargetAround(Vector3 point, float radius)
         => Physics.OverlapSphere(point, radius)
             .Select(a => a.GetComponent<AutoAimable>())
-            .Where(a => !(a == null))
+            .Where(a => a != null)
             .OrderBy(a => Vector3.Distance(point, a.transform.position) * a.weight);
 
 

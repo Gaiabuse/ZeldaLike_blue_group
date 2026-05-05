@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
+
     void Start()
     {
         Boxes = null;
@@ -110,7 +111,9 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 moveDirection = ProjectPoint(direction);
 
-        if (CanRotate) UpdateLookDirection(moveDirection);
+        if (CanRotate)
+            if (filter == null) UpdateLookDirection(moveDirection);
+            else UpateLookDirectionFiltered();
 
         if (!controller.enabled) return;
 
@@ -196,6 +199,16 @@ public class PlayerController : MonoBehaviour
         transform.position = pos;
         controller.enabled = true;
     }
+
+    void UpateLookDirectionFiltered()
+    {
+        var targetDir = filter.FilterStickInput(direction);
+
+        var targetRotation = Quaternion.LookRotation(targetDir, transform.up);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+
     void UpdateLookDirection(Vector3 moveDir)
     {
         Vector3 projectedDirection = Vector3.ProjectOnPlane(moveDir, transform.up);

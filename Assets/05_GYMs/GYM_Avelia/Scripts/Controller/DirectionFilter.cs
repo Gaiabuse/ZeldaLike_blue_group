@@ -35,54 +35,57 @@ public class DirectionFilter : MonoBehaviour
     void Start()
     {
         // usage of Physics.SphereCast is not good too
-        Debug.LogWarning($"heavy usage of {nameof(System.Linq)} in {nameof(FilterStickInput)} it could cause some performance problem", this);
+        Debug.LogWarning(
+            $"Custom [Warning]: heavy usage of {nameof(System.Linq)} in {nameof(FilterStickInput)} it could cause some performance problem",
+            this
+            );
     }
 
     public Vector3 FilterStickInput(Vector2 direction)
     {
         var aimableNearRaw = AutoAimable.GetTargetAround(transform.position, autoAimRadius);
 
-        var angleOfDir = GetAngle(direction);
+        var angleOfDir = direction.GetAngle();
 
-        if (aimableNearRaw.Count() <= 0) return player.ProjectPoint(FromAngle(angleOfDir));
+        if (aimableNearRaw.Count() <= 0) return player.ProjectPoint(angleOfDir.ToVec());
 
-        var position = DeconstructIn2d(transform.position);
+        var position = transform.position.DeconstructIn2d();
 
         // [WARNING] not optimal but I need to go fast or I'll never be able to test it
         var aimableNear = aimableNearRaw
             .Take(maxNumberOfEnemy)
-            .Select(x => DeconstructIn2d(x.transform.position))
+            .Select(x => x.transform.position.DeconstructIn2d())
             .Select(x => x - position)
             .OrderBy(x => Vector2.Angle(direction, x))
             .First();
 
-        var angleOfNearestEnemy = GetAngle(aimableNear);
+        var angleOfNearestEnemy = aimableNear.GetAngle();
         var finalAngle = angleOfDir - AttractTo(angleOfDir, angleOfNearestEnemy);
 
         //finalAngle *= Mathf.Deg2Rad;
 
-        return player.ProjectPoint(FromAngle(finalAngle));
+        return player.ProjectPoint(finalAngle.ToVec());
     }
 
     public float FilterStickInputToAngle(Vector2 direction)
     {
         var aimableNearRaw = AutoAimable.GetTargetAround(transform.position, autoAimRadius);
 
-        var angleOfDir = GetAngle(direction);
+        var angleOfDir = direction.GetAngle();
 
         if (aimableNearRaw.Count() <= 0) return angleOfDir;
 
-        var position = DeconstructIn2d(transform.position);
+        var position = transform.position.DeconstructIn2d();
 
         // [WARNING] not optimal but I need to go fast or I'll never be able to test it
         var aimableNear = aimableNearRaw
             .Take(maxNumberOfEnemy)
-            .Select(x => DeconstructIn2d(x.transform.position))
+            .Select(x => x.transform.position.DeconstructIn2d())
             .Select(x => x - position)
             .OrderBy(x => Vector2.Angle(direction, x))
             .First();
 
-        var angleOfNearestEnemy = GetAngle(aimableNear);
+        var angleOfNearestEnemy = aimableNear.GetAngle();
         var finalAngle = angleOfDir - AttractTo(angleOfDir, angleOfNearestEnemy);
 
         //finalAngle *= Mathf.Deg2Rad;
@@ -92,20 +95,12 @@ public class DirectionFilter : MonoBehaviour
     // all that should be in a math helper class but tbh I'm just too lazy rn
 
     private float AttractTo(float x, float to)
-    => AttractFormula(x - to);
+        => AttractFormula(x - to);
 
     private float AttractFormula(float x)
-    => Mathf.Sin(x / AttractionRadius) * gaussian(x) * AttractionRadius;
+        => Mathf.Sin(x / AttractionRadius) * gaussian(x) * AttractionRadius;
 
     private float gaussian(float x)
         => Mathf.Exp(-0.5f * Mathf.Pow(x, SnapStrength * 2f) / Mathf.Pow(AttractionRadius, SnapStrength * 2f));
 
-    private Vector2 DeconstructIn2d(Vector3 vector)
-        => new(vector.x, vector.z);
-
-    private float GetAngle(Vector2 vector)
-        => Mathf.Atan2(vector.x, vector.y) * Mathf.Rad2Deg;
-
-    private Vector2 FromAngle(float angle)
-        => new(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
 }

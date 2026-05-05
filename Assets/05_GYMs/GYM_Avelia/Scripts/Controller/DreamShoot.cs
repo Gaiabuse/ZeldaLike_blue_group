@@ -4,6 +4,7 @@ using System;
 
 public class DreamShoot : AttackManager
 {
+    [Header("Reference")]
     [SerializeField]
     [Tooltip("prefab of the attack")]
     Projectile attack;
@@ -16,10 +17,15 @@ public class DreamShoot : AttackManager
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 0.1f;
+    Transform SpawnPoint;
 
     [SerializeField]
-    Transform SpawnPoint;
+    DirectionFilter filter;
+
+    [Header("Parameter")]
+    [SerializeField]
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 0.1f;
+
 
     [SerializeField]
     protected Attack.TypeOfAttack type;
@@ -52,7 +58,7 @@ public class DreamShoot : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        if (!_input.isPressed&& switchInProgress)
+        if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
             {
@@ -75,10 +81,10 @@ public class DreamShoot : AttackManager
                 {
                     UnprepShoot();
                     base.OnAttack(_input);
-                    return; 
+                    return;
                 }
             }
-        
+
             PrepareShoot();
             return;
         }
@@ -104,10 +110,6 @@ public class DreamShoot : AttackManager
         aimCone.SetActive(true);
 
         var playerPos = player.transform.position;
-        var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
-
-        if (AutoAimed != null)
-            player.transform.LookAt(AutoAimed.transform, Vector3.up);
     }
 
     public void UnprepShoot()
@@ -121,6 +123,7 @@ public class DreamShoot : AttackManager
         player.CanMove = true;
         aimCone.SetActive(false);
 
+
         var amountOfTimeWaited = Time.time - lastInputTime;
 
         var progress = amountOfTimeWaited / MaxChargedTime;
@@ -128,9 +131,7 @@ public class DreamShoot : AttackManager
 
         var attackScaledPower = GetAttackPower(progress);
 
-        if (amountOfTimeWaited < autoAimTime)
-            CreateAutoTargettingShot(attackScaledPower);
-        else CreateShot(attackScaledPower);
+        CreateShot(attackScaledPower);
 
         CanShoot = false;
         yield return new WaitForSeconds(coolDown);
@@ -160,8 +161,12 @@ public class DreamShoot : AttackManager
         currentAttack = attackPrefab;
         currentAttack.Finished += AttackIsFinished;
 
+        var playerDir = player.transform.forward;
+
+        var nextDirection = filter == null ? filter.FilterStickInput(playerDir.DeconstructIn2d()) : playerDir;
+
         lAttack.transform.position = SpawnPoint.position;
-        lAttack.speed = player.transform.forward * ProjectileSpeed;
+        lAttack.speed = nextDirection * ProjectileSpeed;
 
         lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
     }
