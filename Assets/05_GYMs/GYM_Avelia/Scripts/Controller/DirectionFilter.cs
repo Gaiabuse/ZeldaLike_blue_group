@@ -40,31 +40,28 @@ public class DirectionFilter : MonoBehaviour
 
     public Vector3 FilterStickInput(Vector2 direction)
     {
-
         var aimableNearRaw = AutoAimable.GetTargetAround(transform.position, autoAimRadius);
 
-        if (aimableNearRaw.Count() <= 0) return player.ProjectPoint(direction) * -Mathf.Rad2Deg;
+        var angleOfDir = GetAngle(direction);
+
+        if (aimableNearRaw.Count() <= 0) return player.ProjectPoint(FromAngle(angleOfDir));
 
         var position = DeconstructIn2d(transform.position);
-        var forwardDir = Vector2.right;
-
-        var angleOfDir = Vector2.SignedAngle(forwardDir, direction);
-
 
         // [WARNING] not optimal but I need to go fast or I'll never be able to test it
         var aimableNear = aimableNearRaw
             .Take(maxNumberOfEnemy)
             .Select(x => DeconstructIn2d(x.transform.position))
-            .Select(x => position - x)
-            .Select(x => Vector2.SignedAngle(forwardDir, x))
-            .OrderBy(x => angleOfDir - x)
+            .Select(x => x - position)
+            .OrderBy(x => Vector2.Angle(direction, x))
             .First();
 
-        var finalAngle = angleOfDir - AttractTo(angleOfDir, aimableNear);
+        var angleOfNearestEnemy = GetAngle(aimableNear);
+        var finalAngle = angleOfDir - AttractTo(angleOfDir, angleOfNearestEnemy);
 
-        finalAngle *= Mathf.Deg2Rad;
+        //finalAngle *= Mathf.Deg2Rad;
 
-        return player.ProjectPoint(new(MathF.Cos(finalAngle), Mathf.Sin(finalAngle)));
+        return player.ProjectPoint(FromAngle(finalAngle));
     }
 
     public float FilterStickInputToAngle(Vector2 direction)
@@ -94,18 +91,21 @@ public class DirectionFilter : MonoBehaviour
     }
     // all that should be in a math helper class but tbh I'm just too lazy rn
 
-    private float gaussian(float x)
-        => Mathf.Exp(-0.5f * Mathf.Pow(x, SnapStrength * 2f) / Mathf.Pow(AttractionRadius, SnapStrength * 2f));
-
     private float AttractTo(float x, float to)
-        => AttractFormula(x - to);
+    => AttractFormula(x - to);
 
     private float AttractFormula(float x)
-        => Mathf.Sin(x / AttractionRadius) * gaussian(x) * AttractionRadius;
+    => Mathf.Sin(x / AttractionRadius) * gaussian(x) * AttractionRadius;
+
+    private float gaussian(float x)
+        => Mathf.Exp(-0.5f * Mathf.Pow(x, SnapStrength * 2f) / Mathf.Pow(AttractionRadius, SnapStrength * 2f));
 
     private Vector2 DeconstructIn2d(Vector3 vector)
         => new(vector.x, vector.z);
 
     private float GetAngle(Vector2 vector)
         => Mathf.Atan2(vector.x, vector.y) * Mathf.Rad2Deg;
+
+    private Vector2 FromAngle(float angle)
+        => new(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
 }
