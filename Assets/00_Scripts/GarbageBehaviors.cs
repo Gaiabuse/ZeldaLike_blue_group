@@ -12,10 +12,10 @@ public class GarbageBehaviors : MonoBehaviour
     [SerializeField] private GameObject zonyr;
     [SerializeField] [Range(0,100)] private int cleanPoints;
     [SerializeField] [Range(0,2)] private int cleanPointsPLevel;
+    [SerializeField] int _hp = 1;
     
     private GameObject player;
     
-    private int _hp = 1;
 
     private void Start()
     {

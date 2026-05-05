@@ -98,7 +98,6 @@ public class DreamDash : MonoBehaviour
 
     void DashSetUp()
     {
-        print($"HAI FUCKER");
         IsDashing = true;
         controller.currentAnimator.SetTrigger("isDashing");
         controller.CanMove = false;
