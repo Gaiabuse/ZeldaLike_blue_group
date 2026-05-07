@@ -13,11 +13,9 @@ GameObject:
   - component: {fileID: 4853756182639357507}
   - component: {fileID: 1457056720684810033}
   - component: {fileID: 420260876361225305}
-  - component: {fileID: 3514602474532104470}
-  - component: {fileID: 4639978417324668572}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Glue
-  m_TagString: Glue
+  m_TagString: Garbage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,54 +132,7 @@ MonoBehaviour:
   zonyr: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
   cleanPoints: 10
   cleanPointsPLevel: 0
---- !u!135 &3514602474532104470
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004390359091077234}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1.95
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &4639978417324668572
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004390359091077234}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  _hp: 1
 --- !u!1 &2781913046982536946
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +144,7 @@ GameObject:
   - component: {fileID: 7256467941998990089}
   - component: {fileID: 5955835627851962998}
   - component: {fileID: 5140493085598037533}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Particle System (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5029,7 +4980,7 @@ GameObject:
   - component: {fileID: 3418153842742775924}
   - component: {fileID: 6863294783099437072}
   - component: {fileID: 374089867916028158}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

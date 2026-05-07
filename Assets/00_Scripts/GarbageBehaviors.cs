@@ -12,13 +12,16 @@ public class GarbageBehaviors : MonoBehaviour
     [SerializeField] private GameObject zonyr;
     [SerializeField] [Range(0,100)] private int cleanPoints;
     [SerializeField] [Range(0,2)] private int cleanPointsPLevel;
-    [SerializeField] int _hp = 1;
+    [SerializeField] int hp = 1;
+    [SerializeField] private bool isGlue;
+    private int _hp;
     
     private GameObject player;
     
 
     private void Start()
     {
+        _hp = 2 * hp;
         player = GameObject.FindGameObjectWithTag("Player");
 
         if (containPowder > 0)
@@ -34,24 +37,19 @@ public class GarbageBehaviors : MonoBehaviour
             {
                 hasZonyr = true;
             }
-            
         }
     }
 
-
     public void Clean()
     {
-        if (containPowder > 0) return;
-        DoClean();
-    }
-    
-    public void Erase()
-    {
+        _hp--;
+        if (_hp > 0) return;
         DoClean();
     }
 
     private void DoClean()
     {
+
         if (containPowder > 0)
         {
             if (player == null) return;
@@ -65,7 +63,7 @@ public class GarbageBehaviors : MonoBehaviour
         
         QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsPLevel);
 
-        if (gameObject.tag == "Glue")
+        if (isGlue)
         {
             if (transform.parent.gameObject == null) return;
             GetComponentInParent<Glue>().CleanGlue();
