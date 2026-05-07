@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846e7c9a33c2f414f9202b022aaffbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitchAnim
-  ennemyBase: {fileID: 5019721549217507433}
+  ennemyBase: {fileID: 0}
 --- !u!114 &3189924239613164120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,9 +291,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c003f7b72d2c8d34ab3b0b86a8a1a31c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RotationToAnimator
-  RotationX: PosX
-  RotationY: PosY
-  GetRotation: {fileID: 0}
+  RotationX: xDirection
+  RotationY: yDirection
+  GetRotation: {fileID: 984523468417650626}
   Offset: 45
 --- !u!1 &7694450120366358666
 GameObject:
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 984523468417650626}
   - component: {fileID: 8331287142422184234}
   - component: {fileID: 1541462299080781178}
-  - component: {fileID: 5019721549217507433}
+  - component: {fileID: 8433256294076623238}
   - component: {fileID: 8346926213722028055}
   m_Layer: 7
   m_Name: Book Ennemy
@@ -381,7 +381,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5019721549217507433
+--- !u!114 &8433256294076623238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,9 +390,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7694450120366358666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe5bd4eee6f262249a59aa3ac647011f, type: 3}
+  m_Script: {fileID: 11500000, guid: def0641d1949580499d49ef86d07ba0b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FlyingEnnemy
+  m_EditorClassIdentifier: Assembly-CSharp::BookEnnemy
   data: {fileID: 11400000, guid: 57dfe970de7f341459612531b543cf25, type: 2}
   invincible: 0
   showDamageDisplayInvincible: 1
@@ -401,27 +401,30 @@ MonoBehaviour:
   alwaysAgro: 0
   stunMultiplier: 1
   _move: wait
-  MainHitBox: {fileID: 0}
+  MainHitBox: {fileID: 7353119538343013901}
   Eyes: []
   colorNormal: {r: 0, g: 0, b: 0, a: 0}
   colorChase: {r: 0, g: 0, b: 0, a: 0}
   colorMotionless: {r: 0, g: 0, b: 0, a: 0}
   eyeColorIntensity: {x: 0, y: 0}
   hitValueDisplay: {fileID: 6110180006886736947}
-  durationDelay: 0.5
-  durationDotween: 0.2
+  durationDelay: 0.3
+  durationDotween: 0.6
   UltIndicator: {fileID: 0}
   LookRange: 12
   DistanceFromGround: 5
   MaxFallTime: 5
   canUseMelee: 1
-  FallWhenDistance: 0.3
-  addForceDive: 0.6
+  FallWhenDistance: 0.75
+  addForceDive: 30
   FireRange: {x: 7, y: 10}
   canUseProjectile: 0
-  Projectile: {fileID: 0}
-  spawnProjectile: {x: 0, y: 0, z: 0}
-  Cooldown: []
+  Projectile: {fileID: 3717776496104129067, guid: a1df370ec769b4a4ab2e0cbbbd732678, type: 3}
+  spawnProjectile: {x: 0, y: 0, z: 0.65}
+  Cooldown:
+  - 0.15
+  - 0.15
+  - 0.75
   LayerTarget:
     serializedVersion: 2
     m_Bits: 1536
