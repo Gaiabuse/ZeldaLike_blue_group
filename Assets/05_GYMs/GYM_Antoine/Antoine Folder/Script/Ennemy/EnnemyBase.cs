@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 {
@@ -13,7 +15,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [Header("Data")]
     [SerializeField] protected EnemyData data;
 
-    protected int HP = 5;
+    [SerializeField] protected int HP = 5;
     protected Vector2 speed;
     protected Vector2 acceleration;
     protected Vector2 SpeedRotate;
@@ -56,6 +58,16 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] protected GameObject UltIndicator;
     private GameObject stunZone = null;
     public Action<EnnemyBase> OnDeath;
+    
+    [Header("Life display")]
+    [SerializeField] private Image frontLife;
+    [SerializeField] private Image dmgLife;
+    private float _tempHP;
+    private float maxHP;
+    [Tooltip("value when HP = 0")]
+    [Range(0, 1)][SerializeField] private float minFillAmount = 0.1f;
+    [Tooltip("value when HP = Maximum")]
+    [Range(0, 1)][SerializeField] private float maxFillAmount = 0.9f;
 
     protected virtual void Start()
     {
@@ -72,6 +84,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         EyesSetColorTo(colorNormal);
 
         HP = data.health;
+        _tempHP = HP;
+        maxHP = HP;
         speed = new Vector2(data.speed, data.chasespeed);
         SpeedRotate = new Vector2(data.speedRotate, data.chasespeedRotate);
         acceleration = new Vector2(data.acceleration, data.chaseacceleration);
@@ -161,7 +175,12 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             ShowHitDisplay();
         }
 
-        if (!invincible) HP -= damage;
+        if (!invincible)
+        {
+            float targetHP = (float)Math.Round((decimal)(HP - damage), 2);
+            HP -= damage;
+            StartCoroutine(VisualDamage(targetHP));
+        }
 
         if (HP <= 0)
         {
@@ -286,5 +305,29 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
                 EnnemyManager.Instance.Check();
             }
         }
+    }
+
+    private IEnumerator VisualDamage(float newLife)
+    {
+        while (_tempHP > newLife)
+        {
+            float nextHP = Mathf.MoveTowards(_tempHP, newLife, 50 * Time.deltaTime);
+            _tempHP = (float)Math.Round(nextHP, 2);
+
+            UpdateVisuals();
+            yield return null;
+        }
+    }
+    
+    private void UpdateVisuals()
+    {
+        frontLife.fillAmount = NormalizeValue(HP);
+        dmgLife.fillAmount = NormalizeValue(_tempHP);
+    }
+    
+    private float NormalizeValue(float value)
+    {
+        float lifeRatio = Mathf.Clamp01(value / (float)maxHP);
+        return Mathf.Lerp(minFillAmount, maxFillAmount, lifeRatio);
     }
 }
