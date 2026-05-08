@@ -22,7 +22,7 @@ public class FormSwitcher : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] private float timeForDoUltimate;
     public float TimeForDoUltimate{private set; get;}
-    public List<Form> DisponibleForms;
+    public List<Form> AvailableForms;
 
     public bool CanDoUltimate;
 
@@ -37,7 +37,7 @@ public class FormSwitcher : MonoBehaviour
     public void ChangeForm(Form nextForm)
     {
 
-        if (!DisponibleForms.Contains(nextForm)) return;
+        if (!AvailableForms.Contains(nextForm)) return;
         if(currentForm == nextForm)return;
         neutralFormObject.SetActive(false);
         dreamFormObject.SetActive(false);
