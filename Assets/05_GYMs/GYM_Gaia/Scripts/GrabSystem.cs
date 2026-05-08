@@ -28,6 +28,8 @@ public class GrabSystem : MonoBehaviour
     [Header("Visual")]
     [SerializeField]
     private GameObject throwMark, grabMark;
+    [SerializeField]
+    private GameObject grabVfx;
 
     [SerializeField] private GameObject currentGrabbedObject;
 
@@ -294,9 +296,11 @@ public class GrabSystem : MonoBehaviour
         return null;
     }
 
-    private void AttractObject(GameObject enemy)
+    private void AttractObject(GameObject subject)
     {
-        enemy.transform.DOMove(transform.position, grabActionDuration);
+        var vfx = Instantiate(grabVfx, parent: subject.transform);
+        var tween = subject.transform.DOMove(transform.position, grabActionDuration);
+        tween.onKill += () => Destroy(vfx);
     }
 
 }
