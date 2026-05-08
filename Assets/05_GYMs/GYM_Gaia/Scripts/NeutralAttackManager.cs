@@ -138,10 +138,12 @@ public class NeutralAttackManager : AttackManager
 
     private void StartUlt()
     {
+        player.CanMove = false;
+        player.CanRotate = false;
         isInUltMod = true;
         ultZone.transform.localScale = Vector3.zero;
         ultZone.SetActive(true);
-        ultZone.transform.DOScale(ultRadius*2, 1f).SetEase(Ease.Linear).OnComplete(() =>
+        ultZone.transform.DOScale(ultRadius*2, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
         {
             var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
             foreach (AutoAimable enemy in enemiesAim)
@@ -152,6 +154,9 @@ public class NeutralAttackManager : AttackManager
                     ennemyBase.StunEnnemy(ultStun,false);
                 }
             }
+            ultZone.SetActive(false);
+            player.CanMove = true;
+            player.CanRotate = true;
             isInUltMod = false;
             if (currentEnemy)
             {

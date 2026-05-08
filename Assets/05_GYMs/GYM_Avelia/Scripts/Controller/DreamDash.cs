@@ -103,14 +103,14 @@ public class DreamDash : MonoBehaviour
         controller.CanMove = false;
         controller.CanRotate = false;
 
-        characterController.enabled = false;
+        //characterController.enabled = false;
     }
 
     IEnumerator UndoDashSetUp()
     {
         controller.CanMove = true;
         controller.CanRotate = true;
-        characterController.enabled = true;
+        //characterController.enabled = true;
 
         controller.currentAnimator.SetTrigger("isDashing");
 

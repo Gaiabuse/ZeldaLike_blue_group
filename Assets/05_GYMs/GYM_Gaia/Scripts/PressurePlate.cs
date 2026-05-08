@@ -9,7 +9,6 @@ public class PressurePlate : MonoBehaviour
     [SerializeField]private LayerMask layerMask; // Set this in the Inspector
 
     [SerializeField] private UnityEvent onPressure;
-    [SerializeField] private float detectionRadius = 2f;
     [SerializeField] private UnityEvent onUnpressure;
     private GameObject objectOnPressurePlate;
     private bool isPressing = false;
@@ -47,17 +46,21 @@ public class PressurePlate : MonoBehaviour
     private void FixedUpdate()
     {
         if (!isPressing) return;
-
-        // Check if the object we were tracking moved too far away
+        
         if (objectOnPressurePlate)
         {
-            float distance = Vector3.Distance(transform.position, objectOnPressurePlate.transform.position);
-        
-            // If the object is too far or disabled, release the plate
-            if (distance > detectionRadius || !objectOnPressurePlate.activeInHierarchy)
+            if (!objectOnPressurePlate.activeInHierarchy)
             {
-                ReleasePlate();
+                isPressing = false;
+                onUnpressure.Invoke();
+                objectOnPressurePlate = null;
             }
+        }
+        else if(!objectOnPressurePlate)
+        {
+            isPressing = false;
+            onUnpressure.Invoke();
+            objectOnPressurePlate = null;
         }
     }
 
@@ -70,13 +73,5 @@ public class PressurePlate : MonoBehaviour
             isPressing = false;
             onUnpressure.Invoke();
         }
-    }
-    
-    private void ReleasePlate()
-    {
-        Debug.Log("released via logic");
-        isPressing = false;
-        onUnpressure.Invoke();
-        objectOnPressurePlate = null;
     }
 }
