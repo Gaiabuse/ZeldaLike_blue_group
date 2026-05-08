@@ -839,7 +839,7 @@ MonoBehaviour:
   - {fileID: 8600280016486079122}
   playerController: {fileID: 8133830779634646023}
   timeForDoUltimate: 3
-  DisponibleForms: 
+  AvailableForms: 
   CanDoUltimate: 0
   canSwitchForm: 1
 --- !u!114 &8015218632366079429
@@ -983,7 +983,9 @@ MonoBehaviour:
   minFillAmount: 0.2
   maxFillAmount: 1
   healthBar: {fileID: 0}
+  damagesBar: {fileID: 0}
   HP: 50
+  tempHP: 0
 --- !u!114 &1551203807080462892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,9 +1031,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DashDurationSeconds: 0.2
+  DashDurationSeconds: 0.15
   DashLength: 7
-  DashCoolDownSeconds: 0.15
+  DashCoolDownSeconds: 0.025
   offset: 0.2
   tolerance: 0.5
 --- !u!114 &3607936565226332866
