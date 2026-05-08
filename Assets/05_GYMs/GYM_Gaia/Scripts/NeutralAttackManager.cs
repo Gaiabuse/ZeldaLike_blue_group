@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -19,11 +20,13 @@ public class NeutralAttackManager : AttackManager
     [SerializeField] private PlayerInput playerInput;
     [Header("Ult")]
     [SerializeField] private float durationUltimate;
+    [SerializeField] private GameObject ultZone;
     [SerializeField]
     private SimpleAttack[] ultimateAttacks;
     [SerializeField]private float knockbackDistance = 2.0f;
     [SerializeField]private float dashOffset = 1.0f;
     [SerializeField]private float ultStun = 2f;
+    [SerializeField]private float ultRadius = 3f;
     [SerializeField]private LayerMask groundLayer;
     [SerializeField]private LayerMask obstacleLayer;
     private List<EnnemyBase> enemies = new List<EnnemyBase>();
@@ -127,127 +130,34 @@ public class NeutralAttackManager : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
-        if (ultModCoroutine != null)
-        {
-            StopCoroutine(ultModCoroutine);
-        }
-        ultModCoroutine = StartCoroutine(UltModCoroutine());
-
-
+        StartUlt();
     }
 
     
     #region UltMod
-    private IEnumerator ChooseEnemy()
-    {
-        enemies.Clear();
-        yield return new WaitForSeconds(0.1f);
-        var enemiesAim = AutoAimable.GetTargetAround(transform.position, 30f);
-        foreach (AutoAimable enemy in enemiesAim)
-        {
-            EnnemyBase ennemyBase = enemy.GetComponent<EnnemyBase>();
-            if (ennemyBase != null)
-            {
-                Debug.Log(ennemyBase);
-                ennemyBase.StunEnnemy(1000000f,true);
-                enemies.Add(ennemyBase);
-            }
-        }
-        if (enemies.Count <= 0)
-        {
-            CancelUlt();
-            yield break;
-        }
-        AutoAimable nearestEnemy = AutoAimable.GetNearestTargetVisible(transform.position, 30f,groundLayer,obstacleLayer );
-        Debug.Log(nearestEnemy);
-        if (nearestEnemy != null)
-        {
-            currentEnemy = nearestEnemy.GetComponent<EnnemyBase>();
-        }
-        else
-        {
-            CancelUlt();
-            yield break;
-        }
-        if (securityCoroutine != null)
-        {
-            StopCoroutine(securityCoroutine);
-        }
-        securityCoroutine = StartCoroutine(Security());
-        UltAttack();
-    }
 
-    private IEnumerator Security()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.5f);
-            foreach (var enemy in enemies)
-            {
-                enemy.StunEnnemy(1000000f,true);
-            }
-        }
-    }
-    
-    private void UltAttack()
-    {
-        if (currentEnemy == null) return;
-        if (securityCoroutine != null)
-        {
-            StopCoroutine(securityCoroutine);
-        }
-        Vector3 directionToEnemy = (currentEnemy.transform.position - transform.position).normalized;
-        Vector3 enemyPos = currentEnemy.transform.position - (directionToEnemy * dashOffset);
-        player.Teleport(enemyPos); 
-        
-        foreach (EnnemyBase enemy in enemies)
-        {
-            if (enemy != null && enemy != currentEnemy)
-            {
-                ApplyKnockback(enemy);
-            }
-        }
-
-        if (isInUltMod)
-        {
-            currentEnemy.OnDeath += ChooseEnemyAfterDeath;
-            currentEnemy.SetUltIndicator(true);
-        }
-    }
-
-    private IEnumerator UltModCoroutine()
+    private void StartUlt()
     {
         isInUltMod = true;
-        StartCoroutine(ChooseEnemy());
-        yield return new WaitForSeconds(durationUltimate);
-        isInUltMod = false;
-        if (currentEnemy)
+        ultZone.transform.localScale = Vector3.zero;
+        ultZone.SetActive(true);
+        ultZone.transform.DOScale(ultRadius*2, 1f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            currentEnemy.OnDeath -= ChooseEnemyAfterDeath;
-            currentEnemy.SetUltIndicator(false);
-        }
-        foreach (EnnemyBase enemy in enemies)
-        {
-            if (enemy != null)
+            var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
+            foreach (AutoAimable enemy in enemiesAim)
             {
-                enemy.StunEnnemy(0.05f,false);
+                EnnemyBase ennemyBase = enemy.GetComponent<EnnemyBase>();
+                if (ennemyBase != null)
+                {
+                    ennemyBase.StunEnnemy(ultStun,false);
+                }
             }
-        }
-        
-    }
-    private void ChooseEnemyAfterDeath(EnnemyBase enemy)
-    {
-        if(!isInUltMod)return;
-        StartCoroutine(ChooseEnemy());
-    }
-
-    private void ApplyKnockback(EnnemyBase target)
-    {
-        Vector3 pushDirection = (target.transform.position - transform.position).normalized;
-        
-        pushDirection.y = 0;
-        
-        target.transform.position += pushDirection * knockbackDistance;
+            isInUltMod = false;
+            if (currentEnemy)
+            {
+                currentEnemy.SetUltIndicator(false);
+            }
+        });
     }
     
     private void CancelUlt()
@@ -262,6 +172,12 @@ public class NeutralAttackManager : AttackManager
                 enemy.StunEnnemy(0.05f,false);
             }
         }
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = new Color(1f, 0f, 0f, 0.3f); 
+        Gizmos.DrawWireSphere(transform.position, ultRadius);
     }
     #endregion
 }

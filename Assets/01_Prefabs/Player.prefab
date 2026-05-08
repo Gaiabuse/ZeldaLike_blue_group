@@ -412,7 +412,6 @@ GameObject:
   - component: {fileID: 1184184480172319934}
   - component: {fileID: 999091161340526415}
   - component: {fileID: 8715960371389895154}
-  - component: {fileID: 4749926219799942427}
   m_Layer: 9
   m_Name: DreamForm
   m_TagString: Untagged
@@ -526,56 +525,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamBait
   BaitPrefab: {fileID: 5512050949420604262, guid: e0f036760597f0219aaf42cf77137e91, type: 3}
---- !u!114 &4749926219799942427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3325453322797383309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4631489e092e159b9e09bc4d6895044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  controller: {fileID: 8133830779634646023}
-  characterController: {fileID: 2672575590059249965}
-  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
-  layerWall:
-    serializedVersion: 2
-    m_Bits: 0
-  layerGround:
-    serializedVersion: 2
-    m_Bits: 8
-  DashProggression:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.15
-  offset: 0.2
-  tolerance: 0.5
 --- !u!1 &3904385373315590954
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,7 +671,6 @@ GameObject:
   - component: {fileID: 1915928875852587533}
   - component: {fileID: 1551203807080462892}
   - component: {fileID: 3607936565226332866}
-  - component: {fileID: 3303858579250890703}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1057,33 +1005,6 @@ MonoBehaviour:
   powderBar: {fileID: 0}
   _hp: {fileID: 1915928875852587533}
   _playerInput: {fileID: 8015218632366079429}
---- !u!54 &3303858579250890703
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4132325966550006197}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 1
 --- !u!1 &4867673311335971404
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,7 +2602,6 @@ GameObject:
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
-  - component: {fileID: 7934904055037678382}
   m_Layer: 9
   m_Name: NeutralForm
   m_TagString: Untagged
@@ -2788,66 +2708,18 @@ MonoBehaviour:
     m_Bits: 128
   playerInput: {fileID: 8015218632366079429}
   durationUltimate: 45
+  ultZone: {fileID: 0}
   ultimateAttacks: []
   knockbackDistance: 2
   dashOffset: 1
   ultStun: 2
+  ultRadius: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 0
---- !u!114 &7934904055037678382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8495912245519105219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4631489e092e159b9e09bc4d6895044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  controller: {fileID: 8133830779634646023}
-  characterController: {fileID: 2672575590059249965}
-  dashVFX: {fileID: 2191801699679467420, guid: c89f59aaac88d674d974c2f100b6d95b, type: 3}
-  layerWall:
-    serializedVersion: 2
-    m_Bits: 64
-  layerGround:
-    serializedVersion: 2
-    m_Bits: 8
-  DashProggression:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  DashDurationSeconds: 0.2
-  DashLength: 7
-  DashCoolDownSeconds: 0.15
-  offset: 0.2
-  tolerance: 1.01
 --- !u!1 &8549774408609409626
 GameObject:
   m_ObjectHideFlags: 0
