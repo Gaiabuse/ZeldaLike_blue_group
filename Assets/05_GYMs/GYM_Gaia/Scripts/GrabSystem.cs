@@ -19,6 +19,9 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private LayerMask grabLayers;
     [SerializeField] private Vector3 downValue = Vector3.down;
 
+    [SerializeField]
+    private float offsetGrabbedObject = 0.2f;
+
     [Header("Throw")]
     [Tooltip("The enemy will end up at this distance of the enemy")]
     [SerializeField] private float throwDistance = 4f;
@@ -298,9 +301,17 @@ public class GrabSystem : MonoBehaviour
 
     private void AttractObject(GameObject subject)
     {
-        var vfx = Instantiate(grabVfx, parent: subject.transform);
-        var tween = subject.transform.DOMove(transform.position, grabActionDuration);
-        tween.onKill += () => Destroy(vfx);
+        var finalPosition = transform.position + transform.forward * offsetGrabbedObject;
+
+        if (!Physics.Raycast(finalPosition + Vector3.up, Vector3.down * 2f)) return;
+
+        var tween = subject.transform.DOMove(finalPosition, grabActionDuration);
+        if (grabVfx)
+        {
+            var vfx = Instantiate(grabVfx, parent: subject.transform);
+            tween.onKill += () => Destroy(vfx);
+        }
+
     }
 
 }
