@@ -60,8 +60,10 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     public Action<EnnemyBase> OnDeath;
     
     [Header("Life display")]
+    [SerializeField] private GameObject lifeBar;
     [SerializeField] private Image frontLife;
     [SerializeField] private Image dmgLife;
+    [SerializeField] private float bounceDuration;
     private float _tempHP;
     private float maxHP;
     [Tooltip("value when HP = 0")]
@@ -177,6 +179,17 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
         if (!invincible)
         {
+            if (!lifeBar.activeSelf)
+            {
+                lifeBar.SetActive(true);
+                lifeBar.transform.DOScale(1.2f, bounceDuration)
+                    .SetEase(Ease.OutBounce)
+                    .OnComplete(() =>
+                    {
+                        lifeBar.transform.DOScale(1f, bounceDuration)
+                            .SetEase(Ease.InBounce);
+                    });
+            }
             float targetHP = (float)Math.Round((decimal)(HP - damage), 2);
             HP -= damage;
             StartCoroutine(VisualDamage(targetHP));
