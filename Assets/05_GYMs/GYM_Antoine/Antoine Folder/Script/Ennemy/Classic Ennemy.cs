@@ -349,6 +349,7 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
+        deathVFX.Play();
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");

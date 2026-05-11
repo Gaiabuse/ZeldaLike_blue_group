@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 {
@@ -53,6 +54,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
+    public VisualEffect deathVFX;
 
     [Header("Neutral Ult Display")]
     [SerializeField] protected GameObject UltIndicator;
@@ -258,7 +260,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected virtual void Death()
     {
         dotween?.Kill(); 
-        transform.DOKill(); 
+        transform.DOKill();
+        deathVFX.Play();  
         
         if (EnnemyManager.Instance != null)
         {
