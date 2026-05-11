@@ -20,7 +20,7 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private Vector3 downValue = Vector3.down;
 
     [SerializeField]
-    private float offsetGrabbedObject = 0.2f;
+    private float offsetGrabbedObject = .05f;
 
     [Header("Throw")]
     [Tooltip("The enemy will end up at this distance of the enemy")]
@@ -311,6 +311,8 @@ public class GrabSystem : MonoBehaviour
             var vfx = Instantiate(grabVfx, parent: subject.transform);
             tween.onKill += () => Destroy(vfx);
         }
+
+        tween.Play();
 
     }
 
