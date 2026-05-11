@@ -349,6 +349,7 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
+        deathVFX.enabled = true;  
         deathVFX.Play();
         if (EnnemyManager.Instance != null)
         {
