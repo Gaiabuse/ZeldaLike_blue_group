@@ -7,6 +7,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using UnityEngine.VFX;
 
 public class NeutralAttackManager : AttackManager
 {
@@ -27,6 +28,7 @@ public class NeutralAttackManager : AttackManager
     [SerializeField]private float dashOffset = 1.0f;
     [SerializeField]private float ultStun = 2f;
     [SerializeField]private float ultRadius = 3f;
+    [SerializeField]private VisualEffect ultVFX;
     [SerializeField]private LayerMask groundLayer;
     [SerializeField]private LayerMask obstacleLayer;
     private List<EnnemyBase> enemies = new List<EnnemyBase>();
@@ -141,28 +143,27 @@ public class NeutralAttackManager : AttackManager
         player.CanMove = false;
         player.CanRotate = false;
         isInUltMod = true;
-        ultZone.transform.localScale = Vector3.zero;
-        ultZone.SetActive(true);
-        ultZone.transform.DOScale(ultRadius*2, 0.5f).SetEase(Ease.Linear).OnComplete(() =>
+        //ultZone.transform.localScale = Vector3.zero;
+        //ultZone.SetActive(true);
+        ultVFX.Play();
+        //ultZone.transform.DOScale(ultRadius*2, 0.5f).SetEase(Ease.Linear).OnComplete(() => { });
+        var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
+        foreach (AutoAimable enemy in enemiesAim)
         {
-            var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
-            foreach (AutoAimable enemy in enemiesAim)
+            EnnemyBase ennemyBase = enemy.GetComponent<EnnemyBase>();
+            if (ennemyBase != null)
             {
-                EnnemyBase ennemyBase = enemy.GetComponent<EnnemyBase>();
-                if (ennemyBase != null)
-                {
-                    ennemyBase.StunEnnemy(ultStun,false);
-                }
+                ennemyBase.StunEnnemy(ultStun,false);
             }
-            ultZone.SetActive(false);
-            player.CanMove = true;
-            player.CanRotate = true;
-            isInUltMod = false;
-            if (currentEnemy)
-            {
-                currentEnemy.SetUltIndicator(false);
-            }
-        });
+        }
+        //ultZone.SetActive(false);
+        player.CanMove = true;
+        player.CanRotate = true;
+        isInUltMod = false;
+        if (currentEnemy)
+        {
+            currentEnemy.SetUltIndicator(false);
+        }
     }
     
     private void CancelUlt()

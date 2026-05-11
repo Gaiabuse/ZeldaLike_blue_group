@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class PlayerHP : MonoBehaviour, IPlayerDamageable
 {
@@ -17,6 +18,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     [Range(0, 1)][SerializeField] private float maxFillAmount = 0.9f;
     [SerializeField] Image healthBar;
     [SerializeField] Image damagesBar;
+    [SerializeField] VisualEffect healVFX;
 
     private Coroutine damageCoroutine;
     private Coroutine healCoroutine;
@@ -71,6 +73,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         if (HP >= maxHP) return;
 
         HP = (float)Math.Round(Mathf.Min(HP + heal, maxHP), 2);
+        tempHP = HP;
+        healVFX.Play();
 
         if (healCoroutine != null) StopCoroutine(healCoroutine);
         healCoroutine = StartCoroutine(VisualHeal(HP));
