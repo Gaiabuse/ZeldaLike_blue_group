@@ -56,6 +56,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
     public VisualEffect deathVFX;
     public VisualEffect stunVFX;
+    public VisualEffect hitVFX;
 
     [Header("Neutral Ult Display")]
     [SerializeField] protected GameObject UltIndicator;
