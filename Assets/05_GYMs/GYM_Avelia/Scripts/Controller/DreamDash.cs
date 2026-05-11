@@ -28,21 +28,46 @@ public class DreamDash : MonoBehaviour
 
     bool IsDashing = false;
 
+    float bufTimer = 0f;
+    bool IsBuffering = false;
+    [SerializeField]
+    float maxBufferLength = 0.3f;
+
+    public void Update()
+    {
+        if (IsBuffering) DoBuffering();
+    }
+
+    private void DoBuffering()
+    {
+        if (!enabled || !controller.CanMove || IsDashing) return;
+        IsBuffering = false;
+
+        var bufDur = Time.time - bufTimer;
+
+        if (bufDur <= maxBufferLength)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
     public void OnDash(InputValue _input)
     {
-        if (!enabled || !controller.CanMove || !_input.isPressed) return;
+        if (!_input.isPressed) return;
+        if (!enabled || !controller.CanMove || IsDashing)
+        {
+            IsBuffering = true;
+            bufTimer = Time.time;
+            return;
+        }
 
-        if (!enabled) return;
-        if (!controller.CanMove || !_input.isPressed) return;
-
-        dashVFX.SetActive(true);
-        controller.currentAnimator.SetTrigger("isDashing");
         StartCoroutine(Dash());
     }
 
     IEnumerator Dash()
     {
-        if (IsDashing) yield break;
+        dashVFX.SetActive(true);
+        controller.currentAnimator.SetTrigger("isDashing");
 
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
