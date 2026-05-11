@@ -123,6 +123,7 @@ public class ClassicEnnemy : EnnemyBase
                 if (timerGeneral <= 0)
                 {
                     AttackAnimEnd();
+                    animator.SetBool("IsMoving", true);
                 }
             }
         }
@@ -277,6 +278,8 @@ public class ClassicEnnemy : EnnemyBase
             navMesh.velocity = Vector3.zero;
             timerGeneral = chargeAttackTime;
             move = "charge";
+            animator.SetBool("IsMoving", false);
+            animator.SetBool("IsChasing", false);
             animator.SetTrigger("tCharge");
         }
     }
@@ -291,8 +294,17 @@ public class ClassicEnnemy : EnnemyBase
     {
         navMesh.isStopped = false;
         navMesh.speed = speed.y;
+        navMesh.acceleration = acceleration.y;
+        navMesh.angularSpeed = SpeedRotate.y;
+        canLookAtPlayer = true;
 
-        PatrolStart();
+        Debug.Log(Vector3.Distance(transform.position, CurrentTarget.position));
+        if (Vector3.Distance(transform.position, CurrentTarget.position) > DistanceAlwaysSeeEnnemy) PatrolStart();
+        else
+        {
+            WhereToGoPos = CurrentTarget.position;
+            move = "chase";
+        }
     }
 
     protected void PatrolStart()

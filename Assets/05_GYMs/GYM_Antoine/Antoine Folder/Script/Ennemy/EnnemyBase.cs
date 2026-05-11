@@ -211,7 +211,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
                 if (move != "attack") move = "chase";
             }
 
-            if (stun > 0) StunEnnemy(stun * stunMultiplier, false);
+            if (stun > 0 && !invincible) StunEnnemy(stun * stunMultiplier, false);
         }
     }
 
