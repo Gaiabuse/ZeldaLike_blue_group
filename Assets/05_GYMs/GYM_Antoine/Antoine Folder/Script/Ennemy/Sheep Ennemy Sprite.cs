@@ -318,6 +318,8 @@ public class SheepEnnemySprite : GroundEnnemy
 
     protected override void Death()
     {
+        deathVFX.enabled = true;  
+        deathVFX.Play();
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");

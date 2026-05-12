@@ -244,6 +244,14 @@ public class ClassicEnnemy : EnnemyBase
     public override void TakeDamage(int damage, float stun)
     {
         base.TakeDamage(damage, stun);
+        hitVFX.transform.SetParent(transform.parent);
+        hitVFX.transform.position = transform.position;
+        Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
+        hitVFX.transform.LookAt(lookTarget);
+        hitVFX.transform.Rotate(0, 90, 0);
+
+        hitVFX.enabled = true;
+        hitVFX.Play();
 
         animator.SetBool("IsChasing", false);
         animator.SetBool("IsMoving", false);
@@ -349,6 +357,8 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
+        deathVFX.enabled = true;  
+        deathVFX.Play();
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");

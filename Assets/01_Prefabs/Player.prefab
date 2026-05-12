@@ -934,6 +934,7 @@ MonoBehaviour:
   maxFillAmount: 1
   healthBar: {fileID: 0}
   damagesBar: {fileID: 0}
+  healVFX: {fileID: 0}
   HP: 50
   tempHP: 0
 --- !u!114 &1551203807080462892
@@ -2355,7 +2356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2564409545134392940
 Transform:
   m_ObjectHideFlags: 0
@@ -2695,13 +2696,14 @@ GameObject:
   - component: {fileID: 5060730504946467261}
   - component: {fileID: 223095147346892054}
   - component: {fileID: 966973642768248133}
+  - component: {fileID: 7934904055037678382}
   m_Layer: 9
   m_Name: NeutralForm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2279037332940745537
 Transform:
   m_ObjectHideFlags: 0
@@ -2808,6 +2810,7 @@ MonoBehaviour:
   dashOffset: 1
   ultStun: 2
   ultRadius: 3
+  ultVFX: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 0

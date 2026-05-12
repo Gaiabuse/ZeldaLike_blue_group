@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 {
@@ -53,6 +54,9 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
+    public VisualEffect deathVFX;
+    public VisualEffect stunVFX;
+    public VisualEffect hitVFX;
 
     [Header("Neutral Ult Display")]
     [SerializeField] protected GameObject UltIndicator;
@@ -258,7 +262,9 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected virtual void Death()
     {
         dotween?.Kill(); 
-        transform.DOKill(); 
+        transform.DOKill();
+        deathVFX.enabled = true;  
+        deathVFX.Play();  
         
         if (EnnemyManager.Instance != null)
         {
@@ -289,6 +295,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
+        stunVFX.enabled = true;
         EyesSetColorTo(colorMotionless);
         ToogleMainAttack(-1);
         move = "stun";
@@ -298,6 +305,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected virtual void EndStun()
     {
+        stunVFX.enabled = false;
         EyesSetColorTo(colorNormal);
         animator.SetBool("Stun", false);
         timerGeneral = 0;
