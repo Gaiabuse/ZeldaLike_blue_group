@@ -12,13 +12,16 @@ public class TutoManager : MonoBehaviour
     [SerializeField]private FormSwitcher formSwitcher;
     [SerializeField]private Textbox textBox;
     [SerializeField]private ErasedManager erasedManager;
+    [SerializeField] private List<GameObject> atkIndicators;
     [SerializeField]private TutoStep[] steps;
 
+    // Inside TutoManager.cs
     private void OnEnable()
     {
         foreach (TutoStep tutoStep in steps)
         {
-            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager);
+            // Pass the atkIndicators list here
+            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators);
         }
     }
 
@@ -47,22 +50,27 @@ public class TutoManager : MonoBehaviour
 public class TutoStep
 {
     [SerializeField] private TriggerTuto colliderTrigger;
-    [SerializeField]private List<Form> disponibleForms = new List<Form>();
+    [SerializeField] private List<Form> disponibleForms = new List<Form>();
     [SerializeField] private bool setForm;
     [SerializeField] private Form form;
     [SerializeField] private bool asDialogue;
-    [TextArea(0,5)][SerializeField]private string dialogue;
+    [TextArea(0,5)][SerializeField] private string dialogue;
     [SerializeField] private bool setNumberOfPointsForErased;
+    [SerializeField] private bool changeIndicator; // The toggle
+    [Range(1,4)][SerializeField] private int ativeAtk; // The int between 1-4
     [SerializeField] private int numberOfPointsForErased;
+    
     private FormSwitcher _formSwitcher;
     private Textbox _textbox;
     private ErasedManager _erasedManager;
-    
-    public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager)
+    private List<GameObject> _atkIndicators; // Reference stored here
+
+    public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager, List<GameObject> indicators)
     {
         _formSwitcher = formSwitcher;
         _textbox = textbox;
         _erasedManager = erasedManager;
+        _atkIndicators = indicators; // Store reference
         colliderTrigger.ActivateTutoStep += StartTutoStep;
     }
 
@@ -88,6 +96,15 @@ public class TutoStep
         {
             _formSwitcher.ChangeForm(form);
         }
+        
+        if (changeIndicator)
+        {
+            for (int i = 0; i < _atkIndicators.Count; i++)
+            {
+                if (_atkIndicators[i] == null) continue;
+                _atkIndicators[i].SetActive(i == ativeAtk - 1);
+            }
+        }
 
         if (asDialogue)
         {
@@ -109,27 +126,40 @@ public class TutoStepEditor : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         EditorGUI.BeginProperty(position, label, property);
-        SerializedProperty disponibleForms = property.FindPropertyRelative("disponibleForms");
-        SerializedProperty colliderTrigger  = property.FindPropertyRelative("colliderTrigger");
-        SerializedProperty setForm = property.FindPropertyRelative("setForm");
-        SerializedProperty setNumberOfPointsForErased =property.FindPropertyRelative("setNumberOfPointsForErased");
-        SerializedProperty asDialogue = property.FindPropertyRelative("asDialogue");
-        SerializedProperty form = property.FindPropertyRelative("form");
-        SerializedProperty numberOfPointsForErased = property.FindPropertyRelative("numberOfPointsForErased");
-        SerializedProperty dialogue = property.FindPropertyRelative("dialogue");
         
-        position.height = EditorGUIUtility.singleLineHeight;
-        property.isExpanded = EditorGUI.Foldout(position, property.isExpanded, label);
+        // Find properties
+        SerializedProperty colliderTrigger = property.FindPropertyRelative("colliderTrigger");
+        SerializedProperty disponibleForms = property.FindPropertyRelative("disponibleForms");
+        SerializedProperty setForm = property.FindPropertyRelative("setForm");
+        SerializedProperty form = property.FindPropertyRelative("form");
+        SerializedProperty setNumberOfPointsForErased = property.FindPropertyRelative("setNumberOfPointsForErased");
+        SerializedProperty numberOfPointsForErased = property.FindPropertyRelative("numberOfPointsForErased");
+        SerializedProperty asDialogue = property.FindPropertyRelative("asDialogue");
+        SerializedProperty dialogue = property.FindPropertyRelative("dialogue");
+        SerializedProperty changeIndicator = property.FindPropertyRelative("changeIndicator");
+        SerializedProperty ativeAtk = property.FindPropertyRelative("ativeAtk");
+
+        Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+        property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label);
 
         if (property.isExpanded)
         {
             EditorGUILayout.PropertyField(colliderTrigger);
             EditorGUILayout.PropertyField(disponibleForms, new GUIContent("Formes Disponibles"), true);
+            
             EditorGUILayout.PropertyField(setForm);
             if (setForm.boolValue)
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(form);
+                EditorGUI.indentLevel--;
+            }
+            
+            EditorGUILayout.PropertyField(changeIndicator);
+            if (changeIndicator.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(ativeAtk);
                 EditorGUI.indentLevel--;
             }
         
@@ -140,6 +170,7 @@ public class TutoStepEditor : PropertyDrawer
                 EditorGUILayout.PropertyField(numberOfPointsForErased);
                 EditorGUI.indentLevel--;
             }
+
             EditorGUILayout.PropertyField(asDialogue);
             if (asDialogue.boolValue)
             {
@@ -154,13 +185,7 @@ public class TutoStepEditor : PropertyDrawer
     
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        if (!property.isExpanded) return EditorGUIUtility.singleLineHeight;
-        
-        SerializedProperty setForm = property.FindPropertyRelative("setForm");
-        SerializedProperty setNumberOfPointsForErased = property.FindPropertyRelative("setNumberOfPointsForErased");
-        SerializedProperty asDialogue = property.FindPropertyRelative("asDialogue");
-        int lines = 2;
-        return lines * (EditorGUIUtility.singleLineHeight + 2);
+        return property.isExpanded ? 0 : EditorGUIUtility.singleLineHeight;
     }
 }
 #endif

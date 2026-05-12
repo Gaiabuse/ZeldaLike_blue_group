@@ -196,6 +196,14 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             }
             float targetHP = (float)Math.Round((decimal)(HP - damage), 2);
             HP -= damage;
+            hitVFX.transform.SetParent(transform.parent);
+            hitVFX.transform.position = transform.position;
+            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
+            hitVFX.transform.LookAt(lookTarget);
+            hitVFX.transform.Rotate(0, 90, 0);
+
+            hitVFX.enabled = true;
+            hitVFX.Play();
             StartCoroutine(VisualDamage(targetHP));
         }
 

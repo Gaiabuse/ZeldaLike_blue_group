@@ -333,7 +333,18 @@ public class SheepEnnemySprite : GroundEnnemy
 
     public override void TakeDamage(int damage, float stun)
     {
-        if (!shellHere) base.TakeDamage(damage, stun);
+        if (!shellHere)
+        {
+            base.TakeDamage(damage, stun);
+            hitVFX.transform.SetParent(transform.parent);
+            hitVFX.transform.position = transform.position;
+            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
+            hitVFX.transform.LookAt(lookTarget);
+            hitVFX.transform.Rotate(0, 90, 0);
+
+            hitVFX.enabled = true;
+            hitVFX.Play();
+        }
         else
         {
             if (dotween != null)

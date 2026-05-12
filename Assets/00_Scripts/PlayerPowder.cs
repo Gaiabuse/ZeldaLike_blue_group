@@ -24,7 +24,7 @@ public class PlayerPowder : MonoBehaviour
     {
         float targetFill = powder / maxPowder;
         powderBar.fillAmount = Mathf.Lerp(powderBar.fillAmount, targetFill, Time.deltaTime * lerpSpeed);
-
+        
         if (isHealing && powder > 0 && _hp.HP < _hp.maxHP)
         {
             currentChargeTimer += Time.deltaTime;
@@ -38,6 +38,10 @@ public class PlayerPowder : MonoBehaviour
                 if (Gamepad.current != null)
                     Gamepad.current.SetMotorSpeeds(0.05f, 0.05f);
             }
+        }
+        else
+        {
+            StopHealEffects();
         }
     }
 
@@ -78,11 +82,10 @@ public class PlayerPowder : MonoBehaviour
     {
         if (Gamepad.current != null)
             Gamepad.current.SetMotorSpeeds(0f, 0f);
-
-        if (!isHealing) return; 
         
-        if (powder <= 0 || _hp.HP >= _hp.maxHP)
+        if (isHealing && (powder <= 0 || _hp.HP >= _hp.maxHP))
         {
+            isHealing = false;
             ResetHealingState();
         }
     }
