@@ -139,6 +139,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: IsMoving
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsChasing
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5066432916574152708}
   m_Solo: 0
@@ -225,7 +228,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1101 &-3072851962894543173
+--- !u!1101 &-3218738120292567123
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,6 +238,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: tCharge
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: IsDead
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1606359924466602158}
@@ -249,7 +255,7 @@ AnimatorStateTransition:
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
+  m_CanTransitionToSelf: 0
 --- !u!1101 &-2939888671572938148
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -579,7 +585,6 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5441857981549118396}
-  - {fileID: -3072851962894543173}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -1030,10 +1035,10 @@ AnimatorStateMachine:
     m_Position: {x: 260, y: 320, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1606359924466602158}
-    m_Position: {x: 520, y: 320, z: 0}
+    m_Position: {x: -400, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5151074808452089737}
-    m_Position: {x: 250, y: 500, z: 0}
+    m_Position: {x: -400, y: 410, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7381700841393559987}
     m_Position: {x: -140, y: 440, z: 0}
@@ -1047,6 +1052,7 @@ AnimatorStateMachine:
   m_AnyStateTransitions:
   - {fileID: 4045890614715547316}
   - {fileID: 7128939316738862439}
+  - {fileID: -3218738120292567123}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []

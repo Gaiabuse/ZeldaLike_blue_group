@@ -6,6 +6,7 @@ public class Glue : MonoBehaviour
 {
     [SerializeField] private GameObject platform;
     [SerializeField] private Animation anim;
+    [SerializeField] private Vector3 bakeDimensions;
     
     public void CleanGlue()
     {
@@ -27,7 +28,16 @@ public class Glue : MonoBehaviour
         yield return new WaitForSeconds(anim.clip.length);
         platform.tag = "Ground";
         platform.layer = LayerMask.NameToLayer("Ground");
+        Bounds bakeBounds = new Bounds(transform.position, bakeDimensions);
+        NavMeshManager.Instance.Rebake(bakeBounds);
+        yield return new WaitForSeconds(1);
         Destroy(gameObject);
         yield return null;
+    }
+    
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(transform.position, bakeDimensions);
     }
 }

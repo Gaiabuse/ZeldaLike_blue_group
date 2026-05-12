@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -78,6 +79,7 @@ public class SheepEnnemySprite : GroundEnnemy
                 }
                 if (distPlayer > DistStartAttack && distPlayer > DistanceGetInShell)
                 {
+                    animator.SetBool("Chase", false);
                     repositionToAttack = false;
                     canLookAtPlayer = true;
 
@@ -172,6 +174,14 @@ public class SheepEnnemySprite : GroundEnnemy
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(5, 0.5f);
+        }
+    }
+
     protected override void AttackPatern()
     {
         /*if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= 1f && CurrentTarget != null)
@@ -197,6 +207,7 @@ public class SheepEnnemySprite : GroundEnnemy
                     WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
                     navMesh.destination = WhereToGoPos;
 
+                    animator.SetBool("Chase", true);
                     navMesh.speed = speed.y;
                     navMesh.angularSpeed = SpeedRotate.y;
                     navMesh.acceleration = acceleration.y;
@@ -305,9 +316,10 @@ public class SheepEnnemySprite : GroundEnnemy
         }
     }
 
-
     protected override void Death()
     {
+        deathVFX.enabled = true;  
+        deathVFX.Play();
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");
@@ -317,5 +329,26 @@ public class SheepEnnemySprite : GroundEnnemy
         OnDeath?.Invoke(this);
         animator.SetBool("Death", true);
         move = "death";
+    }
+
+    public override void TakeDamage(int damage, float stun)
+    {
+        if (!shellHere) base.TakeDamage(damage, stun);
+        else
+        {
+            if (dotween != null)
+            {
+                dotween.Kill();
+                if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
+            }
+
+            dotween = null;
+            if (hitValueDisplay)
+            {
+                hitValueDisplay.text = "Nope";
+
+                ShowHitDisplay();
+            }
+        }
     }
 }

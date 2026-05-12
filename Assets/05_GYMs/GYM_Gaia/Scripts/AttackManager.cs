@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -155,11 +156,15 @@ public abstract class AttackManager : MonoBehaviour
 
     protected virtual IEnumerator ForUltimateComboCoroutine()
     {
-        CanUltimate?.Invoke();
-        formSwitcher.CanDoUltimate = true;
-        yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);
-        EndForUltimate?.Invoke();
-        formSwitcher.CanDoUltimate = false;
+        var requiredForms = new[] { Form.neutral, Form.nightmare, Form.dream };
+        if (requiredForms.All(f => formSwitcher.AvailableForms.Contains(f)))
+        {
+            CanUltimate?.Invoke();
+            formSwitcher.CanDoUltimate = true;
+            yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);
+            EndForUltimate?.Invoke();
+            formSwitcher.CanDoUltimate = false;
+        }
     }
 }
 
