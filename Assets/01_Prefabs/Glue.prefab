@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 7317700050579599299}
   - component: {fileID: 4853756182639357507}
   - component: {fileID: 1457056720684810033}
-  - component: {fileID: 420260876361225305}
   m_Layer: 8
   m_Name: Glue
-  m_TagString: Garbage
+  m_TagString: Glue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,25 +113,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.37
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &420260876361225305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1004390359091077234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea3e6f6ca6c782949aaec5a940abfe20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GarbageBehaviors
-  spawnRatio: 0
-  containPowder: 25
-  hasZonyr: 0
-  zonyr: {fileID: 9057311209141340505, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
-  cleanPoints: 10
-  cleanPointsPLevel: 0
-  _hp: 1
 --- !u!1 &2781913046982536946
 GameObject:
   m_ObjectHideFlags: 0

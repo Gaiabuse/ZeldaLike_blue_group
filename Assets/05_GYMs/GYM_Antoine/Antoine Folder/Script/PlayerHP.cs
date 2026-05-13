@@ -60,6 +60,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private void StopHealing()
     {
+        healVFX.enabled = false;
         if (healCoroutine != null) StopCoroutine(healCoroutine);
     }
 
@@ -74,7 +75,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
         HP = (float)Math.Round(Mathf.Min(HP + heal, maxHP), 2);
         tempHP = HP;
-        healVFX.Play();
+        healVFX.enabled = true;
 
         if (healCoroutine != null) StopCoroutine(healCoroutine);
         healCoroutine = StartCoroutine(VisualHeal(HP));
@@ -91,6 +92,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             yield return null;
         }
         healCoroutine = null;
+        healVFX.enabled = false;
     }
 
 

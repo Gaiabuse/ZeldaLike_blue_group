@@ -145,7 +145,7 @@ public class NeutralAttackManager : AttackManager
         isInUltMod = true;
         //ultZone.transform.localScale = Vector3.zero;
         //ultZone.SetActive(true);
-        ultVFX.Play();
+        ultVFX.enabled = true;
         //ultZone.transform.DOScale(ultRadius*2, 0.5f).SetEase(Ease.Linear).OnComplete(() => { });
         var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
         foreach (AutoAimable enemy in enemiesAim)
@@ -169,6 +169,7 @@ public class NeutralAttackManager : AttackManager
     private void CancelUlt()
     {
         isInUltMod = false;
+        ultVFX.enabled = false;
         if (securityCoroutine != null) StopCoroutine(securityCoroutine);
         if (ultModCoroutine != null) StopCoroutine(ultModCoroutine);
         foreach (EnnemyBase enemy in enemies)

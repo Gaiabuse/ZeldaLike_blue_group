@@ -101,6 +101,15 @@ public class Attack : MonoBehaviour
             }
             touchedEnemy = true;
         }
+        if (collision.transform.CompareTag("Glue"))
+        {
+            GarbageBehaviors dust = collision.transform.GetComponentInParent<GarbageBehaviors>();
+            if (dust != null)
+            {
+                dust.Clean();
+            }
+            touchedEnemy = true;
+        }
     }
 
     void SpawnSpark(GameObject spark)

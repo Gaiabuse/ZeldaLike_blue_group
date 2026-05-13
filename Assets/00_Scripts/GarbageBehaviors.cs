@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Transforms;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,34 +13,49 @@ public class GarbageBehaviors : MonoBehaviour
     [SerializeField] [Range(0,2)] private int cleanPointsPLevel;
     [SerializeField] int hp = 1;
     [SerializeField] private bool isGlue;
-    private int _hp;
+    private bool isCleaning = false;
     
     private GameObject player;
     
 
     private void Start()
     {
-        _hp = 2 * hp;
         player = GameObject.FindGameObjectWithTag("Player");
-
+        
         if (containPowder > 0)
         {
+            if (isGlue)
+            {
+                foreach (Transform child in transform)
+                {
+                    child.GetChild(0).gameObject.SetActive(true);
+                }
+            }
             transform.GetChild(0).gameObject.SetActive(true);
-            int layer = LayerMask.NameToLayer("ErasedObject");
-            gameObject.layer = layer;
         }
     }
 
     public void Clean()
     {
-        _hp--;
-        if (_hp > 0) return;
-        DoClean();
+        if (!isCleaning)
+        {
+            isCleaning = true;
+            hp--;
+            Debug.Log(hp);
+            StartCoroutine(CleanPause());
+            if (hp > 0) return;
+            DoClean(); 
+        }
+    }
+
+    IEnumerator CleanPause()
+    {
+        yield return new WaitForSeconds(0.25f);
+        isCleaning = false;
     }
 
     private void DoClean()
     {
-
         if (containPowder > 0)
         {
             if (player == null) return;
@@ -50,9 +66,12 @@ public class GarbageBehaviors : MonoBehaviour
 
         if (isGlue)
         {
-            if (transform.parent.gameObject == null) return;
-            GetComponentInParent<Glue>().CleanGlue();
+            GetComponent<Glue>().CleanGlue();
+            enabled = false;
         }
-        Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject); 
+        }
     }
 }
