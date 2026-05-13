@@ -368,4 +368,44 @@ public class ClassicEnnemy : EnnemyBase
         animator.SetBool("IsDead", true);
         OnDeath?.Invoke(this);
     }
+    
+    // Add this to the bottom of your ClassicEnnemy class
+    private void OnDrawGizmos()
+    {
+        if (LockOn == null) return;
+
+        // 1. Draw Look Range (Yellow)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(LockOn.position, LookRange);
+
+        // 2. Draw Distance Always See (Green)
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, DistanceAlwaysSeeEnnemy);
+
+        // 3. Draw Radius Look (FOV Cone)
+        Gizmos.color = Color.blue;
+        Vector3 forward = LockOn.forward;
+        // Calculate the left and right boundaries of the FOV
+        Vector3 leftRayDirection = Quaternion.AngleAxis(-RadiusLook, Vector3.up) * forward;
+        Vector3 rightRayDirection = Quaternion.AngleAxis(RadiusLook, Vector3.up) * forward;
+
+        Gizmos.DrawRay(LockOn.position, leftRayDirection * LookRange);
+        Gizmos.DrawRay(LockOn.position, rightRayDirection * LookRange);
+
+        // 4. Draw Lose Focus Distance (Gray)
+        // This is checked against the WhereToGoPos when losing chase
+        if (move == "lose chase")
+        {
+            Gizmos.color = Color.gray;
+            Gizmos.DrawWireSphere(WhereToGoPos, LoseFocusDist);
+            Gizmos.DrawLine(transform.position, WhereToGoPos);
+        }
+
+        // 5. Draw Attack Distance (Red)
+        if (AttackTrigger != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(AttackTrigger.position, DistanceAttack);
+        }
+    }
 }

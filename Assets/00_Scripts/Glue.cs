@@ -28,8 +28,6 @@ public class Glue : MonoBehaviour
         yield return new WaitForSeconds(anim.clip.length);
         platform.tag = "Ground";
         platform.layer = LayerMask.NameToLayer("Ground");
-        Bounds bakeBounds = new Bounds(transform.position, bakeDimensions);
-        NavMeshManager.Instance.Rebake(bakeBounds);
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
         yield return null;
