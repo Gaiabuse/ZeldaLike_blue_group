@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class TransformIndicator : MonoBehaviour
 {
     [SerializeField] private Image formIcon;
-    [SerializeField] private Image spellIndicator;
     [FormerlySerializedAs("iconsSprites")]
     [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
     [SerializeField] private Sprite[] formIconSpr;
