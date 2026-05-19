@@ -29,9 +29,11 @@ public class GarbageBehaviors : MonoBehaviour
                 foreach (Transform child in transform)
                 {
                     child.GetChild(0).gameObject.SetActive(true);
+                    child.GetChild(1).gameObject.SetActive(true);
                 }
             }
             transform.GetChild(0).gameObject.SetActive(true);
+            transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 
