@@ -22,8 +22,11 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private Image progressSliderPopUp;
     [SerializeField] private GameObject progressAnimGOPopUp;
     [SerializeField] private RectTransform[] milestonesPopUp;
+    [SerializeField] private GameObject progressToggle;
+    [SerializeField] private GameObject messageToggle;
     
     private TweenerCore<Vector2, Vector2, VectorOptions> pauseDotween;
+    private bool isProgessShown = true;
     
     private void Start()
     {
@@ -63,6 +66,7 @@ public class ProgressMenuUI : MonoBehaviour
                 Time.timeScale = 0;
                 UpdatePhoneInfos(progressSlider, progressAnimGO);
                 AnimateSpriteSheet(progressAnim);
+                player.GetComponent<PlayerInput>().SwitchCurrentActionMap("ProgressControl");
             });
     }
 
@@ -121,5 +125,21 @@ public class ProgressMenuUI : MonoBehaviour
         sequence.OnComplete(() => progressPopUp.SetActive(false));
         AnimateSpriteSheet(progressAnimPopUp);
         UpdatePhoneInfos(progressSliderPopUp, progressAnimGOPopUp);
+    }
+
+    public void SwitchToggle()
+    {
+        Debug.Log("OnSwitchToggle");
+        isProgessShown = !isProgessShown;
+        if (isProgessShown)
+        {
+            progressToggle.SetActive(true);
+            messageToggle.SetActive(false);
+        }
+        else
+        {
+            progressToggle.SetActive(false);
+            messageToggle.SetActive(true);
+        }
     }
 }

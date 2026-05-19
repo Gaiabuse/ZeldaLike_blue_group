@@ -66,4 +66,9 @@ public class InputManager : MonoBehaviour
         if (value.isPressed)
             pauseMenu.Return();
     }
+    
+    public void OnSwitchToggle(InputValue value)
+    {
+        progressMenu.SwitchToggle();
+    }
 }
