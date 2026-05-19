@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
   FormAnimator: {fileID: 3337451677123445879}
-  timeForDoCombo: 5
+  timeForDoCombo: 1
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 5
   formSwitcher: {fileID: 475458454912018690}
@@ -423,7 +423,7 @@ MonoBehaviour:
   minAttack: 8
   maxAttack: 25
   numberOfShotsForFinishCombo: 5
-  numberOfShotsForUltimate: 12
+  numberOfShotsForUltimate: 24
 --- !u!114 &8715960371389895154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
   side: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   Boxes: {fileID: 0}
   respawnAtStart: 1
 --- !u!114 &5888648130357620796
@@ -695,13 +695,18 @@ MonoBehaviour:
   switchToNeutralFX: {fileID: 3773970348831646068}
   switchToDreamFX: {fileID: 4062797230994902758}
   switchToNightmareFX: {fileID: 723293994979664784}
+  ultIndicator: {fileID: 1972918003901843340}
+  ultIndicatorSprites:
+  - {fileID: 21300000, guid: 960ee0a6094fa8b47a361872ec60690c, type: 3}
+  - {fileID: 21300000, guid: 94f2552654c19c24380266e591c5306d, type: 3}
+  - {fileID: 21300000, guid: 8aa8a1ec811712d42ba255c21eb10086, type: 3}
   FormAttackManagers:
   - {fileID: 966973642768248133}
   - {fileID: 999091161340526415}
   - {fileID: 8600280016486079122}
   playerController: {fileID: 8133830779634646023}
   timeForDoUltimate: 3
-  AvailableForms: 
+  AvailableForms: 00000000
   CanDoUltimate: 0
   canSwitchForm: 1
 --- !u!114 &8015218632366079429
@@ -894,7 +899,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  DashDurationSeconds: 0.15
+  DashDurationSeconds: 0.2
   DashLength: 7
   DashCoolDownSeconds: 0.025
   offset: 0.2
@@ -1348,7 +1353,7 @@ RectTransform:
   m_GameObject: {fileID: 5751890846712576125}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -27.4}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2488931090013615888}
@@ -1356,7 +1361,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 50, y: 60}
-  m_SizeDelta: {x: 327, y: 327}
+  m_SizeDelta: {x: 390, y: 349}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9135891984374408879
 CanvasRenderer:
@@ -1386,7 +1391,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 175922e9bca2d1b47b127ee59eba3934, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 960ee0a6094fa8b47a361872ec60690c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1415,7 +1420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8432648236205497035
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1434,7 +1439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 301, y: -115}
+  m_AnchoredPosition: {x: -420, y: -195}
   m_SizeDelta: {x: 342, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4829503301301001666
@@ -1459,7 +1464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Textbox
   textBoxTransform: {fileID: 8432648236205497035}
   textBox: {fileID: 5847869887264641354}
-  delayBeforeDisappear: 4
+  delayBeforeDisappear: 5
   tweenDuration: 0.2
 --- !u!95 &840876037109605652
 Animator:
@@ -2058,11 +2063,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 3200
   downValue: {x: 0, y: 0.5, z: 0}
+  offsetGrabbedObject: 0.05
   throwDistance: 4
   throwDuration: 0
   AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
+  grabVfx: {fileID: 0}
   currentGrabbedObject: {fileID: 0}
 --- !u!114 &8600280016486079122
 MonoBehaviour:
@@ -2467,7 +2474,7 @@ MonoBehaviour:
   ultimateAttacks: []
   knockbackDistance: 2
   dashOffset: 1
-  ultStun: 3
+  ultStun: 2
   ultRadius: 3.75
   ultVFX: {fileID: 4546685359039164216}
   groundLayer:
@@ -3104,6 +3111,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 421945432870593307, guid: e52d4db4e797b1a4390181ca1f92e75b, type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 2586146349129295385, guid: e52d4db4e797b1a4390181ca1f92e75b, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -3241,7 +3252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3181102998631314235, guid: acef3493a49b3f142b56883ef29c662b, type: 3}
       propertyPath: m_CastShadows
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3181102998631314235, guid: acef3493a49b3f142b56883ef29c662b, type: 3}
       propertyPath: m_SortingOrder

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UnityEngine.VFX;
 
 public class FormSwitcher : MonoBehaviour
@@ -16,6 +17,9 @@ public class FormSwitcher : MonoBehaviour
     [SerializeField] private VisualEffect switchToNeutralFX;
     [SerializeField] private VisualEffect switchToDreamFX;
     [SerializeField] private VisualEffect switchToNightmareFX;
+    
+    [SerializeField] private Image ultIndicator;
+    [SerializeField] private List<Sprite> ultIndicatorSprites;
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
@@ -47,6 +51,7 @@ public class FormSwitcher : MonoBehaviour
             case Form.neutral:
                 switchToNeutralFX.Play();
                 neutralFormObject.SetActive(true);
+                ultIndicator.sprite = ultIndicatorSprites[0];
                 if (CanDoUltimate)
                 {
                     FormAttackManagers[0].Ultimate();
@@ -59,6 +64,7 @@ public class FormSwitcher : MonoBehaviour
             case Form.dream:
                 switchToDreamFX.Play();
                 dreamFormObject.SetActive(true);
+                ultIndicator.sprite = ultIndicatorSprites[1];
                 if (CanDoUltimate)
                 {
                     FormAttackManagers[1].Ultimate();
@@ -70,6 +76,7 @@ public class FormSwitcher : MonoBehaviour
             case Form.nightmare:
                 switchToNightmareFX.Play();
                 nightmareFormObject.SetActive(true);
+                ultIndicator.sprite = ultIndicatorSprites[2];
                 if (CanDoUltimate)
                 {
                     FormAttackManagers[2].Ultimate();
