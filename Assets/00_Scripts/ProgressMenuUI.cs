@@ -1,6 +1,7 @@
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -27,6 +28,9 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private GameObject messageToggle;
     [SerializeField] private Scrollbar scrollbar;
     [SerializeField] private float scrollSpeed;
+    [SerializeField] private TMP_Text playTimeText;
+
+    private float playTime;
     
     private TweenerCore<Vector2, Vector2, VectorOptions> pauseDotween;
     private bool isProgessShown = true;
@@ -37,6 +41,20 @@ public class ProgressMenuUI : MonoBehaviour
         Cursor.visible = false;
         SetMilestonesPosition(milestones);
         SetMilestonesPosition(milestonesPopUp);
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance != null)
+        {
+            float time = GameManager.Instance.playTime;
+
+            int hours = Mathf.FloorToInt(time / 3600f);
+            int minutes = Mathf.FloorToInt((time % 3600f) / 60f);
+            int seconds = Mathf.FloorToInt(time % 60f);
+
+            playTimeText.text = $"{hours:00}h {minutes:00}m {seconds:00}s";
+        }
     }
 
     private void SetMilestonesPosition(RectTransform[] milestones)
