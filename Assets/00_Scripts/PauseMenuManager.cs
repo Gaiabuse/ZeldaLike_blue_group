@@ -37,7 +37,7 @@ public class PauseMenuManager : MonoBehaviour
         pauseDotween = pauseMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).OnComplete(() =>
         {
             pauseMenu.SetActive(false);
-            player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+            player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
         });
         currentState = MenuState.Playing;
     }

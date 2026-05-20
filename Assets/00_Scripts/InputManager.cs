@@ -71,4 +71,12 @@ public class InputManager : MonoBehaviour
     {
         progressMenu.SwitchToggle();
     }
+
+    public void OnPhoneScroll(InputValue value)
+    {
+        if (playerInput.currentActionMap.name == "ProgressControl")
+        {
+            progressMenu.Scroll(value.Get<float>());
+        }
+    }
 }

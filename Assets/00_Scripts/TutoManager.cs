@@ -13,7 +13,8 @@ public class TutoManager : MonoBehaviour
     [SerializeField]private Textbox textBox;
     [SerializeField]private ErasedManager erasedManager;
     [SerializeField] private List<GameObject> atkIndicators;
-    [SerializeField]private TutoStep[] steps;
+    [SerializeField] private TutoStep[] steps;
+    [SerializeField] private ChatHistory chatHistory;
 
     // Inside TutoManager.cs
     private void OnEnable()
@@ -21,7 +22,7 @@ public class TutoManager : MonoBehaviour
         foreach (TutoStep tutoStep in steps)
         {
             // Pass the atkIndicators list here
-            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators);
+            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory);
         }
     }
 
@@ -64,14 +65,16 @@ public class TutoStep
     private Textbox _textbox;
     private ErasedManager _erasedManager;
     private List<GameObject> _atkIndicators; // Reference stored here
+    private ChatHistory chatHistory; // Reference stored here
 
-    public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager, List<GameObject> indicators)
+    public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager, List<GameObject> indicators, ChatHistory _chatHistory)
     {
         _formSwitcher = formSwitcher;
         _textbox = textbox;
         _erasedManager = erasedManager;
         _atkIndicators = indicators; // Store reference
         colliderTrigger.ActivateTutoStep += StartTutoStep;
+        chatHistory = _chatHistory;
     }
 
     public void OnDisableStep()
@@ -109,6 +112,7 @@ public class TutoStep
         if (asDialogue)
         {
             _textbox.AppearText(dialogue);
+            chatHistory.AddMessage(dialogue);
         }
 
         if (setNumberOfPointsForErased)

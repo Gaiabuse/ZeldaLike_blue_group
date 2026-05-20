@@ -2,6 +2,7 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -24,6 +25,8 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private RectTransform[] milestonesPopUp;
     [SerializeField] private GameObject progressToggle;
     [SerializeField] private GameObject messageToggle;
+    [SerializeField] private Scrollbar scrollbar;
+    [SerializeField] private float scrollSpeed;
     
     private TweenerCore<Vector2, Vector2, VectorOptions> pauseDotween;
     private bool isProgessShown = true;
@@ -53,6 +56,8 @@ public class ProgressMenuUI : MonoBehaviour
     {
         pauseSfxTrigger.SetActive(true);
         progressMenu.SetActive(true);
+        Canvas.ForceUpdateCanvases();
+        scrollbar.value = 0;
         
         RectTransform rect = progressMenu.GetComponent<RectTransform>();
     
@@ -66,7 +71,7 @@ public class ProgressMenuUI : MonoBehaviour
                 Time.timeScale = 0;
                 UpdatePhoneInfos(progressSlider, progressAnimGO);
                 AnimateSpriteSheet(progressAnim);
-                player.GetComponent<PlayerInput>().SwitchCurrentActionMap("ProgressControl");
+                player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("ProgressControl");
             });
     }
 
@@ -84,7 +89,7 @@ public class ProgressMenuUI : MonoBehaviour
             .OnComplete(() =>
             {
                 progressMenu.SetActive(false);
-                player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+                player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
             });
     }
 
@@ -129,7 +134,6 @@ public class ProgressMenuUI : MonoBehaviour
 
     public void SwitchToggle()
     {
-        Debug.Log("OnSwitchToggle");
         isProgessShown = !isProgessShown;
         if (isProgessShown)
         {
@@ -141,5 +145,11 @@ public class ProgressMenuUI : MonoBehaviour
             progressToggle.SetActive(false);
             messageToggle.SetActive(true);
         }
+    }
+
+    public void Scroll(float value)
+    {
+        scrollbar.value += value * scrollSpeed * Time.unscaledDeltaTime;
+        scrollbar.value = Mathf.Clamp01(scrollbar.value);
     }
 }
