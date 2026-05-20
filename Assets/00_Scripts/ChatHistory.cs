@@ -32,6 +32,13 @@ public class ChatHistory : MonoBehaviour
         Message m = new Message();
         m.text = message;
         messages.Add(m);
+        
+        RectTransform contentRect = content.GetComponent<RectTransform>();
+        if (contentRect != null)
+        {
+            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, 225f *  messages.Count);
+        }
+        
         UpdateChatHistory();
     }
 
