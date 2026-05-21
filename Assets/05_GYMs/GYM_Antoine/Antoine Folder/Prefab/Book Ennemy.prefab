@@ -220,7 +220,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 3897675, guid: 507b20bf707f9d74883959cacfc28f4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -394,6 +394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BookEnnemy
   data: {fileID: 11400000, guid: 57dfe970de7f341459612531b543cf25, type: 2}
+  HP: 5
   invincible: 0
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
@@ -410,10 +411,21 @@ MonoBehaviour:
   hitValueDisplay: {fileID: 6110180006886736947}
   durationDelay: 0.3
   durationDotween: 0.6
+  deathVFX: {fileID: 0}
+  stunVFX: {fileID: 0}
+  hitVFX: {fileID: 0}
   UltIndicator: {fileID: 0}
+  lifeBar: {fileID: 0}
+  frontLife: {fileID: 0}
+  dmgLife: {fileID: 0}
+  bounceDuration: 0
+  minFillAmount: 0.1
+  maxFillAmount: 0.9
   LookRange: 12
   DistanceFromGround: 5
+  FallWait: 0.25
   MaxFallTime: 5
+  StunTimeRecoverFromAttack: 2
   canUseMelee: 1
   FallWhenDistance: 0.75
   addForceDive: 30
