@@ -55,7 +55,7 @@ public class Textbox : MonoBehaviour
         phone.SetActive(true);
         for (int i = 0; i < 3; i++)
         {
-            Gamepad.current.SetMotorSpeeds(0.5f, 0.5f);
+            Gamepad.current.SetMotorSpeeds(0.25f, 0.25f);
             phone.transform.DOShakeRotation(0.22f, new Vector3(0f, 0f, 20f)).OnComplete(() =>
             {
                 Gamepad.current.SetMotorSpeeds(0f, 0f); 

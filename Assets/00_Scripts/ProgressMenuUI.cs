@@ -13,6 +13,7 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private GameObject pauseSfxTrigger;
     [SerializeField] private Image progressSlider;
+    [SerializeField] private TMP_Text progressPercentage;
     [SerializeField] private GameObject progressAnimGO;
     [SerializeField] private Vector2 animMinMaxPosX;
     [SerializeField] private Image progressAnim;
@@ -118,6 +119,7 @@ public class ProgressMenuUI : MonoBehaviour
         slider.DOFillAmount(targetFill, 1.5f)
             .SetUpdate(true)
             .SetEase(Ease.OutCubic);
+        progressPercentage.text = $"{targetFill*100:.0}%";
         
         float targetX = Mathf.Lerp(animMinMaxPosX.x, animMinMaxPosX.y, targetFill);
         anim.GetComponent<RectTransform>().DOAnchorPosX(targetX, 1.5f)

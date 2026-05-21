@@ -8,6 +8,8 @@ public class QuotaManager : MonoBehaviour
     [SerializeField] private int bonusPoints;
     [SerializeField] private ErasedManager player;
     [SerializeField] private ProgressMenuUI progressMenuUI;
+    public int DustCount;
+    public int cleanedDustCount;
     
     private int quotaIndex;
     
@@ -54,5 +56,10 @@ public class QuotaManager : MonoBehaviour
             quotaIndex++;
             player.GainPointForCreate();
         }
+    }
+
+    public void DustCleaned()
+    {
+        cleanedDustCount++;
     }
 }

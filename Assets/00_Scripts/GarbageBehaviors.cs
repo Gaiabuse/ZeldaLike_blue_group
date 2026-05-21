@@ -21,6 +21,7 @@ public class GarbageBehaviors : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        QuotaManager.Instance.DustCount++;
         
         if (containPowder > 0)
         {
@@ -65,6 +66,7 @@ public class GarbageBehaviors : MonoBehaviour
         }
         
         QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsPLevel);
+        QuotaManager.Instance.DustCleaned();
 
         if (isGlue)
         {
