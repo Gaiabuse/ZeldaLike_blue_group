@@ -19,15 +19,19 @@ public class PlayerPowder : MonoBehaviour
 
     private bool isHealing = false;
     private float currentChargeTimer = 0f;
+    
+    // Inside PlayerPowder.cs
+    private bool wasHealingLastFrame = false; // Add this variable at the top
 
     private void Update()
     {
         float targetFill = powder / maxPowder;
         powderBar.fillAmount = Mathf.Lerp(powderBar.fillAmount, targetFill, Time.deltaTime * lerpSpeed);
-        
+    
         if (isHealing && powder > 0 && _hp.HP < _hp.maxHP)
         {
             currentChargeTimer += Time.deltaTime;
+            wasHealingLastFrame = true; // Track that we are actively rumbling
 
             if (currentChargeTimer >= chargingTime)
             {
@@ -41,7 +45,25 @@ public class PlayerPowder : MonoBehaviour
         }
         else
         {
+            // Only turn off the motor IF we were just healing a moment ago
+            if (wasHealingLastFrame)
+            {
+                if (Gamepad.current != null)
+                    Gamepad.current.SetMotorSpeeds(0f, 0f);
+            
+                wasHealingLastFrame = false;
+            }
+
             StopHealEffects();
+        }
+    }
+
+    private void StopHealEffects()
+    {
+        if (isHealing && (powder <= 0 || _hp.HP >= _hp.maxHP))
+        {
+            isHealing = false;
+            ResetHealingState();
         }
     }
 
@@ -75,18 +97,6 @@ public class PlayerPowder : MonoBehaviour
         {
             ResetHealingState();
             StopHealEffects();
-        }
-    }
-
-    private void StopHealEffects()
-    {
-        if (Gamepad.current != null)
-            Gamepad.current.SetMotorSpeeds(0f, 0f);
-        
-        if (isHealing && (powder <= 0 || _hp.HP >= _hp.maxHP))
-        {
-            isHealing = false;
-            ResetHealingState();
         }
     }
 

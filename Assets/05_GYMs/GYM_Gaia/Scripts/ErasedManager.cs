@@ -20,12 +20,9 @@ public class ErasedManager : MonoBehaviour
     public int currentPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
-    [SerializeField] private float numberOfPressForErasedEnemy = 20;
-    [SerializeField] private int hpHealWhenErasedEnemy = 20;
 
     [Header("Ui elements")]
     [SerializeField]private Image buttonPressVisual;
-    private float currentPressForErasedEnemy;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
     private bool erasedAllObjects;
@@ -45,15 +42,34 @@ public class ErasedManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void OnEnable()
-    {
-        playerHP.OnTakeDamage += CancelErasedEnemy;
-    }
-
+    
     private void OnDisable()
     {
-        playerHP.OnTakeDamage -= CancelErasedEnemy;
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
+        }
+    }
+    
+    private Coroutine rumbleCoroutine;
+
+    private void TriggerRumble(float lowFreq, float highFreq, float duration)
+    {
+        if (Gamepad.current == null) return;
+    
+        if (rumbleCoroutine != null)
+        {
+            StopCoroutine(rumbleCoroutine);
+        }
+        rumbleCoroutine = StartCoroutine(RumbleRoutine(lowFreq, highFreq, duration));
+    }
+
+    private IEnumerator RumbleRoutine(float lowFreq, float highFreq, float duration)
+    {
+        Gamepad.current.SetMotorSpeeds(lowFreq, highFreq);
+        yield return new WaitForSeconds(duration);
+        Gamepad.current.SetMotorSpeeds(0f, 0f);
+        rumbleCoroutine = null;
     }
 
     private void Start()
@@ -99,42 +115,9 @@ public class ErasedManager : MonoBehaviour
             }
         }
     }
-
-    private void BounceUiVisual()
-    {
-        buttonPressVisual.transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), 0.1f).SetEase(Ease.InBounce).OnComplete((
-            () =>
-            {
-                buttonPressVisual.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutBounce);
-            } ));
-    }
+    
     public void OnSecondPower(InputValue inputValue)
     {
-        if(startEnemyErased)
-        {
-            if (inputValue.isPressed)
-            {
-                currentPressForErasedEnemy++;
-                BounceUiVisual();
-                if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
-                {
-                    ErasedEnemy();
-                }
-                return;
-            }
-        }
-        
-        if (inputValue.isPressed && currentObject != null && currentObject.CompareTag("Ennemy"))
-        {
-            Debug.Log("startEnemyErased");
-            buttonPressVisual.gameObject.SetActive(true);
-            player.CanMove = false;
-            player.CanRotate = false;
-            startEnemyErased = true;
-            currentPressForErasedEnemy = 0;
-            return;
-        }
-        
         switch (inputValue.isPressed)
         {
             case true:
@@ -148,9 +131,18 @@ public class ErasedManager : MonoBehaviour
                 {
                     StopCoroutine(HoldTimeCoroutine);
                     HoldTimeCoroutine = null;
-
                 }
-                
+    
+                if (rumbleCoroutine != null)
+                {
+                    StopCoroutine(rumbleCoroutine);
+                    rumbleCoroutine = null;
+                }
+                if (Gamepad.current != null)
+                {
+                    Gamepad.current.SetMotorSpeeds(0f, 0f);
+                }
+            
                 if (!erasedAllObjects)
                 {
                     if (currentObject != null)
@@ -158,46 +150,28 @@ public class ErasedManager : MonoBehaviour
                         EraseOrCreate();
                     }
                 }
-                
-                if (Gamepad.current != null)
-                {
-                    Gamepad.current.SetMotorSpeeds(0f,0f);
-                }
-                
                 break;
         }
     }
 
     private IEnumerator HoldTime()
     {
-        erasedAllObjects = false;
-        
         if (objectsErased.Count > 0)
         {
-            yield return new WaitForSeconds(0.75f);
-            
-            if (Gamepad.current != null)
-            {
-                Gamepad.current.SetMotorSpeeds(0.25f,0.25f);
-            }
-            
-            yield return new WaitForSeconds(holdTime-0.75f);
+            erasedAllObjects = false;
+            yield return new WaitForSeconds(0.20f);
+            float remainingHoldTime = Mathf.Max(0f, holdTime - 0.20f);
+            TriggerRumble(0.25f, 0.25f, remainingHoldTime); 
+    
+            yield return new WaitForSeconds(remainingHoldTime);
             
             ErasedAllObjects();
             erasedAllObjects = true;
 
-            if (Gamepad.current != null)
-            {
-                Gamepad.current.SetMotorSpeeds(0.8f,0.8f);
-            }
-            
-            yield return new WaitForSeconds(0.25f);
+            TriggerRumble(0.8f, 0.8f, 0.15f);
         }
+
         HoldTimeCoroutine = null;
-        if (Gamepad.current != null)
-        {
-            Gamepad.current.SetMotorSpeeds(0f,0f);
-        }
     }
 
 
@@ -246,35 +220,6 @@ public class ErasedManager : MonoBehaviour
             UpdateNeutralUI();
         }
     }
-    public void OnDash(InputValue _input)
-    {
-        if (startEnemyErased)
-        {
-            CancelErasedEnemy();
-        }
-    }
-
-    private void ErasedEnemy()
-    {
-        Destroy(currentObject);
-        currentObject = null;
-        buttonPressVisual.gameObject.SetActive(false);
-        playerHP.Heal(hpHealWhenErasedEnemy);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
-    }
-
-    private void CancelErasedEnemy()
-    {
-        buttonPressVisual.gameObject.SetActive(false);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
-    }
-    
     private void UpdateNeutralUI()
     {
         TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
