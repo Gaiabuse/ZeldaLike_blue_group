@@ -150,6 +150,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5142397639362479249}
   - {fileID: 8432648236205497035}
   - {fileID: 7155476036179764003}
   - {fileID: 5802562507308345535}
@@ -1026,15 +1027,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5243828651471566691}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 8432648236205497035}
+  m_Father: {fileID: 2488931090013615888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -145, y: -116}
+  m_AnchoredPosition: {x: -565, y: -311}
   m_SizeDelta: {x: 66, y: 79}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3040644035233555177
@@ -1434,7 +1435,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2587467136152014071}
-  - {fileID: 5142397639362479249}
   m_Father: {fileID: 2488931090013615888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2409,8 +2409,6 @@ MonoBehaviour:
   maxPointsForCreate: 0
   currentPointsForCreate: 0
   holdTime: 2
-  numberOfPressForErasedEnemy: 20
-  hpHealWhenErasedEnemy: 20
   buttonPressVisual: {fileID: 3096164795337757771}
 --- !u!65 &223095147346892054
 BoxCollider:

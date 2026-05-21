@@ -1,17 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Textbox : MonoBehaviour
 {
-    [SerializeField] Transform textBoxTransform;
     [SerializeField] TextMeshProUGUI textBox;
     [SerializeField] float delayBeforeDisappear = 1f;
     [SerializeField] float tweenDuration = 0.2f;
+    [SerializeField] GameObject phone;
     string textShow;
     
     TweenerCore<Vector3, Vector3, VectorOptions> showTextTween;
@@ -20,7 +22,7 @@ public class Textbox : MonoBehaviour
     private void Start()
     {
         textBox.text = null;
-        textBoxTransform.localScale = Vector3.zero;
+        transform.localScale = Vector3.zero;
     }
     
 
@@ -29,17 +31,36 @@ public class Textbox : MonoBehaviour
         if (hideTextTween != null)
         {
             hideTextTween.Kill();
-            textBoxTransform.localScale = Vector3.zero;
+            transform.localScale = Vector3.zero;
         }
         if (showTextTween != null)
         {
             showTextTween.Kill();
         }
-        showTextTween = textBoxTransform.DOScale(Vector3.one, tweenDuration).SetEase(Ease.OutBounce);
+
+        StartCoroutine(NotificationAnim());
+        showTextTween = transform.DOScale(Vector3.one, tweenDuration).SetEase(Ease.OutBounce);
         textBox.text = null;
         textShow = text;
         textBox.text = textShow;
-        hideTextTween = textBoxTransform.DOScale(Vector3.zero, tweenDuration).SetEase(Ease.InBounce).SetDelay(delayBeforeDisappear + tweenDuration);
+        hideTextTween = transform.DOScale(Vector3.zero, tweenDuration).SetEase(Ease.InBounce).SetDelay(delayBeforeDisappear + tweenDuration).OnComplete(
+            () =>
+            {
+                phone.SetActive(false);
+            });
     }
-    
+
+    private IEnumerator NotificationAnim()
+    {
+        phone.SetActive(true);
+        for (int i = 0; i < 3; i++)
+        {
+            Gamepad.current.SetMotorSpeeds(0.5f, 0.5f);
+            phone.transform.DOShakeRotation(0.22f, new Vector3(0f, 0f, 20f)).OnComplete(() =>
+            {
+                Gamepad.current.SetMotorSpeeds(0f, 0f); 
+            });
+            yield return new WaitForSeconds(0.33f);
+        }
+    }
 }
