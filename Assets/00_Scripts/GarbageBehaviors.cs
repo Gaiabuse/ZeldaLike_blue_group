@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class GarbageBehaviors : MonoBehaviour
@@ -13,6 +14,7 @@ public class GarbageBehaviors : MonoBehaviour
     [SerializeField] [Range(0,2)] private int cleanPointsPLevel;
     [SerializeField] int hp = 1;
     [SerializeField] private bool isGlue;
+    [SerializeField] private VisualEffect hitVFX;
     private bool isCleaning = false;
     
     private GameObject player;
@@ -42,19 +44,35 @@ public class GarbageBehaviors : MonoBehaviour
     {
         if (!isCleaning)
         {
+            if (!isGlue)
+            {
+                PlayVFX();
+            }
             isCleaning = true;
             hp--;
             Debug.Log(hp);
             StartCoroutine(CleanPause());
-            if (hp > 0) return;
-            DoClean(); 
         }
+    }
+
+    private void PlayVFX()
+    {
+        hitVFX.transform.SetParent(transform.parent);
+        hitVFX.transform.position = transform.position;
+        Vector3 lookTarget = new Vector3(player.transform.position.x, hitVFX.transform.position.y, player.transform.position.z);
+        hitVFX.transform.LookAt(lookTarget);
+        hitVFX.transform.Rotate(0, 90, 0);
+
+        hitVFX.enabled = true;
+        hitVFX.Play();
     }
 
     IEnumerator CleanPause()
     {
         yield return new WaitForSeconds(0.25f);
         isCleaning = false;
+        if (hp > 0) yield break;
+        DoClean(); 
     }
 
     private void DoClean()

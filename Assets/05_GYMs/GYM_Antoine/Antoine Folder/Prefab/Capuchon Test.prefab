@@ -679,6 +679,7 @@ GameObject:
   - component: {fileID: 2861346027815437280}
   - component: {fileID: 3445256143892977122}
   - component: {fileID: 4158696546758742108}
+  - component: {fileID: 2249186588852546631}
   m_Layer: 7
   m_Name: Capuchon Test
   m_TagString: Ennemy
@@ -813,6 +814,19 @@ MonoBehaviour:
   Laser: {fileID: 878856344629665346, guid: cb630a9b7bc5b5141868e46f6fe23c59, type: 3}
   laserSpawn: {fileID: 4554973231111023981}
   repositionToAttack: 0
+--- !u!114 &2249186588852546631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7457975410992992693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6ba7f4b89739e4598df1f1c16687fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
+  weight: 1
 --- !u!1 &7648283388668518914
 GameObject:
   m_ObjectHideFlags: 0

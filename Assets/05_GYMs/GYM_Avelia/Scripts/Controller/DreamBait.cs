@@ -8,6 +8,8 @@ public class DreamBait : MonoBehaviour
     [SerializeField]
     private DreamBaitProps BaitPrefab;
 
+    private bool canExpode;
+
     private DreamBaitProps currentBaitInstance;
 
     async Task OnSecondPower(InputValue _input)
@@ -19,16 +21,19 @@ public class DreamBait : MonoBehaviour
             return;
         }
 
-        // probably needs another way to do it but this will do it for now
-        await currentBaitInstance.Explode();
-        TransformIndicator.Instance.DisplayBaitIcon();
-
+        if (canExpode)
+        {
+            // probably needs another way to do it but this will do it for now
+            await currentBaitInstance.Explode();
+            TransformIndicator.Instance.DisplayBaitIcon();
+        }
     }
 
     void DoBaitSpawn()
     {
         currentBaitInstance = Instantiate(BaitPrefab, transform.position, Quaternion.identity);
         TransformIndicator.Instance.DisplayExplodeIcon();
+        canExpode = true;
     }
 
     void OnDisable()

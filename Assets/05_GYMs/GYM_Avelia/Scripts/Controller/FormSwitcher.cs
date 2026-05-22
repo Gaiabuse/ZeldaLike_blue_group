@@ -96,8 +96,7 @@ public class FormSwitcher : MonoBehaviour
 
     public void ForcedTransform()
     {
-        lastForm = currentForm;
-        ChangeForm(Form.neutral);
+        ChangeForm(AvailableForms[0]);
     }
 }
 
