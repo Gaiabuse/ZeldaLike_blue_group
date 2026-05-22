@@ -23,6 +23,7 @@ public class DreamBait : MonoBehaviour
 
         if (canExpode)
         {
+            canExpode = false;
             // probably needs another way to do it but this will do it for now
             await currentBaitInstance.Explode();
             TransformIndicator.Instance.DisplayBaitIcon();
