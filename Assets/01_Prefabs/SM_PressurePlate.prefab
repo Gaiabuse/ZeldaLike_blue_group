@@ -957,10 +957,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2061895060305020821}
-        m_TargetAssemblyTypeName: UnityEngine.VFX.VisualEffect, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
+      - m_Target: {fileID: 4217366883425539002}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1032,6 +1032,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 4217366883425539002}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &1811712186533519912
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1061,9 +1073,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8946380583340521060}
     m_Modifications:
+    - target: {fileID: 1362999766855218996, guid: b79d5143e6224284ca3600763f33474b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1426628487751600368, guid: b79d5143e6224284ca3600763f33474b, type: 3}
       propertyPath: m_Name
       value: VFX_PresPlateOn
+      objectReference: {fileID: 0}
+    - target: {fileID: 3814570217281299227, guid: b79d5143e6224284ca3600763f33474b, type: 3}
+      propertyPath: m_AllowInstancing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3814570217281299227, guid: b79d5143e6224284ca3600763f33474b, type: 3}
+      propertyPath: m_ResetSeedOnPlay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3921009758679514702, guid: b79d5143e6224284ca3600763f33474b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1105,6 +1129,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6477225396808125544, guid: b79d5143e6224284ca3600763f33474b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7140774793918475828, guid: b79d5143e6224284ca3600763f33474b, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.17
@@ -1114,13 +1142,13 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b79d5143e6224284ca3600763f33474b, type: 3}
---- !u!2083052967 &2061895060305020821 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 3814570217281299227, guid: b79d5143e6224284ca3600763f33474b, type: 3}
-  m_PrefabInstance: {fileID: 2913056848247202958}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2163830487215610560 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3921009758679514702, guid: b79d5143e6224284ca3600763f33474b, type: 3}
+  m_PrefabInstance: {fileID: 2913056848247202958}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4217366883425539002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1362999766855218996, guid: b79d5143e6224284ca3600763f33474b, type: 3}
   m_PrefabInstance: {fileID: 2913056848247202958}
   m_PrefabAsset: {fileID: 0}

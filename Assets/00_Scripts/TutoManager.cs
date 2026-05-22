@@ -58,7 +58,7 @@ public class TutoStep
     [TextArea(0,5)][SerializeField] private string dialogue;
     [SerializeField] private bool setNumberOfPointsForErased;
     [SerializeField] private bool changeIndicator; // The toggle
-    [Range(1,4)][SerializeField] private int ativeAtk; // The int between 1-4
+    [Range(1,5)][SerializeField] private int ativeAtk; // The int between 1-4
     [SerializeField] private int numberOfPointsForErased;
     
     private FormSwitcher _formSwitcher;

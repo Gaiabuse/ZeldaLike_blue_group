@@ -85,6 +85,10 @@ public class NightmareAttackManager : AttackManager
             }
             Attack(comboAttacks[currentCombo]);
             switchInProgress = false;
+            
+            FormAnimator.SetBool("isAttacking",true);
+            FormAnimator.SetTrigger("Attack"+currentCombo);
+            Debug.Log("Attack"+currentCombo);
         }
     }
 
@@ -92,7 +96,7 @@ public class NightmareAttackManager : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
-        UltimateActivation();
+        //UltimateActivation();
         if (ultimateCoroutine != null)
         {
             StopCoroutine(ultimateCoroutine);
@@ -105,7 +109,7 @@ public class NightmareAttackManager : AttackManager
         formSwitcher.canSwitchForm = false;
         CanAttack = false;
         ultReference.ultimateObject.SetActive(true);
-        ultReference.playerSprite.SetActive(false);
+        ultReference.playerSprite.GetComponent<SpriteRenderer>().enabled = false;
         ultReference.playerCollider.enabled = false;
         ultReference.dash.enabled = false;
         ultReference.grab.enabled = false;
@@ -120,7 +124,6 @@ public class NightmareAttackManager : AttackManager
         CanAttack = true;
         player.LockRotation = false;
         ultReference.ultimateObject.SetActive(false);
-        ultReference.playerSprite.SetActive(true);
         ultReference.playerCollider.enabled = true;
         ultReference.dash.enabled = true;
         ultReference.grab.enabled = true;
@@ -131,10 +134,19 @@ public class NightmareAttackManager : AttackManager
     private IEnumerator UltimateCoroutine()
     {
         player.LockRotation = true;
+        FormAnimator.SetTrigger("usingUlti");
+        yield return new WaitForSeconds(0.75f);
+        UltimateActivation();
+        
         yield return new WaitForSeconds(timeOfUltimate);
+        FormAnimator.SetBool("UltiEnd",true);
+        ultReference.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
         formSwitcher.canSwitchForm = true;
         UltimateDesactivation();
         ultimateCoroutine = null;
         player.LockRotation = false;
+        
+        yield return new WaitForSeconds(0.5f);
+        FormAnimator.SetBool("UltiEnd", false);
     }
 }
