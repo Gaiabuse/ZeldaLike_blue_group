@@ -53,6 +53,7 @@ public class Textbox : MonoBehaviour
     private IEnumerator NotificationAnim()
     {
         phone.SetActive(true);
+        MusicManager.Instance.RingPhone();
         for (int i = 0; i < 3; i++)
         {
             Gamepad.current.SetMotorSpeeds(0.25f, 0.25f);

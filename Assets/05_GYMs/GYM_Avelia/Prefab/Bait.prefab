@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b395018e72111e1c38c5ad37d84c82e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamBaitProps
-  explosionVFX: {fileID: 2926709309638470115}
+  explosionVFX: {fileID: 8837097876494771452}
   visual: {fileID: 3621846858609455105}
   damages: 25
   radius: 2
@@ -120,11 +120,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -1004661675
-      Data2: 1249153826
-      Data3: -1114671228
-      Data4: 220719324
-    Path: event:/SFX/BombMusicBox
+      Data1: -1976838491
+      Data2: 1228668327
+      Data3: 64713396
+      Data4: 2108662472
+    Path: event:/SFX/Player/Dream/PlantBomb
   Event: 
   EventPlayTrigger: 11
   EventStopTrigger: 12
@@ -467,6 +467,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_BaitExplosion
       objectReference: {fileID: 0}
+    - target: {fileID: 4580434063963950578, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4897175677011238785, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -523,9 +527,13 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5628572904713577744, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7903421167911534829, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8401119923456966512, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
       propertyPath: m_Enabled
@@ -541,8 +549,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4897175677011238785, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
   m_PrefabInstance: {fileID: 4986422884835518734}
   m_PrefabAsset: {fileID: 0}
---- !u!2083052967 &2926709309638470115 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 7903421167911534829, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
+--- !u!1 &8837097876494771452 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4580434063963950578, guid: 12148aeae4588754886fbcb988fdb876, type: 3}
   m_PrefabInstance: {fileID: 4986422884835518734}
   m_PrefabAsset: {fileID: 0}

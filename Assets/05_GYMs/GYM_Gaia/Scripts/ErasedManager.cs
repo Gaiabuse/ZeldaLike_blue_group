@@ -186,12 +186,14 @@ public class ErasedManager : MonoBehaviour
             {
                 currentPointsForCreate -= erasedObject.creationCost;
                 erasedObject.Create();
+                MusicManager.Instance.PlayCreate();
                 if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
             }
             else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
             {
                 currentPointsForCreate += erasedObject.creationCost;
                 erasedObject.Erase();
+                MusicManager.Instance.PlayErase();
                 if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
             }
         }
@@ -199,6 +201,7 @@ public class ErasedManager : MonoBehaviour
         {
             currentPointsForCreate += erasedObject.creationCost;
             erasedObject.Erase();
+            MusicManager.Instance.PlayErase();
         
             if (objectsErased.Contains(erasedObject))
                 objectsErased.Remove(erasedObject);
@@ -215,6 +218,7 @@ public class ErasedManager : MonoBehaviour
             {
                 if(obj != null) obj.Erase();
             }
+            MusicManager.Instance.PlayErase();
             objectsErased.Clear();
             currentPointsForCreate = maxPointsForCreate;
             UpdateNeutralUI();

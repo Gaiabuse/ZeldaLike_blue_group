@@ -61,6 +61,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
+    
+    private FormSwitcher formSwitcher;
 
     void Start()
     {
@@ -78,7 +80,8 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(RespawnCoroutine());
         }
-
+        
+        formSwitcher = GetComponent<FormSwitcher>();
         playerInput = GetComponent<PlayerInput>();
         currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
@@ -136,8 +139,28 @@ public class PlayerController : MonoBehaviour
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
 
-            if (IsPlaceLandable(futurePosition)) controller.Move(movement);
+            if (IsPlaceLandable(futurePosition))
+            {
+                controller.Move(movement);
+                if (currentStickProgress > 0.1f)
+                {
+                    MusicManager.Instance.Walk(formSwitcher.currentForm);
+                }
+                else
+                {
+                    MusicManager.Instance.StopWalk();
+                }
+                
+            }
+            else
+            {
+                MusicManager.Instance.StopWalk();
+            }
             //else Debug.LogWarning("not able to find any ground", this);
+        }
+        else
+        {
+            MusicManager.Instance.StopWalk();
         }
 
         controller.Move(gravity * Time.deltaTime);

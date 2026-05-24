@@ -5,7 +5,7 @@ using UnityEngine.VFX;
 public class DreamBaitProps : MonoBehaviour, IPlayerDamageable
 {
 
-    [SerializeField] private VisualEffect explosionVFX;
+    [SerializeField] private GameObject explosionVFX;
     [SerializeField] private GameObject visual;
     [SerializeField] private int damages;
     [SerializeField] private float radius;
@@ -21,7 +21,7 @@ public class DreamBaitProps : MonoBehaviour, IPlayerDamageable
     public async Task Explode()
     {
         invicible = true;
-        explosionVFX.enabled = true;
+        explosionVFX.SetActive(true);
         visual.SetActive(false);
 
         var enemiesAim = AutoAimable.GetTargetAround(transform.position, radius);

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4897175677011238785}
+  - component: {fileID: 6798847419038926642}
   m_Layer: 0
   m_Name: VFX_BaitExplosion
   m_TagString: Untagged
@@ -32,6 +33,37 @@ Transform:
   - {fileID: 3515730888898932498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6798847419038926642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580434063963950578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 1594919451
+      Data2: 1325990237
+      Data3: 110501277
+      Data4: -414834450
+    Path: event:/SFX/Player/Dream/Explode
+  Event: 
+  EventPlayTrigger: 11
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &5628572904713577744
 GameObject:
   m_ObjectHideFlags: 0

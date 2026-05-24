@@ -303,6 +303,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
+        MusicManager.Instance.PlayStun();
         stunVFX.enabled = true;
         EyesSetColorTo(colorMotionless);
         ToogleMainAttack(-1);
@@ -313,6 +314,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected virtual void EndStun()
     {
+        MusicManager.Instance.StopStun();
         stunVFX.enabled = false;
         EyesSetColorTo(colorNormal);
         animator.SetBool("Stun", false);
