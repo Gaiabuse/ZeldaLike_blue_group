@@ -102,6 +102,12 @@ public class PlayerController : MonoBehaviour
         if (CanRotate) UpdateLookDirection(moveDirection);
         if (CanMove) Movement();
         AlignPlayer();
+        ResetRotation();
+    }
+
+    private void ResetRotation()
+    {
+        transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
     }
 
     void AlignPlayer()

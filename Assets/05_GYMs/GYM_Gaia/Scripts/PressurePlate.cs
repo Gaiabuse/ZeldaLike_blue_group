@@ -43,7 +43,7 @@ public class PressurePlate : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (!isPressing) return;
         
@@ -62,7 +62,7 @@ public class PressurePlate : MonoBehaviour
             onUnpressure.Invoke();
             objectOnPressurePlate = null;
         }
-    }
+    }*/
 
     private void OnTriggerExit(Collider other)
     {
