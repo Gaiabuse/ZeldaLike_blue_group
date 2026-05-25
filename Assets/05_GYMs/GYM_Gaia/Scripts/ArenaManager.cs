@@ -19,7 +19,6 @@ public class ArenaManager : MonoBehaviour
     [Tooltip("Detecteur de l'entrée de l'arene qui va lancer le combat")]
     [SerializeField] private ArenaEnter arenaEnter;
     [SerializeField] [Range(0,100)] private int cleanPoints;
-    [SerializeField] [Range(0,2)] private int cleanPointsLevel;
     private List<GameObject> indicators;
     private List<EnnemyBase> currentEnnemiesInHordes = new List<EnnemyBase>();
     private int currentHordes = 0;
@@ -131,7 +130,7 @@ public class ArenaManager : MonoBehaviour
         {
             BarrierParent.SetActive(false);
             // fx clean
-            QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsLevel);
+            QuotaManager.Instance.GainCleanPoints(cleanPoints);
             FinishArena?.Invoke();
             ArenaIsFinished = true;
         }

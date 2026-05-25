@@ -11,7 +11,6 @@ public class GarbageBehaviors : MonoBehaviour
     [SerializeField] private float spawnRatio;
     [SerializeField] private int containPowder;
     [SerializeField] [Range(0,100)] private int cleanPoints;
-    [SerializeField] [Range(0,2)] private int cleanPointsPLevel;
     [SerializeField] int hp = 1;
     [SerializeField] private bool isGlue;
     [SerializeField] private VisualEffect hitVFX;
@@ -83,7 +82,7 @@ public class GarbageBehaviors : MonoBehaviour
             player.GetComponent<PlayerPowder>().GainPowder(containPowder);
         }
         
-        QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsPLevel);
+        QuotaManager.Instance.GainCleanPoints(cleanPoints);
         QuotaManager.Instance.DustCleaned();
 
         if (isGlue)
