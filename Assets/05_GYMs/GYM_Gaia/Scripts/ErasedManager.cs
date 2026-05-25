@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class ErasedManager : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class ErasedManager : MonoBehaviour
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
 
+    [Header("VFX Settings")]
+    [SerializeField] private VisualEffect VFX;
+    [Tooltip("How long the script will wait for the Erase/Create VFX to finish playing before restoring movement and finalizing state.")]
+    [SerializeField] private float vfxDuration = 1.0f;
+
     [Header("Ui elements")]
     [SerializeField] private Image buttonPressVisual;
     private GameObject currentObject;
@@ -30,6 +36,7 @@ public class ErasedManager : MonoBehaviour
     public bool startEnemyErased { get; private set; }
     
     private DreamDash dash;
+    private bool isProcessingVFX = false; // Prevents input/movement recovery while VFX plays
     
     public static ErasedManager Instance;
 
@@ -80,7 +87,6 @@ public class ErasedManager : MonoBehaviour
         currentPointsForCreate = maxPointsForCreate; 
         buttonPressVisual.gameObject.SetActive(false);
         
-        // FIX: Grab the Dash component directly from the assigned Player GameObject to prevent NullReference exceptions
         if (player != null)
         {
             dash = player.GetComponent<DreamDash>();
@@ -130,10 +136,12 @@ public class ErasedManager : MonoBehaviour
     
     public void OnSecondPower(InputValue inputValue)
     {
+        // If we are waiting out a VFX duration, block any new input registrations
+        if (isProcessingVFX) return;
+
         switch (inputValue.isPressed)
         {
             case true:
-                // Lock movement and dash immediately when action starts
                 if (player != null) player.CanMove = false;
                 if (dash != null) dash.enabled = false;
 
@@ -163,10 +171,13 @@ public class ErasedManager : MonoBehaviour
                 {
                     if (currentObject != null)
                     {
-                        EraseOrCreate();
+                        // Fire off the Coroutine to handle VFX delay
+                        StartCoroutine(EraseOrCreateRoutine());
+                        return; // Return early; the routine handles resetting player movement when done
                     }
                 }
 
+                // Only restore movement immediately if no action/VFX was triggered
                 if (player != null) player.CanMove = true;
                 if (dash != null) dash.enabled = true;
                 break;
@@ -184,53 +195,103 @@ public class ErasedManager : MonoBehaviour
     
             yield return new WaitForSeconds(remainingHoldTime);
             
-            ErasedAllObjects();
+            // Wait for the Erased All process and its corresponding VFX duration
+            yield return StartCoroutine(ErasedAllObjectsRoutine());
             erasedAllObjects = true;
 
             TriggerRumble(0.8f, 0.8f, 0.15f);
         }
-        
-        HoldTimeCoroutine = null;
+        else
+        {
+            HoldTimeCoroutine = null;
+        }
     }
 
-    private void EraseOrCreate()
+    private IEnumerator EraseOrCreateRoutine()
     {
         ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
-        if (erasedObject == null) return;
+        if (erasedObject == null)
+        {
+            if (player != null) player.CanMove = true;
+            if (dash != null) dash.enabled = true;
+            yield break;
+        }
         
         if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
         {
+            isProcessingVFX = true;
+            
+            VFX.SetBool("isDestroying", false);
+            VFX.enabled = true;
+            VFX.Play();
+            
+            MusicManager.Instance.PlayCreate();
+
+            // >>> PAUSE CODE HERE: Wait for the VFX duration to finish before mutating world states
+            yield return new WaitForSeconds(vfxDuration);
+
             currentPointsForCreate -= erasedObject.creationCost;
             erasedObject.Create();
-            MusicManager.Instance.PlayCreate();
+            
             if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
         }
         else if (!erasedObject.Erased && currentPointsForCreate <= maxPointsForCreate)
         {
+            isProcessingVFX = true;
+
+            VFX.SetBool("isDestroying", true);
+            VFX.enabled = true;
+            VFX.Play();
+            
+            MusicManager.Instance.PlayErase();
+            
+            // >>> PAUSE CODE HERE: Wait for the VFX duration to complete
+            yield return new WaitForSeconds(vfxDuration);
+
             currentPointsForCreate += erasedObject.creationCost;
             erasedObject.Erase();
-            MusicManager.Instance.PlayErase();
         
             if (objectsErased.Contains(erasedObject))
                 objectsErased.Remove(erasedObject);
         }
     
         UpdateNeutralUI();
+
+        // Clean up and restore player mechanics
+        isProcessingVFX = false;
+        if (player != null) player.CanMove = true;
+        if (dash != null) dash.enabled = true;
     }
 
-    private void ErasedAllObjects()
+    private IEnumerator ErasedAllObjectsRoutine()
     {
         if (objectsErased.Count > 0)
         {
+            isProcessingVFX = true;
+
+            VFX.SetBool("isDestroying", true);
+            VFX.enabled = true;
+            VFX.Play();
+            MusicManager.Instance.PlayErase();
+
+            // >>> PAUSE CODE HERE: Wait for the VFX duration to clear
+            yield return new WaitForSeconds(vfxDuration);
+
             foreach (var obj in objectsErased)
             {
                 if (obj != null) obj.Erase();
             }
-            MusicManager.Instance.PlayErase();
+            
             objectsErased.Clear();
             currentPointsForCreate = maxPointsForCreate;
             UpdateNeutralUI();
         }
+
+        // Clean up and restore player mechanics
+        isProcessingVFX = false;
+        if (player != null) player.CanMove = true;
+        if (dash != null) dash.enabled = true;
+        HoldTimeCoroutine = null;
     }
 
     private void UpdateNeutralUI()
