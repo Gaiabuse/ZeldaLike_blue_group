@@ -362,12 +362,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
   FormAnimator: {fileID: 3337451677123445879}
-  timeForDoCombo: 1
+  timeForDoCombo: 3
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 5
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
+  ultimateAttackOfCombo: {fileID: 0}
   controller: {fileID: 8133830779634646023}
   aimCone: {fileID: 8549774408609409626}
   ProjectileSpeed: 60.3
@@ -375,6 +376,7 @@ MonoBehaviour:
   autoAimRadius: 7.34
   offset: 0.2
   coolDown: 0.33
+  cooldownFinishShoot: 1
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -421,7 +423,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxChargedTime: 1
-  minAttack: 8
+  minAttack: 10
   maxAttack: 25
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 24
@@ -1208,6 +1210,7 @@ MonoBehaviour:
   AttractionForce: 10
   EnemyAttract: []
   stopDistance: 2.31
+  damagesPerSeconds: 5
 --- !u!54 &3518130796051488678
 Rigidbody:
   m_ObjectHideFlags: 0
