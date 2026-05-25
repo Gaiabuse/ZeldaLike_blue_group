@@ -2059,6 +2059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   player: {fileID: 8133830779634646023}
+  animator: {fileID: 0}
   rangeForGrab: 14
   sideRangeForGrab: 0.1
   grabActionDuration: 0.1
@@ -3525,6 +3526,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1033709999584693957}
     m_Modifications:
     - target: {fileID: 1250206612210238961, guid: 9bb2703512b867944a12968216556c25, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250206612210238961, guid: 9bb2703512b867944a12968216556c25, type: 3}
       propertyPath: m_PropertySheet.m_Bool.m_Array.Array.data[0].m_Value
       value: 0
       objectReference: {fileID: 0}
@@ -3546,7 +3551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3046446991354493670, guid: 9bb2703512b867944a12968216556c25, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3046446991354493670, guid: 9bb2703512b867944a12968216556c25, type: 3}
       propertyPath: m_SortingOrder

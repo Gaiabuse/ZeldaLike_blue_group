@@ -9,6 +9,7 @@ public class GrabSystem : MonoBehaviour
 {
     [Header("Do not change")]
     [SerializeField] PlayerController player;
+    [SerializeField] private Animator animator;
 
     [Header("Grab")]
     [SerializeField] private float rangeForGrab;
@@ -143,6 +144,7 @@ public class GrabSystem : MonoBehaviour
 
     private IEnumerator GrabRoutine()
     {
+        animator.SetTrigger("usingAbility");
         isGrabbing = true;
         Vector3 downPosition = transform.position - downValue;
 
