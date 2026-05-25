@@ -17,7 +17,7 @@ public class ClassicEnnemy : EnnemyBase
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] protected float DistanceAttack = 2;
     [SerializeField] float chargeAttackTime = 1.5f;
-    [SerializeField] float waitAfterAttack = 1.5f;
+    [SerializeField] protected float waitAfterAttack = 1.5f;
 
     protected Vector3 WhereToGoPos;
 
