@@ -17,7 +17,7 @@ public class ClassicEnnemy : EnnemyBase
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] protected float DistanceAttack = 2;
     [SerializeField] float chargeAttackTime = 1.5f;
-    [SerializeField] float waitAfterAttack = 1.5f;
+    [SerializeField] protected float waitAfterAttack = 1.5f;
 
     protected Vector3 WhereToGoPos;
 
@@ -250,8 +250,7 @@ public class ClassicEnnemy : EnnemyBase
         hitVFX.transform.LookAt(lookTarget);
         hitVFX.transform.Rotate(0, 90, 0);
 
-        hitVFX.enabled = true;
-        hitVFX.Play();
+        hitVFX.SetActive(true);
 
         animator.SetBool("IsChasing", false);
         animator.SetBool("IsMoving", false);
@@ -357,8 +356,7 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
-        deathVFX.enabled = true;  
-        deathVFX.Play();
+        deathVFX.SetActive(true);
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");

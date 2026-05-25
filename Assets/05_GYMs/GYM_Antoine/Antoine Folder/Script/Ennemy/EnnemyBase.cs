@@ -54,9 +54,9 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
-    public VisualEffect deathVFX;
-    public VisualEffect stunVFX;
-    public VisualEffect hitVFX;
+    public GameObject deathVFX;
+    public GameObject stunVFX;
+    public GameObject hitVFX;
 
     [Header("Neutral Ult Display")]
     [SerializeField] protected GameObject UltIndicator;
@@ -202,8 +202,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             hitVFX.transform.LookAt(lookTarget);
             hitVFX.transform.Rotate(0, 90, 0);
 
-            hitVFX.enabled = true;
-            hitVFX.Play();
+            hitVFX.SetActive(true);
             StartCoroutine(VisualDamage(targetHP));
         }
 
@@ -271,8 +270,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     {
         dotween?.Kill(); 
         transform.DOKill();
-        deathVFX.enabled = true;  
-        deathVFX.Play();  
+        deathVFX.SetActive(true);
         
         if (EnnemyManager.Instance != null)
         {
@@ -304,7 +302,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
         MusicManager.Instance.PlayStun();
-        stunVFX.enabled = true;
+        stunVFX.SetActive(true);
         EyesSetColorTo(colorMotionless);
         ToogleMainAttack(-1);
         move = "stun";
@@ -315,7 +313,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected virtual void EndStun()
     {
         MusicManager.Instance.StopStun();
-        stunVFX.enabled = false;
+        stunVFX.SetActive(true);
         EyesSetColorTo(colorNormal);
         animator.SetBool("Stun", false);
         timerGeneral = 0;

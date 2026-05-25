@@ -10,7 +10,7 @@ public class Laser : MonoBehaviour
 
     PlayerHP playerHp;
 
-    int phase = 1;
+    /*int phase = 1;
     float timer = 0;
 
     private void Start()
@@ -44,7 +44,7 @@ public class Laser : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
