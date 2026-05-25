@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +11,16 @@ public class InputManager : MonoBehaviour
     
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
-    
+
+    private void Start()
+    {
+        foreach (InputActionMap actionMap in playerInput.actions.actionMaps)
+        {
+            actionMap.Disable();
+        }
+        playerInput.actions.FindActionMap("PlayerControl").Enable();
+    }
+
     public void OnPause(InputValue value)
     {
         if (value.isPressed) 
@@ -28,6 +38,7 @@ public class InputManager : MonoBehaviour
     {
         pauseMenu.OpenPauseMenu();
         playerInput.SwitchCurrentActionMap("MenuControl");
+        playerInput.actions.FindActionMap("PlayerControl").Disable();
     }
     
     public void OnOpenPhone(InputValue value)

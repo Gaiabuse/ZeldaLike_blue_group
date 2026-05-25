@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -64,13 +65,11 @@ public class PauseMenuManager : MonoBehaviour
     public void OpenSettings()
     {
         Debug.Log("OpenSettings /not implemented");
-        
     }
-    
+
     public void CloseSettings()
     {
         Debug.Log("CloseSettings /not implemented");
-        
     }
     
     public void Restart()
