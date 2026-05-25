@@ -102,6 +102,15 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Heal"",
+                    ""type"": ""Value"",
+                    ""id"": ""ad3dbe09-dc71-4152-9fc6-a8ca635a14e4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""bf60decd-d61b-43ae-bbee-5184a65a34fc"",
@@ -240,6 +249,17 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5d2da66-f0d0-440e-a8ee-109f4c55993b"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Heal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -650,6 +670,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         // PlayerControl
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_Move = m_PlayerControl.FindAction("Move", throwIfNotFound: true);
+        m_PlayerControl_Heal = m_PlayerControl.FindAction("Heal", throwIfNotFound: true);
         m_PlayerControl_Interaction = m_PlayerControl.FindAction("Interaction", throwIfNotFound: true);
         m_PlayerControl_Attack = m_PlayerControl.FindAction("Attack", throwIfNotFound: true);
         m_PlayerControl_Dash = m_PlayerControl.FindAction("Dash", throwIfNotFound: true);
@@ -759,6 +780,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerControl;
     private List<IPlayerControlActions> m_PlayerControlActionsCallbackInterfaces = new List<IPlayerControlActions>();
     private readonly InputAction m_PlayerControl_Move;
+    private readonly InputAction m_PlayerControl_Heal;
     private readonly InputAction m_PlayerControl_Interaction;
     private readonly InputAction m_PlayerControl_Attack;
     private readonly InputAction m_PlayerControl_Dash;
@@ -782,6 +804,10 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_PlayerControl_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControl/Heal".
+        /// </summary>
+        public InputAction @Heal => m_Wrapper.m_PlayerControl_Heal;
         /// <summary>
         /// Provides access to the underlying input action "PlayerControl/Interaction".
         /// </summary>
@@ -843,6 +869,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Heal.started += instance.OnHeal;
+            @Heal.performed += instance.OnHeal;
+            @Heal.canceled += instance.OnHeal;
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
@@ -881,6 +910,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Heal.started -= instance.OnHeal;
+            @Heal.performed -= instance.OnHeal;
+            @Heal.canceled -= instance.OnHeal;
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
@@ -1380,6 +1412,13 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Heal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHeal(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Interaction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

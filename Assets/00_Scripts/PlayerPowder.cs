@@ -92,6 +92,7 @@ public class PlayerPowder : MonoBehaviour
         if (isHealing)
         {
             _playerInput.actions.FindActionMap("PlayerControl").Disable();
+            _playerInput.actions.FindActionMap("HealMap").Enable();
         }
         else
         {
@@ -106,6 +107,7 @@ public class PlayerPowder : MonoBehaviour
         if (!_playerInput.actions.FindActionMap("PlayerControl").enabled)
         {
             _playerInput.actions.FindActionMap("PlayerControl").Enable();
+            _playerInput.actions.FindActionMap("HealMap").Disable();
         }
     }
 
