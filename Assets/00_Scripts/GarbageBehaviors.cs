@@ -30,12 +30,19 @@ public class GarbageBehaviors : MonoBehaviour
             {
                 foreach (Transform child in transform)
                 {
-                    child.GetChild(0).gameObject.SetActive(true);
-                    child.GetChild(1).gameObject.SetActive(true);
+                    if (child.transform.childCount > 1)
+                    {
+                        child.GetChild(0).gameObject.SetActive(true);
+                        child.GetChild(1).gameObject.SetActive(true); 
+                    }
+                    
                 }
             }
-            transform.GetChild(0).gameObject.SetActive(true);
-            transform.GetChild(1).gameObject.SetActive(true);
+            else
+            {
+                transform.GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(1).gameObject.SetActive(true);
+            }
         }
     }
 
@@ -94,5 +101,17 @@ public class GarbageBehaviors : MonoBehaviour
         {
             Destroy(gameObject); 
         }
+    }
+
+    public void PlayGlueVFX(Transform collisionTransform)
+    {
+        hitVFX.transform.SetParent(collisionTransform);
+        hitVFX.transform.position = collisionTransform.position;
+        Vector3 lookTarget = new Vector3(player.transform.position.x, hitVFX.transform.position.y, player.transform.position.z);
+        hitVFX.transform.LookAt(lookTarget);
+        hitVFX.transform.Rotate(0, 90, 0);
+
+        hitVFX.enabled = true;
+        hitVFX.Play();
     }
 }

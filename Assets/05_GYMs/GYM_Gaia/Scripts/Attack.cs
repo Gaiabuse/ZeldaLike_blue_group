@@ -108,6 +108,7 @@ public class Attack : MonoBehaviour
             if (dust != null)
             {
                 dust.Clean();
+                dust.PlayGlueVFX(collision.transform);
             }
             touchedEnemy = true;
         }
