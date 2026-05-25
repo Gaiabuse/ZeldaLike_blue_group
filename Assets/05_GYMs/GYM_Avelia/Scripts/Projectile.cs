@@ -22,8 +22,5 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        projectileAttack.FinishAttack();
-    }
+  
 }

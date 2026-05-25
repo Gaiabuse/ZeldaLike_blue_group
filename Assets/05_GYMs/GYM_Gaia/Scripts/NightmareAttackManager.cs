@@ -113,14 +113,18 @@ public class NightmareAttackManager : AttackManager
         ultReference.playerCollider.enabled = false;
         ultReference.dash.enabled = false;
         ultReference.grab.enabled = false;
+    
         formSwitcher.enabled = false;
+    
         ultReference.characterController.detectCollisions = false;
         player.LockRotation = true;
     }
 
     private void UltimateDesactivation()
     {
+        formSwitcher.enabled = true; 
         formSwitcher.canSwitchForm = true;
+    
         CanAttack = true;
         player.LockRotation = false;
         ultReference.ultimateObject.SetActive(false);
@@ -128,24 +132,29 @@ public class NightmareAttackManager : AttackManager
         ultReference.dash.enabled = true;
         ultReference.grab.enabled = true;
         ultReference.characterController.detectCollisions = true;
-        Attack(ultimateAttack);
+
+        player.CanMove = true;
+        player.CanRotate = true;
+
+        Attack(ultimateAttack); 
     }
 
     private IEnumerator UltimateCoroutine()
     {
         player.LockRotation = true;
         FormAnimator.SetTrigger("usingUlti");
+    
+     
         yield return new WaitForSeconds(0.75f);
         UltimateActivation();
-        
+    
         yield return new WaitForSeconds(timeOfUltimate);
-        FormAnimator.SetBool("UltiEnd",true);
+        FormAnimator.SetBool("UltiEnd", true);
         ultReference.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
-        formSwitcher.canSwitchForm = true;
+    
         UltimateDesactivation();
         ultimateCoroutine = null;
-        player.LockRotation = false;
-        
+    
         yield return new WaitForSeconds(0.5f);
         FormAnimator.SetBool("UltiEnd", false);
     }

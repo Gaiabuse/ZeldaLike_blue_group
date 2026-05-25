@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 
 public class DreamShoot : AttackManager
 {
     [SerializeField]
     [Tooltip("prefab of the attack")]
     Projectile attack;
+
+    [SerializeField]
+    [Tooltip("prefab of the attack")]
+    Projectile ultimateAttackOfCombo;
 
     [SerializeField]
     PlayerController controller;
@@ -16,7 +21,7 @@ public class DreamShoot : AttackManager
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 0.1f;
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 0.1f, cooldownFinishShoot = 1f;
 
     [SerializeField]
     Transform SpawnPoint;
@@ -141,10 +146,17 @@ public class DreamShoot : AttackManager
         if (amountOfTimeWaited < autoAimTime)
             CreateAutoTargettingShot(attackScaledPower);
         else CreateShot(attackScaledPower);
-
+        Combo();
         CanShoot = false;
+        StartCoroutine(FinishShoot());
         yield return new WaitForSeconds(coolDown);
         CanShoot = true;
+    }
+
+    public IEnumerator FinishShoot()
+    {
+        yield return new WaitForSeconds(cooldownFinishShoot);
+        FinishAttack();
     }
 
     public override void Ultimate()
@@ -162,13 +174,16 @@ public class DreamShoot : AttackManager
 
     void CreateShot(float attackPower)
     {
-        Projectile lAttack = Instantiate<Projectile>(attack);
-
+        Projectile lAttack = Instantiate<Projectile>(currentCombo < numberOfShotsForUltimate?attack : ultimateAttackOfCombo);
+        if (currentCombo >= numberOfShotsForUltimate)
+        {
+            Debug.Log("ultimateAttack");
+        }
         Attack attackPrefab = lAttack.GetComponent<Attack>();
         attackPrefab.SetAttack(attackPower, data, type);
 
         currentAttack = attackPrefab;
-        currentAttack.Finished += AttackIsFinished;
+        
 
         lAttack.transform.position = SpawnPoint.position;
         lAttack.speed = player.transform.forward * ProjectileSpeed;
@@ -198,7 +213,6 @@ public class DreamShoot : AttackManager
 
         attackPrefab.SetAttack(attackPower, data, type);
         currentAttack = attackPrefab;
-        currentAttack.Finished += AttackIsFinished;
 
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;

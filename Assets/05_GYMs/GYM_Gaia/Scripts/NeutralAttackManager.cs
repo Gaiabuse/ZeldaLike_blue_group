@@ -43,20 +43,9 @@ public class NeutralAttackManager : AttackManager
         numberOfAttacksInCombo = comboAttacks.Length;
         playerInput.actions.FindActionMap("NeutralUltMap").Disable();
     }
-    
+
     protected override void OnAttack(InputValue _input)
     {
-        if (isInUltMod)
-        {
-            var action = player.playerInput.actions["Attack"];
-        
-            if (action.activeControl != null)
-            {
-                string direction = action.activeControl.name; 
-                CheckInputDirectionForCancelUltimate(direction);
-            }
-           
-        }
         base.OnAttack(_input);
         var attackAction = player.playerInput.actions["Attack"];
         if (attackAction.activeControl != null)
@@ -68,29 +57,33 @@ public class NeutralAttackManager : AttackManager
                 return;
             }
         }
+
         if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
             {
                 StopCoroutine(finishSwitchCoroutine);
             }
+
             finishSwitchCoroutine = StartCoroutine(FinishSwitch());
         }
+
         if (switchInProgress)
         {
             return;
         }
-        
+
         if (!_input.isPressed)
         {
             var targetComponent = AutoAimable.GetNearestTargetAround(transform.position, 30f);
-    
+
             if (targetComponent != null)
             {
                 Vector3 targetPos = targetComponent.transform.position;
                 targetPos.y = transform.parent.position.y;
                 transform.parent.LookAt(targetPos);
             }
+
             player.CanMove = false;
             player.CanRotate = false;
             if (canChargedAttack)
@@ -99,36 +92,17 @@ public class NeutralAttackManager : AttackManager
                 Attack(ChargedAttack);
                 return;
             }
-            
-            FormAnimator.SetBool("isAttacking",true);
-            if (currentCombo >= comboAttacks.Length - 1)
-            {
-                FormAnimator.SetTrigger("isFinalAttack");
-            }
-            else
-            {
-                FormAnimator.SetTrigger("Attack"+currentCombo);
-            }
-            if(isInUltMod)
-            {
-                Attack(ultimateAttacks[currentCombo]);
-            }
-            else
-            {
-                Attack(comboAttacks[currentCombo]);
-            }
+
+            Attack(comboAttacks[currentCombo]);
             switchInProgress = false;
+
+            FormAnimator.SetBool("isAttacking", true);
+            FormAnimator.SetTrigger("Attack" + currentCombo);
+            Debug.Log("Attack" + currentCombo);
         }
     }
 
-    private void CheckInputDirectionForCancelUltimate(string direction)
-    {
-        if (direction != "buttonNorth")
-        {
-            Debug.Log("Cancel");
-            CancelUlt();
-        }
-    }
+
     public override void Ultimate()
     {
         base.Ultimate();
@@ -143,10 +117,8 @@ public class NeutralAttackManager : AttackManager
         player.CanMove = false;
         player.CanRotate = false;
         isInUltMod = true;
-        //ultZone.transform.localScale = Vector3.zero;
-        //ultZone.SetActive(true);
         ultVFX.enabled = true;
-        //ultZone.transform.DOScale(ultRadius*2, 0.5f).SetEase(Ease.Linear).OnComplete(() => { });
+
         var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
         foreach (AutoAimable enemy in enemiesAim)
         {
@@ -156,7 +128,6 @@ public class NeutralAttackManager : AttackManager
                 ennemyBase.StunEnnemy(ultStun,false);
             }
         }
-        //ultZone.SetActive(false);
         player.CanMove = true;
         player.CanRotate = true;
         isInUltMod = false;
@@ -166,20 +137,6 @@ public class NeutralAttackManager : AttackManager
         }
     }
     
-    private void CancelUlt()
-    {
-        isInUltMod = false;
-        ultVFX.enabled = false;
-        if (securityCoroutine != null) StopCoroutine(securityCoroutine);
-        if (ultModCoroutine != null) StopCoroutine(ultModCoroutine);
-        foreach (EnnemyBase enemy in enemies)
-        {
-            if (enemy != null)
-            {
-                enemy.StunEnnemy(0.05f,false);
-            }
-        }
-    }
     
     private void OnDrawGizmosSelected()
     {
