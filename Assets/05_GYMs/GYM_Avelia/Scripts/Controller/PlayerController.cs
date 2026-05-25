@@ -187,7 +187,6 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 inputVector = _input.Get<Vector2>();
         float inputMagnitude = inputVector.magnitude;
-        Debug.Log($"Vector: {inputVector.ToString("F2")} | Magnitude with Deadzone: {inputMagnitude:F2}");
         
         var ldirection = _input.Get<Vector2>();
         if (currentAnimator.GetBool("isRunning"))

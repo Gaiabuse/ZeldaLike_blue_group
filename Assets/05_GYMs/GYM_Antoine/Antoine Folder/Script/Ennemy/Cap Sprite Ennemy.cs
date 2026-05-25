@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,9 +11,10 @@ public class CapSpriteEnnemy : ClassicEnnemy
     [SerializeField] bool repositionToAttack = false;
     [SerializeField] float afterAttackWait = 3;
 
-    [SerializeField] GameObject LaserPrevisuArrow;
+    [SerializeField] private GameObject beamVfx;
+    [SerializeField] private GameObject LaserPrevisuArrow;
 
-    float chargeTime = 2f;
+    [SerializeField] float chargeTime = 2f;
 
     protected override void FixedUpdate()
     {
@@ -31,9 +33,7 @@ public class CapSpriteEnnemy : ClassicEnnemy
                 animator.SetTrigger("tLaunch");
                 timerGeneral = waitAfterAttack;
 
-                GameObject laser = Instantiate(Laser);
-                laser.transform.position = laserSpawn.position;
-                laser.transform.rotation = laserSpawn.rotation;
+                Laser.SetActive(true);               
             }
         }
         if (move == "reposition")
@@ -53,6 +53,7 @@ public class CapSpriteEnnemy : ClassicEnnemy
                 move = "aim";
                 navMesh.isStopped = true;
                 LaserPrevisuArrow.SetActive(true);
+                beamVfx.SetActive(true);
             }
         }
         if (move == "shoot")
@@ -63,7 +64,9 @@ public class CapSpriteEnnemy : ClassicEnnemy
                 animator.SetTrigger("tLaunch");
                 timerGeneral = afterAttackWait;
                 move = "after shoot";
+                Laser.SetActive(false);
                 LaserPrevisuArrow.SetActive(false);
+                beamVfx.SetActive(false);
             }
         }
         if (move == "after shoot")
@@ -89,6 +92,7 @@ public class CapSpriteEnnemy : ClassicEnnemy
                 move = "aim";
                 navMesh.isStopped = true;
                 LaserPrevisuArrow.SetActive(true);
+                beamVfx.SetActive(true);
             }
             else if (distTarget < DistanceAttack && move != "reposition")
             {
