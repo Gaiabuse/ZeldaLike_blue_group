@@ -271,8 +271,7 @@ public class BookEnnemy : EnnemyBase
         hitVFX.transform.LookAt(lookTarget);
         hitVFX.transform.Rotate(0, 90, 0);
 
-        hitVFX.enabled = true;
-        hitVFX.Play();
+        hitVFX.SetActive(true);
         animator.SetTrigger("tHit");
         animator.SetBool("Stun", true);
 

@@ -318,8 +318,7 @@ public class SheepEnnemySprite : GroundEnnemy
 
     protected override void Death()
     {
-        deathVFX.enabled = true;  
-        deathVFX.Play();
+        deathVFX.SetActive(true);
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");
@@ -342,8 +341,7 @@ public class SheepEnnemySprite : GroundEnnemy
             hitVFX.transform.LookAt(lookTarget);
             hitVFX.transform.Rotate(0, 90, 0);
 
-            hitVFX.enabled = true;
-            hitVFX.Play();
+            hitVFX.SetActive(true);
         }
         else
         {

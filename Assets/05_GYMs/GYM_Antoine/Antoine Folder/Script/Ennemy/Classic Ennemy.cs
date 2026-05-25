@@ -250,8 +250,7 @@ public class ClassicEnnemy : EnnemyBase
         hitVFX.transform.LookAt(lookTarget);
         hitVFX.transform.Rotate(0, 90, 0);
 
-        hitVFX.enabled = true;
-        hitVFX.Play();
+        hitVFX.SetActive(true);
 
         animator.SetBool("IsChasing", false);
         animator.SetBool("IsMoving", false);
@@ -357,8 +356,7 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
-        deathVFX.enabled = true;  
-        deathVFX.Play();
+        deathVFX.SetActive(true);
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");
