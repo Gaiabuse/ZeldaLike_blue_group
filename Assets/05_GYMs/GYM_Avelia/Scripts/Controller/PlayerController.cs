@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public PlayerInput playerInput;
+    public PlayerInput playerInput;
     [HideInInspector] public Animator currentAnimator;
     [SerializeField]
     CharacterController controller;
@@ -82,7 +82,10 @@ public class PlayerController : MonoBehaviour
         }
         
         formSwitcher = GetComponent<FormSwitcher>();
-        playerInput = GetComponent<PlayerInput>();
+        if (playerInput == null)
+        {
+            playerInput = GetComponent<PlayerInput>();
+        }
         currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
         {
@@ -162,8 +165,12 @@ public class PlayerController : MonoBehaviour
         {
             MusicManager.Instance.StopWalk();
         }
-
         controller.Move(gravity * Time.deltaTime);
+    }
+
+    private void PlayIdle()
+    {
+        throw new NotImplementedException();
     }
 
     private void OnTriggerEnter(Collider other)
