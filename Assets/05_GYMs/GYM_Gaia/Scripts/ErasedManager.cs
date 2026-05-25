@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -10,7 +11,6 @@ using UnityEngine.UI;
 
 public class ErasedManager : MonoBehaviour
 {
-   
     [SerializeField] private PlayerController player;
     [SerializeField] private PlayerHP playerHP;
     [Tooltip("LayerMax of objects we can Erased and create")]
@@ -22,12 +22,14 @@ public class ErasedManager : MonoBehaviour
     [SerializeField] private float holdTime;
 
     [Header("Ui elements")]
-    [SerializeField]private Image buttonPressVisual;
+    [SerializeField] private Image buttonPressVisual;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
     private bool erasedAllObjects;
     private Coroutine HoldTimeCoroutine;
-    public bool startEnemyErased{get; private set;}
+    public bool startEnemyErased { get; private set; }
+    
+    private DreamDash dash;
     
     public static ErasedManager Instance;
 
@@ -77,6 +79,16 @@ public class ErasedManager : MonoBehaviour
         objectsErased = new List<ErasedObject>();
         currentPointsForCreate = maxPointsForCreate; 
         buttonPressVisual.gameObject.SetActive(false);
+        
+        // FIX: Grab the Dash component directly from the assigned Player GameObject to prevent NullReference exceptions
+        if (player != null)
+        {
+            dash = player.GetComponent<DreamDash>();
+        }
+        else
+        {
+            Debug.LogError("ErasedManager: PlayerController reference is missing in the Inspector!");
+        }
     }
     
     void Update()
@@ -121,8 +133,12 @@ public class ErasedManager : MonoBehaviour
         switch (inputValue.isPressed)
         {
             case true:
+                // Lock movement and dash immediately when action starts
+                if (player != null) player.CanMove = false;
+                if (dash != null) dash.enabled = false;
+
                 erasedAllObjects = false;
-                if(HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
+                if (HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
                 HoldTimeCoroutine = StartCoroutine(HoldTime());
                 break;
 
@@ -150,6 +166,9 @@ public class ErasedManager : MonoBehaviour
                         EraseOrCreate();
                     }
                 }
+
+                if (player != null) player.CanMove = true;
+                if (dash != null) dash.enabled = true;
                 break;
         }
     }
@@ -170,10 +189,9 @@ public class ErasedManager : MonoBehaviour
 
             TriggerRumble(0.8f, 0.8f, 0.15f);
         }
-
+        
         HoldTimeCoroutine = null;
     }
-
 
     private void EraseOrCreate()
     {
@@ -182,20 +200,10 @@ public class ErasedManager : MonoBehaviour
         
         if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
         {
-            if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
-            {
-                currentPointsForCreate -= erasedObject.creationCost;
-                erasedObject.Create();
-                MusicManager.Instance.PlayCreate();
-                if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
-            }
-            else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
-            {
-                currentPointsForCreate += erasedObject.creationCost;
-                erasedObject.Erase();
-                MusicManager.Instance.PlayErase();
-                if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
-            }
+            currentPointsForCreate -= erasedObject.creationCost;
+            erasedObject.Create();
+            MusicManager.Instance.PlayCreate();
+            if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
         }
         else if (!erasedObject.Erased && currentPointsForCreate <= maxPointsForCreate)
         {
@@ -216,7 +224,7 @@ public class ErasedManager : MonoBehaviour
         {
             foreach (var obj in objectsErased)
             {
-                if(obj != null) obj.Erase();
+                if (obj != null) obj.Erase();
             }
             MusicManager.Instance.PlayErase();
             objectsErased.Clear();
@@ -224,6 +232,7 @@ public class ErasedManager : MonoBehaviour
             UpdateNeutralUI();
         }
     }
+
     private void UpdateNeutralUI()
     {
         TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);

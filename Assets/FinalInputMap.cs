@@ -97,7 +97,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""3c22e3d9-fa09-46b4-8796-3dfa1a3854d4"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
