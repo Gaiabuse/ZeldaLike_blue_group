@@ -1,8 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// We wrap this so it's only included in the Editor
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -16,14 +16,67 @@ public class TutoManager : MonoBehaviour
     [SerializeField] private TutoStep[] steps;
     [SerializeField] private ChatHistory chatHistory;
 
-    // Inside TutoManager.cs
+    
+    [SerializeField] private TutoStep comboStep;
+    [Range(0f, 1f)] 
+    [SerializeField] private float targetSlowTime = 0.1f;
+    [SerializeField] private float transitionInDuration = 0.05f;
+    [SerializeField] private float transitionOutDuration = 0.05f; 
+
+    private float originalFixedDeltaTime;
+    private Coroutine timeLerpCoroutine;
+
+    private void Awake()
+    {
+        originalFixedDeltaTime = Time.fixedDeltaTime;
+    }
+    public void TriggerSlowMotion()
+    {
+        if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
+        timeLerpCoroutine = StartCoroutine(LerpTime(targetSlowTime, transitionInDuration));
+    }
+    public void ResetTimeScale()
+    {
+        if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
+        timeLerpCoroutine = StartCoroutine(LerpTime(1f, transitionOutDuration));
+    }
+    
+    public void SetTimeScaleInstant(float value)
+    {
+        if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
+        Time.timeScale = value;
+        Time.fixedDeltaTime = originalFixedDeltaTime * Time.timeScale;
+    }
+
+    private IEnumerator LerpTime(float targetScale, float duration)
+    {
+        float startScale = Time.timeScale;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime; 
+            
+            float newScale = Mathf.Lerp(startScale, targetScale, elapsed / duration);
+            
+            Time.timeScale = newScale;
+            Time.fixedDeltaTime = originalFixedDeltaTime * newScale; 
+
+            yield return null;
+        }
+        
+        Time.timeScale = targetScale;
+        Time.fixedDeltaTime = originalFixedDeltaTime * targetScale;
+    }
     private void OnEnable()
     {
         foreach (TutoStep tutoStep in steps)
         {
-            // Pass the atkIndicators list here
             tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory);
         }
+        comboStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory);
+        formSwitcher.FirstUltimateTime += StartComboStep;
+        formSwitcher.EndFirstUltimateTime += EndComboStep;
     }
 
     private void OnDisable()
@@ -32,17 +85,20 @@ public class TutoManager : MonoBehaviour
         {
             tutoStep.OnDisableStep();
         }
+        formSwitcher.FirstUltimateTime -= StartComboStep;
+        formSwitcher.EndFirstUltimateTime -= EndComboStep;
     }
 
-    void Start()
+    private void StartComboStep()
     {
-        
+        comboStep.StartTutoStep();
+        TriggerSlowMotion();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void EndComboStep()
     {
-        
+        SetTimeScaleInstant(1f);
+        formSwitcher.EndFirstUltimateTime -= EndComboStep;
     }
 }
 
@@ -50,6 +106,7 @@ public class TutoManager : MonoBehaviour
 [Serializable]
 public class TutoStep
 {
+    [Tooltip("ne pas mettre pour le combo steps")]
     [SerializeField] private TriggerTuto colliderTrigger;
     [SerializeField] private List<Form> disponibleForms = new List<Form>();
     [SerializeField] private bool setForm;
@@ -60,7 +117,8 @@ public class TutoStep
     [SerializeField] private bool changeIndicator; // The toggle
     [Range(1,5)][SerializeField] private int ativeAtk; // The int between 1-4
     [SerializeField] private int numberOfPointsForErased;
-    
+    [SerializeField] private bool hadUI;
+    [SerializeField] private GameObject uiObject;
     private FormSwitcher _formSwitcher;
     private Textbox _textbox;
     private ErasedManager _erasedManager;
@@ -73,8 +131,12 @@ public class TutoStep
         _textbox = textbox;
         _erasedManager = erasedManager;
         _atkIndicators = indicators; // Store reference
-        colliderTrigger.ActivateTutoStep += StartTutoStep;
+        if(colliderTrigger != null) colliderTrigger.ActivateTutoStep += StartTutoStep;
         chatHistory = _chatHistory;
+        if (hadUI )
+        {
+            uiObject.SetActive(false);
+        }
     }
 
     public void OnDisableStep()
@@ -82,7 +144,7 @@ public class TutoStep
         colliderTrigger.ActivateTutoStep -= StartTutoStep;
     }
     
-    private void StartTutoStep()
+    public void StartTutoStep()
     {
         Debug.Log("startTutoStep");
         if (disponibleForms.Count != 0)
@@ -115,6 +177,10 @@ public class TutoStep
             chatHistory.AddMessage(dialogue);
         }
 
+        if (hadUI)
+        {
+            uiObject.SetActive(true);
+        }
         if (setNumberOfPointsForErased)
         {
             _erasedManager.maxPointsForCreate = numberOfPointsForErased;
@@ -140,6 +206,8 @@ public class TutoStepEditor : PropertyDrawer
         SerializedProperty numberOfPointsForErased = property.FindPropertyRelative("numberOfPointsForErased");
         SerializedProperty asDialogue = property.FindPropertyRelative("asDialogue");
         SerializedProperty dialogue = property.FindPropertyRelative("dialogue");
+        SerializedProperty hadUI = property.FindPropertyRelative("hadUI");
+        SerializedProperty uiObject = property.FindPropertyRelative("uiObject");
         SerializedProperty changeIndicator = property.FindPropertyRelative("changeIndicator");
         SerializedProperty ativeAtk = property.FindPropertyRelative("ativeAtk");
 
@@ -180,6 +248,13 @@ public class TutoStepEditor : PropertyDrawer
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(dialogue);
+                EditorGUI.indentLevel--;
+            }
+            EditorGUILayout.PropertyField(hadUI);
+            if (hadUI.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(uiObject);
                 EditorGUI.indentLevel--;
             }
         }

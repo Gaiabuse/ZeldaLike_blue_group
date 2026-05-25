@@ -21,7 +21,8 @@ public class Attack : MonoBehaviour
     [SerializeField] float stun;
     public TypeOfAttack type { private set; get; }
 
-    public Action<bool> Finished;
+    public Action Finished;
+    public Action FinishedAttackFull;
     private bool touchedEnemy;
 
     private float knockbackStrength;
@@ -49,10 +50,16 @@ public class Attack : MonoBehaviour
         this.damage = damage;
     }
 
+    public void StartCombo()
+    {
+        Debug.Log("startCombo");
+        Finished?.Invoke();
+    }
+
     public void FinishAttack()
     {
-
-        Finished?.Invoke(touchedEnemy);
+        Debug.Log("finishAttack");
+        FinishedAttackFull?.Invoke();
         Destroy(gameObject);
     }
 
