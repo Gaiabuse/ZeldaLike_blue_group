@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -74,14 +75,14 @@ public class ProgressMenuUI : MonoBehaviour
     public void OpenProgressMenu()
     {
         pauseSfxTrigger.SetActive(true);
-        progressMenu.SetActive(true);
-        Canvas.ForceUpdateCanvases();
-        scrollbar.value = 0;
-        
+    
         RectTransform rect = progressMenu.GetComponent<RectTransform>();
+        rect.anchoredPosition = new Vector2(0, -800f); 
+    
+        progressMenu.SetActive(true);
     
         if (pauseDotween != null) pauseDotween.Kill();
-        
+    
         pauseDotween = rect.DOAnchorPos(Vector2.zero, 0.5f)
             .SetUpdate(true)
             .SetEase(Ease.OutBack)
@@ -92,6 +93,8 @@ public class ProgressMenuUI : MonoBehaviour
                 AnimateSpriteSheet(progressAnim);
                 player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("ProgressControl");
             });
+
+        StartCoroutine(ResetScrollbarRoutine());
     }
 
     public void CloseProgressMenu()
@@ -164,6 +167,19 @@ public class ProgressMenuUI : MonoBehaviour
         {
             progressToggle.SetActive(false);
             messageToggle.SetActive(true);
+        
+            // FIX 3: Force scrollbar reset safely here too
+            StartCoroutine(ResetScrollbarRoutine());
+        }
+    }
+    
+    private IEnumerator ResetScrollbarRoutine()
+    {
+        yield return new WaitForEndOfFrame();
+        Canvas.ForceUpdateCanvases();
+        if (scrollbar != null)
+        {
+            scrollbar.value = 0f;
         }
     }
 

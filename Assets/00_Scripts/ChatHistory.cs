@@ -28,7 +28,6 @@ public class ChatHistory : MonoBehaviour
 
     public void AddMessage(string message)
     {
-        Debug.Log($"Adding message : {message}");
         Message m = new Message();
         m.text = message;
         messages.Add(m);
@@ -44,6 +43,8 @@ public class ChatHistory : MonoBehaviour
 
     private void UpdateChatHistory()
     {
+        bool spawnedNewObjects = false;
+
         if (content.transform.childCount < messages.Count)
         {
             int objectsToSpawn = messages.Count - content.transform.childCount;
@@ -51,12 +52,19 @@ public class ChatHistory : MonoBehaviour
             {
                 Instantiate(messagePrefab, content.transform);
             }
+            spawnedNewObjects = true;
         }
-        
+    
+        if (spawnedNewObjects)
+        {
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(content.GetComponent<RectTransform>());
+        }
+    
         for (int i = 0; i < content.transform.childCount; i++)
         {
             GameObject currentBox = content.transform.GetChild(i).gameObject; 
-            
+        
             if (i < messages.Count)
             {
                 messages[i].textBox = currentBox;
@@ -67,6 +75,7 @@ public class ChatHistory : MonoBehaviour
                 currentBox.SetActive(false);
             }
         }
+        Canvas.ForceUpdateCanvases();
     }
 }
 
@@ -120,6 +129,7 @@ public class Message
                     textComponent.transform.localScale = new Vector3(1f, 1f, 1f);
                 }
             }
+            Canvas.ForceUpdateCanvases();
         }
     }
 }
