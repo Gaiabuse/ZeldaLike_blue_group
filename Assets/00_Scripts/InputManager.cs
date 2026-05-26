@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
+    [SerializeField] IsometricParalaxe paralaxe;
     
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
@@ -88,6 +89,11 @@ public class InputManager : MonoBehaviour
     public void OnPhoneScroll(InputValue value)
     {
         scrollInput = value.Get<float>();
+    }
+    
+    public void OnMove(InputValue value)
+    {
+        paralaxe.Move(value.Get<Vector2>());
     }
 
     private void Update()
