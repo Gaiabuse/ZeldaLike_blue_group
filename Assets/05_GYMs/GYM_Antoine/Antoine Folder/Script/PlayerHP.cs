@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class PlayerHP : MonoBehaviour, IPlayerDamageable
 {
@@ -16,10 +17,13 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     [Tooltip("value when HP = Maximum")]
     [Range(0, 1)][SerializeField] private float maxFillAmount = 0.9f;
     [SerializeField] Image healthBar;
+    [SerializeField] Image damagesBar;
+    [SerializeField] VisualEffect healVFX;
 
     private Coroutine damageCoroutine;
     private Coroutine healCoroutine;
     public float HP;
+    [SerializeField] private float tempHP;
 
     private void OnEnable()
     {
@@ -35,6 +39,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private void Start()
     {
+        tempHP = HP;
         UpdateVisuals();
     }
 
@@ -46,8 +51,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             if (healCoroutine != null) StopCoroutine(healCoroutine);
 
             float targetHP = (float)Math.Round(HP - damage, 2);
+            HP -= damage;
             damageCoroutine = StartCoroutine(VisualDamage(targetHP));
-            Debug.Log("Outch");
         }
 
         OnTakeDamage?.Invoke();
@@ -55,6 +60,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private void StopHealing()
     {
+        healVFX.enabled = false;
         if (healCoroutine != null) StopCoroutine(healCoroutine);
     }
 
@@ -68,6 +74,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         if (HP >= maxHP) return;
 
         HP = (float)Math.Round(Mathf.Min(HP + heal, maxHP), 2);
+        tempHP = HP;
+        healVFX.enabled = true;
 
         if (healCoroutine != null) StopCoroutine(healCoroutine);
         healCoroutine = StartCoroutine(VisualHeal(HP));
@@ -75,7 +83,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private IEnumerator VisualHeal(float targetHP)
     {
-        while (Mathf.Abs(healthBar.fillAmount - NormalizeValue(targetHP)) > 0.001f)
+        while (Mathf.Abs(damagesBar.fillAmount - NormalizeValue(targetHP)) > 0.001f)
         {
             float currentFill = healthBar.fillAmount;
             float targetFill = NormalizeValue(targetHP);
@@ -84,15 +92,16 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             yield return null;
         }
         healCoroutine = null;
+        healVFX.enabled = false;
     }
 
 
     private IEnumerator VisualDamage(float newLife)
     {
-        while (HP > newLife)
+        while (tempHP > newLife)
         {
-            float nextHP = Mathf.MoveTowards(HP, newLife, speedRecharge * Time.deltaTime);
-            HP = (float)Math.Round(nextHP, 2);
+            float nextHP = Mathf.MoveTowards(tempHP, newLife, speedRecharge * Time.deltaTime);
+            tempHP = (float)Math.Round(nextHP, 2);
 
             UpdateVisuals();
 
@@ -111,6 +120,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     private void UpdateVisuals()
     {
         healthBar.fillAmount = NormalizeValue(HP);
+        damagesBar.fillAmount = NormalizeValue(tempHP);
     }
 
     private float NormalizeValue(float value)

@@ -26,7 +26,7 @@ public class GroundEnnemy : EnnemyBase
     [SerializeField] List<Vector3> PatrolPosition;
     int currentPatrolPose;
 
-    protected bool canLookAtPlayer = true;
+    [SerializeField] protected bool canLookAtPlayer = true;
 
     protected override void Start()
     {
@@ -42,6 +42,7 @@ public class GroundEnnemy : EnnemyBase
 
     protected override void FixedUpdate()
     {
+        if (this == null || navMesh == null || !navMesh.isOnNavMesh) return;
         base.FixedUpdate();
 
         if (canLookAtPlayer) isPlayerInFieldOfView();
@@ -250,7 +251,7 @@ public class GroundEnnemy : EnnemyBase
         navMesh.isStopped = true;
     }
 
-    protected override void AttackAnimEnd()
+    public override void AttackAnimEnd()
     {
         base.AttackAnimEnd();
         navMesh.isStopped = false;
@@ -281,6 +282,7 @@ public class GroundEnnemy : EnnemyBase
     {
         base.StunEnnemy(stunTime, infiniteStun);
         animator.SetBool("Stun", true);
+        animator.SetInteger("Attack", 0);
         navMesh.isStopped = true;
     }
 

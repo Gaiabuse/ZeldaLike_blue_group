@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
@@ -24,6 +25,8 @@ public abstract class AttackManager : MonoBehaviour
     public static Action EndForUltimate;
     protected bool switchInProgress =false;
     protected Coroutine finishSwitchCoroutine;
+    protected bool isInUltMod = false;
+
     protected virtual void OnEnable()
     {
         player.CanMove = true;
@@ -40,22 +43,24 @@ public abstract class AttackManager : MonoBehaviour
     }
     protected virtual void OnAttack(InputValue _input)
     {
-        if(!CanAttack)return;
         if (_input.isPressed)
         {
             var action = player.playerInput.actions["Attack"];
         
             if (action.activeControl != null)
             {
-                string direction = action.activeControl.name; 
-                
+                string direction = action.activeControl.name;
+                Debug.Log("activeControl: " + direction);
                 HandleDirectionalInput(direction);
             }
+            else
+            {
+                Debug.Log("activeControl est NULL");
+            }
         }
-       
     }
     
-    private void HandleDirectionalInput(string direction)
+    protected void HandleDirectionalInput(string direction)
     {
         if(!formSwitcher.canSwitchForm)return;
         switch (direction)
@@ -89,37 +94,56 @@ public abstract class AttackManager : MonoBehaviour
     public void Attack(SimpleAttack attack)
     {
         if (!CanAttack) return;
+    
         
+        if (currentAttack != null)
+        {
+            currentAttack.Finished -= Combo;
+            currentAttack.FinishedAttackFull -= FinishAttack;
+            Destroy(currentAttack.gameObject); 
+        }
+
         if (comboCoroutine != null)
         {
             StopCoroutine(comboCoroutine);
         }
+
         currentAttack = attack.Attack(player.transform);
         CanAttack = false;
-        currentAttack.Finished += AttackIsFinished;
+        currentAttack.Finished += Combo;
+        currentAttack.FinishedAttackFull += FinishAttack;
     }
 
     public virtual void Ultimate()
     {
         EndForUltimate?.Invoke();
     }
-    protected void AttackIsFinished(bool touchedEnemy)
+    protected void Combo()
     {
+        CanAttack = true;
         if (currentAttack == null) return;
-        player.CanMove = true;
-        player.CanRotate = true;
         if (currentCombo == 0)
         {
             StartCombo();
         }
-        if (this.gameObject.activeInHierarchy)
+        if (gameObject.activeInHierarchy)
         {
             comboCoroutine = StartCoroutine(ComboCoroutine());
-            
         }
-        currentAttack.Finished -= AttackIsFinished;
-        CanAttack = true;
-       
+        currentAttack.Finished -= Combo;
+    }
+
+    protected void FinishAttack()
+    {
+        Debug.Log("finished1");
+        
+        player.CanMove = true;
+        player.CanRotate = true;
+
+        if (currentAttack == null) return;
+        Debug.Log("finished2");
+    
+        currentAttack.FinishedAttackFull -= FinishAttack;
         currentAttack = null;
     }
     
@@ -130,12 +154,13 @@ public abstract class AttackManager : MonoBehaviour
 
     protected IEnumerator ComboCoroutine()
     {
+    
         currentCombo++;
         if (currentCombo >= numberOfAttacksInCombo)
         {
             currentCombo = 0;
             FormAnimator.SetBool("isAttacking",false);
-            
+            if(isInUltMod)yield break;
             if (ultimateCoroutine != null)
             {
                 StopCoroutine(ultimateCoroutine);
@@ -152,11 +177,24 @@ public abstract class AttackManager : MonoBehaviour
 
     protected virtual IEnumerator ForUltimateComboCoroutine()
     {
-        CanUltimate?.Invoke();
-        formSwitcher.CanDoUltimate = true;
-        yield return new WaitForSeconds(formSwitcher.TimeForDoUltimate);
-        EndForUltimate?.Invoke();
-        formSwitcher.CanDoUltimate = false;
+        var requiredForms = new[] { Form.neutral, Form.nightmare, Form.dream };
+        if (requiredForms.All(f => formSwitcher.AvailableForms.Contains(f)))
+        {
+            CanUltimate?.Invoke();
+            formSwitcher.CanDoUltimate = true;
+        
+            
+            formSwitcher.NotifyUltimateReady();
+            
+            yield return new WaitForSecondsRealtime(formSwitcher.TimeForDoUltimate);
+            
+            if (formSwitcher.CanDoUltimate)
+            {
+                EndForUltimate?.Invoke();
+                formSwitcher.EndFirstUltimateTime.Invoke();
+                formSwitcher.CanDoUltimate = false;
+            }
+        }
     }
 }
 

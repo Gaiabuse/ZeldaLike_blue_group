@@ -8,6 +8,8 @@ public class QuotaManager : MonoBehaviour
     [SerializeField] private int bonusPoints;
     [SerializeField] private ErasedManager player;
     [SerializeField] private ProgressMenuUI progressMenuUI;
+    public int DustCount;
+    public int cleanedDustCount;
     
     private int quotaIndex;
     
@@ -25,11 +27,12 @@ public class QuotaManager : MonoBehaviour
         }
     }
 
-    public void GainCleanPoints(int progress, int level)
+    public void GainCleanPoints(int progress)
     {
-        if (level > quotaIndex)
+        if (cleanPoints+progress > 100)
         {
-            GainBonusPoints(progress);
+            GainBonusPoints(progress - cleanPoints + 100);
+            cleanPoints = 100;
         }
         else
         {
@@ -49,10 +52,17 @@ public class QuotaManager : MonoBehaviour
     {
         if (cleanPoints >= quotas[quotaIndex])
         {
-            GainBonusPoints(cleanPoints - quotas[quotaIndex]); //Add bonus points if overflow
-            cleanPoints = quotas[quotaIndex];
             quotaIndex++;
             player.GainPointForCreate();
+            if (quotaIndex < quotas.Length - 1)
+            {
+                CheckQuota();
+            }
         }
+    }
+
+    public void DustCleaned()
+    {
+        cleanedDustCount++;
     }
 }

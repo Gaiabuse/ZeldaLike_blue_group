@@ -46,12 +46,14 @@ public class UnlockBridge : MonoBehaviour
     public void AddInteraction()
     {
         currentInteraction++;
+        if(currentInteraction > numberInteractionNeed) currentInteraction = numberInteractionNeed;
         CheckInteraction();
     }
 
     public void RemoveInteraction()
     {
         currentInteraction--;
+        if(currentInteraction < 0) currentInteraction = 0;
         CheckInteraction();
     }
 }

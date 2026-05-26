@@ -3,43 +3,82 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class ErasedManager : MonoBehaviour
 {
-   
     [SerializeField] private PlayerController player;
     [SerializeField] private PlayerHP playerHP;
     [Tooltip("LayerMax of objects we can Erased and create")]
     [SerializeField] private LayerMask ErasedLayerMask;
     [Tooltip("The number of object we can create at the same time.")]
     public int maxPointsForCreate;
-    [SerializeField] private int currentPointsForCreate;
+    public int currentPointsForCreate;
     [Tooltip("Hold time for erased all objects we have create")]
     [SerializeField] private float holdTime;
-    [SerializeField] private float numberOfPressForErasedEnemy = 20;
-    [SerializeField] private int hpHealWhenErasedEnemy = 20;
+
+    [Header("VFX Settings")]
+    [SerializeField] private VisualEffect VFX;
+    [Tooltip("How long the script will wait for the Erase/Create VFX to finish playing before restoring movement and finalizing state.")]
+    [SerializeField] private float vfxDuration = 1.0f;
 
     [Header("Ui elements")]
-    [SerializeField]private Image buttonPressVisual;
-    private float currentPressForErasedEnemy;
+    [SerializeField] private Image buttonPressVisual;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
     private bool erasedAllObjects;
     private Coroutine HoldTimeCoroutine;
-    public bool startEnemyErased{get; private set;}
+    public bool startEnemyErased { get; private set; }
+    
+    private DreamDash dash;
+    private bool isProcessingVFX = false; // Prevents input/movement recovery while VFX plays
+    
+    public static ErasedManager Instance;
 
-    private void OnEnable()
+    private void Awake()
     {
-        playerHP.OnTakeDamage += CancelErasedEnemy;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
+    
     private void OnDisable()
     {
-        playerHP.OnTakeDamage -= CancelErasedEnemy;
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
+        }
+    }
+    
+    private Coroutine rumbleCoroutine;
+
+    private void TriggerRumble(float lowFreq, float highFreq, float duration)
+    {
+        if (Gamepad.current == null) return;
+    
+        if (rumbleCoroutine != null)
+        {
+            StopCoroutine(rumbleCoroutine);
+        }
+        rumbleCoroutine = StartCoroutine(RumbleRoutine(lowFreq, highFreq, duration));
+    }
+
+    private IEnumerator RumbleRoutine(float lowFreq, float highFreq, float duration)
+    {
+        Gamepad.current.SetMotorSpeeds(lowFreq, highFreq);
+        yield return new WaitForSeconds(duration);
+        Gamepad.current.SetMotorSpeeds(0f, 0f);
+        rumbleCoroutine = null;
     }
 
     private void Start()
@@ -47,6 +86,15 @@ public class ErasedManager : MonoBehaviour
         objectsErased = new List<ErasedObject>();
         currentPointsForCreate = maxPointsForCreate; 
         buttonPressVisual.gameObject.SetActive(false);
+        
+        if (player != null)
+        {
+            dash = player.GetComponent<DreamDash>();
+        }
+        else
+        {
+            Debug.LogError("ErasedManager: PlayerController reference is missing in the Inspector!");
+        }
     }
     
     void Update()
@@ -85,47 +133,20 @@ public class ErasedManager : MonoBehaviour
             }
         }
     }
-
-    private void BounceUiVisual()
-    {
-        buttonPressVisual.transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), 0.1f).SetEase(Ease.InBounce).OnComplete((
-            () =>
-            {
-                buttonPressVisual.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutBounce);
-            } ));
-    }
+    
     public void OnSecondPower(InputValue inputValue)
     {
-        if(startEnemyErased)
-        {
-            if (inputValue.isPressed)
-            {
-                currentPressForErasedEnemy++;
-                BounceUiVisual();
-                if (currentPressForErasedEnemy >= numberOfPressForErasedEnemy)
-                {
-                    ErasedEnemy();
-                }
-                return;
-            }
-        }
-        
-        if (inputValue.isPressed && currentObject != null && currentObject.CompareTag("Ennemy"))
-        {
-            Debug.Log("startEnemyErased");
-            buttonPressVisual.gameObject.SetActive(true);
-            player.CanMove = false;
-            player.CanRotate = false;
-            startEnemyErased = true;
-            currentPressForErasedEnemy = 0;
-            return;
-        }
-        
+        // If we are waiting out a VFX duration, block any new input registrations
+        if (isProcessingVFX) return;
+
         switch (inputValue.isPressed)
         {
             case true:
+                if (player != null) player.CanMove = false;
+                if (dash != null) dash.enabled = false;
+
                 erasedAllObjects = false;
-                if(HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
+                if (HoldTimeCoroutine != null) StopCoroutine(HoldTimeCoroutine);
                 HoldTimeCoroutine = StartCoroutine(HoldTime());
                 break;
 
@@ -134,144 +155,145 @@ public class ErasedManager : MonoBehaviour
                 {
                     StopCoroutine(HoldTimeCoroutine);
                     HoldTimeCoroutine = null;
-
                 }
-                
+    
+                if (rumbleCoroutine != null)
+                {
+                    StopCoroutine(rumbleCoroutine);
+                    rumbleCoroutine = null;
+                }
+                if (Gamepad.current != null)
+                {
+                    Gamepad.current.SetMotorSpeeds(0f, 0f);
+                }
+            
                 if (!erasedAllObjects)
                 {
                     if (currentObject != null)
                     {
-                        EraseOrCreate();
+                        // Fire off the Coroutine to handle VFX delay
+                        StartCoroutine(EraseOrCreateRoutine());
+                        return; // Return early; the routine handles resetting player movement when done
                     }
                 }
-                
-                if (Gamepad.current != null)
-                {
-                    Gamepad.current.SetMotorSpeeds(0f,0f);
-                }
-                
+
+                // Only restore movement immediately if no action/VFX was triggered
+                if (player != null) player.CanMove = true;
+                if (dash != null) dash.enabled = true;
                 break;
         }
     }
 
     private IEnumerator HoldTime()
     {
-        erasedAllObjects = false;
-        
         if (objectsErased.Count > 0)
         {
-            yield return new WaitForSeconds(0.75f);
+            erasedAllObjects = false;
+            yield return new WaitForSeconds(0.20f);
+            float remainingHoldTime = Mathf.Max(0f, holdTime - 0.20f);
+            TriggerRumble(0.25f, 0.25f, remainingHoldTime); 
+    
+            yield return new WaitForSeconds(remainingHoldTime);
             
-            if (Gamepad.current != null)
-            {
-                Gamepad.current.SetMotorSpeeds(0.25f,0.25f);
-            }
-            
-            yield return new WaitForSeconds(holdTime-0.75f);
-            
-            ErasedAllObjects();
+            // Wait for the Erased All process and its corresponding VFX duration
+            yield return StartCoroutine(ErasedAllObjectsRoutine());
             erasedAllObjects = true;
 
-            if (Gamepad.current != null)
-            {
-                Gamepad.current.SetMotorSpeeds(0.8f,0.8f);
-            }
-            
-            yield return new WaitForSeconds(0.25f);
+            TriggerRumble(0.8f, 0.8f, 0.15f);
         }
-        HoldTimeCoroutine = null;
-        if (Gamepad.current != null)
+        else
         {
-            Gamepad.current.SetMotorSpeeds(0f,0f);
+            HoldTimeCoroutine = null;
         }
     }
 
-
-    private void EraseOrCreate()
+    private IEnumerator EraseOrCreateRoutine()
     {
-        if (currentObject == null) return;
-        
-        GarbageBehaviors dust = currentObject.GetComponent<GarbageBehaviors>();
-        if (dust != null)
-        {
-            Debug.Log("erase dust");
-            dust.Erase();
-            currentObject = null; 
-            return; 
-        }
-        
         ErasedObject erasedObject = currentObject.GetComponent<ErasedObject>();
-        if (erasedObject == null) return;
+        if (erasedObject == null)
+        {
+            if (player != null) player.CanMove = true;
+            if (dash != null) dash.enabled = true;
+            yield break;
+        }
         
         if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
         {
-            if (erasedObject.Erased && currentPointsForCreate >= erasedObject.creationCost)
-            {
-                erasedObject.Create();
-                currentPointsForCreate -= erasedObject.creationCost;
-                if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
-            }
-            else if (!erasedObject.Erased && currentPointsForCreate < maxPointsForCreate)
-            {
-                erasedObject.Erase();
-                currentPointsForCreate += erasedObject.creationCost;
-                if (objectsErased.Contains(erasedObject)) objectsErased.Remove(erasedObject);
-            }
+            isProcessingVFX = true;
+            
+            VFX.SetBool("isDestroying", false);
+            VFX.enabled = true;
+            VFX.Play();
+            
+            MusicManager.Instance.PlayCreate();
+
+            // >>> PAUSE CODE HERE: Wait for the VFX duration to finish before mutating world states
+            yield return new WaitForSeconds(vfxDuration);
+
+            currentPointsForCreate -= erasedObject.creationCost;
+            erasedObject.Create();
+            
+            if (!objectsErased.Contains(erasedObject)) objectsErased.Add(erasedObject);
         }
         else if (!erasedObject.Erased && currentPointsForCreate <= maxPointsForCreate)
         {
-            erasedObject.Erase();
+            isProcessingVFX = true;
+
+            VFX.SetBool("isDestroying", true);
+            VFX.enabled = true;
+            VFX.Play();
+            
+            MusicManager.Instance.PlayErase();
+            
+            // >>> PAUSE CODE HERE: Wait for the VFX duration to complete
+            yield return new WaitForSeconds(vfxDuration);
+
             currentPointsForCreate += erasedObject.creationCost;
+            erasedObject.Erase();
         
             if (objectsErased.Contains(erasedObject))
                 objectsErased.Remove(erasedObject);
         }
     
         UpdateNeutralUI();
+
+        // Clean up and restore player mechanics
+        isProcessingVFX = false;
+        if (player != null) player.CanMove = true;
+        if (dash != null) dash.enabled = true;
     }
 
-    private void ErasedAllObjects()
+    private IEnumerator ErasedAllObjectsRoutine()
     {
         if (objectsErased.Count > 0)
         {
+            isProcessingVFX = true;
+
+            VFX.SetBool("isDestroying", true);
+            VFX.enabled = true;
+            VFX.Play();
+            MusicManager.Instance.PlayErase();
+
+            // >>> PAUSE CODE HERE: Wait for the VFX duration to clear
+            yield return new WaitForSeconds(vfxDuration);
+
             foreach (var obj in objectsErased)
             {
-                if(obj != null) obj.Erase();
+                if (obj != null) obj.Erase();
             }
+            
             objectsErased.Clear();
             currentPointsForCreate = maxPointsForCreate;
             UpdateNeutralUI();
         }
-    }
-    public void OnDash(InputValue _input)
-    {
-        if (startEnemyErased)
-        {
-            CancelErasedEnemy();
-        }
+
+        // Clean up and restore player mechanics
+        isProcessingVFX = false;
+        if (player != null) player.CanMove = true;
+        if (dash != null) dash.enabled = true;
+        HoldTimeCoroutine = null;
     }
 
-    private void ErasedEnemy()
-    {
-        Destroy(currentObject);
-        currentObject = null;
-        buttonPressVisual.gameObject.SetActive(false);
-        playerHP.Heal(hpHealWhenErasedEnemy);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
-    }
-
-    private void CancelErasedEnemy()
-    {
-        buttonPressVisual.gameObject.SetActive(false);
-        player.CanMove = true;
-        player.CanRotate = true;
-        startEnemyErased = false;
-        currentPressForErasedEnemy = 0;
-    }
-    
     private void UpdateNeutralUI()
     {
         TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);

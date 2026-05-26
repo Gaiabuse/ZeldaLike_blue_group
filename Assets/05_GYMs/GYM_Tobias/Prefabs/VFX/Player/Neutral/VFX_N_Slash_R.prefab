@@ -144,8 +144,8 @@ GameObject:
   - component: {fileID: 71149336905499935}
   - component: {fileID: 724169862092394234}
   - component: {fileID: 2580436897141543690}
-  - component: {fileID: 9190660474244985157}
   - component: {fileID: 9070681728207817647}
+  - component: {fileID: 2794138336955923655}
   m_Layer: 0
   m_Name: VFX_N_Slash_R
   m_TagString: Untagged
@@ -213,7 +213,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!65 &9190660474244985157
+--- !u!114 &9070681728207817647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8708733052312592650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcc3dd442097e7849989eeb06728d2c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Attack
+  HitSpark: {fileID: 0}
+  BlockHitSpark: {fileID: 0}
+  distance: 0
+  stun: 0
+--- !u!65 &2794138336955923655
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -232,21 +248,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.884801, y: 1.2735398, z: 2.1384678}
-  m_Center: {x: -0.021677852, y: 0.13676989, z: 2.79151}
---- !u!114 &9070681728207817647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8708733052312592650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcc3dd442097e7849989eeb06728d2c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Attack
-  HitSpark: {fileID: 0}
-  BlockHitSpark: {fileID: 0}
-  distance: 0
-  stun: 0.75
+  m_Size: {x: 2.430861, y: 1, z: 2.3113916}
+  m_Center: {x: 0.18136644, y: 0, z: 1.65}

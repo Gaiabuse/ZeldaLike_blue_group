@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 
 public class DreamShoot : AttackManager
 {
@@ -8,6 +9,10 @@ public class DreamShoot : AttackManager
     [SerializeField]
     [Tooltip("prefab of the attack")]
     Projectile attack;
+
+    [SerializeField]
+    [Tooltip("prefab of the attack")]
+    Projectile ultimateAttackOfCombo;
 
     [SerializeField]
     PlayerController controller;
@@ -47,6 +52,7 @@ public class DreamShoot : AttackManager
     [SerializeField] private int numberOfShotsForUltimate;
 
     private bool CanShoot = true;
+    private bool prepShoot = false;
 
     protected override void OnEnable()
     {
@@ -101,10 +107,17 @@ public class DreamShoot : AttackManager
         StartCoroutine(DoShoot());
     }
 
+    private void FixedUpdate()
+    {
+        player.CanMove = !prepShoot;
+    }
+
     private void PrepareShoot()
     {
         lastInputTime = Time.time;
+        prepShoot = true;
         player.CanMove = false;
+        player.CanRotate = true;
         // we should try to do something to make things seem more sensitive
 
         aimCone.SetActive(true);
@@ -115,12 +128,14 @@ public class DreamShoot : AttackManager
     public void UnprepShoot()
     {
         player.CanMove = true;
+        prepShoot = false;
         aimCone.SetActive(false);
     }
 
     public System.Collections.IEnumerator DoShoot()
     {
         player.CanMove = true;
+        prepShoot = false;
         aimCone.SetActive(false);
 
 
@@ -131,11 +146,20 @@ public class DreamShoot : AttackManager
 
         var attackScaledPower = GetAttackPower(progress);
 
-        CreateShot(attackScaledPower);
-
+        if (amountOfTimeWaited < autoAimTime)
+            CreateAutoTargettingShot(attackScaledPower);
+        else CreateShot(attackScaledPower);
+        Combo();
         CanShoot = false;
+        StartCoroutine(FinishShoot());
         yield return new WaitForSeconds(coolDown);
         CanShoot = true;
+    }
+
+    public IEnumerator FinishShoot()
+    {
+        yield return new WaitForSeconds(cooldownFinishShoot);
+        FinishAttack();
     }
 
     public override void Ultimate()
@@ -153,13 +177,16 @@ public class DreamShoot : AttackManager
 
     void CreateShot(float attackPower)
     {
-        Projectile lAttack = Instantiate<Projectile>(attack);
-
+        Projectile lAttack = Instantiate<Projectile>(currentCombo < numberOfShotsForUltimate?attack : ultimateAttackOfCombo);
+        if (currentCombo >= numberOfShotsForUltimate)
+        {
+            Debug.Log("ultimateAttack");
+        }
         Attack attackPrefab = lAttack.GetComponent<Attack>();
         attackPrefab.SetAttack(attackPower, data, type);
 
         currentAttack = attackPrefab;
-        currentAttack.Finished += AttackIsFinished;
+        
 
         var playerDir = player.transform.forward;
 
@@ -193,7 +220,6 @@ public class DreamShoot : AttackManager
 
         attackPrefab.SetAttack(attackPower, data, type);
         currentAttack = attackPrefab;
-        currentAttack.Finished += AttackIsFinished;
 
         lAttack.transform.position = playerPos + directionToGo * offset;
         lAttack.speed = directionToGo * ProjectileSpeed;

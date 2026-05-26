@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 {
@@ -13,7 +16,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [Header("Data")]
     [SerializeField] protected EnemyData data;
 
-    protected int HP = 5;
+    [SerializeField] protected int HP = 5;
     protected Vector2 speed;
     protected Vector2 acceleration;
     protected Vector2 SpeedRotate;
@@ -31,6 +34,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected float timerGeneral = 0;
 
     public bool alwaysAgro;
+
+    [SerializeField] float stunMultiplier = 1f;
     
     [SerializeField] protected string _move;
 
@@ -49,11 +54,26 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
+    public GameObject deathVFX;
+    public GameObject stunVFX;
+    public GameObject hitVFX;
 
     [Header("Neutral Ult Display")]
     [SerializeField] protected GameObject UltIndicator;
     private GameObject stunZone = null;
     public Action<EnnemyBase> OnDeath;
+    
+    [Header("Life display")]
+    [SerializeField] private GameObject lifeBar;
+    [SerializeField] private Image frontLife;
+    [SerializeField] private Image dmgLife;
+    [SerializeField] private float bounceDuration;
+    private float _tempHP;
+    private float maxHP;
+    [Tooltip("value when HP = 0")]
+    [Range(0, 1)][SerializeField] private float minFillAmount = 0.1f;
+    [Tooltip("value when HP = Maximum")]
+    [Range(0, 1)][SerializeField] private float maxFillAmount = 0.9f;
 
     protected virtual void Start()
     {
@@ -70,6 +90,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         EyesSetColorTo(colorNormal);
 
         HP = data.health;
+        _tempHP = HP;
+        maxHP = HP;
         speed = new Vector2(data.speed, data.chasespeed);
         SpeedRotate = new Vector2(data.speedRotate, data.chasespeedRotate);
         acceleration = new Vector2(data.acceleration, data.chaseacceleration);
@@ -159,7 +181,30 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             ShowHitDisplay();
         }
 
-        if (!invincible) HP -= damage;
+        if (!invincible)
+        {
+            if (!lifeBar.activeSelf)
+            {
+                lifeBar.SetActive(true);
+                lifeBar.transform.DOScale(1.2f, bounceDuration)
+                    .SetEase(Ease.OutBounce)
+                    .OnComplete(() =>
+                    {
+                        lifeBar.transform.DOScale(1f, bounceDuration)
+                            .SetEase(Ease.InBounce);
+                    });
+            }
+            float targetHP = (float)Math.Round((decimal)(HP - damage), 2);
+            HP -= damage;
+            hitVFX.transform.SetParent(transform.parent);
+            hitVFX.transform.position = transform.position;
+            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
+            hitVFX.transform.LookAt(lookTarget);
+            hitVFX.transform.Rotate(0, 90, 0);
+
+            hitVFX.SetActive(true);
+            StartCoroutine(VisualDamage(targetHP));
+        }
 
         if (HP <= 0)
         {
@@ -177,7 +222,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
                 if (move != "attack") move = "chase";
             }
 
-            if (stun > 0) StunEnnemy(stun, false);
+            if (stun > 0 && !invincible) StunEnnemy(stun * stunMultiplier, false);
         }
     }
 
@@ -206,19 +251,32 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected void ShowHitDisplay()
     {
-        if (hitValueDisplay)
-        {
-            dotween = hitValueDisplay.transform.DOScale(1f, durationDotween).SetEase(Ease.OutBounce).OnComplete(() =>
+        if (hitValueDisplay == null || hitValueDisplay.gameObject == null) return;
+
+        dotween = hitValueDisplay.transform.DOScale(1f, durationDotween)
+            .SetEase(Ease.OutBounce)
+            .OnComplete(() =>
             {
-                hitValueDisplay.transform.DOScale(0f, durationDotween).SetEase(Ease.OutBounce).SetDelay(durationDelay);
+                if (hitValueDisplay != null)
+                {
+                    hitValueDisplay.transform.DOScale(0f, durationDotween)
+                        .SetEase(Ease.OutBounce)
+                        .SetDelay(durationDelay);
+                }
             });
-        }
     }
 
     protected virtual void Death()
     {
-        EnnemyManager.Instance.enemies.Remove(this);
-        EnnemyManager.Instance.Check();
+        dotween?.Kill(); 
+        transform.DOKill();
+        deathVFX.SetActive(true);
+        
+        if (EnnemyManager.Instance != null)
+        {
+            EnnemyManager.Instance.enemies.Remove(this);
+            EnnemyManager.Instance.Check();
+        }
         OnDeath?.Invoke(this);
         Destroy(gameObject);
     }
@@ -230,12 +288,12 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         animator.SetInteger("Attack", attackID);
     }
 
-    protected virtual void AttackAnimEnd()
+    public virtual void AttackAnimEnd()
     {
         animator.SetInteger("Attack", 0);
     }
 
-    protected void ToogleMainAttack(int toogle)
+    public void ToogleMainAttack(int toogle)
     {
         if (toogle == 1) MainHitBox.ToggleHitBox(true);
         else MainHitBox.ToggleHitBox(false);
@@ -243,7 +301,10 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
+        MusicManager.Instance.PlayStun();
+        stunVFX.SetActive(true);
         EyesSetColorTo(colorMotionless);
+        ToogleMainAttack(-1);
         move = "stun";
         timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
 
@@ -251,6 +312,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected virtual void EndStun()
     {
+        MusicManager.Instance.StopStun();
+        stunVFX.SetActive(true);
         EyesSetColorTo(colorNormal);
         animator.SetBool("Stun", false);
         timerGeneral = 0;
@@ -271,5 +334,29 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
                 EnnemyManager.Instance.Check();
             }
         }
+    }
+
+    private IEnumerator VisualDamage(float newLife)
+    {
+        while (_tempHP > newLife)
+        {
+            float nextHP = Mathf.MoveTowards(_tempHP, newLife, 50 * Time.deltaTime);
+            _tempHP = (float)Math.Round(nextHP, 2);
+
+            UpdateVisuals();
+            yield return null;
+        }
+    }
+    
+    private void UpdateVisuals()
+    {
+        frontLife.fillAmount = NormalizeValue(HP);
+        dmgLife.fillAmount = NormalizeValue(_tempHP);
+    }
+    
+    private float NormalizeValue(float value)
+    {
+        float lifeRatio = Mathf.Clamp01(value / (float)maxHP);
+        return Mathf.Lerp(minFillAmount, maxFillAmount, lifeRatio);
     }
 }

@@ -1,4 +1,4 @@
-using UnityEngine;
+     using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Linq;
@@ -24,24 +24,50 @@ public class DreamDash : MonoBehaviour
     [SerializeField]
     float DashDurationSeconds = 0, DashLength = 1, DashCoolDownSeconds = .5f, offset = .2f, tolerance = .5f;
 
+    const float EXTRAPOLATION_FACTOR = .1f;
 
     bool IsDashing = false;
 
+    float bufTimer = 0f;
+    bool IsBuffering = false;
+    [SerializeField]
+    float maxBufferLength = 0.3f;
+
+    public void Update()
+    {
+        if (IsBuffering) DoBuffering();
+    }
+
+    private void DoBuffering()
+    {
+        if (!enabled || !controller.CanMove || IsDashing) return;
+        IsBuffering = false;
+
+        var bufDur = Time.time - bufTimer;
+
+        if (bufDur <= maxBufferLength)
+        {
+            StartCoroutine(Dash());
+        }
+    }
+
     public void OnDash(InputValue _input)
     {
-        if (!enabled || !controller.CanMove || !_input.isPressed) return;
+        if (!_input.isPressed) return;
+        if (!enabled || !controller.CanMove || IsDashing)
+        {
+            IsBuffering = true;
+            bufTimer = Time.time;
+            return;
+        }
 
-        if (!enabled) return;
-        if (!controller.CanMove || !_input.isPressed) return;
-
-        dashVFX.SetActive(true);
-        controller.currentAnimator.SetTrigger("isDashing");
         StartCoroutine(Dash());
     }
 
     IEnumerator Dash()
     {
-        if (IsDashing) yield break;
+        dashVFX.SetActive(true);
+        controller.currentAnimator.SetTrigger("isDashing");
 
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
@@ -50,6 +76,7 @@ public class DreamDash : MonoBehaviour
         if (!IsPlaceLandable(destinationPosition))
         {
             Debug.LogWarning($"no place found trying to find a better position", this);
+
             if (FindNearGround(destinationPosition) is Vector3 platform)
             {
                 Debug.Log($"found a better place {platform}");
@@ -69,24 +96,25 @@ public class DreamDash : MonoBehaviour
     {
         float timer = 0;
 
+        Vector3 currentLerpPosition = originalPosition;
+
         while (timer < DashDurationSeconds)
         {
             timer += Time.deltaTime;
             var portion = timer / DashDurationSeconds;
-
-            controller.transform.position = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
+            Vector3 targetPosition = Vector3.Lerp(originalPosition, destinationPosition, DashProggression.Evaluate(portion));
+            transform.position = targetPosition;
+            currentLerpPosition = targetPosition;
 
             yield return null;
         }
-
-        yield break;
     }
 
     bool IsPlaceLandable(Vector3 destination)
     {
         if (IsThereAWall(destination)) return false;
 
-        Ray ray = new(origin: destination + Vector3.up * offset, direction: Vector3.down);
+        Ray ray = new(origin: destination, direction: Vector3.down);
         return Physics.Raycast(ray, 2f, layerGround);
     }
 
@@ -107,8 +135,9 @@ public class DreamDash : MonoBehaviour
     {
         controller.CanMove = true;
         controller.CanRotate = true;
-        controller.currentAnimator.SetTrigger("isDashing");
         characterController.enabled = true;
+
+        controller.currentAnimator.SetTrigger("isDashing");
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
 
@@ -131,10 +160,12 @@ public class DreamDash : MonoBehaviour
             return null;
         }
 
-        if (IsPlaceLandable(check1.point))
+        var extrapolatedLandingPoint = Vector3.LerpUnclamped(aboveAt, check1.point, EXTRAPOLATION_FACTOR);
+
+        if (IsPlaceLandable(extrapolatedLandingPoint))
         {
             latestAtHitResult = true;
-            return check1.point + Vector3.up;
+            return extrapolatedLandingPoint + Vector3.up;
         }
 
         return null;

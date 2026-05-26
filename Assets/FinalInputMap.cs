@@ -97,6 +97,15 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""3c22e3d9-fa09-46b4-8796-3dfa1a3854d4"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""StickDeadzone"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Heal"",
+                    ""type"": ""Value"",
+                    ""id"": ""ad3dbe09-dc71-4152-9fc6-a8ca635a14e4"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -240,6 +249,17 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5d2da66-f0d0-440e-a8ee-109f4c55993b"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Heal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -479,6 +499,24 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""afa1cfd7-ce4e-4034-bc75-2ace22ace410"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PhoneScroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""639779ba-610f-42b0-abf1-2616e6021fce"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -501,6 +539,50 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ClosePhone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc3022fd-4cb2-4cf2-a785-1e41eda6a83e"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c8efbd4-4f70-455c-a997-f43c01960e1b"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbe1574e-6c6e-45e0-b5fb-b71a529badea"",
+                    ""path"": ""<Gamepad>/leftStick/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PhoneScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7af5da50-7c86-4680-b544-78ed7a50da96"",
+                    ""path"": ""<Gamepad>/dpad/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PhoneScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -588,6 +670,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         // PlayerControl
         m_PlayerControl = asset.FindActionMap("PlayerControl", throwIfNotFound: true);
         m_PlayerControl_Move = m_PlayerControl.FindAction("Move", throwIfNotFound: true);
+        m_PlayerControl_Heal = m_PlayerControl.FindAction("Heal", throwIfNotFound: true);
         m_PlayerControl_Interaction = m_PlayerControl.FindAction("Interaction", throwIfNotFound: true);
         m_PlayerControl_Attack = m_PlayerControl.FindAction("Attack", throwIfNotFound: true);
         m_PlayerControl_Dash = m_PlayerControl.FindAction("Dash", throwIfNotFound: true);
@@ -603,6 +686,8 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         // ProgressControl
         m_ProgressControl = asset.FindActionMap("ProgressControl", throwIfNotFound: true);
         m_ProgressControl_ClosePhone = m_ProgressControl.FindAction("ClosePhone", throwIfNotFound: true);
+        m_ProgressControl_SwitchToggle = m_ProgressControl.FindAction("SwitchToggle", throwIfNotFound: true);
+        m_ProgressControl_PhoneScroll = m_ProgressControl.FindAction("PhoneScroll", throwIfNotFound: true);
         // HealMap
         m_HealMap = asset.FindActionMap("HealMap", throwIfNotFound: true);
         m_HealMap_Heal = m_HealMap.FindAction("Heal", throwIfNotFound: true);
@@ -695,6 +780,7 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerControl;
     private List<IPlayerControlActions> m_PlayerControlActionsCallbackInterfaces = new List<IPlayerControlActions>();
     private readonly InputAction m_PlayerControl_Move;
+    private readonly InputAction m_PlayerControl_Heal;
     private readonly InputAction m_PlayerControl_Interaction;
     private readonly InputAction m_PlayerControl_Attack;
     private readonly InputAction m_PlayerControl_Dash;
@@ -718,6 +804,10 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/Move".
         /// </summary>
         public InputAction @Move => m_Wrapper.m_PlayerControl_Move;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControl/Heal".
+        /// </summary>
+        public InputAction @Heal => m_Wrapper.m_PlayerControl_Heal;
         /// <summary>
         /// Provides access to the underlying input action "PlayerControl/Interaction".
         /// </summary>
@@ -779,6 +869,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @Heal.started += instance.OnHeal;
+            @Heal.performed += instance.OnHeal;
+            @Heal.canceled += instance.OnHeal;
             @Interaction.started += instance.OnInteraction;
             @Interaction.performed += instance.OnInteraction;
             @Interaction.canceled += instance.OnInteraction;
@@ -817,6 +910,9 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @Heal.started -= instance.OnHeal;
+            @Heal.performed -= instance.OnHeal;
+            @Heal.canceled -= instance.OnHeal;
             @Interaction.started -= instance.OnInteraction;
             @Interaction.performed -= instance.OnInteraction;
             @Interaction.canceled -= instance.OnInteraction;
@@ -986,6 +1082,8 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_ProgressControl;
     private List<IProgressControlActions> m_ProgressControlActionsCallbackInterfaces = new List<IProgressControlActions>();
     private readonly InputAction m_ProgressControl_ClosePhone;
+    private readonly InputAction m_ProgressControl_SwitchToggle;
+    private readonly InputAction m_ProgressControl_PhoneScroll;
     /// <summary>
     /// Provides access to input actions defined in input action map "ProgressControl".
     /// </summary>
@@ -1001,6 +1099,14 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "ProgressControl/ClosePhone".
         /// </summary>
         public InputAction @ClosePhone => m_Wrapper.m_ProgressControl_ClosePhone;
+        /// <summary>
+        /// Provides access to the underlying input action "ProgressControl/SwitchToggle".
+        /// </summary>
+        public InputAction @SwitchToggle => m_Wrapper.m_ProgressControl_SwitchToggle;
+        /// <summary>
+        /// Provides access to the underlying input action "ProgressControl/PhoneScroll".
+        /// </summary>
+        public InputAction @PhoneScroll => m_Wrapper.m_ProgressControl_PhoneScroll;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1030,6 +1136,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @ClosePhone.started += instance.OnClosePhone;
             @ClosePhone.performed += instance.OnClosePhone;
             @ClosePhone.canceled += instance.OnClosePhone;
+            @SwitchToggle.started += instance.OnSwitchToggle;
+            @SwitchToggle.performed += instance.OnSwitchToggle;
+            @SwitchToggle.canceled += instance.OnSwitchToggle;
+            @PhoneScroll.started += instance.OnPhoneScroll;
+            @PhoneScroll.performed += instance.OnPhoneScroll;
+            @PhoneScroll.canceled += instance.OnPhoneScroll;
         }
 
         /// <summary>
@@ -1044,6 +1156,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @ClosePhone.started -= instance.OnClosePhone;
             @ClosePhone.performed -= instance.OnClosePhone;
             @ClosePhone.canceled -= instance.OnClosePhone;
+            @SwitchToggle.started -= instance.OnSwitchToggle;
+            @SwitchToggle.performed -= instance.OnSwitchToggle;
+            @SwitchToggle.canceled -= instance.OnSwitchToggle;
+            @PhoneScroll.started -= instance.OnPhoneScroll;
+            @PhoneScroll.performed -= instance.OnPhoneScroll;
+            @PhoneScroll.canceled -= instance.OnPhoneScroll;
         }
 
         /// <summary>
@@ -1295,6 +1413,13 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMove(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "Heal" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHeal(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Interaction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1387,6 +1512,20 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnClosePhone(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SwitchToggle" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwitchToggle(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "PhoneScroll" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPhoneScroll(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "HealMap" which allows adding and removing callbacks.

@@ -1,7 +1,10 @@
+using System.Collections;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -11,6 +14,7 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private GameObject pauseSfxTrigger;
     [SerializeField] private Image progressSlider;
+    [SerializeField] private TMP_Text progressPercentage;
     [SerializeField] private GameObject progressAnimGO;
     [SerializeField] private Vector2 animMinMaxPosX;
     [SerializeField] private Image progressAnim;
@@ -22,8 +26,16 @@ public class ProgressMenuUI : MonoBehaviour
     [SerializeField] private Image progressSliderPopUp;
     [SerializeField] private GameObject progressAnimGOPopUp;
     [SerializeField] private RectTransform[] milestonesPopUp;
+    [SerializeField] private GameObject progressToggle;
+    [SerializeField] private GameObject messageToggle;
+    [SerializeField] private Scrollbar scrollbar;
+    [SerializeField] private float scrollSpeed;
+    [SerializeField] private TMP_Text playTimeText;
+
+    private float playTime;
     
     private TweenerCore<Vector2, Vector2, VectorOptions> pauseDotween;
+    private bool isProgessShown = true;
     
     private void Start()
     {
@@ -31,6 +43,20 @@ public class ProgressMenuUI : MonoBehaviour
         Cursor.visible = false;
         SetMilestonesPosition(milestones);
         SetMilestonesPosition(milestonesPopUp);
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance != null)
+        {
+            float time = GameManager.Instance.playTime;
+
+            int hours = Mathf.FloorToInt(time / 3600f);
+            int minutes = Mathf.FloorToInt((time % 3600f) / 60f);
+            int seconds = Mathf.FloorToInt(time % 60f);
+
+            playTimeText.text = $"{hours:00}h {minutes:00}m {seconds:00}s";
+        }
     }
 
     private void SetMilestonesPosition(RectTransform[] milestones)
@@ -44,18 +70,19 @@ public class ProgressMenuUI : MonoBehaviour
             newPos.x = targetX;
             milestones[i].anchoredPosition = newPos;
         }
-        Debug.Log("Alexis est une pute");
     }
 
     public void OpenProgressMenu()
     {
         pauseSfxTrigger.SetActive(true);
-        progressMenu.SetActive(true);
-        
+    
         RectTransform rect = progressMenu.GetComponent<RectTransform>();
+        rect.anchoredPosition = new Vector2(0, -800f); 
+    
+        progressMenu.SetActive(true);
     
         if (pauseDotween != null) pauseDotween.Kill();
-        
+    
         pauseDotween = rect.DOAnchorPos(Vector2.zero, 0.5f)
             .SetUpdate(true)
             .SetEase(Ease.OutBack)
@@ -64,7 +91,10 @@ public class ProgressMenuUI : MonoBehaviour
                 Time.timeScale = 0;
                 UpdatePhoneInfos(progressSlider, progressAnimGO);
                 AnimateSpriteSheet(progressAnim);
+                player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("ProgressControl");
             });
+
+        StartCoroutine(ResetScrollbarRoutine());
     }
 
     public void CloseProgressMenu()
@@ -81,7 +111,7 @@ public class ProgressMenuUI : MonoBehaviour
             .OnComplete(() =>
             {
                 progressMenu.SetActive(false);
-                player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+                player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
             });
     }
 
@@ -92,6 +122,7 @@ public class ProgressMenuUI : MonoBehaviour
         slider.DOFillAmount(targetFill, 1.5f)
             .SetUpdate(true)
             .SetEase(Ease.OutCubic);
+        progressPercentage.text = $"{targetFill*100:.0}%";
         
         float targetX = Mathf.Lerp(animMinMaxPosX.x, animMinMaxPosX.y, targetFill);
         anim.GetComponent<RectTransform>().DOAnchorPosX(targetX, 1.5f)
@@ -122,5 +153,39 @@ public class ProgressMenuUI : MonoBehaviour
         sequence.OnComplete(() => progressPopUp.SetActive(false));
         AnimateSpriteSheet(progressAnimPopUp);
         UpdatePhoneInfos(progressSliderPopUp, progressAnimGOPopUp);
+    }
+
+    public void SwitchToggle()
+    {
+        isProgessShown = !isProgessShown;
+        if (isProgessShown)
+        {
+            progressToggle.SetActive(true);
+            messageToggle.SetActive(false);
+        }
+        else
+        {
+            progressToggle.SetActive(false);
+            messageToggle.SetActive(true);
+        
+            // FIX 3: Force scrollbar reset safely here too
+            StartCoroutine(ResetScrollbarRoutine());
+        }
+    }
+    
+    private IEnumerator ResetScrollbarRoutine()
+    {
+        yield return new WaitForEndOfFrame();
+        Canvas.ForceUpdateCanvases();
+        if (scrollbar != null)
+        {
+            scrollbar.value = 0f;
+        }
+    }
+
+    public void Scroll(float value)
+    {
+        scrollbar.value += value * scrollSpeed * Time.unscaledDeltaTime;
+        scrollbar.value = Mathf.Clamp01(scrollbar.value);
     }
 }

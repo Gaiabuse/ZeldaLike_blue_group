@@ -2,15 +2,10 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public interface IHasProjectPoints
-{
-    Vector3 ProjectPoint(Vector2 point);
-}
-
 public class DirectionFilter : MonoBehaviour
 {
     [SerializeField]
-    private IHasProjectPoints player;
+    private PlayerController player;
 
     [SerializeField]
     [Range(0.1f, 10f)]
@@ -29,7 +24,7 @@ public class DirectionFilter : MonoBehaviour
 
     [SerializeField]
     [Tooltip("The number of Enemy the game will assist 0 = no assist, must be positive")]
-    [Range(0, 50)]
+    [Range(0, 10)]
     private int maxNumberOfEnemy = 5;
 
     void Start()
@@ -41,7 +36,7 @@ public class DirectionFilter : MonoBehaviour
             );
     }
 
-    public Vector3 FilterStickInput(Vector2 direction)
+    public Vector3 FilterStickInput(Vector2 direction, Vector3 forwardDir3d)
     {
         var aimableNearRaw = AutoAimable.GetTargetAround(transform.position, autoAimRadius);
 
@@ -95,10 +90,10 @@ public class DirectionFilter : MonoBehaviour
     // all that should be in a math helper class but tbh I'm just too lazy rn
 
     private float AttractTo(float x, float to)
-        => AttractFormula(x - to);
+        => Mathf.Sin(x) * WeightTo(x, to) * strength;
 
-    private float AttractFormula(float x)
-        => Mathf.Sin(x / AttractionRadius) * gaussian(x) * AttractionRadius;
+    private float WeightTo(float x, float to)
+        => gaussian(x - to);
 
     private float gaussian(float x)
         => Mathf.Exp(-0.5f * Mathf.Pow(x, SnapStrength * 2f) / Mathf.Pow(AttractionRadius, SnapStrength * 2f));

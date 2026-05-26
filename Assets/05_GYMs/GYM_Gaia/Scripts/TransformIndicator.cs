@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -6,7 +8,6 @@ using UnityEngine.UI;
 public class TransformIndicator : MonoBehaviour
 {
     [SerializeField] private Image formIcon;
-    [SerializeField] private Image spellIndicator;
     [FormerlySerializedAs("iconsSprites")]
     [Tooltip("order : 0= neutre 1 = cauchemar 2 = onirique")]
     [SerializeField] private Sprite[] formIconSpr;
@@ -27,7 +28,13 @@ public class TransformIndicator : MonoBehaviour
     
     [Tooltip("order : 0= l1 1= r1")]
     [SerializeField] private FormSwitcher formSwitcher;
-    
+
+    private bool hasToBlink;
+    private Coroutine blinkCoroutine;
+    private Coroutine fadeCoroutine;
+    public Image createIconImg;
+    public Image createPointsIconeateIconImg;
+
     public static TransformIndicator Instance;
 
     private void Awake()
@@ -128,9 +135,69 @@ public class TransformIndicator : MonoBehaviour
 
     public void DisplayNeutralChargeIcon(int icon)
     {
+        if (hasToBlink) return;
         for (int i = 0; i < chargesIcon.Length; i++)
         {
             chargesIcon[i].SetActive(i == icon-1); 
         }
+    }
+    
+    public void StartBlink(int i)
+    {
+        hasToBlink = true;
+        if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
+        blinkCoroutine = StartCoroutine(BlinkNeutralChargeIcon(i));
+    }
+    public void StopBlink(int iconIndex)
+    {
+        int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
+        hasToBlink = false;
+        if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
+        if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+        
+        if (index+1 < 0) return;
+        var cg = chargesIcon[index+1].GetComponent<CanvasGroup>();
+        if (cg != null)
+        {
+            cg.alpha = 1f;
+        }
+    }
+
+    public IEnumerator BlinkNeutralChargeIcon(int iconIndex)
+    {
+        int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
+        CanvasGroup canvasGroupOut = chargesIcon[index+1].GetComponent<CanvasGroup>();
+        if (index >= 0)
+        {
+            chargesIcon[index].SetActive(true);
+            CanvasGroup cg = chargesIcon[index].GetComponent<CanvasGroup>();
+            if (cg == null) cg = chargesIcon[index].AddComponent<CanvasGroup>();
+            cg.alpha = 1f;
+            chargesIcon[index].SetActive(true);
+        }
+        
+        if (canvasGroupOut == null) canvasGroupOut = chargesIcon[index+1].AddComponent<CanvasGroup>();
+
+        hasToBlink = true;
+        float fadeDuration = 0.5f;
+        
+        while (hasToBlink)
+        {
+            yield return fadeCoroutine = StartCoroutine(FadeAlpha(canvasGroupOut, 0, 1, fadeDuration));
+            yield return fadeCoroutine = StartCoroutine(FadeAlpha(canvasGroupOut, 1, 0, fadeDuration));
+        }
+    }
+    
+    private IEnumerator FadeAlpha(CanvasGroup cg, float start, float end, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            cg.alpha = Mathf.Lerp(start, end, elapsed / duration);
+            
+            yield return null;
+        }
+        cg.alpha = end;
     }
 }

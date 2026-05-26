@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using DG.Tweening.Core;
@@ -37,7 +38,7 @@ public class PauseMenuManager : MonoBehaviour
         pauseDotween = pauseMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.5f).OnComplete(() =>
         {
             pauseMenu.SetActive(false);
-            player.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+            player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
         });
         currentState = MenuState.Playing;
     }
@@ -64,13 +65,11 @@ public class PauseMenuManager : MonoBehaviour
     public void OpenSettings()
     {
         Debug.Log("OpenSettings /not implemented");
-        
     }
-    
+
     public void CloseSettings()
     {
         Debug.Log("CloseSettings /not implemented");
-        
     }
     
     public void Restart()

@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using Unity.Transforms;
 using UnityEngine;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 public class GarbageBehaviors : MonoBehaviour
@@ -8,46 +10,75 @@ public class GarbageBehaviors : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField] private float spawnRatio;
     [SerializeField] private int containPowder;
-    [SerializeField] private bool hasZonyr;
-    [SerializeField] private GameObject zonyr;
     [SerializeField] [Range(0,100)] private int cleanPoints;
-    [SerializeField] [Range(0,2)] private int cleanPointsPLevel;
+    [SerializeField] int hp = 1;
+    [SerializeField] private bool isGlue;
+    [SerializeField] private VisualEffect hitVFX;
+    private bool isCleaning = false;
     
     private GameObject player;
     
-    private int _hp = 1;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-
+        QuotaManager.Instance.DustCount++;
+        
         if (containPowder > 0)
         {
-            transform.GetChild(0).gameObject.SetActive(true);
-            int layer = LayerMask.NameToLayer("ErasedObject");
-            gameObject.layer = layer;
-        }
-        
-        if (!hasZonyr)
-        {
-            if (Random.Range(0f, 1f) <= spawnRatio)
+            if (isGlue)
             {
-                hasZonyr = true;
+                foreach (Transform child in transform)
+                {
+                    if (child.transform.childCount > 1)
+                    {
+                        child.GetChild(0).gameObject.SetActive(true);
+                        child.GetChild(1).gameObject.SetActive(true); 
+                    }
+                    
+                }
             }
-            
+            else
+            {
+                transform.GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(1).gameObject.SetActive(true);
+            }
         }
     }
-
 
     public void Clean()
     {
-        if (containPowder > 0) return;
-        DoClean();
+        if (!isCleaning)
+        {
+            if (!isGlue)
+            {
+                PlayVFX();
+            }
+            isCleaning = true;
+            hp--;
+            Debug.Log(hp);
+            StartCoroutine(CleanPause());
+        }
     }
-    
-    public void Erase()
+
+    private void PlayVFX()
     {
-        DoClean();
+        hitVFX.transform.SetParent(transform.parent);
+        hitVFX.transform.position = transform.position;
+        Vector3 lookTarget = new Vector3(player.transform.position.x, hitVFX.transform.position.y, player.transform.position.z);
+        hitVFX.transform.LookAt(lookTarget);
+        hitVFX.transform.Rotate(0, 90, 0);
+
+        hitVFX.enabled = true;
+        hitVFX.Play();
+    }
+
+    IEnumerator CleanPause()
+    {
+        yield return new WaitForSeconds(0.25f);
+        isCleaning = false;
+        if (hp > 0) yield break;
+        DoClean(); 
     }
 
     private void DoClean()
@@ -58,18 +89,29 @@ public class GarbageBehaviors : MonoBehaviour
             player.GetComponent<PlayerPowder>().GainPowder(containPowder);
         }
         
-        if (hasZonyr)
-        {
-            Instantiate(zonyr, transform.position, transform.rotation);
-        }
-        
-        QuotaManager.Instance.GainCleanPoints(cleanPoints, cleanPointsPLevel);
+        QuotaManager.Instance.GainCleanPoints(cleanPoints);
+        QuotaManager.Instance.DustCleaned();
 
-        if (gameObject.tag == "Glue")
+        if (isGlue)
         {
-            if (transform.parent.gameObject == null) return;
-            GetComponentInParent<Glue>().CleanGlue();
+            GetComponent<Glue>().CleanGlue();
+            enabled = false;
         }
-        Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject); 
+        }
+    }
+
+    public void PlayGlueVFX(Transform collisionTransform)
+    {
+        hitVFX.transform.SetParent(collisionTransform);
+        hitVFX.transform.position = collisionTransform.position;
+        Vector3 lookTarget = new Vector3(player.transform.position.x, hitVFX.transform.position.y, player.transform.position.z);
+        hitVFX.transform.LookAt(lookTarget);
+        hitVFX.transform.Rotate(0, 90, 0);
+
+        hitVFX.enabled = true;
+        hitVFX.Play();
     }
 }

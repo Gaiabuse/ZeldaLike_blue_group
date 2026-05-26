@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Attack : MonoBehaviour
 {
@@ -16,10 +17,12 @@ public class Attack : MonoBehaviour
 
     public float manaUsed { private set; get; }
     public float damage { private set; get; }
+
     [SerializeField] float stun;
     public TypeOfAttack type { private set; get; }
 
-    public Action<bool> Finished;
+    public Action Finished;
+    public Action FinishedAttackFull;
     private bool touchedEnemy;
 
     private float knockbackStrength;
@@ -47,10 +50,16 @@ public class Attack : MonoBehaviour
         this.damage = damage;
     }
 
+    public void StartCombo()
+    {
+        Debug.Log("startCombo");
+        Finished?.Invoke();
+    }
+
     public void FinishAttack()
     {
-
-        Finished?.Invoke(touchedEnemy);
+        Debug.Log("finishAttack");
+        FinishedAttackFull?.Invoke();
         Destroy(gameObject);
     }
 
@@ -69,7 +78,7 @@ public class Attack : MonoBehaviour
 
         if (collision.transform.CompareTag("Ennemy"))
         {
-            SheepEnnemy isSheep = collision.GetComponent<SheepEnnemy>();
+            SheepEnnemyTest isSheep = collision.GetComponent<SheepEnnemyTest>();
 
             KnockBackFeedback knockBackFeedback = collision.GetComponent<KnockBackFeedback>();
             touchedEnemy = true;
@@ -97,6 +106,16 @@ public class Attack : MonoBehaviour
             if (dust != null)
             {
                 dust.Clean();
+            }
+            touchedEnemy = true;
+        }
+        if (collision.transform.CompareTag("Glue"))
+        {
+            GarbageBehaviors dust = collision.transform.GetComponentInParent<GarbageBehaviors>();
+            if (dust != null)
+            {
+                dust.Clean();
+                dust.PlayGlueVFX(collision.transform);
             }
             touchedEnemy = true;
         }

@@ -4,35 +4,36 @@ using UnityEngine.Events;
 
 public class RespawnZone : MonoBehaviour
 {
-   
-     [SerializeField]private UnityEvent onPlayerRespawn;
-     [SerializeField]private Vector3 playerRespawnPosition;
-     private void Start()
-     {
-         OnPLayerRespawn();
-     }
 
-     private void OnEnable()
-     {
-         PlayerController.OnRespawn += OnPLayerRespawn;
-     }
+    [SerializeField] private UnityEvent onPlayerRespawn;
+    [SerializeField] private Vector3 playerRespawnPosition;
 
-     private void OnDisable()
-     {
-         PlayerController.OnRespawn += OnPLayerRespawn;
-     }
+    private void Start()
+    {
+        OnPLayerRespawn();
+    }
 
-     private void OnTriggerEnter(Collider other)
-     {
-         if (other.CompareTag("Player"))
-         {
-             PlayerPrefs.SetFloat("PlayerSpawnX", playerRespawnPosition.x);
-             PlayerPrefs.SetFloat("PlayerSpawnY", playerRespawnPosition.y);
-             PlayerPrefs.SetFloat("PlayerSpawnZ", playerRespawnPosition.z);
-         }
-     }
+    private void OnEnable()
+    {
+        PlayerController.OnRespawn += OnPLayerRespawn;
+    }
 
-     void OnPLayerRespawn()
+    private void OnDisable()
+    {
+        PlayerController.OnRespawn -= OnPLayerRespawn;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerPrefs.SetFloat("PlayerSpawnX", playerRespawnPosition.x);
+            PlayerPrefs.SetFloat("PlayerSpawnY", playerRespawnPosition.y);
+            PlayerPrefs.SetFloat("PlayerSpawnZ", playerRespawnPosition.z);
+        }
+    }
+
+    void OnPLayerRespawn()
     {
         onPlayerRespawn?.Invoke();
     }

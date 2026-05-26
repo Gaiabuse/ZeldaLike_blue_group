@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public PlayerInput playerInput;
+    public PlayerInput playerInput;
     [HideInInspector] public Animator currentAnimator;
     [SerializeField]
     CharacterController controller;
@@ -16,22 +16,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Vector3 gravity = new(0f, -10f, 0f);
     [SerializeField]
-    private CameraFollow cameraFollow;
-
-    [SerializeField]
-    public Transform cameraRotation;
-
-    [SerializeField]
-    private DirectionFilter filter;
-
-    [Header("Control Constants")]
-    [SerializeField]
     float speed = 10f, rotationSpeed = 15f;
     [SerializeField]
     float decayAccel = 5f, decayDecel = 10f;
 
     private float currentStickProgress, smoothedStickProgress;
 
+    [SerializeField]
+    private CameraFollow cameraFollow;
+
+    [SerializeField]
+    public Transform cameraRotation;
 
     [Header("Collision")]
     [SerializeField]
@@ -43,6 +38,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float lookAheadDistance = 0.3f; // How far ahead to push the sensor
     [SerializeField] float sensorRadius = 0.4f;      // The width of the ray circle
     [SerializeField] int minRaysRequired = 5;
+    [SerializeField] float YLevelDeathPlane = -10f;
 
     Vector2 direction = Vector2.zero, look = Vector2.zero;
 
@@ -57,14 +53,16 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
+    public bool LockRotation;
 
     public AttackManager currentAttackManager;
     public MovingBox.Side side = MovingBox.Side.Right;
 
-    [Header("BoxControl")]
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
+    
+    private FormSwitcher formSwitcher;
 
     void Start()
     {
@@ -72,17 +70,22 @@ public class PlayerController : MonoBehaviour
         controller = controller == null ? GetComponent<CharacterController>() : controller;
         if (!PlayerPrefs.HasKey("PlayerSpawnX") && !PlayerPrefs.HasKey("PlayerSpawnY") && !PlayerPrefs.HasKey("PlayerSpawnZ") || respawnAtStart)
         {
-            PlayerPrefs.SetFloat("PlayerSpawnX", transform.position.x);
-            PlayerPrefs.SetFloat("PlayerSpawnY", transform.position.y);
-            PlayerPrefs.SetFloat("PlayerSpawnZ", transform.position.z);
+            PlayerPrefs.SetFloat("PlayerSpawnX", transform.localPosition.x);
+            PlayerPrefs.SetFloat("PlayerSpawnY", transform.localPosition.y);
+            PlayerPrefs.SetFloat("PlayerSpawnZ", transform.localPosition.z);
+            Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
             StartCoroutine(RespawnCoroutine());
         }
         else
         {
             StartCoroutine(RespawnCoroutine());
         }
-
-        playerInput = GetComponent<PlayerInput>();
+        
+        formSwitcher = GetComponent<FormSwitcher>();
+        if (playerInput == null)
+        {
+            playerInput = GetComponent<PlayerInput>();
+        }
         currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
         {
@@ -97,8 +100,20 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Movement();
+        if (LockRotation)
+        {
+            CanRotate = false;
+        }
+        Vector3 moveDirection = ProjectPoint(direction);
+        if (CanRotate) UpdateLookDirection(moveDirection);
+        if (CanMove) Movement();
         AlignPlayer();
+        ResetRotation();
+    }
+
+    private void ResetRotation()
+    {
+        transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
     }
 
     void AlignPlayer()
@@ -109,6 +124,12 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
+        if (transform.position.y < YLevelDeathPlane)
+        {
+            TriggerRespawn();
+            return;
+        }
+
         Vector3 moveDirection = ProjectPoint(direction);
 
         if (CanRotate)
@@ -125,11 +146,43 @@ public class PlayerController : MonoBehaviour
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
 
-            if (IsPlaceLandable(futurePosition)) controller.Move(movement);
+            if (IsPlaceLandable(futurePosition))
+            {
+                controller.Move(movement);
+                if (currentStickProgress > 0.1f)
+                {
+                    MusicManager.Instance.Walk(formSwitcher.currentForm);
+                }
+                else
+                {
+                    MusicManager.Instance.StopWalk();
+                }
+                
+            }
+            else
+            {
+                MusicManager.Instance.StopWalk();
+            }
             //else Debug.LogWarning("not able to find any ground", this);
         }
-
+        else
+        {
+            MusicManager.Instance.StopWalk();
+        }
         controller.Move(gravity * Time.deltaTime);
+    }
+
+    private void PlayIdle()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("DeathZone"))
+        {
+            TriggerRespawn();
+        }
     }
 
     public Vector3 ProjectPoint(Vector2 dir)
@@ -143,6 +196,9 @@ public class PlayerController : MonoBehaviour
 
     void OnMove(InputValue _input)
     {
+        Vector2 inputVector = _input.Get<Vector2>();
+        float inputMagnitude = inputVector.magnitude;
+        
         var ldirection = _input.Get<Vector2>();
         if (currentAnimator.GetBool("isRunning"))
         {
@@ -181,7 +237,8 @@ public class PlayerController : MonoBehaviour
         OnRespawn?.Invoke();
         controller.enabled = false;
         Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
-        transform.position = startPos;
+        Debug.Log("start pos "+ startPos);
+        transform.localPosition = startPos;
 
         controller.enabled = true;
         CanMove = false;
@@ -221,7 +278,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
-    bool IsPlaceLandable(Vector3 destination)
+    public bool IsPlaceLandable(Vector3 destination)
     {
         // 1. Calculate the offset based on move direction
         // We use currentDirection (normalized) to push the sensor forward

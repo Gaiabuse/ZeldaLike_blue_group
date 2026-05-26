@@ -42,7 +42,16 @@ public class NightmareAttackManager : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        Debug.Log(switchInProgress);
+        var attackAction = player.playerInput.actions["Attack"];
+        if (attackAction.activeControl != null)
+        {
+            string direction = attackAction.activeControl.name;
+
+            if (direction != "buttonEast")
+            {
+                return;
+            }
+        }
         if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
@@ -76,6 +85,10 @@ public class NightmareAttackManager : AttackManager
             }
             Attack(comboAttacks[currentCombo]);
             switchInProgress = false;
+            
+            FormAnimator.SetBool("isAttacking",true);
+            FormAnimator.SetTrigger("Attack"+currentCombo);
+            Debug.Log("Attack"+currentCombo);
         }
     }
 
@@ -83,44 +96,66 @@ public class NightmareAttackManager : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
-        UltimateActivation();
+        //UltimateActivation();
         if (ultimateCoroutine != null)
         {
             StopCoroutine(ultimateCoroutine);
         }
         ultimateCoroutine = StartCoroutine(UltimateCoroutine());
     }
+    
     private void UltimateActivation()
     {
         formSwitcher.canSwitchForm = false;
         CanAttack = false;
         ultReference.ultimateObject.SetActive(true);
-        ultReference.playerSprite.SetActive(false);
+        ultReference.playerSprite.GetComponent<SpriteRenderer>().enabled = false;
         ultReference.playerCollider.enabled = false;
         ultReference.dash.enabled = false;
         ultReference.grab.enabled = false;
+    
         formSwitcher.enabled = false;
+    
         ultReference.characterController.detectCollisions = false;
+        player.LockRotation = true;
     }
 
     private void UltimateDesactivation()
     {
+        formSwitcher.enabled = true; 
         formSwitcher.canSwitchForm = true;
+    
         CanAttack = true;
+        player.LockRotation = false;
         ultReference.ultimateObject.SetActive(false);
-        ultReference.playerSprite.SetActive(true);
         ultReference.playerCollider.enabled = true;
         ultReference.dash.enabled = true;
         ultReference.grab.enabled = true;
         ultReference.characterController.detectCollisions = true;
-        Attack(ultimateAttack);
+
+        player.CanMove = true;
+        player.CanRotate = true;
+
+        Attack(ultimateAttack); 
     }
 
     private IEnumerator UltimateCoroutine()
     {
+        player.LockRotation = true;
+        FormAnimator.SetTrigger("usingUlti");
+    
+     
+        yield return new WaitForSeconds(0.75f);
+        UltimateActivation();
+    
         yield return new WaitForSeconds(timeOfUltimate);
-        formSwitcher.canSwitchForm = true;
+        FormAnimator.SetBool("UltiEnd", true);
+        ultReference.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
+    
         UltimateDesactivation();
         ultimateCoroutine = null;
+    
+        yield return new WaitForSeconds(0.5f);
+        FormAnimator.SetBool("UltiEnd", false);
     }
 }
