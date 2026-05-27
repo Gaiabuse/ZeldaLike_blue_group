@@ -21,7 +21,6 @@ public class EnnemyHit : MonoBehaviour
         if (otherDamageablePlayer == null) return;
 
         otherDamageablePlayer.TakeDamage(damage);
-
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -34,11 +33,6 @@ public class EnnemyHit : MonoBehaviour
 
         otherDamageablePlayer.TakeDamage(damage);
     }
-
-    private void DoDamage(int damage)
-    {
-    }
-
 
     public void ToggleHitBox(bool toggle)
     {

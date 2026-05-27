@@ -104,4 +104,11 @@ public class CapSpriteEnnemy : ClassicEnnemy
             }
         }
     }
+
+    protected override void Death()
+    {
+        LaserPrevisuArrow.SetActive(false);
+        beamVfx.SetActive(false);
+        base.Death();
+    }
 }

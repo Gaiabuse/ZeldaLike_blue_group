@@ -6,6 +6,7 @@ public class ClassicEnnemy : EnnemyBase
 {
     protected NavMeshAgent navMesh;
 
+    [SerializeField] GameObject SpriteEnnemy;
     [SerializeField] Transform LockOn;
 
     [SerializeField] float LookRange = 5f;
@@ -18,6 +19,8 @@ public class ClassicEnnemy : EnnemyBase
     [SerializeField] protected float DistanceAttack = 2;
     [SerializeField] float chargeAttackTime = 1.5f;
     [SerializeField] protected float waitAfterAttack = 1.5f;
+
+    [SerializeField] float waitBeforeDelete = 1.5f;
 
     protected Vector3 WhereToGoPos;
 
@@ -126,6 +129,34 @@ public class ClassicEnnemy : EnnemyBase
                     animator.SetBool("IsMoving", true);
                 }
             }
+        }
+        if (move == "death")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                timerGeneral = 1;
+                move = "deathEffect";
+
+                SpriteEnnemy.SetActive(false);
+                deathVFX.SetActive(true);
+            }
+        }
+        if (move == "deathEffect")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(100, 0.5f);
         }
     }
 
@@ -244,7 +275,7 @@ public class ClassicEnnemy : EnnemyBase
     public override void TakeDamage(int damage, float stun)
     {
         base.TakeDamage(damage, stun);
-        hitVFX.transform.SetParent(transform.parent);
+        //hitVFX.transform.SetParent(transform.parent);
         hitVFX.transform.position = transform.position;
         Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
         hitVFX.transform.LookAt(lookTarget);
@@ -356,7 +387,10 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
-        deathVFX.SetActive(true);
+        move = "death";
+        timerGeneral = waitBeforeDelete;
+        navMesh.isStopped = true;
+
         if (EnnemyManager.Instance != null)
         {
             Debug.Log("remove");
