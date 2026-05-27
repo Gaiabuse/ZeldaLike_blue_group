@@ -1,10 +1,11 @@
-using System;
-using System.Collections;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
@@ -268,6 +269,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected virtual void Death()
     {
+        lifeBar.SetActive(false);
         dotween?.Kill(); 
         transform.DOKill();
         deathVFX.SetActive(true);
