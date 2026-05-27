@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class IsometricParalaxe : MonoBehaviour
 {
+    [SerializeField] private PlayerController player;
     [SerializeField] private float speed;
     [SerializeField] private Vector2 parallaxMove;
 
@@ -13,6 +14,9 @@ public class IsometricParalaxe : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.localPosition += (Vector3)parallaxMove * (speed * Time.fixedDeltaTime);
+        if (player.isMoving)
+        {
+            transform.localPosition += (Vector3)parallaxMove * (speed * Time.fixedDeltaTime);
+        }
     }
 }

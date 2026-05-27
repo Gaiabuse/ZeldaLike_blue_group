@@ -54,7 +54,7 @@ public class BomberAttack : MonoBehaviour
     {
         Vector3 target = player.position;
         
-        GameObject newBomb = Instantiate(bomb, transform.position, transform.rotation); 
+        GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation); 
         newBomb.GetComponent<StarBomb>().ShowPreview(player.position, player);
         yield return new WaitForSeconds(chargeSpeed);
         StartCoroutine(Fire(newBomb, transform.position, target));

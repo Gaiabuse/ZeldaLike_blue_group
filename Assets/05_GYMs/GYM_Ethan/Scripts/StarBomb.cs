@@ -52,6 +52,7 @@ public class StarBomb : MonoBehaviour
 
     private IEnumerator SelfExplodeCountdown()
     {
+        MeshRenderer childRenderer = transform.GetChild(0).GetComponent<MeshRenderer>();
         float elapsed = 0;
         //Animation placeholder
         float currentBlinkInterval = 1f;
@@ -67,6 +68,7 @@ public class StarBomb : MonoBehaviour
             {
                 lastBlinkTime = elapsed;
                 meshRenderer.enabled = !meshRenderer.enabled;
+                childRenderer.enabled = !childRenderer.enabled;
                 currentBlinkInterval *= 0.75f;
 
                 currentBlinkInterval = Mathf.Max(currentBlinkInterval, 0.05f);

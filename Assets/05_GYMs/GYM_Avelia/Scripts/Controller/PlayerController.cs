@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
+    public bool isMoving;
     public bool LockRotation;
 
     public AttackManager currentAttackManager;
@@ -141,12 +142,14 @@ public class PlayerController : MonoBehaviour
 
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
-
+            
+            isMoving = false;
             if (IsPlaceLandable(futurePosition))
             {
                 controller.Move(movement);
                 if (currentStickProgress > 0.1f)
                 {
+                    isMoving = true;
                     MusicManager.Instance.Walk(formSwitcher.currentForm);
                 }
                 else
