@@ -207,7 +207,14 @@ public class PlayerController : MonoBehaviour
 
         currentStickProgress = ldirection.magnitude;
 
-        currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));
+        if (isMoving)
+        {
+            currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));   
+        }
+        else
+        {
+            currentAnimator.SetBool("isRunning", false);  
+        }
         if (currentStickProgress <= 0.1) return;
         direction = ldirection.normalized;
     }

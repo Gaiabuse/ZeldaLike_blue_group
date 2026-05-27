@@ -157,6 +157,7 @@ public class ProgressMenuUI : MonoBehaviour
 
     public void SwitchToggle()
     {
+        MusicManager.Instance.PlayClick();
         isProgessShown = !isProgessShown;
         if (isProgessShown)
         {

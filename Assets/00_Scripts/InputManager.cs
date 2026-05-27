@@ -100,7 +100,12 @@ public class InputManager : MonoBehaviour
     {
         if (playerInput.currentActionMap.name == "ProgressControl" && Mathf.Abs(scrollInput) > 0.01f)
         {
+            MusicManager.Instance.PlayScroll();
             progressMenu.Scroll(scrollInput);
+        }
+        else
+        {
+            MusicManager.Instance.StopScroll();
         }
     }
 }
