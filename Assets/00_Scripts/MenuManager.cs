@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] private string gameScene;
+    [SerializeField] private EventSystem eventSystem;
+    [SerializeField] private GameObject mainFirstSelected;
+    [SerializeField] private GameObject settingsFirstSelected;
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject settingsScreen;
@@ -36,7 +40,6 @@ public class MenuManager : MonoBehaviour
                 break;
         }
     }
-    
 
     public void Quit()
     {
@@ -53,6 +56,8 @@ public class MenuManager : MonoBehaviour
         titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             titleScreen.SetActive(false);
             settingsScreen.SetActive(true);
+            eventSystem.firstSelectedGameObject = settingsFirstSelected;
+            eventSystem.SetSelectedGameObject(settingsFirstSelected);
             settingsScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
         
@@ -64,6 +69,8 @@ public class MenuManager : MonoBehaviour
         settingsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             settingsScreen.SetActive(false);
             titleScreen.SetActive(true);
+            eventSystem.firstSelectedGameObject = mainFirstSelected;
+            eventSystem.SetSelectedGameObject(mainFirstSelected);
             titleScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
         
