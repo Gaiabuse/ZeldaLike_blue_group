@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
+    [SerializeField] IsometricParalaxe paralaxe;
     
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
@@ -89,12 +90,22 @@ public class InputManager : MonoBehaviour
     {
         scrollInput = value.Get<float>();
     }
+    
+    public void OnMove(InputValue value)
+    {
+        paralaxe.Move(value.Get<Vector2>());
+    }
 
     private void Update()
     {
         if (playerInput.currentActionMap.name == "ProgressControl" && Mathf.Abs(scrollInput) > 0.01f)
         {
+            MusicManager.Instance.PlayScroll();
             progressMenu.Scroll(scrollInput);
+        }
+        else
+        {
+            MusicManager.Instance.StopScroll();
         }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
-    [HideInInspector] public PlayerInput playerInput;
+    public PlayerInput playerInput;
     [HideInInspector] public Animator currentAnimator;
     [SerializeField]
     CharacterController controller;
@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
+    public bool isMoving;
     public bool LockRotation;
 
     public AttackManager currentAttackManager;
@@ -82,7 +83,10 @@ public class PlayerController : MonoBehaviour
         }
         
         formSwitcher = GetComponent<FormSwitcher>();
-        playerInput = GetComponent<PlayerInput>();
+        if (playerInput == null)
+        {
+            playerInput = GetComponent<PlayerInput>();
+        }
         currentAnimator = currentAttackManager.FormAnimator;
         if (cameraRotation == null)
         {
@@ -138,12 +142,14 @@ public class PlayerController : MonoBehaviour
 
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
-
+            
+            isMoving = false;
             if (IsPlaceLandable(futurePosition))
             {
                 controller.Move(movement);
                 if (currentStickProgress > 0.1f)
                 {
+                    isMoving = true;
                     MusicManager.Instance.Walk(formSwitcher.currentForm);
                 }
                 else
@@ -162,8 +168,12 @@ public class PlayerController : MonoBehaviour
         {
             MusicManager.Instance.StopWalk();
         }
-
         controller.Move(gravity * Time.deltaTime);
+    }
+
+    private void PlayIdle()
+    {
+        throw new NotImplementedException();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -187,7 +197,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 inputVector = _input.Get<Vector2>();
         float inputMagnitude = inputVector.magnitude;
-       
+        
         var ldirection = _input.Get<Vector2>();
         if (currentAnimator.GetBool("isRunning"))
         {
@@ -197,7 +207,14 @@ public class PlayerController : MonoBehaviour
 
         currentStickProgress = ldirection.magnitude;
 
-        currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));
+        if (isMoving)
+        {
+            currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));   
+        }
+        else
+        {
+            currentAnimator.SetBool("isRunning", false);  
+        }
         if (currentStickProgress <= 0.1) return;
         direction = ldirection.normalized;
     }

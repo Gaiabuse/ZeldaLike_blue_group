@@ -9,6 +9,10 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject erase;
     [SerializeField] private GameObject stun;
     [SerializeField] private GameObject phoneNotification;
+    [SerializeField] private GameObject click;
+    [SerializeField] private GameObject cancel;
+    [SerializeField] private GameObject scroll;
+    [SerializeField] private GameObject locked;
     [SerializeField] private GameObject NWalk;
     [SerializeField] private GameObject NMWalk;
     [SerializeField] private GameObject DWalk;
@@ -71,6 +75,24 @@ public class MusicManager : MonoBehaviour
         phoneNotification.SetActive(true);
     }
 
+    public void PlayClick()
+    {
+        click.SetActive(false);
+        click.SetActive(true);
+    }
+
+    public void PlayCancel()
+    {
+        cancel.SetActive(false);
+        cancel.SetActive(true);
+    }
+    
+    public void PlayLockedUI()
+    {
+        locked.SetActive(false);
+        locked.SetActive(true);
+    }
+
     public void Walk(Form currentForm)
     {
         switch (currentForm)
@@ -112,5 +134,15 @@ public class MusicManager : MonoBehaviour
             stun.SetActive(false);
             nbStun = 0;
         }
+    }
+
+    public void PlayScroll()
+    {
+        scroll.SetActive(true);
+    }
+
+    public void StopScroll()
+    {
+        scroll.SetActive(false);
     }
 }

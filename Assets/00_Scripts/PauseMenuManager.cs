@@ -30,6 +30,7 @@ public class PauseMenuManager : MonoBehaviour
     public void ClosePauseMenu()
     {
         pauseSfxTrigger.SetActive(false);
+        MusicManager.Instance.PlayCancel();
         Time.timeScale = 1;
         if (pauseDotween != null)
         {
@@ -65,32 +66,38 @@ public class PauseMenuManager : MonoBehaviour
     public void OpenSettings()
     {
         Debug.Log("OpenSettings /not implemented");
+        MusicManager.Instance.PlayLockedUI();
     }
 
     public void CloseSettings()
     {
         Debug.Log("CloseSettings /not implemented");
+        MusicManager.Instance.PlayLockedUI();
     }
     
     public void Restart()
     {
         player.TriggerRespawn();
         ClosePauseMenu();
+        MusicManager.Instance.PlayClick();
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1;
         StartCoroutine(LoadMainMenuSequence());
+        MusicManager.Instance.PlayClick();
     }
 
     public void Quit()
     {
         Application.Quit();
+        MusicManager.Instance.PlayClick();
     }
 
     public void Return()
     {
+        MusicManager.Instance.PlayCancel();
         switch (currentState)
         {
             case MenuState.Pause:

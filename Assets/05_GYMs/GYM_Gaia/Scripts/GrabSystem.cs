@@ -1,13 +1,15 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class GrabSystem : MonoBehaviour
 {
     [Header("Do not change")]
-    [SerializeField]
-    PlayerController player;
+    [SerializeField] PlayerController player;
+    [SerializeField] private Animator animator;
 
     [Header("Grab")]
     [SerializeField] private float rangeForGrab;
@@ -18,9 +20,11 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private float sideRangeForSwallow = 0.1f;
     [SerializeField] private LayerMask grabLayers;
     [SerializeField] private Vector3 downValue = Vector3.down;
+    [SerializeField] private VisualEffect eatVFX;
+    [Tooltip("How long the script will wait for the Swallow/Eat VFX to finish playing.")]
+    [SerializeField] private float swallowVfxDuration = 1.5f; 
 
-    [SerializeField]
-    private float offsetGrabbedObject = .05f;
+    [SerializeField] private float offsetGrabbedObject = .05f;
 
     [Header("Throw")]
     [Tooltip("The enemy will end up at this distance of the enemy")]
@@ -29,14 +33,13 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private float throwDuration = .1f, AutoThrowDuration = 2f;
 
     [Header("Visual")]
-    [SerializeField]
-    private GameObject throwMark, grabMark;
-    [SerializeField]
-    private GameObject grabVfx;
+    [SerializeField] private GameObject throwMark, grabMark;
+    [SerializeField] private GameObject grabVfx;
 
     [SerializeField] private GameObject currentGrabbedObject;
 
     private bool CanThrow = true, IsThrowing = false;
+    private bool isGrabbing = false; // Prevents overlapping grab triggers
 
     enum GrabbingState
     {
@@ -47,7 +50,6 @@ public class GrabSystem : MonoBehaviour
     }
 
     private GrabbingState grabbingState;
-
     private float throwTimer;
 
     void Start()
@@ -99,7 +101,7 @@ public class GrabSystem : MonoBehaviour
 
     void OnSecondPower(InputValue _input)
     {
-        if (IsThrowing) return;
+        if (IsThrowing || isGrabbing) return;
 
         if (currentGrabbedObject == null)
         {
@@ -133,9 +135,108 @@ public class GrabSystem : MonoBehaviour
             return;
         }
 
-        Grab();
+        // Fire off the Coroutine instead of a standard method
+        if (!isGrabbing)
+        {
+            StartCoroutine(GrabRoutine());
+        }
+    }
+
+    private IEnumerator GrabRoutine()
+    {
+        animator.SetTrigger("usingAbility");
+        isGrabbing = true;
+        Vector3 downPosition = transform.position - downValue;
+
+        // --- 1. SWALLOW LOGIC ---
+        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
+        {
+            currentGrabbedObject = hitSwallow.collider.gameObject;
+            if (currentGrabbedObject != null)
+            {
+                // Activate and play your VFX
+                eatVFX.enabled = true;
+                eatVFX.Play();
+
+                // PAUSE CODE HERE: Holds script execution right here until the VFX finishes
+                yield return new WaitForSeconds(swallowVfxDuration);
+
+                bool isSheep = false;
+                SheepEnnemyTest SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemyTest>();
+                if (SheepEnnemyScript != null && SheepEnnemyScript.shellHere)
+                {
+                    SheepEnnemyScript.LoseShell();
+                    isSheep = true;
+                }
+                
+                SheepEnnemySprite SheepSprite = currentGrabbedObject.GetComponent<SheepEnnemySprite>();
+                if (SheepSprite != null && SheepSprite.shellHere)
+                {
+                    SheepSprite.LoseShell();
+                    isSheep = true;
+                }
+
+                if (currentGrabbedObject.transform.parent != null)
+                    currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
+
+                if (!isSheep) currentGrabbedObject.SetActive(false);
+            }
+
+            // Wrap up state cleanly after VFX concludes
+            player.CanMove = true;
+            throwTimer = Time.time; 
+            isGrabbing = false;
+            yield break; 
+        }
+
+        // --- 2. STANDARD ATTRACT LOGIC ---
+        RaycastHit? maybeHitGrabbed = DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab);
+
+        if (maybeHitGrabbed is null)
+        {
+            player.CanMove = true;
+            isGrabbing = false;
+            yield break;
+        }
+
+        RaycastHit hitGrabbed = maybeHitGrabbed ?? throw new Exception("Unreachable");
+
+        GameObject targetSubject = hitGrabbed.transform.parent != null
+            ? hitGrabbed.transform.parent.gameObject
+            : hitGrabbed.collider.gameObject;
+
+        // PAUSE CODE HERE: Wait for the object to finish flying towards the player
+        yield return StartCoroutine(AttractObjectRoutine(targetSubject));
+
+        // Wrap up state cleanly after movement completes
         player.CanMove = true;
-        throwTimer = Time.deltaTime;
+        throwTimer = Time.time;
+        isGrabbing = false;
+    }
+
+    private IEnumerator AttractObjectRoutine(GameObject subject)
+    {
+        var finalPosition = transform.position + transform.forward * offsetGrabbedObject;
+
+        if (!Physics.Raycast(finalPosition + Vector3.up, Vector3.down * 2f)) yield break;
+
+        var tween = subject.transform.DOMove(finalPosition, grabActionDuration);
+        GameObject vfxInstance = null;
+
+        if (grabVfx)
+        {
+            vfxInstance = Instantiate(grabVfx, subject.transform);
+        }
+
+        tween.Play();
+        
+        // DOTween Coroutine Integration: Pauses here dynamically until the tween completes
+        yield return tween.WaitForCompletion();
+
+        if (vfxInstance != null)
+        {
+            Destroy(vfxInstance);
+        }
     }
 
     private void Throw()
@@ -211,57 +312,6 @@ public class GrabSystem : MonoBehaviour
         grabMark.transform.position = position;
     }
 
-    private void Grab()
-    {
-        Vector3 downPosition = transform.position - downValue;
-
-        // if you don't understand this please check nullable syntax and pattern matching :3 cool stuff
-        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
-        {
-            currentGrabbedObject = hitSwallow.collider.gameObject;
-            if (currentGrabbedObject != null)
-            {
-                bool isSheep = false;
-                SheepEnnemyTest SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemyTest>();
-                if (SheepEnnemyScript != null)
-                {
-                    if (SheepEnnemyScript.shellHere)
-                    {
-                        SheepEnnemyScript.LoseShell();
-                        isSheep = true;
-                    }
-                }
-                SheepEnnemySprite SheepSprite = currentGrabbedObject.GetComponent<SheepEnnemySprite>();
-                if (SheepSprite != null)
-                {
-                    if (SheepSprite.shellHere)
-                    {
-                        SheepSprite.LoseShell();
-                        isSheep = true;
-                    }
-                }
-
-                if (currentGrabbedObject.transform.parent != null)
-                    currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
-
-                if (!isSheep) currentGrabbedObject.SetActive(false);
-            }
-            return;
-        }
-
-        RaycastHit? maybeHitGrabbed = DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab);
-
-        if (maybeHitGrabbed is null) return;
-
-        RaycastHit hitGrabbed = maybeHitGrabbed ?? throw new Exception("Unreachable");
-
-        Vector3 direction = (hitGrabbed.transform.position - transform.position).normalized;
-
-        AttractObject(hitGrabbed.transform.parent != null
-            ? hitGrabbed.transform.parent.gameObject
-            : hitGrabbed.collider.gameObject);
-    }
-
     private void DoAutoThrowUpdate()
     {
         var PassedTime = Time.time - throwTimer;
@@ -298,22 +348,4 @@ public class GrabSystem : MonoBehaviour
 
         return null;
     }
-
-    private void AttractObject(GameObject subject)
-    {
-        var finalPosition = transform.position + transform.forward * offsetGrabbedObject;
-
-        if (!Physics.Raycast(finalPosition + Vector3.up, Vector3.down * 2f)) return;
-
-        var tween = subject.transform.DOMove(finalPosition, grabActionDuration);
-        if (grabVfx)
-        {
-            var vfx = Instantiate(grabVfx, parent: subject.transform);
-            tween.onKill += () => Destroy(vfx);
-        }
-
-        tween.Play();
-
-    }
-
 }
