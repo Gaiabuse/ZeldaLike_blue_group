@@ -15,6 +15,9 @@ public abstract class AttackManager : MonoBehaviour
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
     [SerializeField] protected FormSwitcher formSwitcher;
     [HideInInspector]public bool CanAttack;
+
+    [SerializeField]
+    private float timeForDoUltimate;
     protected bool canChargedAttack;
     protected Attack currentAttack;
     protected int currentCombo;
@@ -186,7 +189,7 @@ public abstract class AttackManager : MonoBehaviour
             
             formSwitcher.NotifyUltimateReady();
             
-            yield return new WaitForSecondsRealtime(formSwitcher.TimeForDoUltimate);
+            yield return new WaitForSecondsRealtime(timeForDoUltimate);
             
             if (formSwitcher.CanDoUltimate)
             {
