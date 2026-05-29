@@ -20,7 +20,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _Mask_scale _refraction_strenght
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -38,19 +38,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FoamScale: 89
-    - _Mask_scale: 0.382
+    - _FoamScale: 180
+    - _Mask_scale: 0.555
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _refraction_opacity: 0.864
-    - _refraction_strenght: 0.1
-    - _speed: 0.17
-    - _step_scale: 0.09
+    - _refraction_opacity: 0.77
+    - _refraction_strenght: 0.058
+    - _speed: 0.57
+    - _step_scale: 0.06
     m_Colors:
-    - _Edge_color: {r: 0.5660378, g: 0.07208972, b: 0.5660378, a: 0}
-    - _color: {r: 0, g: 0, b: 0, a: 1}
-    - _depth_color: {r: 0, g: 0, b: 0, a: 0}
-    - _foam_color: {r: 0.98039216, g: 0.54901963, b: 0.96692514, a: 1}
+    - _Edge_color: {r: 0, g: 0, b: 0, a: 0}
+    - _color: {r: 0.2264151, g: 0.0032039813, b: 0.07005251, a: 1}
+    - _depth_color: {r: 0.25404406, g: 0.031149868, b: 0.26415092, a: 0}
+    - _foam_color: {r: 0.97134966, g: 0.6494749, b: 0.990566, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8425878826244553179
