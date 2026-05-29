@@ -10,7 +10,6 @@ using UnityEngine.InputSystem;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] private string gameScene;
-    [SerializeField] private EventSystem eventSystem;
     [SerializeField] private GameObject mainFirstSelected;
     [SerializeField] private GameObject settingsFirstSelected;
     [SerializeField] private GameObject titleScreen;
@@ -56,8 +55,7 @@ public class MenuManager : MonoBehaviour
         titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             titleScreen.SetActive(false);
             settingsScreen.SetActive(true);
-            eventSystem.firstSelectedGameObject = settingsFirstSelected;
-            eventSystem.SetSelectedGameObject(settingsFirstSelected);
+            EventSystem.current.SetSelectedGameObject(settingsFirstSelected);
             settingsScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
         
@@ -69,8 +67,7 @@ public class MenuManager : MonoBehaviour
         settingsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             settingsScreen.SetActive(false);
             titleScreen.SetActive(true);
-            eventSystem.firstSelectedGameObject = mainFirstSelected;
-            eventSystem.SetSelectedGameObject(mainFirstSelected);
+            EventSystem.current.SetSelectedGameObject(mainFirstSelected);
             titleScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
         
