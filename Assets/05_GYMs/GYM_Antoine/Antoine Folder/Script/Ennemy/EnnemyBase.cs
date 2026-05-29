@@ -211,6 +211,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
             if (HP <= 0)
             {
+                lifeBar.SetActive(false);
                 Death();
             }
             else
