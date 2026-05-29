@@ -35,6 +35,20 @@ public class PauseMenuManager : MonoBehaviour
         pauseSfxTrigger.SetActive(false);
         MusicManager.Instance.PlayCancel();
         Time.timeScale = 1;
+        if (currentState == MenuState.Settings)
+        {
+            if (settingsDotween != null)
+            {
+                settingsDotween.Kill();
+            }
+            settingsDotween = settingsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f)
+                .SetUpdate(true)
+                .OnComplete(() =>
+                {
+                    settingsScreen.SetActive(false);
+                });
+        }
+        
         if (pauseDotween != null)
         {
             pauseDotween.Kill();
@@ -42,10 +56,11 @@ public class PauseMenuManager : MonoBehaviour
         pauseDotween = pauseMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.5f)
             .SetUpdate(true)
             .OnComplete(() =>
-        {
-            pauseMenu.SetActive(false);
-            player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
-        });
+            {
+                pauseMenu.SetActive(false);
+                player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+            });
+        
         currentState = MenuState.Playing;
     }
 
@@ -55,8 +70,7 @@ public class PauseMenuManager : MonoBehaviour
         currentState = MenuState.Pause;
         pauseMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
-    
-        // 2. Set the default button
+        
         EventSystem.current.SetSelectedGameObject(firstSelectedButton);
         if (pauseDotween != null)
         {
@@ -73,24 +87,30 @@ public class PauseMenuManager : MonoBehaviour
     public void OpenSettings()
     {
         MusicManager.Instance.PlayClick();
+        
+        currentState = MenuState.Settings;
+        settingsScreen.SetActive(true);
+        
         if (settingsDotween != null)
         {
             settingsDotween.Kill();
         }
-        settingsDotween = pauseMenu.GetComponent<CanvasGroup>().DOFade(0f, 0.25f)
+        settingsDotween = settingsScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.25f)
             .SetUpdate(true)
             .OnComplete(() =>
         {
             pauseMenu.SetActive(false);
-            settingsScreen.SetActive(true);
             EventSystem.current.SetSelectedGameObject(settingsFirstSelectedButton);
-            settingsScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).SetUpdate(true);
         });
     }
 
     public void CloseSettings()
     {
         MusicManager.Instance.PlayCancel();
+        
+        currentState = MenuState.Pause;
+        pauseMenu.SetActive(true);
+        
         if (settingsDotween != null)
         {
             settingsDotween.Kill();
@@ -99,10 +119,8 @@ public class PauseMenuManager : MonoBehaviour
             .SetUpdate(true)
             .OnComplete(() =>
         {
-            pauseMenu.SetActive(true);
             settingsScreen.SetActive(false);
             EventSystem.current.SetSelectedGameObject(firstSelectedButton);
-            pauseMenu.GetComponent<CanvasGroup>().DOFade(1f, 0.5f).SetUpdate(true);
         });
     }
     

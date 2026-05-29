@@ -10,6 +10,10 @@ public class SettingsManager : MonoBehaviour
     public bool debugMode;
     
     public static SettingsManager Instance;
+    
+    private FMOD.Studio.VCA mainVCA;
+    private FMOD.Studio.VCA musicVCA;
+    private FMOD.Studio.VCA sfxVCA;
 
     private void Awake()
     {
@@ -17,6 +21,11 @@ public class SettingsManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); 
+            
+            mainVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Master"); 
+            musicVCA = FMODUnity.RuntimeManager.GetVCA("vca:/MUSIC");
+            sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
+            
             LoadSettings();
         }
         else
@@ -24,23 +33,31 @@ public class SettingsManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
+    private void Start()
+    {
+        ApplyVolumesToFMOD();
+    }
+
     public void SetMainVolume(Slider slider)
     {
         mainVolume = slider.value;
         PlayerPrefs.SetFloat("MainVolume", mainVolume);
+        mainVCA.setVolume(mainVolume);
     }
 
     public void SetMusicVolume(Slider slider)
     {
         musicVolume = slider.value;
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        musicVCA.setVolume(musicVolume);
     }
 
     public void SetSfxVolume(Slider slider)
     {
         sfxVolume = slider.value;
         PlayerPrefs.SetFloat("SfxVolume", sfxVolume);
+        sfxVCA.setVolume(sfxVolume);
     }
     
     public void SetDebugMode(Toggle toggle)
@@ -57,5 +74,12 @@ public class SettingsManager : MonoBehaviour
         
         int debugInt = PlayerPrefs.GetInt("DebugMode", 0);
         debugMode = (debugInt == 1);
+    }
+
+    private void ApplyVolumesToFMOD()
+    {
+        mainVCA.setVolume(mainVolume);
+        musicVCA.setVolume(musicVolume);
+        sfxVCA.setVolume(sfxVolume);
     }
 }

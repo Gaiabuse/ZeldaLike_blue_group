@@ -16,6 +16,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject settingsScreen;
     [SerializeField] private GameObject creditsScreen;
+    [SerializeField] private GameObject clickSFX;
+    [SerializeField] private GameObject cancelSFX;
     
     private enum MenuState { Title, Settings, Credits }
     private MenuState currentState = MenuState.Title;
@@ -47,11 +49,15 @@ public class MenuManager : MonoBehaviour
 
     public void Play()
     {
+        clickSFX.SetActive(false);
+        clickSFX.SetActive(true);
         StartCoroutine(LaunchGameSequence());
     }
     
     public void ShowSettings()
     {
+        clickSFX.SetActive(false);
+        clickSFX.SetActive(true);
         titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             titleScreen.SetActive(false);
             settingsScreen.SetActive(true);
@@ -64,6 +70,8 @@ public class MenuManager : MonoBehaviour
     
     public void CloseSettings()
     {
+        cancelSFX.SetActive(false);
+        cancelSFX.SetActive(true);
         settingsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             settingsScreen.SetActive(false);
             titleScreen.SetActive(true);
@@ -77,6 +85,8 @@ public class MenuManager : MonoBehaviour
     
     public void ShowCredits()
     {
+        clickSFX.SetActive(false);
+        clickSFX.SetActive(true);
         titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             titleScreen.SetActive(false);
             creditsScreen.SetActive(true);
@@ -88,6 +98,8 @@ public class MenuManager : MonoBehaviour
     
     public void CloseCredits()
     {
+        cancelSFX.SetActive(false);
+        cancelSFX.SetActive(true);
         creditsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             creditsScreen.SetActive(false);
             titleScreen.SetActive(true);
@@ -107,7 +119,6 @@ public class MenuManager : MonoBehaviour
             loadingScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
         
-        // WaitForSecond have to be longer than the rumbling duration to avoid endless rumbling
         yield return new WaitForSeconds(1.5f);
         
         AsyncOperation operation = SceneManager.LoadSceneAsync(gameScene);
