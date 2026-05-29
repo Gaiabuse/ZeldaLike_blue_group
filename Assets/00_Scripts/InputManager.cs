@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
-    [SerializeField] IsometricParalaxe paralaxe;
+    [SerializeField] List<IsometricParalaxe> paralaxePivotList;
     
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
@@ -93,7 +94,10 @@ public class InputManager : MonoBehaviour
     
     public void OnMove(InputValue value)
     {
-        paralaxe.Move(value.Get<Vector2>());
+        foreach (IsometricParalaxe pivot in paralaxePivotList)
+        {
+            pivot.Move(value.Get<Vector2>());
+        }
     }
 
     private void Update()
