@@ -307,7 +307,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
-        MusicManager.Instance.PlayStun();
+        if (MusicManager.Instance != null) MusicManager.Instance.PlayStun();
         stunVFX.SetActive(true);
         EyesSetColorTo(colorMotionless);
         ToogleMainAttack(-1);

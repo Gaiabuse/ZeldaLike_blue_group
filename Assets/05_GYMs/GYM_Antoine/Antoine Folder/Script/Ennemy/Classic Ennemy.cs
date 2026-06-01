@@ -152,14 +152,6 @@ public class ClassicEnnemy : EnnemyBase
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(100, 0.5f);
-        }
-    }
-
     void isPlayerInFieldOfView()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(LockOn.position, LookRange, LayerBlockRay);
@@ -287,7 +279,16 @@ public class ClassicEnnemy : EnnemyBase
         animator.SetBool("IsMoving", false);
 
         animator.SetTrigger("tHit");
-        navMesh.velocity = Vector3.zero;
+
+        navMesh.isStopped = false;
+        if (stun > 0)
+        {
+            navMesh.velocity = Vector3.zero;
+        }
+        else
+        {
+            animator.SetBool("IsMoving", true);
+        }
 
         if (HP > 0)
         {
@@ -390,6 +391,8 @@ public class ClassicEnnemy : EnnemyBase
         move = "death";
         timerGeneral = waitBeforeDelete;
         navMesh.isStopped = true;
+        navMesh.speed = 0;
+        navMesh.velocity = Vector3.zero;
 
         if (EnnemyManager.Instance != null)
         {
