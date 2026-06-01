@@ -5,13 +5,15 @@ public class UnlockDoor : MonoBehaviour
     [SerializeField] private int numberInteractionNeed = 1;
 
     public int currentInteraction = 0;
-    private bool isDoorUnlock = true;
+    private bool isDoorUnlock = false;
+    public Animation doorAnimation;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentInteraction = 0;
-        gameObject.SetActive(true);
-        isDoorUnlock = true;
+        //gameObject.SetActive(true);
+        isDoorUnlock = false;
     }
 
     // Update is called once per frame
@@ -21,14 +23,22 @@ public class UnlockDoor : MonoBehaviour
     }
     private void BridgeUnlock()
     {
-        gameObject.SetActive(false);
-        isDoorUnlock = false;
+        //gameObject.SetActive(false);
+        isDoorUnlock = true;
+        doorAnimation.Play("Open_Final_Door");
     }
 
     private void Bridgelock()
     {
-        gameObject.SetActive(true);
-        isDoorUnlock = true;
+        //gameObject.SetActive(true);
+        if (isDoorUnlock )
+        {
+            doorAnimation.Play("Close_Final_Door");
+            isDoorUnlock = false;
+
+
+        }
+
     }
     
     private void CheckInteraction()
