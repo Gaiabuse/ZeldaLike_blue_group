@@ -163,67 +163,71 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public virtual void TakeDamage(int damage, float stun)
     {
-        if (dotween != null)
+        if (HP > 0)
         {
-            dotween.Kill();
-            if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
-        }
-
-        dotween = null;
-        if (hitValueDisplay)
-        {
-            if (invincible)
+            if (dotween != null)
             {
-                if (showDamageDisplayInvincible) hitValueDisplay.text = damage.ToString();
-                else hitValueDisplay.text = "Nope";
+                dotween.Kill();
+                if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
             }
-            else hitValueDisplay.text = damage.ToString();
 
-            ShowHitDisplay();
-        }
-
-        if (!invincible)
-        {
-            if (!lifeBar.activeSelf)
+            dotween = null;
+            if (hitValueDisplay)
             {
-                lifeBar.SetActive(true);
-                lifeBar.transform.DOScale(1.2f, bounceDuration)
-                    .SetEase(Ease.OutBounce)
-                    .OnComplete(() =>
-                    {
-                        lifeBar.transform.DOScale(1f, bounceDuration)
-                            .SetEase(Ease.InBounce);
-                    });
+                if (invincible)
+                {
+                    if (showDamageDisplayInvincible) hitValueDisplay.text = damage.ToString();
+                    else hitValueDisplay.text = "Nope";
+                }
+                else hitValueDisplay.text = damage.ToString();
+
+                ShowHitDisplay();
             }
-            float targetHP = (float)Math.Round((decimal)(HP - damage), 2);
-            HP -= damage;
-            hitVFX.transform.SetParent(transform.parent);
-            hitVFX.transform.position = transform.position;
-            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
-            hitVFX.transform.LookAt(lookTarget);
-            hitVFX.transform.Rotate(0, 90, 0);
 
-            hitVFX.SetActive(true);
-            StartCoroutine(VisualDamage(targetHP));
-        }
-
-        if (HP <= 0)
-        {
-            Death();
-        }
-        else
-        {
-            if (move == "sleep")
+            if (!invincible)
             {
-                if (animator == null) EndSleep();
-                else animator.SetBool("Sleep", false);
+                if (!lifeBar.activeSelf)
+                {
+                    lifeBar.SetActive(true);
+                    lifeBar.transform.DOScale(1.2f, bounceDuration)
+                        .SetEase(Ease.OutBounce)
+                        .OnComplete(() =>
+                        {
+                            lifeBar.transform.DOScale(1f, bounceDuration)
+                                .SetEase(Ease.InBounce);
+                        });
+                }
+                float targetHP = (float)Math.Round((decimal)(HP - damage), 2);
+                HP -= damage;
+                hitVFX.transform.SetParent(transform.parent);
+                hitVFX.transform.position = transform.position;
+                Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
+                hitVFX.transform.LookAt(lookTarget);
+                hitVFX.transform.Rotate(0, 90, 0);
+
+                hitVFX.SetActive(true);
+                StartCoroutine(VisualDamage(targetHP));
+            }
+
+            if (HP <= 0)
+            {
+                lifeBar.SetActive(false);
+                Death();
             }
             else
             {
-                if (move != "attack") move = "chase";
-            }
+                if (move == "sleep")
+                {
+                    if (animator == null) EndSleep();
+                    else animator.SetBool("Sleep", false);
+                }
+                else
+                {
+                    if (move != "attack") move = "chase";
+                }
 
-            if (stun > 0 && !invincible) StunEnnemy(stun * stunMultiplier, false);
+                if (stun > 0 && !invincible) StunEnnemy(stun * stunMultiplier, false);
+            }
         }
     }
 
