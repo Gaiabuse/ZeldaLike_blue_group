@@ -362,14 +362,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DreamShoot
   FormAnimator: {fileID: 3337451677123445879}
-  timeForDoCombo: 3
+  timeForDoCombo: 2
   player: {fileID: 8133830779634646023}
   ManaAddAtSuccessCombo: 5
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
   timeForDoUltimate: 0
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
-  ultimateAttackOfCombo: {fileID: 0}
+  ultimateAttackOfCombo: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
   controller: {fileID: 8133830779634646023}
   aimCone: {fileID: 8549774408609409626}
   ProjectileSpeed: 60.3
@@ -587,7 +587,7 @@ GameObject:
   - component: {fileID: 1915928875852587533}
   - component: {fileID: 1551203807080462892}
   - component: {fileID: 3607936565226332866}
-  - component: {fileID: 8266554214226867815}
+  - component: {fileID: 4755344803630292554}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -936,7 +936,7 @@ MonoBehaviour:
   powderBar: {fileID: 0}
   _hp: {fileID: 1915928875852587533}
   _playerInput: {fileID: 8015218632366079429}
---- !u!54 &8266554214226867815
+--- !u!54 &4755344803630292554
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3252,7 +3252,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 421945432870593307, guid: e52d4db4e797b1a4390181ca1f92e75b, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2586146349129295385, guid: e52d4db4e797b1a4390181ca1f92e75b, type: 3}
       propertyPath: m_Enabled
@@ -3997,6 +3997,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1657189106102307817, guid: 5e74add815c867647b11f47ad7047116, type: 3}
       insertIndex: -1
       addedObject: {fileID: 938721334987167511}
+    - targetCorrespondingSourceObject: {fileID: 1657189106102307817, guid: 5e74add815c867647b11f47ad7047116, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7759853961155630308}
   m_SourcePrefab: {fileID: 100100000, guid: 5e74add815c867647b11f47ad7047116, type: 3}
 --- !u!4 &6730702129418624887 stripped
 Transform:
@@ -4009,6 +4012,37 @@ GameObject:
   m_PrefabInstance: {fileID: 9122899398438579639}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &938721334987167511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522286935070369374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -865937879
+      Data2: 1189177465
+      Data3: -2114198130
+      Data4: -1059844907
+    Path: event:/SFX/Player/Nightmare/Shadow
+  Event: 
+  EventPlayTrigger: 11
+  EventStopTrigger: 12
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &7759853961155630308
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
