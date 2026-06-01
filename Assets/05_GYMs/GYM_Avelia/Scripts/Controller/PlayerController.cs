@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
             var futurePosition = transform.position + movement;
             
             isMoving = false;
-            if (IsPlaceLandable(futurePosition))
+            if (IsPlaceLandable(futurePosition) && !IsPlaceNotWall(moveDirection))
             {
                 controller.Move(movement);
                 if (currentStickProgress > 0.1f)
@@ -272,6 +272,13 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(projectedDirection, transform.up);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+    }
+
+    public bool IsPlaceNotWall(Vector3 destination)
+    {
+        bool destinationIsSafe = Physics.Raycast(transform.position, destination, lookAheadDistance, obstacleLayer);
+        Debug.DrawRay(transform.position, destination, destinationIsSafe ? Color.green : Color.red);
+        return destinationIsSafe;
     }
 
     public bool IsPlaceLandable(Vector3 destination)
