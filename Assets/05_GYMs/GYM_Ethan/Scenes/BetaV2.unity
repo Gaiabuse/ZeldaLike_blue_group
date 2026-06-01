@@ -109556,10 +109556,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 129.567
       objectReference: {fileID: 0}
-    - target: {fileID: 2687011235875277266, guid: 86fbc450369423e4cbdc51dd961fae4a, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 549722407}
     - target: {fileID: 413516662555909340, guid: 13ef33a6a1cec754aaf64e30d73d2d0f, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -109588,6 +109584,10 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 319
       objectReference: {fileID: 0}
+    - target: {fileID: 2687011235875277266, guid: 86fbc450369423e4cbdc51dd961fae4a, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 549722407}
     - target: {fileID: 2525507011355785571, guid: 2f739fe075c427648af47b02e3286f6d, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -112817,6 +112817,7 @@ GameObject:
   - component: {fileID: 1861458344}
   - component: {fileID: 1861458342}
   - component: {fileID: 1861458343}
+  - component: {fileID: 1861458347}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -112964,6 +112965,66 @@ Transform:
   - {fileID: 400271218}
   m_Father: {fileID: 85949059}
   m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
+--- !u!114 &1861458347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861458341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Postprocessing.Runtime::UnityEngine.Rendering.PostProcessing.PostProcessLayer
+  volumeTrigger: {fileID: 1861458346}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 8192
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1001 &1861679863
 PrefabInstance:
   m_ObjectHideFlags: 0
