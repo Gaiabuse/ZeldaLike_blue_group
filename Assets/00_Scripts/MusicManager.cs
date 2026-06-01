@@ -33,19 +33,26 @@ public class MusicManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void OnEnable()
-    {
-        EnnemyManager.Instance.OnGameStateChange += UpdateTriggers;
-    }
     
     private void OnDisable()
     {
-        EnnemyManager.Instance.OnGameStateChange -= UpdateTriggers;
+        if (EnnemyManager.Instance != null)
+        {
+            EnnemyManager.Instance.OnGameStateChange -= UpdateTriggers;
+        }
     }
 
     private void Start()
     {
+        if (EnnemyManager.Instance != null)
+        {
+            EnnemyManager.Instance.OnGameStateChange += UpdateTriggers;
+        }
+        else
+        {
+            Debug.LogError("MusicManager: EnnemyManager.Instance is missing in Start!");
+        }
+        
         UpdateTriggers();
     }
     
