@@ -96,7 +96,8 @@ public class FormSwitcher : MonoBehaviour
                 playerController.currentAnimator = FormAttackManagers[2].FormAnimator;
                 break;
         }
-
+        
+        MusicManager.Instance.PlaySwitchForm();
         currentForm = nextForm;
         SwitchForm?.Invoke(currentForm);
         playerController.CanMove = true;

@@ -5,6 +5,7 @@ public class MusicManager : MonoBehaviour
 {
     [SerializeField] private GameObject fightTrigger;
     [SerializeField] private GameObject exploTrigger;
+    [SerializeField] private GameObject transfo;
     [SerializeField] private GameObject create;
     [SerializeField] private GameObject erase;
     [SerializeField] private GameObject stun;
@@ -18,7 +19,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject DWalk;
     
     private int nbStun;
-    
+
     public static MusicManager Instance;
 
     private void Awake()
@@ -91,6 +92,12 @@ public class MusicManager : MonoBehaviour
     {
         locked.SetActive(false);
         locked.SetActive(true);
+    }
+    
+    public void PlaySwitchForm()
+    {
+        transfo.SetActive(false);
+        transfo.SetActive(true);
     }
 
     public void Walk(Form currentForm)
