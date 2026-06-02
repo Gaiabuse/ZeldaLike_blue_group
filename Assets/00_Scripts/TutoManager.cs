@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -118,6 +119,8 @@ public class TutoStep
     [Range(1,5)][SerializeField] private int ativeAtk; // The int between 1-4
     [SerializeField] private int numberOfPointsForErased;
     [SerializeField] private bool hadUI;
+    [SerializeField] private bool temporateUI;
+    [SerializeField] private float timeOfUI;
     [SerializeField] private GameObject uiObject;
     private FormSwitcher _formSwitcher;
     private Textbox _textbox;
@@ -133,10 +136,6 @@ public class TutoStep
         _atkIndicators = indicators; // Store reference
         if(colliderTrigger != null) colliderTrigger.ActivateTutoStep += StartTutoStep;
         chatHistory = _chatHistory;
-        /*if (hadUI)
-        {
-            uiObject.SetActive(false);
-        }*/
     }
 
     public void OnDisableStep()
@@ -181,10 +180,24 @@ public class TutoStep
         {
             uiObject.SetActive(true);
         }
+        if (temporateUI)
+        {
+            ShowTemporateUI();
+        }
         if (setNumberOfPointsForErased)
         {
             _erasedManager.maxPointsForCreate = numberOfPointsForErased;
         }
+    }
+
+    private void ShowTemporateUI()
+    {
+        uiObject.SetActive(true);
+        uiObject.transform.localScale = new Vector3(0f, 0f, 0f);
+        uiObject.transform.DOScale(new Vector3(1,1,1), 0.1f).SetEase(Ease.OutQuad).OnComplete(()=>
+        {
+            uiObject.transform.DOScale(new Vector3(0f, 0f, 0f), 0.1f).SetEase(Ease.OutQuad).SetDelay(timeOfUI) ;
+        });
     }
 }
 
@@ -207,6 +220,8 @@ public class TutoStepEditor : PropertyDrawer
         SerializedProperty asDialogue = property.FindPropertyRelative("asDialogue");
         SerializedProperty dialogue = property.FindPropertyRelative("dialogue");
         SerializedProperty hadUI = property.FindPropertyRelative("hadUI");
+        SerializedProperty temporateUI = property.FindPropertyRelative("temporateUI");
+        SerializedProperty timeOfUI = property.FindPropertyRelative("timeOfUI");
         SerializedProperty uiObject = property.FindPropertyRelative("uiObject");
         SerializedProperty changeIndicator = property.FindPropertyRelative("changeIndicator");
         SerializedProperty ativeAtk = property.FindPropertyRelative("ativeAtk");
@@ -248,6 +263,14 @@ public class TutoStepEditor : PropertyDrawer
             {
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(dialogue);
+                EditorGUI.indentLevel--;
+            }
+            EditorGUILayout.PropertyField(temporateUI);
+            if (temporateUI.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(timeOfUI);
+                EditorGUILayout.PropertyField(uiObject);
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.PropertyField(hadUI);
