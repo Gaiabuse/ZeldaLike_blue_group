@@ -1075,11 +1075,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22c5984aa77a91941bcd38e1c9a61f48, type: 3}
---- !u!4 &979095590 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 984523468417650626, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-  m_PrefabInstance: {fileID: 3366084799636011294}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1530553344
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1571,17 +1566,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3379602093690487687, guid: bc4e85244c1f086479403c6d1b1d02c9, type: 3}
   m_PrefabInstance: {fileID: 6568076655182181927}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1922909837 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-  m_PrefabInstance: {fileID: 3366084799636011294}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: def0641d1949580499d49ef86d07ba0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BookEnnemy
 --- !u!1001 &2675474934450549962
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1652,7 +1636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4595172733182460605, guid: 2d865f9153aebed4b9214ee6c1ad8d2e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7900938675521279679, guid: 2d865f9153aebed4b9214ee6c1ad8d2e, type: 3}
       propertyPath: m_Enabled
@@ -1671,30 +1655,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 909895045913675194, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 909895045913675194, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 909895045913675194, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 909895045913675194, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 909895045913675194, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 909895045913675194, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 984523468417650626, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12
@@ -1735,38 +1695,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3189924239613164120, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: RotationX
-      value: xDirection
-      objectReference: {fileID: 0}
-    - target: {fileID: 3189924239613164120, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: RotationY
-      value: yDirection
-      objectReference: {fileID: 0}
-    - target: {fileID: 3189924239613164120, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: GetRotation
-      value: 
-      objectReference: {fileID: 979095590}
     - target: {fileID: 7694450120366358666, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
       propertyPath: m_Name
       value: Book Ennemy
       objectReference: {fileID: 0}
-    - target: {fileID: 7694450120366358666, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8425508174535276974, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: ennemyBase
+    - target: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
+      propertyPath: Player
       value: 
-      objectReference: {fileID: 1922909837}
-    - target: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: FallWait
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: addForceDive
-      value: 5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1907748202}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

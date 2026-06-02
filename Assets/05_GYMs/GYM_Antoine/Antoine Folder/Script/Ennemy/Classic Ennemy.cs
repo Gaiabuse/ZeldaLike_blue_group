@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -128,26 +129,6 @@ public class ClassicEnnemy : EnnemyBase
                     AttackAnimEnd();
                     animator.SetBool("IsMoving", true);
                 }
-            }
-        }
-        if (move == "death")
-        {
-            timerGeneral -= Time.deltaTime;
-            if (timerGeneral <= 0)
-            {
-                timerGeneral = 1;
-                move = "deathEffect";
-
-                SpriteEnnemy.SetActive(false);
-                deathVFX.SetActive(true);
-            }
-        }
-        if (move == "deathEffect")
-        {
-            timerGeneral -= Time.deltaTime;
-            if (timerGeneral <= 0)
-            {
-                Destroy(gameObject);
             }
         }
     }
@@ -442,5 +423,11 @@ public class ClassicEnnemy : EnnemyBase
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(AttackTrigger.position, DistanceAttack);
         }
+    }
+
+    protected override void DeathVFXAppear()
+    {
+        base.DeathVFXAppear();
+        SpriteEnnemy.SetActive(false);
     }
 }
