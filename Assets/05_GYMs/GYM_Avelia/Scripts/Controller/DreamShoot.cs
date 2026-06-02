@@ -228,6 +228,13 @@ public class DreamShoot : AttackManager
         player.CanMove = true;
         aimCone.SetActive(false);
         CanShoot = true;
+        prepShoot = false;
+        currentCombo = 0;
+        if (ultimateCoroutine != null)
+        {
+            StopCoroutine(ultimateCoroutine);
+            ultimateCoroutine = null;
+        }
     }
 
 }
