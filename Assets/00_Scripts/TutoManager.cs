@@ -133,10 +133,10 @@ public class TutoStep
         _atkIndicators = indicators; // Store reference
         if(colliderTrigger != null) colliderTrigger.ActivateTutoStep += StartTutoStep;
         chatHistory = _chatHistory;
-        if (hadUI )
+        /*if (hadUI)
         {
             uiObject.SetActive(false);
-        }
+        }*/
     }
 
     public void OnDisableStep()
