@@ -123,7 +123,7 @@ public abstract class AttackManager : MonoBehaviour
 
     protected void Combo()
     {
-        CanAttack = true;
+  
         if (currentAttack == null) return;
         if (currentCombo == 0)
         {
@@ -138,13 +138,11 @@ public abstract class AttackManager : MonoBehaviour
 
     protected void FinishAttack()
     {
-        Debug.Log("finished1");
-        
+        CanAttack = true;
         player.CanMove = true;
         player.CanRotate = true;
 
         if (currentAttack == null) return;
-        Debug.Log("finished2");
     
         currentAttack.FinishedAttackFull -= FinishAttack;
         currentAttack = null;
