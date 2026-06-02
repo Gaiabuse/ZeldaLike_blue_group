@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 
 public class PlayerHP : MonoBehaviour, IPlayerDamageable
 {
-    [SerializeField] public int maxHP = 15;
+    [SerializeField] public int maxHP = 100;
     [SerializeField] private PlayerController playerController;
     public Action OnTakeDamage;
     [SerializeField] private float speedRecharge;
@@ -25,18 +25,6 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     public float HP;
     [SerializeField] private float tempHP;
 
-    /*private void OnEnable()
-    {
-        ArenaManager.StartArena += StopHealing;
-        ArenaManager.FinishArena += HealAtMax;
-    }
-
-    private void OnDisable()
-    {
-        ArenaManager.StartArena -= StopHealing;
-        ArenaManager.FinishArena -= HealAtMax;
-    }*/
-
     private void Start()
     {
         tempHP = HP;
@@ -50,12 +38,33 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             if (damageCoroutine != null) StopCoroutine(damageCoroutine);
             if (healCoroutine != null) StopCoroutine(healCoroutine);
 
-            float targetHP = (float)Math.Round(HP - damage, 2);
             HP -= damage;
+            
+            if (HP <= 0)
+            {
+                HandleDeath();
+                return;
+            }
+            
+            float targetHP = (float)Math.Round(HP, 2);
             damageCoroutine = StartCoroutine(VisualDamage(targetHP));
         }
 
         OnTakeDamage?.Invoke();
+    }
+
+    private void HandleDeath()
+    {
+
+        if (damageCoroutine != null) StopCoroutine(damageCoroutine);
+        if (healCoroutine != null) StopCoroutine(healCoroutine);
+
+        StartCoroutine(playerController.RespawnCoroutine());
+        
+        // Reset health instantly
+        HP = maxHP;
+        tempHP = maxHP;
+        UpdateVisuals();
     }
 
     private void StopHealing()
@@ -95,7 +104,6 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         healVFX.enabled = false;
     }
 
-
     private IEnumerator VisualDamage(float newLife)
     {
         while (tempHP > newLife)
@@ -104,14 +112,6 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             tempHP = (float)Math.Round(nextHP, 2);
 
             UpdateVisuals();
-
-            if (HP <= 0)
-            {
-                StartCoroutine(playerController.RespawnCoroutine());
-                HP = maxHP;
-                UpdateVisuals();
-                break;
-            }
             yield return null;
         }
         damageCoroutine = null;
