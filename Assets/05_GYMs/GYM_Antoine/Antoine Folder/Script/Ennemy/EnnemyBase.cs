@@ -5,10 +5,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.VFX;
 
 public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 {
@@ -32,12 +30,11 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected bool TargetInFieldOfView;
     protected Transform CurrentTarget;
 
-    protected float timerGeneral = 0;
+    [SerializeField] protected float timerGeneral = 0;
 
     public bool alwaysAgro;
 
     [SerializeField] float stunMultiplier = 1f;
-    
     [SerializeField] protected string _move;
 
     [Header("Deal Damage")]
@@ -55,9 +52,9 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] private float durationDelay;
     [SerializeField] private float durationDotween;
     protected TweenerCore<Vector3, Vector3, VectorOptions> dotween;
-    public GameObject deathVFX;
-    public GameObject stunVFX;
-    public GameObject hitVFX;
+    [SerializeField] protected GameObject deathVFX;
+    [SerializeField] protected GameObject stunVFX;
+    [SerializeField] protected GameObject hitVFX;
 
     [Header("Neutral Ult Display")]
     [SerializeField] protected GameObject UltIndicator;
@@ -131,6 +128,25 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             {
                 EndStun();
                 stunZone = null;
+            }
+        }
+        if (move == "death")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                timerGeneral = 1;
+                move = "deathEffect";
+
+                DeathVFXAppear();
+            }
+        }
+        if (move == "deathEffect")
+        {
+            timerGeneral -= Time.deltaTime;
+            if (timerGeneral <= 0)
+            {
+                Destroy(gameObject);
             }
         }
     }
@@ -212,21 +228,24 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             if (HP <= 0)
             {
                 lifeBar.SetActive(false);
+                Destroy(hitVFX);
                 Death();
             }
             else
             {
-                if (move == "sleep")
-                {
-                    if (animator == null) EndSleep();
-                    else animator.SetBool("Sleep", false);
-                }
+                if (stun > 0 && !invincible) StunEnnemy(stun * stunMultiplier, false);
                 else
                 {
-                    if (move != "attack") move = "chase";
+                    if (move == "sleep")
+                    {
+                        if (animator == null) EndSleep();
+                        else animator.SetBool("Sleep", false);
+                    }
+                    else
+                    {
+                        if (move != "attack") move = "chase";
+                    }
                 }
-
-                if (stun > 0 && !invincible) StunEnnemy(stun * stunMultiplier, false);
             }
         }
     }
@@ -319,7 +338,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected virtual void EndStun()
     {
         MusicManager.Instance.StopStun();
-        stunVFX.SetActive(true);
+        stunVFX.SetActive(false);
         EyesSetColorTo(colorNormal);
         animator.SetBool("Stun", false);
         timerGeneral = 0;
@@ -364,5 +383,10 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     {
         float lifeRatio = Mathf.Clamp01(value / (float)maxHP);
         return Mathf.Lerp(minFillAmount, maxFillAmount, lifeRatio);
+    }
+
+    protected virtual void DeathVFXAppear()
+    {
+        deathVFX.SetActive(true);
     }
 }

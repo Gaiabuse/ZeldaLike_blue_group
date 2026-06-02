@@ -6,6 +6,7 @@ public class BookEnnemy : EnnemyBase
     Rigidbody rb;
 
     [Header("Flying Ennemy")]
+    [SerializeField] GameObject SpriteEnnemy;
     [SerializeField] float LookRange = 12f;
     [SerializeField] float DistanceFromGround = 5;
     [SerializeField] float FallWait = 0.25f;
@@ -187,14 +188,6 @@ public class BookEnnemy : EnnemyBase
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(15, 3);
-        }
-    }
-
     void isPlayerInFieldOfView()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, LookRange, LayerTarget);
@@ -265,18 +258,27 @@ public class BookEnnemy : EnnemyBase
     public override void TakeDamage(int damage, float stun)
     {
         base.TakeDamage(damage, stun);
-        hitVFX.transform.SetParent(transform.parent);
-        hitVFX.transform.position = transform.position;
-        Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
-        hitVFX.transform.LookAt(lookTarget);
-        hitVFX.transform.Rotate(0, 90, 0);
+        if (HP > 0)
+        {
+            hitVFX.transform.SetParent(transform.parent);
+            hitVFX.transform.position = transform.position;
+            Vector3 lookTarget = new Vector3(CurrentTarget.transform.position.x, hitVFX.transform.position.y, CurrentTarget.transform.position.z);
+            hitVFX.transform.LookAt(lookTarget);
+            hitVFX.transform.Rotate(0, 90, 0);
 
-        hitVFX.SetActive(true);
-        animator.SetTrigger("tHit");
-        animator.SetBool("Stun", true);
+            hitVFX.SetActive(true);
+            animator.SetTrigger("tHit");
 
-        animator.SetBool("IsMoving", false);
-        animator.SetBool("IsChasing", false);
+            StunEnnemy(0, false);
+
+            animator.SetBool("IsMoving", false);
+            animator.SetBool("IsChasing", false);
+        }
+        else
+        {
+            animator.SetBool("Stun", false);
+            Death();
+        }
     }
 
     public override void StunEnnemy(float stunTime, bool infiniteStun)
@@ -301,6 +303,20 @@ public class BookEnnemy : EnnemyBase
 
     protected override void Death()
     {
+        move = "death";
+        if (EnnemyManager.Instance != null)
+        {
+            Debug.Log("remove");
+            EnnemyManager.Instance.enemies.Remove(this);
+            EnnemyManager.Instance.Check();
+        }
         animator.SetBool("IsDead", true);
+        OnDeath?.Invoke(this);
+    }
+
+    protected override void DeathVFXAppear()
+    {
+        base.DeathVFXAppear();
+        SpriteEnnemy.SetActive(false);
     }
 }
