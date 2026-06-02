@@ -177,9 +177,10 @@ public class PauseMenuManager : MonoBehaviour
     }
     
 
+    // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high) {
-        Gamepad.current.SetMotorSpeeds(low, high);
+        RumbleManager.Instance.TriggerVibration(low, high);
         yield return new WaitForSeconds(duration);
-        Gamepad.current.SetMotorSpeeds(0f, 0f);
+        RumbleManager.Instance.StopVibration();
     }
 }

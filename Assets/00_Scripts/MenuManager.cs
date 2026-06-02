@@ -131,9 +131,8 @@ public class MenuManager : MonoBehaviour
 
     private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high)
     {
-        if (Gamepad.current == null) yield break;
-        Gamepad.current.SetMotorSpeeds(low, high);
+        RumbleManager.Instance.TriggerVibration(low, high);
         yield return new WaitForSeconds(duration);
-        Gamepad.current.SetMotorSpeeds(0f, 0f);
+        RumbleManager.Instance.StopVibration();
     }
 }
