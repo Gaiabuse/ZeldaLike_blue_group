@@ -48,6 +48,8 @@ public class DreamShoot : AttackManager
     private int numberOfShotsForUltimate;
     [SerializeField]
     private float ultimateAttackCooldown = 0.5f;
+    [SerializeField]
+    private float UltimateAttackDamage = 10f;
 
     private bool CanShoot = true;
     private bool prepShoot = false;
@@ -145,7 +147,13 @@ public class DreamShoot : AttackManager
         var progress = amountOfTimeWaited / MaxChargedTime;
         progress = Mathf.Min(progress, 1f);
 
-        var attackScaledPower = GetAttackPower(progress);
+        float attackScaledPower;
+
+        if (currentCombo >= numberOfShotsForUltimate)
+            attackScaledPower = UltimateAttackDamage;
+        else
+            attackScaledPower = GetAttackPower(progress);
+
 
         if (amountOfTimeWaited < autoAimTime)
             CreateAutoTargettingShot(attackScaledPower);
@@ -160,9 +168,11 @@ public class DreamShoot : AttackManager
     public IEnumerator FinishShoot()
     {
         var cooldown = currentCombo >= numberOfShotsForUltimate ? ultimateAttackCooldown : cooldownFinishShoot;
-        yield return new WaitForSeconds(cooldownFinishShoot);
+        yield return new WaitForSeconds(cooldown);
         FinishAttack();
     }
+
+
 
     public override void Ultimate()
     {
