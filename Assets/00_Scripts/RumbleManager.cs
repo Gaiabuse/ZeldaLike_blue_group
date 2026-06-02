@@ -27,22 +27,25 @@ public class RumbleManager : MonoBehaviour
     
     public void TriggerVibration(float lowFreq, float highFreq)
     {
-        // --- CODE POUR STEAM DECK / LINUX ---
 #if UNITY_STANDALONE_LINUX
         if (SteamManager.Initialized)
         {
-            InputHandle_t activeController = SteamInput.GetControllerForGamepadIndex(0);
-            
-            ushort leftMotor = (ushort)(Mathf.Clamp01(lowFreq) * ushort.MaxValue);
-            ushort rightMotor = (ushort)(Mathf.Clamp01(highFreq) * ushort.MaxValue);
-            
-            SteamInput.TriggerVibration(activeController, leftMotor, rightMotor);
-            return; 
+            InputHandle_t[] handles = new InputHandle_t[Constants.STEAM_INPUT_MAX_COUNT];
+            int controllerCount = SteamInput.GetConnectedControllers(handles);
+
+            if (controllerCount > 0)
+            {
+                InputHandle_t activeController = handles[0];
+
+                ushort leftMotor = (ushort)(Mathf.Clamp01(lowFreq) * ushort.MaxValue);
+                ushort rightMotor = (ushort)(Mathf.Clamp01(highFreq) * ushort.MaxValue);
+
+                SteamInput.TriggerVibration(activeController, leftMotor, rightMotor);
+                return; 
+            }
         }
 #endif
-
-
-        // --- CODE POUR WINDOWS (PRODUIT DE SUBSTITUTION / REGULAR RUMBLE) ---
+        
 #if UNITY_STANDALONE_WIN
         if (Gamepad.current != null)
         {
@@ -54,10 +57,14 @@ public class RumbleManager : MonoBehaviour
     public void StopVibration()
     {
 #if UNITY_STANDALONE_LINUX
-        if (SteamManager.Initialized)
+        InputHandle_t[] handles = new InputHandle_t[Constants.STEAM_INPUT_MAX_COUNT];
+        int controllerCount = SteamInput.GetConnectedControllers(handles);
+        
+        if (controllerCount > 0)
         {
-            InputHandle_t activeController = SteamInput.GetControllerForGamepadIndex(0);
+            InputHandle_t activeController = handles[0];
             SteamInput.TriggerVibration(activeController, 0, 0);
+            return;
         }
 #endif
 
@@ -69,3 +76,4 @@ public class RumbleManager : MonoBehaviour
 #endif
     }
 }
+
