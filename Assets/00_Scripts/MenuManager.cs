@@ -129,9 +129,10 @@ public class MenuManager : MonoBehaviour
     }
     
 
-    private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high) {
-        Gamepad.current.SetMotorSpeeds(low, high);
+    private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high)
+    {
+        RumbleManager.Instance.TriggerVibration(low, high);
         yield return new WaitForSeconds(duration);
-        Gamepad.current.SetMotorSpeeds(0f, 0f);
+        RumbleManager.Instance.StopVibration();
     }
 }

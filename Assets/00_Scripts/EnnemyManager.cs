@@ -10,7 +10,7 @@ public class EnnemyManager : MonoBehaviour
 
     public Action OnGameStateChange;
     public static EnnemyManager Instance;
-    
+
     public bool IsInFight
     {
         get => _isInFight;

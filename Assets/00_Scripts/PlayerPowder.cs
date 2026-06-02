@@ -39,8 +39,7 @@ public class PlayerPowder : MonoBehaviour
             }
             else
             {
-                if (Gamepad.current != null)
-                    Gamepad.current.SetMotorSpeeds(0.05f, 0.05f);
+                RumbleManager.Instance.TriggerVibration(0.05f, 0.05f);
             }
         }
         else
@@ -48,8 +47,7 @@ public class PlayerPowder : MonoBehaviour
             // Only turn off the motor IF we were just healing a moment ago
             if (wasHealingLastFrame)
             {
-                if (Gamepad.current != null)
-                    Gamepad.current.SetMotorSpeeds(0f, 0f);
+                RumbleManager.Instance.StopVibration();
             
                 wasHealingLastFrame = false;
             }
@@ -79,10 +77,7 @@ public class PlayerPowder : MonoBehaviour
         powder = (float)Math.Round(powder - amountToHeal, 2);
         _hp.Heal(amountToHeal);
 
-        if (Gamepad.current != null)
-        {
-            Gamepad.current.SetMotorSpeeds(0.5f, 0.5f);  
-        }
+        RumbleManager.Instance.TriggerVibration(0.5f, 0.5f);
     }
 
     public void OnHeal(InputValue value)

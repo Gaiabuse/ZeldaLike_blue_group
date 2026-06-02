@@ -31,7 +31,6 @@ public class QuotaManager : MonoBehaviour
     {
         if (cleanPoints+progress > 100)
         {
-            GainBonusPoints(progress - cleanPoints + 100);
             cleanPoints = 100;
         }
         else
@@ -50,14 +49,11 @@ public class QuotaManager : MonoBehaviour
 
     private void CheckQuota()
     {
+        if (quotaIndex >= quotas.Length) return;
         if (cleanPoints >= quotas[quotaIndex])
         {
             quotaIndex++;
             player.GainPointForCreate();
-            if (quotaIndex < quotas.Length - 1)
-            {
-                CheckQuota();
-            }
         }
     }
 

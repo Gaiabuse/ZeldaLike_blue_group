@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -9,8 +11,7 @@ public class FormSwitcher : MonoBehaviour
 {
     public Form currentForm { get; private set; } = Form.neutral;
 
-    [SerializeField]
-    GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
+    [SerializeField] GameObject neutralFormObject, dreamFormObject, nightmareFormObject;
     public static Action<Form> SwitchForm;
     private Form lastForm = Form.neutral;
     
@@ -25,7 +26,7 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField] PlayerController playerController;
     [SerializeField] private float timeForDoUltimate;
-    public float TimeForDoUltimate{private set; get;}
+    public float TimeForDoUltimate { private set; get; }
     public List<Form> AvailableForms;
 
     public bool CanDoUltimate;
@@ -34,6 +35,9 @@ public class FormSwitcher : MonoBehaviour
     public bool canSwitchForm = true;
     public Action FirstUltimateTime;
     public Action EndFirstUltimateTime;
+
+    private Coroutine ultTimerCoroutine;
+
     private void Start()
     {
         CanDoUltimate = false;
@@ -51,16 +55,52 @@ public class FormSwitcher : MonoBehaviour
         }
     }
 
+    public void StartUltimateWindow()
+    {
+        if (ultTimerCoroutine != null)
+        {
+            StopCoroutine(ultTimerCoroutine);
+        }
+        ultTimerCoroutine = StartCoroutine(UltimateWindowCoroutine());
+    }
+
+    private IEnumerator UltimateWindowCoroutine()
+    {
+        var requiredForms = new[] { Form.neutral, Form.nightmare, Form.dream };
+        if (requiredForms.All(f => AvailableForms.Contains(f)))
+        {
+            AttackManager.CanUltimate?.Invoke();
+            CanDoUltimate = true;
+            NotifyUltimateReady();
+            
+            yield return new WaitForSecondsRealtime(TimeForDoUltimate);
+            
+            if (CanDoUltimate)
+            {
+                AttackManager.EndForUltimate?.Invoke();
+                EndFirstUltimateTime?.Invoke();
+                CanDoUltimate = false;
+            }
+        }
+    }
+
     public void ChangeForm(Form nextForm)
     {
         if (!AvailableForms.Contains(nextForm)) return;
-        if(currentForm == nextForm) return;
+        if (currentForm == nextForm) return;
 
-        bool wasCanDoUltimate = CanDoUltimate; // ← sauvegarde avant SetActive
+        bool wasCanDoUltimate = CanDoUltimate; 
+        
+        // Note: If you want changing forms to CANCEL the ultimate, leave the lines below.
+        // If you want to keep the ultimate active across forms, comment out this 'if' block.
         if (CanDoUltimate)
         {
             EndFirstUltimateTime?.Invoke();
             CanDoUltimate = false;
+            if (ultTimerCoroutine != null)
+            {
+                StopCoroutine(ultTimerCoroutine);
+            }
         }
 
         neutralFormObject.SetActive(false);
@@ -72,7 +112,7 @@ public class FormSwitcher : MonoBehaviour
             case Form.neutral:
                 switchToNeutralFX.Play();
                 neutralFormObject.SetActive(true);
-                ultIndicator.sprite = ultIndicatorSprites[0];
+                if (ultIndicatorSprites.Count > 0) ultIndicator.sprite = ultIndicatorSprites[0];
                 if (wasCanDoUltimate) FormAttackManagers[0].Ultimate();
                 playerController.currentAttackManager = FormAttackManagers[0];
                 playerController.currentAnimator = FormAttackManagers[0].FormAnimator;
@@ -81,7 +121,7 @@ public class FormSwitcher : MonoBehaviour
             case Form.dream:
                 switchToDreamFX.Play();
                 dreamFormObject.SetActive(true);
-                ultIndicator.sprite = ultIndicatorSprites[1];
+                if (ultIndicatorSprites.Count > 1) ultIndicator.sprite = ultIndicatorSprites[1];
                 if (wasCanDoUltimate) FormAttackManagers[1].Ultimate();
                 playerController.currentAttackManager = FormAttackManagers[1];
                 playerController.currentAnimator = FormAttackManagers[1].FormAnimator;
@@ -90,23 +130,23 @@ public class FormSwitcher : MonoBehaviour
             case Form.nightmare:
                 switchToNightmareFX.Play();
                 nightmareFormObject.SetActive(true);
-                ultIndicator.sprite = ultIndicatorSprites[2];
+                if (ultIndicatorSprites.Count > 2) ultIndicator.sprite = ultIndicatorSprites[2];
                 if (wasCanDoUltimate) FormAttackManagers[2].Ultimate();
                 playerController.currentAttackManager = FormAttackManagers[2];
                 playerController.currentAnimator = FormAttackManagers[2].FormAnimator;
                 break;
         }
-
+        
+        if (MusicManager.Instance != null) MusicManager.Instance.PlaySwitchForm();
         currentForm = nextForm;
         SwitchForm?.Invoke(currentForm);
         playerController.CanMove = true;
         playerController.CanRotate = true;
     }
-    
 
     public void ForcedTransform()
     {
-        ChangeForm(AvailableForms[0]);
+        if (AvailableForms.Count > 0) ChangeForm(AvailableForms[0]);
     }
 }
 

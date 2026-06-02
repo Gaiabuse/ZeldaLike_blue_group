@@ -111,4 +111,15 @@ public class CapSpriteEnnemy : ClassicEnnemy
         beamVfx.SetActive(false);
         base.Death();
     }
+
+    public override void TakeDamage(int damage, float stun)
+    {
+        repositionToAttack = false;
+        canLookAtPlayer = true;
+
+        Laser.SetActive(false);
+        LaserPrevisuArrow.SetActive(false);
+        beamVfx.SetActive(false);
+        base.TakeDamage(damage, stun);
+    }
 }

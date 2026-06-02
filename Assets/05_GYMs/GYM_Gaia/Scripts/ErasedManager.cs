@@ -56,7 +56,7 @@ public class ErasedManager : MonoBehaviour
     {
         if (Gamepad.current != null)
         {
-            Gamepad.current.SetMotorSpeeds(0f, 0f);
+            RumbleManager.Instance.StopVibration();
         }
     }
     
@@ -75,9 +75,9 @@ public class ErasedManager : MonoBehaviour
 
     private IEnumerator RumbleRoutine(float lowFreq, float highFreq, float duration)
     {
-        Gamepad.current.SetMotorSpeeds(lowFreq, highFreq);
+        RumbleManager.Instance.TriggerVibration(lowFreq, highFreq);
         yield return new WaitForSeconds(duration);
-        Gamepad.current.SetMotorSpeeds(0f, 0f);
+        RumbleManager.Instance.StopVibration();
         rumbleCoroutine = null;
     }
 
@@ -164,7 +164,7 @@ public class ErasedManager : MonoBehaviour
                 }
                 if (Gamepad.current != null)
                 {
-                    Gamepad.current.SetMotorSpeeds(0f, 0f);
+                    RumbleManager.Instance.StopVibration();
                 }
             
                 if (!erasedAllObjects)

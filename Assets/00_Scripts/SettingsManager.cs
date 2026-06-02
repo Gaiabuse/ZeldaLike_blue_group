@@ -1,4 +1,5 @@
 using System;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,10 @@ public class SettingsManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            if (transform.parent == null)
+            {
+                DontDestroyOnLoad(gameObject); 
+            }
             
             mainVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Master"); 
             musicVCA = FMODUnity.RuntimeManager.GetVCA("vca:/MUSIC");
