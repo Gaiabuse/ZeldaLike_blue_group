@@ -42,8 +42,12 @@ public class DreamShoot : AttackManager
     public float MinAttack => minAttack;
     public float MaxAttack => maxAttack;
 
-    [SerializeField] private int numberOfShotsForFinishCombo;
-    [SerializeField] private int numberOfShotsForUltimate;
+    [SerializeField]
+    private int numberOfShotsForFinishCombo;
+    [SerializeField]
+    private int numberOfShotsForUltimate;
+    [SerializeField]
+    private float ultimateAttackCooldown = 0.5f;
 
     private bool CanShoot = true;
     private bool prepShoot = false;
@@ -58,7 +62,7 @@ public class DreamShoot : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        if (!_input.isPressed&& switchInProgress)
+        if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
             {
@@ -81,10 +85,10 @@ public class DreamShoot : AttackManager
                 {
                     UnprepShoot();
                     base.OnAttack(_input);
-                    return; 
+                    return;
                 }
             }
-        
+
             PrepareShoot();
             return;
         }
@@ -155,6 +159,7 @@ public class DreamShoot : AttackManager
 
     public IEnumerator FinishShoot()
     {
+        var cooldown = currentCombo >= numberOfShotsForUltimate ? ultimateAttackCooldown : cooldownFinishShoot;
         yield return new WaitForSeconds(cooldownFinishShoot);
         FinishAttack();
     }
@@ -174,16 +179,13 @@ public class DreamShoot : AttackManager
 
     void CreateShot(float attackPower)
     {
-        Projectile lAttack = Instantiate<Projectile>(currentCombo < numberOfShotsForUltimate?attack : ultimateAttackOfCombo);
-        if (currentCombo >= numberOfShotsForUltimate)
-        {
-            Debug.Log("ultimateAttack");
-        }
+        Projectile lAttack = Instantiate<Projectile>(currentCombo < numberOfShotsForUltimate ? attack : ultimateAttackOfCombo);
+
         Attack attackPrefab = lAttack.GetComponent<Attack>();
         attackPrefab.SetAttack(attackPower, data, type);
 
         currentAttack = attackPrefab;
-        
+
 
         lAttack.transform.position = SpawnPoint.position;
         lAttack.speed = player.transform.forward * ProjectileSpeed;

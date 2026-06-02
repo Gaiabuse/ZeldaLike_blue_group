@@ -24,9 +24,11 @@ public class FormSwitcher : MonoBehaviour
 
     [SerializeField] private AttackManager[] FormAttackManagers;
 
-    [SerializeField] private PlayerController playerController;
+    [SerializeField] PlayerController playerController;
+    [SerializeField] private float timeForDoUltimate;
+    public float TimeForDoUltimate { private set; get; }
     public List<Form> AvailableForms;
-    
+
     public bool CanDoUltimate;
 
     private bool isFirstUltimateTime = false;
@@ -41,6 +43,7 @@ public class FormSwitcher : MonoBehaviour
         CanDoUltimate = false;
         canSwitchForm = true;
         isFirstUltimateTime = true;
+        TimeForDoUltimate = timeForDoUltimate;
     }
     
     public void NotifyUltimateReady()
@@ -70,7 +73,7 @@ public class FormSwitcher : MonoBehaviour
             CanDoUltimate = true;
             NotifyUltimateReady();
             
-            yield return new WaitForSecondsRealtime(playerController.currentAttackManager.timeForDoUltimate);
+            yield return new WaitForSecondsRealtime(TimeForDoUltimate);
             
             if (CanDoUltimate)
             {
