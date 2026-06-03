@@ -96,8 +96,9 @@ public class NeutralAttackManager : AttackManager
             Attack(comboAttacks[currentCombo]);
             switchInProgress = false;
 
-            FormAnimator.SetBool("isAttacking", true);
-            FormAnimator.SetTrigger("Attack" + currentCombo);
+            //FormAnimator.SetBool("isAttacking", true);
+            if (FormAnimator.GetBool("isAttacking"))
+                FormAnimator.SetTrigger("Attack" + currentCombo);
             Debug.Log("Attack" + currentCombo);
         }
     }

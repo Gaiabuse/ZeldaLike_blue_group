@@ -144,11 +144,13 @@ public abstract class AttackManager : MonoBehaviour
         CanAttack = true;
         player.CanMove = true;
         player.CanRotate = true;
+        FormAnimator.SetBool("isAttacking", true);
 
         if (currentAttack == null) return;
     
         currentAttack.FinishedAttackFull -= FinishAttack;
         currentAttack = null;
+        
     }
     
     protected void StartCombo()

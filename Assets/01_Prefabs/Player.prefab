@@ -170,9 +170,9 @@ Canvas:
   m_GameObject: {fileID: 839424572872258864}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 4998133702965906704}
   - component: {fileID: 5081878751296024656}
   - component: {fileID: 64229159951082837}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CreateIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ MonoBehaviour:
   ManaAddAtSuccessCombo: 5
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
-  timeForDoUltimate: 0
+  timeForDoUltimate: 1
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
   ultimateAttackOfCombo: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
   controller: {fileID: 8133830779634646023}
@@ -428,8 +428,8 @@ MonoBehaviour:
   maxAttack: 25
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 24
-  ultimateAttackCooldown: 0.5
-  UltimateAttackDamage: 10
+  ultimateAttackCooldown: 20
+  UltimateAttackDamage: 20
 --- !u!114 &8715960371389895154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 1915928875852587533}
   - component: {fileID: 1551203807080462892}
   - component: {fileID: 3607936565226332866}
-  - component: {fileID: 4755344803630292554}
+  - component: {fileID: 5878750112163619366}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -669,7 +669,7 @@ MonoBehaviour:
   side: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4161
   Boxes: {fileID: 0}
   respawnAtStart: 1
 --- !u!114 &5888648130357620796
@@ -715,7 +715,7 @@ MonoBehaviour:
   - {fileID: 999091161340526415}
   - {fileID: 8600280016486079122}
   playerController: {fileID: 8133830779634646023}
-  timeForDoUltimate: 3
+  timeForDoUltimate: 0.67
   AvailableForms: 00000000
   CanDoUltimate: 0
   canSwitchForm: 1
@@ -937,7 +937,7 @@ MonoBehaviour:
   powderBar: {fileID: 0}
   _hp: {fileID: 1915928875852587533}
   _playerInput: {fileID: 8015218632366079429}
---- !u!54 &4755344803630292554
+--- !u!54 &5878750112163619366
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1659,7 +1659,7 @@ GameObject:
   - component: {fileID: 499510771632382563}
   - component: {fileID: 1902485435121267425}
   - component: {fileID: 1490214225890363197}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CreatePointsIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1826,7 +1826,7 @@ GameObject:
   - component: {fileID: 2333830265957572466}
   - component: {fileID: 3073868794236982772}
   - component: {fileID: 7317550140852860313}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1864,7 +1864,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1945,7 +1945,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1184184480172319934}
@@ -2222,7 +2222,7 @@ MonoBehaviour:
   ManaAddAtSuccessCombo: 20
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
-  timeForDoUltimate: 0
+  timeForDoUltimate: 1
   comboAttacks:
   - AttackData: {fileID: 11400000, guid: 16b18c8ee79c6f649bdd0de1043d89cb, type: 2}
     type: 1
@@ -2415,8 +2415,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Bonjour c'est la compagnie
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: aeebd812588baf84a890dad6a77d485e, type: 2}
+  m_sharedMaterial: {fileID: -7741021429028468882, guid: aeebd812588baf84a890dad6a77d485e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2446,7 +2446,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 9
+  m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -2585,7 +2585,7 @@ MonoBehaviour:
   ManaAddAtSuccessCombo: 20
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
-  timeForDoUltimate: 0
+  timeForDoUltimate: 1
   erasedManager: {fileID: 5060730504946467261}
   comboAttacks:
   - AttackData: {fileID: 11400000, guid: d24aa6c29e7d3dd4297774edc8df8796, type: 2}
@@ -2636,7 +2636,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4473667370069190545
 Transform:
   m_ObjectHideFlags: 0
@@ -2760,7 +2760,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8664345379714403436}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0951505, y: -0.2468277, z: 0.25417325, w: 0.9302787}
+  m_LocalRotation: {x: 0.3213938, y: -0.3213938, z: 0.116977744, w: 0.8830223}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 1
@@ -3692,6 +3692,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3046446991354493670, guid: 9bb2703512b867944a12968216556c25, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3046446991354493670, guid: 9bb2703512b867944a12968216556c25, type: 3}
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
@@ -4004,6 +4008,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 8984355832277642329}
     m_Modifications:
     - target: {fileID: 931637254670457418, guid: 5e74add815c867647b11f47ad7047116, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 931637254670457418, guid: 5e74add815c867647b11f47ad7047116, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.7071068
       objectReference: {fileID: 0}
@@ -4079,6 +4087,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6911659550291431744, guid: 5e74add815c867647b11f47ad7047116, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6999130433029773772, guid: 5e74add815c867647b11f47ad7047116, type: 3}
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
       value: 3
@@ -4093,6 +4105,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1657189106102307817, guid: 5e74add815c867647b11f47ad7047116, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7759853961155630308}
+    - targetCorrespondingSourceObject: {fileID: 1657189106102307817, guid: 5e74add815c867647b11f47ad7047116, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5554783347833498390}
   m_SourcePrefab: {fileID: 100100000, guid: 5e74add815c867647b11f47ad7047116, type: 3}
 --- !u!4 &6730702129418624887 stripped
 Transform:
@@ -4136,6 +4151,37 @@ MonoBehaviour:
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
 --- !u!114 &7759853961155630308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522286935070369374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -865937879
+      Data2: 1189177465
+      Data3: -2114198130
+      Data4: -1059844907
+    Path: event:/SFX/Player/Nightmare/Shadow
+  Event: 
+  EventPlayTrigger: 11
+  EventStopTrigger: 12
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &5554783347833498390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
