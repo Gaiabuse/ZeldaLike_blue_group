@@ -8,16 +8,32 @@ using Random = UnityEngine.Random;
 
 public class BomberAttack : MonoBehaviour
 {
-    [SerializeField] private GameObject bomb;
+    // Define a drop-down menu selection pattern for the inspector
+    public enum ProjectileSelectionMode
+    {
+        UseSelectedIndex,
+        PickRandomFromList
+    }
+
+    [Header("Projectile Pool")]
+    [Tooltip("Add all your different StarBombs and Enemy prefabs here")]
+    [SerializeField] private List<GameObject> projectilePool = new List<GameObject>();
+    
+    [Tooltip("How should the launcher choose from the list above?")]
+    [SerializeField] private ProjectileSelectionMode selectionMode = ProjectileSelectionMode.UseSelectedIndex;
+    
+    [Tooltip("If selection mode is set to 'Use Selected Index', this specific element index will fire next.")]
+    [SerializeField] private int currentProjectileIndex = 0;
+
+    [Header("Flight & Setup Settings")]
     [SerializeField] private AnimationCurve bombCurve;
     [SerializeField] private Transform player;
-    
     [SerializeField] private float chargeSpeed;
     [SerializeField] private float launchSpeed;
     [SerializeField] private float launchHeight;
     [SerializeField] private float launcherSafeRadius = 2.23f;
     
-    [Header("Launch")]
+    [Header("Launch Modes")]
     [SerializeField] private bool isLaunching;
     
     [Header("Launch Around")]
@@ -48,57 +64,76 @@ public class BomberAttack : MonoBehaviour
             return;
         }
         
-        if (isLaunching)
+        if (isLaunching) StartCoroutine(LaunchProcedure());
+        if (isStriking) StartCoroutine(StartStrikeZone(strikeNb, player, strikeRadius));
+        if (isCircleLaunch) StartCoroutine(StartCircleLaunch(nbCircleLaunched, circleRadius, circleLaunchSpeed, player.position.y));
+        if (isRandomLaunch) StartCoroutine(StartRandomLaunch(nbRandomLaunched, randomRadius, randomLaunchSpeed, player.position.y));
+    }
+
+    /// <summary>
+    /// Gets the chosen prefab from the pool depending on your current mode settings.
+    /// </summary>
+    private GameObject GetSelectedProjectilePrefab()
+    {
+        if (projectilePool == null || projectilePool.Count == 0)
         {
-            StartCoroutine(LaunchProcedure());
+            Debug.LogError("Projectile Pool is empty on BomberAttack script!", gameObject);
+            return null;
         }
 
-        if (isStriking)
+        if (selectionMode == ProjectileSelectionMode.PickRandomFromList)
         {
-            StartCoroutine(StartStrikeZone(strikeNb, player, strikeRadius));
+            int randomIndex = Random.Range(0, projectilePool.Count);
+            return projectilePool[randomIndex];
         }
-        
-        if (isCircleLaunch)
+
+        // Clamp index fallback safety to prevent IndexOutOfRangeException
+        int safeIndex = Mathf.Clamp(currentProjectileIndex, 0, projectilePool.Count - 1);
+        return projectilePool[safeIndex];
+    }
+
+    private void SetupProjectile(GameObject projectile, Vector3 targetPos)
+    {
+        if (projectile == null) return;
+
+        if (projectile.TryGetComponent<StarBomb>(out StarBomb star))
         {
-            StartCoroutine(StartCircleLaunch(nbCircleLaunched, circleRadius, circleLaunchSpeed, player.position.y));
+            star.ShowPreview(targetPos, player);
         }
-        
-        if (isRandomLaunch)
+        else if (projectile.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
         {
-            StartCoroutine(StartRandomLaunch(nbRandomLaunched, randomRadius, randomLaunchSpeed, player.position.y));
+            enemy.ShowPreview(targetPos, player);
+            enemy.isAirbone = true;
+        
+            if (projectile.GetComponent<Animator>() != null) 
+                projectile.GetComponent<Animator>().enabled = false;
+            
+            if (projectile.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                projectile.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
         }
     }
 
     private IEnumerator LaunchProcedure()
     {
+        GameObject activePrefab = GetSelectedProjectilePrefab();
+        if (activePrefab == null) { isLaunching = false; yield break; }
+
         Vector3 target = player.position;
-        GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation);
+        GameObject newProjectile = Instantiate(activePrefab, transform.position, activePrefab.transform.rotation);
     
-        if (newBomb.TryGetComponent<StarBomb>(out StarBomb star))
-        {
-            star.ShowPreview(player.position, player);
-        }
-        else if (newBomb.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
-        {
-            enemy.ShowPreview(player.position, player);
-            enemy.isAirbone = true;
-        
-            if (newBomb.GetComponent<Animator>() != null) 
-                newBomb.GetComponent<Animator>().enabled = false;
-            
-            if (newBomb.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
-                newBomb.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-        }
+        SetupProjectile(newProjectile, target);
     
         yield return new WaitForSeconds(chargeSpeed);
-        StartCoroutine(Fire(newBomb, transform.position, target));
+        StartCoroutine(Fire(newProjectile, transform.position, target));
         isLaunching = false;
     }
 
     private IEnumerator StartStrikeZone(int nb, Transform target, float radius)
     {
-        List<(GameObject, Vector3)> bombs = new List<(GameObject, Vector3)>();
-        
+        GameObject activePrefab = GetSelectedProjectilePrefab();
+        if (activePrefab == null) { isStriking = false; yield break; }
+
+        List<(GameObject, Vector3)> items = new List<(GameObject, Vector3)>();
         Vector3 launcherPos = transform.position; 
 
         for (int i = 0; i < nb; i++)
@@ -112,47 +147,54 @@ public class BomberAttack : MonoBehaviour
                 targetPos += new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
                 safetyCounter++;
             } 
-
             while (Vector3.Distance(new Vector3(targetPos.x, launcherPos.y, targetPos.z), launcherPos) < launcherSafeRadius && safetyCounter < 10);
 
-            GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation);
-            bombs.Add((newBomb, targetPos));
-            newBomb.GetComponent<StarBomb>().ShowPreview(targetPos, player);
+            GameObject newProjectile = Instantiate(activePrefab, transform.position, activePrefab.transform.rotation);
+            items.Add((newProjectile, targetPos));
+            
+            SetupProjectile(newProjectile, targetPos);
         }
     
         yield return new WaitForSeconds(chargeSpeed);
     
-        foreach ((GameObject, Vector3) bomb in bombs)
+        foreach (var item in items)
         {
-            StartCoroutine(Fire(bomb.Item1, transform.position, bomb.Item2));
+            if (item.Item1 != null)
+            {
+                StartCoroutine(Fire(item.Item1, transform.position, item.Item2));
+            }
         }
         isStriking = false;
     }
     
     private IEnumerator StartCircleLaunch(int nb, float radius, float lTime, float yTarget)
     {
-        List<(GameObject obj, Vector3 target)> bombs = new List<(GameObject, Vector3)>();
+        GameObject activePrefab = GetSelectedProjectilePrefab();
+        if (activePrefab == null) { isCircleLaunch = false; yield break; }
+
+        List<(GameObject obj, Vector3 target)> items = new List<(GameObject, Vector3)>();
+        float effectiveRadius = Mathf.Max(radius, launcherSafeRadius + 0.5f);
     
         for (int i = 0; i < nb; i++)
         {
             float angle = (360f / nb) * i;
             Quaternion rotation = Quaternion.Euler(0, angle, 0);
-            Vector3 targetPos = transform.position + (rotation * Vector3.forward * radius);
+            Vector3 targetPos = transform.position + (rotation * Vector3.forward * effectiveRadius);
             targetPos.y = yTarget;
             
-            GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation);
-            bombs.Add((newBomb, targetPos));
+            GameObject newProjectile = Instantiate(activePrefab, transform.position, activePrefab.transform.rotation);
+            items.Add((newProjectile, targetPos));
+            
+            SetupProjectile(newProjectile, targetPos);
         }
         
-        foreach (var bombInstance in bombs)
+        foreach (var item in items)
         {
-            bombInstance.Item1.GetComponent<StarBomb>().ShowPreview(bombInstance.Item2, player);
-            
             yield return new WaitForSeconds(lTime);
             
-            if (bombInstance.obj != null)
+            if (item.obj != null)
             {
-                StartCoroutine(Fire(bombInstance.obj, transform.position, bombInstance.target));
+                StartCoroutine(Fire(item.obj, transform.position, item.target));
             }
         }
     
@@ -161,9 +203,11 @@ public class BomberAttack : MonoBehaviour
     
     private IEnumerator StartRandomLaunch(Vector2 rndNb, float radius, Vector2 rndLTime, float yTarget)
     {
+        GameObject activePrefab = GetSelectedProjectilePrefab();
+        if (activePrefab == null) { isRandomLaunch = false; yield break; }
+
         int nb = (int)Random.Range(rndNb.x, rndNb.y);
-        List<(GameObject obj, Vector3 target)> bombs = new List<(GameObject, Vector3)>();
-    
+        List<(GameObject obj, Vector3 target)> items = new List<(GameObject, Vector3)>();
         Vector3 launcherPos = transform.position; 
         
         for (int i = 0; i < nb; i++)
@@ -178,33 +222,33 @@ public class BomberAttack : MonoBehaviour
                 targetPos.y = yTarget;
                 safetyCounter++;
             } 
-
             while (Vector3.Distance(new Vector3(targetPos.x, launcherPos.y, targetPos.z), launcherPos) < launcherSafeRadius && safetyCounter < 10);
 
-            GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation);
-            bombs.Add((newBomb, targetPos));
+            GameObject newProjectile = Instantiate(activePrefab, transform.position, activePrefab.transform.rotation);
+            items.Add((newProjectile, targetPos));
+            
+            SetupProjectile(newProjectile, targetPos);
         }
         
-        foreach (var bombInstance in bombs)
+        foreach (var item in items)
         {
             float lTime = Random.Range(rndLTime.x, rndLTime.y);
-            bombInstance.Item1.GetComponent<StarBomb>().ShowPreview(bombInstance.Item2, player);
-            Debug.Log(lTime);
             yield return new WaitForSeconds(lTime);
             
-            if (bombInstance.obj != null)
+            if (item.obj != null)
             {
-                StartCoroutine(Fire(bombInstance.obj, transform.position, bombInstance.target));
+                StartCoroutine(Fire(item.obj, transform.position, item.target));
             }
         }
     
         isRandomLaunch = false;
     }
 
-    public IEnumerator Fire(GameObject bomb, Vector3 startPos, Vector3 targetPos)
+    public IEnumerator Fire(GameObject projectile, Vector3 startPos, Vector3 targetPos)
     {
+        if (projectile == null) yield break;
+
         float timePassed = 0f;
-    
         Vector3 destination = targetPos;
         destination.y -= 1;
         
@@ -215,85 +259,78 @@ public class BomberAttack : MonoBehaviour
         ).normalized;
         
         float tumbleSpeed = Random.Range(180f, 360f); 
-        
-        Quaternion originalRotation = bomb.transform.rotation;
+        Quaternion originalRotation = projectile.transform.rotation;
 
         while (timePassed < launchSpeed)
         {
+            if (projectile == null) yield break;
+
             float linearT = timePassed / launchSpeed;
             float heightT = bombCurve.Evaluate(linearT);
             float heightOffset = heightT * launchHeight;
             
             Vector3 currentPos = Vector3.Lerp(startPos, destination, linearT);
             currentPos.y += heightOffset;
-            bomb.transform.position = currentPos;
+            projectile.transform.position = currentPos;
             
             if (linearT < 0.8f)
             {
-                bomb.transform.Rotate(randomTumbleAxis, tumbleSpeed * Time.deltaTime, Space.Self);
+                projectile.transform.Rotate(randomTumbleAxis, tumbleSpeed * Time.deltaTime, Space.Self);
             }
             else
             {
                 float settleT = (linearT - 0.8f) / 0.2f;
-                bomb.transform.rotation = Quaternion.Slerp(bomb.transform.rotation, originalRotation, settleT);
+                projectile.transform.rotation = Quaternion.Slerp(projectile.transform.rotation, originalRotation, settleT);
             }
     
             timePassed += Time.deltaTime;
             yield return null;
         }
         
-        bomb.transform.position = destination;
-        bomb.transform.rotation = originalRotation;
+        if (projectile != null)
+        {
+            projectile.transform.position = destination;
+            projectile.transform.rotation = originalRotation;
 
-        if (bomb.TryGetComponent<StarBomb>(out StarBomb star))
-        {
-            star.StartCountdown();
-        }
-        else if (bomb.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
-        {
-            if (bomb.GetComponent<Animator>() != null) 
-                bomb.GetComponent<Animator>().enabled = true;
-        
-            if (bomb.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
-                bomb.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+            if (projectile.TryGetComponent<StarBomb>(out StarBomb star))
+            {
+                star.StartCountdown();
+            }
+            else if (projectile.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
+            {
+                if (projectile.GetComponent<Animator>() != null) 
+                    projectile.GetComponent<Animator>().enabled = true;
             
-            enemy.isAirbone = false;
-            enemy.move = "chase";
-            enemy.alwaysAgro = true; 
+                if (projectile.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                    projectile.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+                
+                enemy.isAirbone = false;
+                enemy.move = "chase";
+                enemy.alwaysAgro = true; 
+            }
         }
     }
-    
+
     private void OnDrawGizmosSelected()
     {
         Vector3 origin = transform.position;
         Matrix4x4 oldMatrix = Gizmos.matrix;
-
-        // Flatten the gizmo matrix on the Y axis (Scale Y is set to 0.01)
         Gizmos.matrix = Matrix4x4.TRS(origin, Quaternion.identity, new Vector3(1, 0.01f, 1));
 
-        // 1. Safe Radius (Red) - Note: position is Vector3.zero because the matrix handles the origin
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(Vector3.zero, launcherSafeRadius);
-
-        // 2. Circle Launch Radius (Cyan)
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(Vector3.zero, circleRadius);
-
-        // 3. Random Launch Radius (Yellow)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(Vector3.zero, randomRadius);
         
-        // Restore matrix for the player zone calculation
         Gizmos.matrix = oldMatrix;
-
-        // 4. Player Strike Radius (Green)
         if (player != null)
         {
             Gizmos.matrix = Matrix4x4.TRS(player.position, Quaternion.identity, new Vector3(1, 0.01f, 1));
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(Vector3.zero, strikeRadius);
-            
-            Gizmos.matrix = oldMatrix; // Always restore your matrix at the end
+            Gizmos.matrix = oldMatrix; 
         }
     }
 }
