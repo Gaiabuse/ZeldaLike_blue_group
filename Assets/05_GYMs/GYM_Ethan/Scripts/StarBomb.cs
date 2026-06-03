@@ -16,7 +16,7 @@ public class StarBomb : MonoBehaviour
     [ColorUsage(true, true)] [SerializeField] private Color colorB;
 
     private MeshRenderer meshRenderer;
-    private MeshRenderer childRenderer; // Cached child renderer
+    private MeshRenderer childRenderer;
     private bool isExploding = false;
     private MaterialPropertyBlock _propertyBlock;
     
@@ -119,6 +119,8 @@ public class StarBomb : MonoBehaviour
 
         if (explodePreview != null) Destroy(explodePreview);
         if (explodeZone != null) explodeZone.SetActive(true);
+        GetComponent<MeshRenderer>().enabled = false;
+        transform.GetChild(0).gameObject.SetActive(false);
 
         await Task.Delay(1000);
         
