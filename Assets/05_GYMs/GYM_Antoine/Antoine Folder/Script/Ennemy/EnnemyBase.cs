@@ -247,7 +247,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             if (HP <= 0)
             {
                 lifeBar.SetActive(false);
-                Destroy(hitVFX);
+                hitVFX.SetActive(false);
                 Death();
             }
             else
