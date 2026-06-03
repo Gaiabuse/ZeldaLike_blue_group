@@ -72,6 +72,9 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [Range(0, 1)][SerializeField] private float minFillAmount = 0.1f;
     [Tooltip("value when HP = Maximum")]
     [Range(0, 1)][SerializeField] private float maxFillAmount = 0.9f;
+    
+    [SerializeField] private GameObject targetPreview;
+    public bool isAirbone;
 
     protected virtual void Start()
     {
@@ -102,9 +105,25 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
         CurrentTarget = Player;
     }
+    
+    public void ShowPreview(Vector3 target, Transform player)
+    {
+        Vector3 pos = target;
+        pos.y -= 1;
+        targetPreview.transform.position = pos;
+        targetPreview.transform.SetParent(player.parent);
+        targetPreview.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        targetPreview.SetActive(true);
+    }
 
     protected virtual void FixedUpdate()
     {
+        if (isAirbone)
+        {
+            move = "airbone";
+            return;
+        }
+        
         if (move == "sleep")
         {
             timerGeneral -= Time.deltaTime;

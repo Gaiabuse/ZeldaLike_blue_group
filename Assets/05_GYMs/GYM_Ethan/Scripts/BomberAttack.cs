@@ -68,13 +68,28 @@ public class BomberAttack : MonoBehaviour
             StartCoroutine(StartRandomLaunch(nbRandomLaunched, randomRadius, randomLaunchSpeed, player.position.y));
         }
     }
-    
+
     private IEnumerator LaunchProcedure()
     {
         Vector3 target = player.position;
+        GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation);
+    
+        if (newBomb.TryGetComponent<StarBomb>(out StarBomb star))
+        {
+            star.ShowPreview(player.position, player);
+        }
+        else if (newBomb.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
+        {
+            enemy.ShowPreview(player.position, player);
+            enemy.isAirbone = true;
         
-        GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation); 
-        newBomb.GetComponent<StarBomb>().ShowPreview(player.position, player);
+            if (newBomb.GetComponent<Animator>() != null) 
+                newBomb.GetComponent<Animator>().enabled = false;
+            
+            if (newBomb.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                newBomb.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+        }
+    
         yield return new WaitForSeconds(chargeSpeed);
         StartCoroutine(Fire(newBomb, transform.position, target));
         isLaunching = false;
@@ -228,8 +243,24 @@ public class BomberAttack : MonoBehaviour
         }
         
         bomb.transform.position = destination;
-        bomb.transform.rotation = originalRotation; 
-        bomb.GetComponent<StarBomb>().StartCountdown();
+        bomb.transform.rotation = originalRotation;
+
+        if (bomb.TryGetComponent<StarBomb>(out StarBomb star))
+        {
+            star.StartCountdown();
+        }
+        else if (bomb.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
+        {
+            if (bomb.GetComponent<Animator>() != null) 
+                bomb.GetComponent<Animator>().enabled = true;
+        
+            if (bomb.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
+                bomb.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+            
+            enemy.isAirbone = false;
+            enemy.move = "chase";
+            enemy.alwaysAgro = true; 
+        }
     }
     
     private void OnDrawGizmosSelected()
