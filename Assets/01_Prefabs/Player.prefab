@@ -428,6 +428,8 @@ MonoBehaviour:
   maxAttack: 25
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 24
+  ultimateAttackCooldown: 0.5
+  UltimateAttackDamage: 10
 --- !u!114 &8715960371389895154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -685,9 +687,6 @@ MonoBehaviour:
   playerInput: {fileID: 8015218632366079429}
   pauseMenu: {fileID: 0}
   progressMenu: {fileID: 0}
-  paralaxePivotList:
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &475458454912018690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,6 +855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHP
   maxHP: 100
+  startHP: 70
   playerController: {fileID: 8133830779634646023}
   speedRecharge: 15
   minFillAmount: 0.2
@@ -863,6 +863,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   damagesBar: {fileID: 0}
   healVFX: {fileID: 4271704394789098010}
+  deathScreen: {fileID: 0}
   HP: 70
   tempHP: 70
 --- !u!114 &1551203807080462892
@@ -1390,13 +1391,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5622570872384827847}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2.84, y: 2.84, z: 2.84}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4716437258875657586}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &3311457523954835426
 SpriteRenderer:
   serializedVersion: 2
@@ -2269,8 +2270,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8263647557454681255}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.56, z: 0}
+  m_LocalRotation: {x: 0.3213938, y: -0.3213938, z: 0.116977744, w: 0.8830223}
+  m_LocalPosition: {x: 0, y: 9, z: 0}
   m_LocalScale: {x: 2.59, y: 2.59, z: 2.59}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2909,7 +2910,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8778662250821000933}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
