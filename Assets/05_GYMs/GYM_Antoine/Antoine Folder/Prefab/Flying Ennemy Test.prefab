@@ -670,6 +670,7 @@ MonoBehaviour:
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
   Leure: {fileID: 0}
+  timerGeneral: 0
   alwaysAgro: 0
   stunMultiplier: 1
   _move: wait
@@ -685,7 +686,7 @@ MonoBehaviour:
   durationDotween: 0.6
   deathVFX: {fileID: 7591146955606317106}
   stunVFX: {fileID: 6520773811909429549}
-  hitVFX: {fileID: 2500014356273416113}
+  hitVFX: {fileID: 0}
   UltIndicator: {fileID: 7041623943447940477}
   lifeBar: {fileID: 3685876258406475997}
   frontLife: {fileID: 2284366655878073763}
@@ -1429,6 +1430,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3511628131235030373, guid: 69492dd47fee2444a894e78007be5235, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6418889437048302696, guid: 69492dd47fee2444a894e78007be5235, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6780345457764888485, guid: 69492dd47fee2444a894e78007be5235, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1439,7 +1448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6780345457764888485, guid: 69492dd47fee2444a894e78007be5235, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6780345457764888485, guid: 69492dd47fee2444a894e78007be5235, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1469,16 +1478,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8270652294480755992, guid: 69492dd47fee2444a894e78007be5235, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.23
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69492dd47fee2444a894e78007be5235, type: 3}
---- !u!2083052967 &2500014356273416113 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 1320900471091929846, guid: 69492dd47fee2444a894e78007be5235, type: 3}
-  m_PrefabInstance: {fileID: 3523242303740798279}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7997744709342268130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6780345457764888485, guid: 69492dd47fee2444a894e78007be5235, type: 3}
