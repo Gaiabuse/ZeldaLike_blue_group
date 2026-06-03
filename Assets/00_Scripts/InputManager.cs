@@ -9,7 +9,6 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
-    [SerializeField] List<IsometricParalaxe> paralaxePivotList;
     
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
@@ -90,14 +89,6 @@ public class InputManager : MonoBehaviour
     public void OnPhoneScroll(InputValue value)
     {
         scrollInput = value.Get<float>();
-    }
-    
-    public void OnMove(InputValue value)
-    {
-        foreach (IsometricParalaxe pivot in paralaxePivotList)
-        {
-            pivot.Move(value.Get<Vector2>());
-        }
     }
 
     private void Update()

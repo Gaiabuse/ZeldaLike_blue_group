@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 public class PlayerPowder : MonoBehaviour
 {
@@ -19,9 +20,8 @@ public class PlayerPowder : MonoBehaviour
 
     private bool isHealing = false;
     private float currentChargeTimer = 0f;
-    
-    // Inside PlayerPowder.cs
-    private bool wasHealingLastFrame = false; // Add this variable at the top
+    private bool wasHealingLastFrame = false; 
+    private Coroutine mapSwitchCoroutine;
 
     private void Update()
     {
@@ -31,7 +31,7 @@ public class PlayerPowder : MonoBehaviour
         if (isHealing && powder > 0 && _hp.HP < _hp.maxHP)
         {
             currentChargeTimer += Time.deltaTime;
-            wasHealingLastFrame = true; // Track that we are actively rumbling
+            wasHealingLastFrame = true; 
 
             if (currentChargeTimer >= chargingTime)
             {
@@ -44,24 +44,17 @@ public class PlayerPowder : MonoBehaviour
         }
         else
         {
-            // Only turn off the motor IF we were just healing a moment ago
             if (wasHealingLastFrame)
             {
                 RumbleManager.Instance.StopVibration();
-            
                 wasHealingLastFrame = false;
             }
 
-            StopHealEffects();
-        }
-    }
-
-    private void StopHealEffects()
-    {
-        if (isHealing && (powder <= 0 || _hp.HP >= _hp.maxHP))
-        {
-            isHealing = false;
-            ResetHealingState();
+            // Safe fallback if controls somehow get mismatched outside of callbacks
+            if (!isHealing && _playerInput != null && _playerInput.actions.FindActionMap("HealMap").enabled)
+            {
+                InterruptAndReset();
+            }
         }
     }
 
@@ -78,6 +71,11 @@ public class PlayerPowder : MonoBehaviour
         _hp.Heal(amountToHeal);
 
         RumbleManager.Instance.TriggerVibration(0.5f, 0.5f);
+
+        if (powder <= 0 || _hp.HP >= _hp.maxHP)
+        {
+            InterruptAndReset();
+        }
     }
 
     public void OnHeal(InputValue value)
@@ -86,23 +84,52 @@ public class PlayerPowder : MonoBehaviour
 
         if (isHealing)
         {
-            _playerInput.actions.FindActionMap("PlayerControl").Disable();
-            _playerInput.actions.FindActionMap("HealMap").Enable();
+            if (powder > 0 && _hp.HP < _hp.maxHP)
+            {
+                // Switch maps SAFELY at the end of the frame
+                SafeSwitchActionMap("PlayerControl", "HealMap");
+            }
+            else
+            {
+                InterruptAndReset(); 
+            }
         }
         else
         {
-            ResetHealingState();
-            StopHealEffects();
+            InterruptAndReset();
         }
     }
 
-    private void ResetHealingState()
+    private void InterruptAndReset()
     {
+        isHealing = false;
         currentChargeTimer = 0f;
-        if (!_playerInput.actions.FindActionMap("PlayerControl").enabled)
+        
+        if (_playerInput != null)
         {
-            _playerInput.actions.FindActionMap("PlayerControl").Enable();
-            _playerInput.actions.FindActionMap("HealMap").Disable();
+            SafeSwitchActionMap("HealMap", "PlayerControl");
+        }
+    }
+
+    // Helper method to delay the switching until the Input System is done processing
+    private void SafeSwitchActionMap(string mapToDisable, string mapToEnable)
+    {
+        if (mapSwitchCoroutine != null) StopCoroutine(mapSwitchCoroutine);
+        mapSwitchCoroutine = StartCoroutine(SwitchMapsRoutine(mapToDisable, mapToEnable));
+    }
+
+    private IEnumerator SwitchMapsRoutine(string mapToDisable, string mapToEnable)
+    {
+        // Wait until the end of the current frame so the input system finishes its update loop
+        yield return new WaitForEndOfFrame();
+
+        if (_playerInput != null)
+        {
+            var disableMap = _playerInput.actions.FindActionMap(mapToDisable);
+            var enableMap = _playerInput.actions.FindActionMap(mapToEnable);
+
+            if (disableMap != null && disableMap.enabled) disableMap.Disable();
+            if (enableMap != null && !enableMap.enabled) enableMap.Enable();
         }
     }
 

@@ -20,7 +20,7 @@ public abstract class AttackManager : MonoBehaviour
     protected int currentCombo;
     protected Coroutine comboCoroutine;
     protected int numberOfAttacksInCombo;
-    private Coroutine ultimateCoroutine;
+    protected Coroutine ultimateCoroutine;
     
     public static Action CanUltimate;
     public static Action EndForUltimate;
@@ -36,6 +36,7 @@ public abstract class AttackManager : MonoBehaviour
         canChargedAttack = false;
         switchInProgress = true;
         currentCombo = 0;
+        
     }
 
     protected IEnumerator FinishSwitch()
@@ -123,7 +124,6 @@ public abstract class AttackManager : MonoBehaviour
 
     protected void Combo()
     {
-  
         if (currentAttack == null) return;
         if (currentCombo == 0)
         {
@@ -131,11 +131,14 @@ public abstract class AttackManager : MonoBehaviour
         }
         if (gameObject.activeInHierarchy)
         {
+            if (comboCoroutine != null)
+            {
+                StopCoroutine(comboCoroutine);
+            }
             comboCoroutine = StartCoroutine(ComboCoroutine());
         }
         currentAttack.Finished -= Combo;
     }
-
     protected void FinishAttack()
     {
         CanAttack = true;
@@ -156,6 +159,7 @@ public abstract class AttackManager : MonoBehaviour
     protected IEnumerator ComboCoroutine()
     {
         currentCombo++;
+        Debug.Log("Current Combo : " +currentCombo +" / " + numberOfAttacksInCombo);
         if (currentCombo >= numberOfAttacksInCombo)
         {
             currentCombo = 0;
@@ -165,20 +169,20 @@ public abstract class AttackManager : MonoBehaviour
             if (ultimateCoroutine != null)
             {
                 StopCoroutine(ultimateCoroutine);
-                ultimateCoroutine = null;
             }
             ultimateCoroutine = StartCoroutine(ForUltimateComboCoroutine());
         }
         yield return new WaitForSeconds(timeForDoCombo);
+        Debug.Log("Current Combo Finish");
         FormAnimator.SetBool("isAttacking", false);
         currentCombo = 0;
     }
 
     protected virtual IEnumerator ForUltimateComboCoroutine()
     {
-        // Outsource the timing window to FormSwitcher so it survives SetActive(false)
         formSwitcher.StartUltimateWindow();
-        yield break;
+        yield return null; 
+        ultimateCoroutine = null; 
     }
 }
 

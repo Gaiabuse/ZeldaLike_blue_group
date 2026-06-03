@@ -103,6 +103,7 @@ public class MenuManager : MonoBehaviour
         creditsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             creditsScreen.SetActive(false);
             titleScreen.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(mainFirstSelected);
             titleScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
         

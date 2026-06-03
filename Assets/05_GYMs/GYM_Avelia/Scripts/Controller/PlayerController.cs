@@ -69,34 +69,24 @@ public class PlayerController : MonoBehaviour
     {
         Boxes = null;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
-        if (!PlayerPrefs.HasKey("PlayerSpawnX") && !PlayerPrefs.HasKey("PlayerSpawnY") && !PlayerPrefs.HasKey("PlayerSpawnZ") || respawnAtStart)
+    
+        bool shouldRespawn = !PlayerPrefs.HasKey("PlayerSpawnX") || respawnAtStart;
+    
+        if (shouldRespawn)
         {
             PlayerPrefs.SetFloat("PlayerSpawnX", transform.localPosition.x);
             PlayerPrefs.SetFloat("PlayerSpawnY", transform.localPosition.y);
             PlayerPrefs.SetFloat("PlayerSpawnZ", transform.localPosition.z);
-            Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
-            StartCoroutine(RespawnCoroutine());
-        }
-        else
-        {
-            StartCoroutine(RespawnCoroutine());
-        }
-        
-        formSwitcher = GetComponent<FormSwitcher>();
-        if (playerInput == null)
-        {
-            playerInput = GetComponent<PlayerInput>();
-        }
-        currentAnimator = currentAttackManager.FormAnimator;
-        if (cameraRotation == null)
-        {
-            cameraRotation = Camera.main.transform.parent;
         }
 
-        if (cameraFollow == null)
-        {
-            cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        }
+        // PASSING TRUE: This is the very first game initialization
+        StartCoroutine(RespawnCoroutine(true));
+    
+        formSwitcher = GetComponent<FormSwitcher>();
+        if (playerInput == null) playerInput = GetComponent<PlayerInput>();
+        currentAnimator = currentAttackManager.FormAnimator;
+        if (cameraRotation == null) cameraRotation = Camera.main.transform.parent;
+        if (cameraFollow == null) cameraFollow = Camera.main.GetComponent<CameraFollow>();
     }
 
     void FixedUpdate()
@@ -234,24 +224,30 @@ public class PlayerController : MonoBehaviour
 
     public void TriggerRespawn()
     {
-
-        StartCoroutine(RespawnCoroutine());
+        StartCoroutine(RespawnCoroutine(false));
     }
 
-    public IEnumerator RespawnCoroutine()
+    public IEnumerator RespawnCoroutine(bool isInitialSpawn)
     {
+        
         OnRespawn?.Invoke();
         controller.enabled = false;
+    
         Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
-        Debug.Log("start pos "+ startPos);
         transform.localPosition = startPos;
 
-        controller.enabled = true;
         CanMove = false;
         CanRotate = false;
+    
+        // Check if we need to skip the 100 HP reset because it's the game startup
+        if (!isInitialSpawn)
+        {
+            GetComponent<PlayerHP>().ResetHealth(); // Sets health to 100 maxHP
+        }
 
         yield return new WaitForSeconds(1f);
 
+        controller.enabled = true;
         CanMove = true;
         CanRotate = true;
     }
