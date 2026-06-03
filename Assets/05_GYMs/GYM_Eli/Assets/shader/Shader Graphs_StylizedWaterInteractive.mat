@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_StylizedWaterInteractive
-  m_Shader: {fileID: -6465566751694194690, guid: cb8625badb7f83143a5293aebda5e5c7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: f5973368903b0a24e82992a550083d74, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2978
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -47,20 +47,30 @@ Material:
     m_Ints: []
     m_Floats:
     - Vector1_2E11270D: 0.12
-    - Vector1_39D35881: 0.89
-    - Vector1_3B48FD24: 0.339
+    - Vector1_39D35881: 0.457
+    - Vector1_3B48FD24: 0.493
     - Vector1_5AE4170F: 0.03
-    - Vector1_80CAEB23: 0.01
-    - Vector1_8E5091B8: 0.43
-    - Vector1_981A3A67: 0.257
-    - Vector1_C1C7D298: 0.908
-    - Vector1_ECB3F2B8: 0.528
+    - Vector1_80CAEB23: 9.01
+    - Vector1_8E5091B8: 0.62
+    - Vector1_981A3A67: 0.443
+    - Vector1_C1C7D298: 0.45
+    - Vector1_ECB3F2B8: 0.438
+    - _FoamScale: 71.3
+    - _Mask_scale: 0.833
     - _QueueControl: 0
-    - _QueueOffset: -22
+    - _QueueOffset: 0
+    - _refraction_opacity: 0.493
+    - _refraction_strenght: 0.049
+    - _speed: 0.063
+    - _step_scale: 0.133
     m_Colors:
-    - Color_27D4D743: {r: 0.23161852, g: 0.014951949, b: 0.4528302, a: 0}
-    - Color_51A4B6EC: {r: 0.87696344, g: 0.042452812, b: 1, a: 0}
-    - Color_C347D0B: {r: 0.23040763, g: 0.0012459978, b: 0.26415092, a: 0}
+    - Color_27D4D743: {r: 0.1981132, g: 0, b: 0.3962264, a: 1}
+    - Color_51A4B6EC: {r: 0.87696344, g: 0.042452782, b: 1, a: 1}
+    - Color_C347D0B: {r: 0.2304076, g: 0.0012459978, b: 0.2641509, a: 1}
+    - _Edge_color: {r: 0.8962264, g: 0, b: 0.8962264, a: 0}
+    - _color: {r: 0.3533766, g: 0.23921567, b: 0.7176471, a: 1}
+    - _depth_color: {r: 0.15212917, g: 0.02647739, b: 0.16037735, a: 0}
+    - _foam_color: {r: 0.9516913, g: 0.495283, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &543114734771677354
