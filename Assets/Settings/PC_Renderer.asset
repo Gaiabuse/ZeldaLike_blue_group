@@ -64,7 +64,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 8
       PassNames: []
-    overrideMaterial: {fileID: 0}
+    overrideMaterial: {fileID: 2100000, guid: bedc4145b687f2f42b94dc6874d9f8ca, type: 2}
     overrideMaterialPassIndex: 0
     overrideShader: {fileID: 0}
     overrideShaderPassIndex: 0
@@ -114,7 +114,8 @@ MonoBehaviour:
   - {fileID: 1232754192429886801}
   - {fileID: -7116531011267262319}
   - {fileID: -2463444631723918565}
-  m_RendererFeatureMap: ad6b866f10d7b46c3564a49c94415c3e512d2817689f1b1191085d10c0003d9d1bbb40ca2816d0dd
+  - {fileID: 2466164160499404472}
+  m_RendererFeatureMap: ad6b866f10d7b46c3564a49c94415c3e512d2817689f1b1191085d10c0003d9d1bbb40ca2816d0ddb8ce5dd83c933922
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -167,6 +168,48 @@ MonoBehaviour:
       PassNames: []
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
+    overrideShader: {fileID: 0}
+    overrideShaderPassIndex: 0
+    overrideMode: 1
+    overrideDepthState: 0
+    depthCompareFunction: 4
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &2466164160499404472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: RenderObjects
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.RenderObjects
+  m_Active: 1
+  settings:
+    passTag: RenderObjects
+    Event: 450
+    filterSettings:
+      RenderQueueType: 1
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 8
+      PassNames: []
+    overrideMaterial: {fileID: 2100000, guid: 1690b66ec8e6e2e428e851f6077e222c, type: 2}
+    overrideMaterialPassIndex: 10
     overrideShader: {fileID: 0}
     overrideShaderPassIndex: 0
     overrideMode: 1
