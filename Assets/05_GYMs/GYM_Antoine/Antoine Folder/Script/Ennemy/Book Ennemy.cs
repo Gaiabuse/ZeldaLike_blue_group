@@ -34,6 +34,7 @@ public class BookEnnemy : EnnemyBase
     protected override void Start()
     {
         base.Start();
+        if (MainHitBox != null) MainHitBox.damage = data.strength;
         lastY = transform.position.y;
         move = "0";
 
@@ -158,20 +159,10 @@ public class BookEnnemy : EnnemyBase
                 timerGeneral -= Time.deltaTime;
                 if (timerGeneral <= 0)
                 {
-                    /*move = "melee2";
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-
-                    rb.useGravity = false;
-                    rb.isKinematic = true;
-                    SetDive(3);
-                    ToogleMainAttack(-1);*/
-
                     rb.useGravity = true;
                     rb.isKinematic = false;
 
                     rb.AddForce(Vector3.down * addForceDive, ForceMode.Impulse);
-                    ToogleMainAttack(1);
 
                     animator.SetBool("IsMoving", false);
                     animator.SetBool("IsChasing", false);
@@ -183,6 +174,7 @@ public class BookEnnemy : EnnemyBase
                 if (timerGeneral <= 0)
                 {
                     animator.SetBool("Stun", false);
+                    ToogleMainAttack(-1);
                 }
             }
         }
@@ -251,7 +243,7 @@ public class BookEnnemy : EnnemyBase
             animator.SetTrigger("tAttack");
             animator.SetBool("Stun", true);
             timerGeneral = StunTimeRecoverFromAttack;
-            ToogleMainAttack(-1);
+            ToogleMainAttack(1);
         }
     }
 
@@ -273,11 +265,6 @@ public class BookEnnemy : EnnemyBase
 
             animator.SetBool("IsMoving", false);
             animator.SetBool("IsChasing", false);
-        }
-        else
-        {
-            animator.SetBool("Stun", false);
-            Death();
         }
     }
 

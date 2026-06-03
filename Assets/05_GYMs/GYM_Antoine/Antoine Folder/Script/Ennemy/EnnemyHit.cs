@@ -15,6 +15,7 @@ public class EnnemyHit : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         if (!canHit) return;
+        Debug.Log("Bonk Player");
 
         var otherDamageablePlayer = collision.GetComponent<IPlayerDamageable>();
 
@@ -26,6 +27,7 @@ public class EnnemyHit : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!canHit) return;
+        Debug.Log("Bonk Player");
 
         var otherDamageablePlayer = collision.transform.GetComponent<IPlayerDamageable>();
 
