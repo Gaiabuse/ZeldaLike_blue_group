@@ -16,6 +16,12 @@ public class BomberAttack : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private bool isLaunching;
     [SerializeField] private bool isStriking;
+    [Header("Circle Launch")]
+    [SerializeField] private bool isCircleLaunch;
+    [SerializeField] private int nbCircleLaunched = 5;
+    [SerializeField] private float circleRadius = 4;
+    [SerializeField] private float circleLaunchSpeed = 0.5f;
+    [SerializeField] private float circleBombSize = 0.5f;
 
     private void OnValidate()
     {
@@ -28,6 +34,22 @@ public class BomberAttack : MonoBehaviour
         {
             StartCoroutine(StartStrikeZone(3, player, 5f));
         }
+        
+        if (isCircleLaunch)
+        {
+            StartCoroutine(StartCircleLaunch(nbCircleLaunched, circleRadius, circleLaunchSpeed, player.position.y, circleBombSize));
+        }
+    }
+    
+    private IEnumerator LaunchProcedure()
+    {
+        Vector3 target = player.position;
+        
+        GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation); 
+        newBomb.GetComponent<StarBomb>().ShowPreview(player.position, player);
+        yield return new WaitForSeconds(chargeSpeed);
+        StartCoroutine(Fire(newBomb, transform.position, target));
+        isLaunching = false;
     }
 
     private IEnumerator StartStrikeZone(int nb, Transform target, float radius)
@@ -38,7 +60,7 @@ public class BomberAttack : MonoBehaviour
         {
             Vector3 targetPos = target.position;
             targetPos += new Vector3(Random.Range(-radius,radius), 0, Random.Range(-radius,radius));
-            GameObject newBomb = Instantiate(bomb, transform.position, transform.rotation);
+            GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation);
             bombs.Add((newBomb, targetPos));
             newBomb.GetComponent<StarBomb>().ShowPreview(targetPos, player);
         }
@@ -49,16 +71,36 @@ public class BomberAttack : MonoBehaviour
         }
         isStriking = false;
     }
-
-    private IEnumerator LaunchProcedure()
+    
+    private IEnumerator StartCircleLaunch(int nb, float radius, float lTime, float yTarget, float bombSize)
     {
-        Vector3 target = player.position;
+        List<(GameObject obj, Vector3 target)> bombs = new List<(GameObject, Vector3)>();
+    
+        for (int i = 0; i < nb; i++)
+        {
+            float angle = (360f / nb) * i;
+            Quaternion rotation = Quaternion.Euler(0, angle, 0);
+            Vector3 targetPos = transform.position + (rotation * Vector3.forward * radius);
+            targetPos.y = yTarget;
+            
+            GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation);
+            newBomb.transform.localScale = new Vector3(bombSize, bombSize, bombSize);
+            bombs.Add((newBomb, targetPos));
+        }
         
-        GameObject newBomb = Instantiate(bomb, transform.position, bomb.transform.rotation); 
-        newBomb.GetComponent<StarBomb>().ShowPreview(player.position, player);
-        yield return new WaitForSeconds(chargeSpeed);
-        StartCoroutine(Fire(newBomb, transform.position, target));
-        isLaunching = false;
+        foreach (var bombInstance in bombs)
+        {
+            bombInstance.Item1.GetComponent<StarBomb>().ShowPreview(bombInstance.Item2, player);
+            
+            yield return new WaitForSeconds(lTime);
+            
+            if (bombInstance.obj != null)
+            {
+                StartCoroutine(Fire(bombInstance.obj, transform.position, bombInstance.target));
+            }
+        }
+    
+        isCircleLaunch = false;
     }
 
     public IEnumerator Fire(GameObject bomb, Vector3 startPos, Vector3 targetPos)
