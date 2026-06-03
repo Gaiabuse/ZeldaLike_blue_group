@@ -18563,7 +18563,6 @@ GameObject:
   - component: {fileID: 324673212}
   - component: {fileID: 324673215}
   - component: {fileID: 324673214}
-  - component: {fileID: 324673213}
   m_Layer: 9
   m_Name: Respawn 5
   m_TagString: Untagged
@@ -18586,27 +18585,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1980468680}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!65 &324673213
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324673211}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5.071781, y: 11.336695, z: 10.389236}
-  m_Center: {x: -27.399752, y: -0.4074316, z: 26.752277}
 --- !u!65 &324673214
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -91255,7 +91233,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: d294dc95897b0704cae0efad3e195d31, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 2e1d5a2fe5de59f448cf9530b12356b9, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &1509581427
 PrefabInstance:
@@ -106209,6 +106187,7 @@ GameObject:
   - component: {fileID: 1736536148}
   - component: {fileID: 1736536147}
   - component: {fileID: 1736536149}
+  - component: {fileID: 1736536150}
   m_Layer: 0
   m_Name: Noyau ZONYRS
   m_TagString: Untagged
@@ -106264,7 +106243,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 52a9312d182399b47b965c1db7a270ba, type: 2}
+  - {fileID: 2100000, guid: d57c65970bf068740b68cb71f7f870e3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106309,6 +106288,58 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.0000001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1736536150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736536144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be299544b974cce4eae7f1699e48e7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BomberAttack
+  bomb: {fileID: 7998913411131273313, guid: 7a2f41ac4b10b13469e7c34cdb9c4d26, type: 3}
+  bombCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.000091552734
+      value: -0.0011940002
+      inSlope: 2.228302
+      outSlope: 2.228302
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.20967901
+    - serializedVersion: 3
+      time: 0.77995574
+      value: 0.627761
+      inSlope: -0.006696632
+      outSlope: -0.006696632
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0032349
+      value: 0.0034179688
+      inSlope: -1.3988926
+      outSlope: -1.3988926
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.28064394
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  chargeSpeed: 2
+  launchSpeed: 2
+  launchHeight: 2
+  player: {fileID: 352241037}
+  isLaunching: 0
+  isStriking: 0
 --- !u!1001 &1738127877
 PrefabInstance:
   m_ObjectHideFlags: 0
