@@ -47,15 +47,16 @@ public class DreamShoot : AttackManager
     [SerializeField]
     private int numberOfShotsForUltimate;
     [SerializeField]
-    private float ultimateAttackCooldown = 0.5f;
+    private float lastAttackComboCoolDown = 0.5f;
     [SerializeField]
-    private float UltimateAttackDamage = 10f;
+    private float lastAttackComboDamage = 10f;
 
     private bool CanShoot = true;
     private bool prepShoot = false;
 
-    public bool IsUltimateAttack => currentCombo < numberOfShotsForUltimate;
-    private Projectile CurrentProjectile => IsUltimateAttack ? ultimateAttackOfCombo : attack;
+
+    public bool IsLastComboAttack => currentCombo == numberOfAttacksInCombo;
+    private Projectile CurrentProjectile => IsLastComboAttack ? ultimateAttackOfCombo : attack;
 
     protected override void OnEnable()
     {
@@ -68,13 +69,10 @@ public class DreamShoot : AttackManager
     {
         base.OnAttack(_input);
         if (!_input.isPressed && switchInProgress)
-        {
             if (finishSwitchCoroutine != null)
-            {
                 StopCoroutine(finishSwitchCoroutine);
-            }
-            finishSwitchCoroutine = StartCoroutine(FinishSwitch());
-        }
+            else
+                finishSwitchCoroutine = StartCoroutine(FinishSwitch());
         if (switchInProgress)
         {
             UnprepShoot();
@@ -147,20 +145,26 @@ public class DreamShoot : AttackManager
 
         var amountOfTimeWaited = Time.time - lastInputTime;
 
-        var progress = amountOfTimeWaited / MaxChargedTime;
-        progress = Mathf.Min(progress, 1f);
-
         float attackScaledPower;
 
-        if (IsUltimateAttack)
-            attackScaledPower = UltimateAttackDamage;
+        if (IsLastComboAttack)
+        {
+            print("DoLastComboAttack");
+            attackScaledPower = lastAttackComboDamage;
+        }
         else
+        {
+            var progress = amountOfTimeWaited / MaxChargedTime;
+            progress = Mathf.Min(progress, 1f);
+
             attackScaledPower = GetAttackPower(progress);
+        }
 
 
         if (amountOfTimeWaited < autoAimTime)
             CreateAutoTargettingShot(attackScaledPower);
         else CreateShot(attackScaledPower, transform.forward, CurrentProjectile);
+
         Combo();
         CanShoot = false;
         StartCoroutine(FinishShoot());
@@ -170,7 +174,7 @@ public class DreamShoot : AttackManager
 
     public IEnumerator FinishShoot()
     {
-        var cooldown = IsUltimateAttack ? ultimateAttackCooldown : cooldownFinishShoot;
+        var cooldown = IsLastComboAttack ? lastAttackComboCoolDown : cooldownFinishShoot;
         yield return new WaitForSeconds(cooldown);
         FinishAttack();
     }
