@@ -444,10 +444,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2397652187452061627, guid: e64c7b0f2f6740343bca77e74b448596, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4523971524492676967}
+      addedObject: {fileID: 886370654792677206}
     - targetCorrespondingSourceObject: {fileID: 2397652187452061627, guid: e64c7b0f2f6740343bca77e74b448596, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 886370654792677206}
+      addedObject: {fileID: 4523971524492676967}
   m_SourcePrefab: {fileID: 100100000, guid: e64c7b0f2f6740343bca77e74b448596, type: 3}
 --- !u!4 &7724459473524870776 stripped
 Transform:
@@ -459,23 +459,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2397652187452061627, guid: e64c7b0f2f6740343bca77e74b448596, type: 3}
   m_PrefabInstance: {fileID: 5640743862135867354}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4523971524492676967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7998913411131273313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be83ee219bbe0be4ea39c029d1efd2eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StarBomb
-  explodeZone: {fileID: 7625212226722029415}
-  targetPreview: {fileID: 3593890193464709745}
-  explodePreview: {fileID: 8891320263320564790}
-  timeToExplode: 5
-  damages: 15
 --- !u!65 &886370654792677206
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -497,6 +480,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0.5}
+--- !u!114 &4523971524492676967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7998913411131273313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be83ee219bbe0be4ea39c029d1efd2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarBomb
+  explodeZone: {fileID: 7625212226722029415}
+  targetPreview: {fileID: 3593890193464709745}
+  explodePreview: {fileID: 8891320263320564790}
+  timeToExplode: 5
+  damages: 15
+  colorA: {r: 0.7490196, g: 0.023529412, b: 0, a: 6.8}
+  colorB: {r: 196.48662, g: 12.077945, b: 0, a: 7.8}
 --- !u!1001 &5800011343914868742
 PrefabInstance:
   m_ObjectHideFlags: 0
