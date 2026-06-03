@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Petite lune 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9181469237982953747, guid: 52fc9b4cacf7c1b4ebf9f068c947b85f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -214,9 +218,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6670913570719254609, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
       propertyPath: m_Name
       value: mini coupelle
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3589089938367897727, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -226,6 +238,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f1c699707aa792547bf2c5eae9a98b54, type: 2}
+    - target: {fileID: 8821155902408489185, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4543003024304075530, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
@@ -237,15 +253,15 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -6670913570719254609, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7493813042964441204}
+      addedObject: {fileID: 7004685666817271008}
   m_SourcePrefab: {fileID: 100100000, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
 --- !u!1 &20950065912033272 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6670913570719254609, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
   m_PrefabInstance: {fileID: 2532793800318195799}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &7493813042964441204
-MeshCollider:
+--- !u!65 &7004685666817271008
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -262,10 +278,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 5990664216894769878, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 29.073984, y: 22.338076, z: 29.025621}
+  m_Center: {x: 0, y: -10.015035, z: 0.41383117}
 --- !u!4 &2642755326695866300 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8c508c3700bea484098ece8ac7fca93e, type: 3}
@@ -330,6 +345,10 @@ PrefabInstance:
     - target: {fileID: 8042317551316627295, guid: 87db0463c35a6d94cb3fb100a8d8296c, type: 3}
       propertyPath: m_Name
       value: Petite lune (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042317551316627295, guid: 87db0463c35a6d94cb3fb100a8d8296c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -124,7 +124,7 @@ public class DreamDash : MonoBehaviour
     void DashSetUp()
     {
         IsDashing = true;
-        controller.currentAnimator.SetTrigger("isDashing");
+        //controller.currentAnimator.SetTrigger("isDashing");
         controller.CanMove = false;
         controller.CanRotate = false;
 
@@ -137,7 +137,7 @@ public class DreamDash : MonoBehaviour
         controller.CanRotate = true;
         characterController.enabled = true;
 
-        controller.currentAnimator.SetTrigger("isDashing");
+        //controller.currentAnimator.SetTrigger("isDashing");
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
 

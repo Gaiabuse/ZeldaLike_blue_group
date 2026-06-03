@@ -5,25 +5,27 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-//[RequireComponent(typeof(Animator))]
 public abstract class AttackManager : MonoBehaviour
 {
-    
     public Animator FormAnimator;
     [SerializeField] protected float timeForDoCombo;
     [SerializeField] protected PlayerController player;
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
     [SerializeField] protected FormSwitcher formSwitcher;
-    [HideInInspector]public bool CanAttack;
+    [HideInInspector] public bool CanAttack;
+
+    [SerializeField] private float timeForDoUltimate;
     protected bool canChargedAttack;
     protected Attack currentAttack;
     protected int currentCombo;
     protected Coroutine comboCoroutine;
     protected int numberOfAttacksInCombo;
     private Coroutine ultimateCoroutine;
+    
     public static Action CanUltimate;
     public static Action EndForUltimate;
-    protected bool switchInProgress =false;
+    
+    protected bool switchInProgress = false;
     protected Coroutine finishSwitchCoroutine;
     protected bool isInUltMod = false;
 
@@ -41,6 +43,7 @@ public abstract class AttackManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         switchInProgress = false;
     }
+
     protected virtual void OnAttack(InputValue _input)
     {
         if (_input.isPressed)
@@ -62,7 +65,7 @@ public abstract class AttackManager : MonoBehaviour
     
     protected void HandleDirectionalInput(string direction)
     {
-        if(!formSwitcher.canSwitchForm)return;
+        if (!formSwitcher.canSwitchForm) return;
         switch (direction)
         {
             case "buttonNorth":
@@ -71,12 +74,11 @@ public abstract class AttackManager : MonoBehaviour
                     formSwitcher.ChangeForm(Form.neutral);
                 }
                 break;
-            case "buttonEast" :
+            case "buttonEast":
                 if (formSwitcher.currentForm != Form.nightmare)
                 {
                     formSwitcher.ChangeForm(Form.nightmare);
                 }
-                
                 break;
             case "buttonWest":
                 if (formSwitcher.currentForm != Form.dream)
@@ -86,6 +88,7 @@ public abstract class AttackManager : MonoBehaviour
                 break;
         }
     }
+
     void OnChargedAttack(InputValue _input)
     {
         canChargedAttack = true;
@@ -95,7 +98,6 @@ public abstract class AttackManager : MonoBehaviour
     {
         if (!CanAttack) return;
     
-        
         if (currentAttack != null)
         {
             currentAttack.Finished -= Combo;
@@ -118,9 +120,10 @@ public abstract class AttackManager : MonoBehaviour
     {
         EndForUltimate?.Invoke();
     }
+
     protected void Combo()
     {
-        CanAttack = true;
+  
         if (currentAttack == null) return;
         if (currentCombo == 0)
         {
@@ -135,13 +138,11 @@ public abstract class AttackManager : MonoBehaviour
 
     protected void FinishAttack()
     {
-        Debug.Log("finished1");
-        
+        CanAttack = true;
         player.CanMove = true;
         player.CanRotate = true;
 
         if (currentAttack == null) return;
-        Debug.Log("finished2");
     
         currentAttack.FinishedAttackFull -= FinishAttack;
         currentAttack = null;
@@ -154,47 +155,30 @@ public abstract class AttackManager : MonoBehaviour
 
     protected IEnumerator ComboCoroutine()
     {
-    
         currentCombo++;
         if (currentCombo >= numberOfAttacksInCombo)
         {
             currentCombo = 0;
-            FormAnimator.SetBool("isAttacking",false);
-            if(isInUltMod)yield break;
+            FormAnimator.SetBool("isAttacking", false);
+            if (isInUltMod) yield break;
+            
             if (ultimateCoroutine != null)
             {
                 StopCoroutine(ultimateCoroutine);
                 ultimateCoroutine = null;
             }
             ultimateCoroutine = StartCoroutine(ForUltimateComboCoroutine());
-            
         }
         yield return new WaitForSeconds(timeForDoCombo);
-        FormAnimator.SetBool("isAttacking",false);
+        FormAnimator.SetBool("isAttacking", false);
         currentCombo = 0;
-
     }
 
     protected virtual IEnumerator ForUltimateComboCoroutine()
     {
-        var requiredForms = new[] { Form.neutral, Form.nightmare, Form.dream };
-        if (requiredForms.All(f => formSwitcher.AvailableForms.Contains(f)))
-        {
-            CanUltimate?.Invoke();
-            formSwitcher.CanDoUltimate = true;
-        
-            
-            formSwitcher.NotifyUltimateReady();
-            
-            yield return new WaitForSecondsRealtime(formSwitcher.TimeForDoUltimate);
-            
-            if (formSwitcher.CanDoUltimate)
-            {
-                EndForUltimate?.Invoke();
-                formSwitcher.EndFirstUltimateTime.Invoke();
-                formSwitcher.CanDoUltimate = false;
-            }
-        }
+        // Outsource the timing window to FormSwitcher so it survives SetActive(false)
+        formSwitcher.StartUltimateWindow();
+        yield break;
     }
 }
 

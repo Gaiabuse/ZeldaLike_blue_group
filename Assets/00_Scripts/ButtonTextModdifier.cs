@@ -37,4 +37,10 @@ public class ButtonTextModdifier : MonoBehaviour, ISelectHandler, IDeselectHandl
         if (_text == null) return;
         _text.color = baseColor;
     }
+    
+    public void OnDisable()
+    {
+        if (_text == null) return;
+        _text.color = baseColor;
+    }
 }

@@ -56,10 +56,10 @@ public class Textbox : MonoBehaviour
         MusicManager.Instance.RingPhone();
         for (int i = 0; i < 3; i++)
         {
-            Gamepad.current.SetMotorSpeeds(0.25f, 0.25f);
+            RumbleManager.Instance.TriggerVibration(0.25f, 0.25f);
             phone.transform.DOShakeRotation(0.22f, new Vector3(0f, 0f, 20f)).OnComplete(() =>
             {
-                Gamepad.current.SetMotorSpeeds(0f, 0f); 
+                RumbleManager.Instance.StopVibration();
             });
             yield return new WaitForSeconds(0.33f);
         }

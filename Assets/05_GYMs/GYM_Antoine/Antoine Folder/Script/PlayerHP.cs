@@ -25,7 +25,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     public float HP;
     [SerializeField] private float tempHP;
 
-    private void OnEnable()
+    /*private void OnEnable()
     {
         ArenaManager.StartArena += StopHealing;
         ArenaManager.FinishArena += HealAtMax;
@@ -35,7 +35,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     {
         ArenaManager.StartArena -= StopHealing;
         ArenaManager.FinishArena -= HealAtMax;
-    }
+    }*/
 
     private void Start()
     {

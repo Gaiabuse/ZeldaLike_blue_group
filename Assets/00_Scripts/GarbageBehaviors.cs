@@ -56,7 +56,6 @@ public class GarbageBehaviors : MonoBehaviour
             }
             isCleaning = true;
             hp--;
-            Debug.Log(hp);
             StartCoroutine(CleanPause());
         }
     }

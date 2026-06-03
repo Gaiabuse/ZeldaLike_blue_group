@@ -166,6 +166,7 @@ public class TransformIndicator : MonoBehaviour
     public IEnumerator BlinkNeutralChargeIcon(int iconIndex)
     {
         int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
+        if (index+1 < 0) yield break;
         CanvasGroup canvasGroupOut = chargesIcon[index+1].GetComponent<CanvasGroup>();
         if (index >= 0)
         {

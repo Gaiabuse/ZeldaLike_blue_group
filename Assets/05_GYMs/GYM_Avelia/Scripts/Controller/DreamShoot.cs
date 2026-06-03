@@ -42,11 +42,20 @@ public class DreamShoot : AttackManager
     public float MinAttack => minAttack;
     public float MaxAttack => maxAttack;
 
-    [SerializeField] private int numberOfShotsForFinishCombo;
-    [SerializeField] private int numberOfShotsForUltimate;
+    [SerializeField]
+    private int numberOfShotsForFinishCombo;
+    [SerializeField]
+    private int numberOfShotsForUltimate;
+    [SerializeField]
+    private float ultimateAttackCooldown = 0.5f;
+    [SerializeField]
+    private float UltimateAttackDamage = 10f;
 
     private bool CanShoot = true;
     private bool prepShoot = false;
+
+    public bool IsUltimateAttack => currentCombo < numberOfShotsForUltimate;
+    private Projectile CurrentProjectile => IsUltimateAttack ? ultimateAttackOfCombo : attack;
 
     protected override void OnEnable()
     {
@@ -58,7 +67,7 @@ public class DreamShoot : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-        if (!_input.isPressed&& switchInProgress)
+        if (!_input.isPressed && switchInProgress)
         {
             if (finishSwitchCoroutine != null)
             {
@@ -81,10 +90,10 @@ public class DreamShoot : AttackManager
                 {
                     UnprepShoot();
                     base.OnAttack(_input);
-                    return; 
+                    return;
                 }
             }
-        
+
             PrepareShoot();
             return;
         }
@@ -141,11 +150,17 @@ public class DreamShoot : AttackManager
         var progress = amountOfTimeWaited / MaxChargedTime;
         progress = Mathf.Min(progress, 1f);
 
-        var attackScaledPower = GetAttackPower(progress);
+        float attackScaledPower;
+
+        if (IsUltimateAttack)
+            attackScaledPower = UltimateAttackDamage;
+        else
+            attackScaledPower = GetAttackPower(progress);
+
 
         if (amountOfTimeWaited < autoAimTime)
             CreateAutoTargettingShot(attackScaledPower);
-        else CreateShot(attackScaledPower);
+        else CreateShot(attackScaledPower, transform.forward, CurrentProjectile);
         Combo();
         CanShoot = false;
         StartCoroutine(FinishShoot());
@@ -155,9 +170,12 @@ public class DreamShoot : AttackManager
 
     public IEnumerator FinishShoot()
     {
-        yield return new WaitForSeconds(cooldownFinishShoot);
+        var cooldown = IsUltimateAttack ? ultimateAttackCooldown : cooldownFinishShoot;
+        yield return new WaitForSeconds(cooldown);
         FinishAttack();
     }
+
+
 
     public override void Ultimate()
     {
@@ -167,39 +185,34 @@ public class DreamShoot : AttackManager
         {
             float positionY = (360f / numberOfShotsForUltimate) * i;
             player.transform.rotation = Quaternion.Euler(0, positionY, 0);
-            CreateShot(maxAttack);
+            CreateShot(maxAttack, transform.forward, attack);
         }
         player.transform.rotation = LastRotation;
     }
 
-    void CreateShot(float attackPower)
+    void CreateShot(float attackPower, Vector3 direction, Projectile Shot)
     {
-        Projectile lAttack = Instantiate<Projectile>(currentCombo < numberOfShotsForUltimate?attack : ultimateAttackOfCombo);
-        if (currentCombo >= numberOfShotsForUltimate)
-        {
-            Debug.Log("ultimateAttack");
-        }
+        Projectile lAttack = Instantiate<Projectile>(Shot);
+
         Attack attackPrefab = lAttack.GetComponent<Attack>();
         attackPrefab.SetAttack(attackPower, data, type);
 
         currentAttack = attackPrefab;
-        
 
-        lAttack.transform.position = SpawnPoint.position;
-        lAttack.speed = player.transform.forward * ProjectileSpeed;
+        lAttack.transform.position = transform.position + direction * offset;
+        lAttack.speed = direction * ProjectileSpeed;
 
         lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
     }
 
     void CreateAutoTargettingShot(float attackPower)
     {
-        // do shit
         var playerPos = player.transform.position;
 
         var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
         if (AutoAimed == null)
         {
-            CreateShot(attackPower);
+            CreateShot(attackPower, transform.forward, CurrentProjectile);
             return;
         }
         player.transform.LookAt(AutoAimed.transform, Vector3.up);
@@ -207,17 +220,7 @@ public class DreamShoot : AttackManager
         var ToGoTo = AutoAimed.transform.position;
         var directionToGo = (ToGoTo - playerPos).normalized;
 
-        Projectile lAttack = Instantiate<Projectile>(attack);
-
-        Attack attackPrefab = lAttack.GetComponent<Attack>();
-
-        attackPrefab.SetAttack(attackPower, data, type);
-        currentAttack = attackPrefab;
-
-        lAttack.transform.position = playerPos + directionToGo * offset;
-        lAttack.speed = directionToGo * ProjectileSpeed;
-
-        lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
+        CreateShot(attackPower, directionToGo, CurrentProjectile);
     }
 
     float GetAttackPower(float proggression)
@@ -229,5 +232,7 @@ public class DreamShoot : AttackManager
         aimCone.SetActive(false);
         CanShoot = true;
     }
+
+
 
 }
