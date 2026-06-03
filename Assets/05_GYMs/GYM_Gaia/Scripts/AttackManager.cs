@@ -102,7 +102,7 @@ public abstract class AttackManager : MonoBehaviour
     public void Attack(SimpleAttack attack)
     {
         if (!CanAttack) return;
-    
+        player.CanRotate = false;
         if (currentAttack != null)
         {
             currentAttack.Finished -= Combo;
@@ -128,6 +128,7 @@ public abstract class AttackManager : MonoBehaviour
 
     protected void Combo()
     {
+        player.CanRotate = false;
         if (currentAttack == null) return;
         if (currentCombo == 0)
         {

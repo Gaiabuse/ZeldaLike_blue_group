@@ -26,9 +26,7 @@ public class ErasedManager : MonoBehaviour
     [SerializeField] private VisualEffect VFX;
     [Tooltip("How long the script will wait for the Erase/Create VFX to finish playing before restoring movement and finalizing state.")]
     [SerializeField] private float vfxDuration = 1.0f;
-
-    [Header("Ui elements")]
-    [SerializeField] private Image buttonPressVisual;
+    
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
     private bool erasedAllObjects;
@@ -85,7 +83,6 @@ public class ErasedManager : MonoBehaviour
     {
         objectsErased = new List<ErasedObject>();
         currentPointsForCreate = maxPointsForCreate; 
-        buttonPressVisual.gameObject.SetActive(false);
         
         if (player != null)
         {
