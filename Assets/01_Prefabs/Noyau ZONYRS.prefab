@@ -150,9 +150,20 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  player: {fileID: 0}
   chargeSpeed: 1
   launchSpeed: 2
   launchHeight: 25
-  player: {fileID: 0}
+  launcherSafeRadius: 3
   isLaunching: 0
   isStriking: 0
+  strikeNb: 3
+  strikeRadius: 2
+  isCircleLaunch: 0
+  nbCircleLaunched: 8
+  circleRadius: 4
+  circleLaunchSpeed: 0.25
+  isRandomLaunch: 0
+  nbRandomLaunched: {x: 5, y: 10}
+  randomRadius: 6
+  randomLaunchSpeed: {x: 0.25, y: 1}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 public class StarBomb : MonoBehaviour
@@ -19,6 +20,8 @@ public class StarBomb : MonoBehaviour
     private MeshRenderer childRenderer;
     private bool isExploding = false;
     private MaterialPropertyBlock _propertyBlock;
+    
+    private Tween _colorTween;
     
     private static readonly int EmissionColorID = Shader.PropertyToID("_EmissionColor"); 
     
@@ -69,46 +72,68 @@ public class StarBomb : MonoBehaviour
     }
 
     private IEnumerator SelfExplodeCountdown()
+{
+    float elapsed = 0;
+    float currentBlinkInterval = 1f;
+    float lastBlinkTime = 0;
+    
+    bool useColorA = true;
+    Color currentColor = colorA;
+    
+    if (meshRenderer != null)
     {
-        float elapsed = 0;
-        float currentBlinkInterval = 1f;
-        float lastBlinkTime = 0;
-        bool useColorA = true; // Toggle flag to switch between colors
+        meshRenderer.GetPropertyBlock(_propertyBlock);
+        _propertyBlock.SetColor(EmissionColorID, currentColor);
+        meshRenderer.SetPropertyBlock(_propertyBlock);
+    }
 
-        while (elapsed < timeToExplode)
+    while (elapsed < timeToExplode)
+    {
+        if (isExploding || !this) yield return null;
+
+        elapsed += Time.deltaTime;
+
+        if (elapsed - lastBlinkTime >= currentBlinkInterval)
         {
-            if (isExploding || !this) yield return null;
-
-            elapsed += Time.deltaTime;
-
-            if (elapsed - lastBlinkTime >= currentBlinkInterval)
-            {
-                lastBlinkTime = elapsed;
-                
-                Color activeColor = useColorA ? colorA : colorB;
-                useColorA = !useColorA;
-                
-                if (meshRenderer != null)
+            lastBlinkTime = elapsed;
+            useColorA = !useColorA;
+            Color targetColor = useColorA ? colorA : colorB;
+            
+            _colorTween?.Kill();
+            
+            _colorTween = DOTween.To(() => currentColor, x => currentColor = x, targetColor, currentBlinkInterval)
+                .SetEase(Ease.InOutQuad)
+                .OnUpdate(() =>
                 {
-                    meshRenderer.GetPropertyBlock(_propertyBlock);
-                    _propertyBlock.SetColor(EmissionColorID, activeColor);
-                    meshRenderer.SetPropertyBlock(_propertyBlock);
-                }
+                    if (meshRenderer != null)
+                    {
+                        meshRenderer.GetPropertyBlock(_propertyBlock);
+                        _propertyBlock.SetColor(EmissionColorID, currentColor);
+                        meshRenderer.SetPropertyBlock(_propertyBlock);
+                    }
 
-                if (childRenderer != null)
-                {
-                    childRenderer.GetPropertyBlock(_propertyBlock);
-                    _propertyBlock.SetColor(EmissionColorID, activeColor);
-                    childRenderer.SetPropertyBlock(_propertyBlock);
-                }
-                
-                currentBlinkInterval *= 0.75f;
-                currentBlinkInterval = Mathf.Max(currentBlinkInterval, 0.05f);
-            }
-
-            yield return null;
+                    if (childRenderer != null)
+                    {
+                        childRenderer.GetPropertyBlock(_propertyBlock);
+                        _propertyBlock.SetColor(EmissionColorID, currentColor);
+                        childRenderer.SetPropertyBlock(_propertyBlock);
+                    }
+                });
+            
+            currentBlinkInterval *= 0.75f;
+            currentBlinkInterval = Mathf.Max(currentBlinkInterval, 0.05f);
         }
-        _ = Explode();
+
+        yield return null;
+    }
+    
+    _colorTween?.Kill();
+    _ = Explode();
+}
+        
+    private void OnDestroy()
+    {
+        _colorTween?.Kill();
     }
 
     public async Task Explode()
