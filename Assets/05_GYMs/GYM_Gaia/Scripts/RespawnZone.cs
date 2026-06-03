@@ -33,6 +33,8 @@ public class RespawnZone : MonoBehaviour
         }
     }
 
+    public Vector3 GetRespawnPos() => playerRespawnPosition;
+
     void OnPLayerRespawn()
     {
         onPlayerRespawn?.Invoke();
