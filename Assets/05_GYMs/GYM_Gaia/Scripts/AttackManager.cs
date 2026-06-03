@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
-using Object = System.Object;
 
 public abstract class AttackManager : MonoBehaviour
 {
@@ -15,8 +14,7 @@ public abstract class AttackManager : MonoBehaviour
     [SerializeField] protected FormSwitcher formSwitcher;
     [HideInInspector] public bool CanAttack;
 
-    public float timeForDoUltimate;
-    public static float TimeForDoUltimate;
+    [SerializeField] private float timeForDoUltimate;
     protected bool canChargedAttack;
     protected Attack currentAttack;
     protected int currentCombo;
@@ -31,8 +29,6 @@ public abstract class AttackManager : MonoBehaviour
     protected Coroutine finishSwitchCoroutine;
     protected bool isInUltMod = false;
 
-    
-    
     protected virtual void OnEnable()
     {
         player.CanMove = true;

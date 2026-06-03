@@ -6,7 +6,8 @@ using UnityEngine.VFX;
 
 public class PlayerHP : MonoBehaviour, IPlayerDamageable
 {
-    [SerializeField] public int maxHP = 15;
+    [SerializeField] public int maxHP = 100;
+    [SerializeField] public int startHP = 70;
     [SerializeField] private PlayerController playerController;
     public Action OnTakeDamage;
     [SerializeField] private float speedRecharge;
@@ -25,21 +26,11 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     public float HP;
     [SerializeField] private float tempHP;
 
-    /*private void OnEnable()
-    {
-        ArenaManager.StartArena += StopHealing;
-        ArenaManager.FinishArena += HealAtMax;
-    }
-
-    private void OnDisable()
-    {
-        ArenaManager.StartArena -= StopHealing;
-        ArenaManager.FinishArena -= HealAtMax;
-    }*/
-
     private void Start()
     {
-        tempHP = HP;
+        // ONLY runs once when the game boots up
+        HP = startHP;
+        tempHP = startHP;
         UpdateVisuals();
     }
 
@@ -50,17 +41,48 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             if (damageCoroutine != null) StopCoroutine(damageCoroutine);
             if (healCoroutine != null) StopCoroutine(healCoroutine);
 
-            float targetHP = (float)Math.Round(HP - damage, 2);
             HP -= damage;
+            
+            if (HP <= 0)
+            {
+                HP = 0; 
+                HandleDeath();
+                return;
+            }
+            
+            float targetHP = (float)Math.Round(HP, 2);
             damageCoroutine = StartCoroutine(VisualDamage(targetHP));
         }
 
         OnTakeDamage?.Invoke();
     }
 
+    private void HandleDeath()
+    {
+        if (damageCoroutine != null) StopCoroutine(damageCoroutine);
+        if (healCoroutine != null) StopCoroutine(healCoroutine);
+
+        tempHP = 0; 
+        HP = 0;
+
+        UpdateVisuals(); 
+        playerController.TriggerRespawn();
+    }
+
+    // Called exclusively on standard respawns
+    public void ResetHealth()
+    {
+        if (damageCoroutine != null) StopCoroutine(damageCoroutine);
+        if (healCoroutine != null) StopCoroutine(healCoroutine);
+
+        HP = maxHP;
+        tempHP = maxHP; 
+        UpdateVisuals();
+    }
+
     private void StopHealing()
     {
-        healVFX.enabled = false;
+        if(healVFX != null) healVFX.enabled = false;
         if (healCoroutine != null) StopCoroutine(healCoroutine);
     }
 
@@ -75,7 +97,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
         HP = (float)Math.Round(Mathf.Min(HP + heal, maxHP), 2);
         tempHP = HP;
-        healVFX.enabled = true;
+        if(healVFX != null) healVFX.enabled = true;
 
         if (healCoroutine != null) StopCoroutine(healCoroutine);
         healCoroutine = StartCoroutine(VisualHeal(HP));
@@ -92,9 +114,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             yield return null;
         }
         healCoroutine = null;
-        healVFX.enabled = false;
+        if(healVFX != null) healVFX.enabled = false;
     }
-
 
     private IEnumerator VisualDamage(float newLife)
     {
@@ -104,14 +125,6 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             tempHP = (float)Math.Round(nextHP, 2);
 
             UpdateVisuals();
-
-            if (HP <= 0)
-            {
-                StartCoroutine(playerController.RespawnCoroutine());
-                HP = maxHP;
-                UpdateVisuals();
-                break;
-            }
             yield return null;
         }
         damageCoroutine = null;
@@ -119,8 +132,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private void UpdateVisuals()
     {
-        healthBar.fillAmount = NormalizeValue(HP);
-        damagesBar.fillAmount = NormalizeValue(tempHP);
+        if (healthBar != null) healthBar.fillAmount = NormalizeValue(HP);
+        if (damagesBar != null) damagesBar.fillAmount = NormalizeValue(tempHP);
     }
 
     private float NormalizeValue(float value)
