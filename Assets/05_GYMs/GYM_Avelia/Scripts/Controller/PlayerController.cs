@@ -229,6 +229,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator RespawnCoroutine(bool isInitialSpawn)
     {
+        
         OnRespawn?.Invoke();
         controller.enabled = false;
     

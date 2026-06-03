@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.VFX;
@@ -20,6 +21,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     [SerializeField] Image healthBar;
     [SerializeField] Image damagesBar;
     [SerializeField] VisualEffect healVFX;
+    [SerializeField] CanvasGroup deathScreen;
 
     private Coroutine damageCoroutine;
     private Coroutine healCoroutine;
@@ -66,7 +68,11 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         HP = 0;
 
         UpdateVisuals(); 
-        playerController.TriggerRespawn();
+        deathScreen.DOFade(1f, 0.5f).OnComplete(() =>
+        {
+            playerController.TriggerRespawn();
+            deathScreen.DOFade(0f, 0.5f);
+        });
     }
 
     // Called exclusively on standard respawns

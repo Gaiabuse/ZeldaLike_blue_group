@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 127377660060400747}
   - component: {fileID: 43073699742586415}
   - component: {fileID: 1872061561426025058}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Bait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 4023022966137782381}
   - component: {fileID: 4669857239001683185}
   - component: {fileID: 2922151823974370830}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Errase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 8667594339617262400}
   - component: {fileID: 7970110901602904157}
   - component: {fileID: 405761430717538016}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Explode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3798415482877842526}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: NeutralSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 1859410230488322174}
   - component: {fileID: 5866291369204625009}
   - component: {fileID: 3189679994664474840}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Atk (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 4574531576611300200}
   - component: {fileID: 3352739888966738279}
   - component: {fileID: 362416352692735531}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LostLifeGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 1358222956722110341}
   - component: {fileID: 7307700297580910317}
   - component: {fileID: 3699600417957134466}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: 2_Charges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 6472675879936456852}
   - component: {fileID: 3621973256281183759}
   - component: {fileID: 5444675474872861634}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: AtkFull
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 4118595496322942198}
   - component: {fileID: 1135663278943602920}
   - component: {fileID: 5599470687401099352}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Grab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -638,6 +638,94 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1995623367197257959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1754982073873526186}
+  - component: {fileID: 5209160835813583880}
+  - component: {fileID: 218902485498530512}
+  - component: {fileID: 396820569363570016}
+  m_Layer: 5
+  m_Name: DeathScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1754982073873526186
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995623367197257959}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4004794338706422604}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5209160835813583880
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995623367197257959}
+  m_CullTransparentMesh: 1
+--- !u!114 &218902485498530512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995623367197257959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!225 &396820569363570016
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1995623367197257959}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2694280755612582596
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +739,7 @@ GameObject:
   - component: {fileID: 1659852307932327511}
   - component: {fileID: 2112975455974157865}
   - component: {fileID: 2376296640198952682}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: UIPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,6 +761,7 @@ RectTransform:
   - {fileID: 3601714264686761247}
   - {fileID: 5430268599056013353}
   - {fileID: 6349593905838921776}
+  - {fileID: 1754982073873526186}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -689,9 +778,9 @@ Canvas:
   m_GameObject: {fileID: 2694280755612582596}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -788,7 +877,7 @@ GameObject:
   - component: {fileID: 855342783547660351}
   - component: {fileID: 1730854644072501528}
   - component: {fileID: 2641432115393636489}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Dash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -863,7 +952,7 @@ GameObject:
   - component: {fileID: 6648478568196554298}
   - component: {fileID: 1170231008377804447}
   - component: {fileID: 1880404591958143380}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Create
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,7 +1027,7 @@ GameObject:
   - component: {fileID: 8463687891297073829}
   - component: {fileID: 4986103997568810774}
   - component: {fileID: 5326673750694900295}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Atk (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1011,7 +1100,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4608145151518931467}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Spells
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1050,7 +1139,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1626262940051237285}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Charges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1091,7 +1180,7 @@ GameObject:
   - component: {fileID: 5089681602207747618}
   - component: {fileID: 8164024589258908179}
   - component: {fileID: 4310675317151469338}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: 3_Charges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1166,7 +1255,7 @@ GameObject:
   - component: {fileID: 6349593905838921776}
   - component: {fileID: 6844805681934896262}
   - component: {fileID: 3902997317610731404}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1241,7 +1330,7 @@ GameObject:
   - component: {fileID: 8297732679223566529}
   - component: {fileID: 6455949491445503056}
   - component: {fileID: 3830791007802460460}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Atk (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1316,7 +1405,7 @@ GameObject:
   - component: {fileID: 8539930710860655527}
   - component: {fileID: 763851962472813559}
   - component: {fileID: 9019217757395480466}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: 1_Charges
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1389,7 +1478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7114306077702043908}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Gauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1429,7 +1518,7 @@ GameObject:
   - component: {fileID: 1791702680029052983}
   - component: {fileID: 6318771668015506306}
   - component: {fileID: 7148272714540457600}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BackLifeGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1503,7 +1592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5430268599056013353}
   - component: {fileID: 2721629190597089975}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SpellIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1552,7 +1641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3601714264686761247}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LifeUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1592,7 +1681,7 @@ GameObject:
   - component: {fileID: 1206071889683911217}
   - component: {fileID: 2733435264897722529}
   - component: {fileID: 7643782726753356941}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Eat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1667,7 +1756,7 @@ GameObject:
   - component: {fileID: 3624200411281589531}
   - component: {fileID: 7587277819635941060}
   - component: {fileID: 4342921990404774212}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BackPowderGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1740,7 +1829,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1076902772732764987}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PowderGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1779,7 +1868,7 @@ GameObject:
   - component: {fileID: 1048032794227700723}
   - component: {fileID: 5213878300820086644}
   - component: {fileID: 7080376122218676801}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Charges_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1854,7 +1943,7 @@ GameObject:
   - component: {fileID: 6527312818008780364}
   - component: {fileID: 6185676225044837169}
   - component: {fileID: 2225152861661789987}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Form
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1929,7 +2018,7 @@ GameObject:
   - component: {fileID: 4297095423164463256}
   - component: {fileID: 5736741791053702953}
   - component: {fileID: 478486714987965717}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Throw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2004,7 +2093,7 @@ GameObject:
   - component: {fileID: 7399701050939590085}
   - component: {fileID: 6765247520308793731}
   - component: {fileID: 5720037045114907558}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Atk (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2079,7 +2168,7 @@ GameObject:
   - component: {fileID: 7256453339818539318}
   - component: {fileID: 2500411924635831694}
   - component: {fileID: 1454483050964883994}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FrontPowderGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2154,7 +2243,7 @@ GameObject:
   - component: {fileID: 8122060067165270801}
   - component: {fileID: 9091631829417783365}
   - component: {fileID: 9204539517672931057}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LifeGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2227,7 +2316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7072688354647446657}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: DreamSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2264,7 +2353,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1280689822667322216}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: NightmareSpell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
