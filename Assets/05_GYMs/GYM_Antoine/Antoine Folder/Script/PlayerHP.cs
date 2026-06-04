@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 
 public class PlayerHP : MonoBehaviour, IPlayerDamageable
 {
+    public bool invicible;
     [SerializeField] public int maxHP = 100;
     [SerializeField] public int startHP = 70;
     [SerializeField] private PlayerController playerController;
@@ -38,20 +39,21 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     public void TakeDamage(int damage, float stun = 0f)
     {
+        if (invicible) return;
         if (HP > 0)
         {
             if (damageCoroutine != null) StopCoroutine(damageCoroutine);
             if (healCoroutine != null) StopCoroutine(healCoroutine);
 
             HP -= damage;
-            
+
             if (HP <= 0)
             {
-                HP = 0; 
+                HP = 0;
                 HandleDeath();
                 return;
             }
-            
+
             float targetHP = (float)Math.Round(HP, 2);
             damageCoroutine = StartCoroutine(VisualDamage(targetHP));
         }
@@ -64,10 +66,10 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         if (damageCoroutine != null) StopCoroutine(damageCoroutine);
         if (healCoroutine != null) StopCoroutine(healCoroutine);
 
-        tempHP = 0; 
+        tempHP = 0;
         HP = 0;
 
-        UpdateVisuals(); 
+        UpdateVisuals();
         deathScreen.DOFade(1f, 0.5f).OnComplete(() =>
         {
             playerController.TriggerRespawn();
@@ -82,13 +84,13 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         if (healCoroutine != null) StopCoroutine(healCoroutine);
 
         HP = maxHP;
-        tempHP = maxHP; 
+        tempHP = maxHP;
         UpdateVisuals();
     }
 
     private void StopHealing()
     {
-        if(healVFX != null) healVFX.enabled = false;
+        if (healVFX != null) healVFX.enabled = false;
         if (healCoroutine != null) StopCoroutine(healCoroutine);
     }
 
@@ -103,7 +105,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
         HP = (float)Math.Round(Mathf.Min(HP + heal, maxHP), 2);
         tempHP = HP;
-        if(healVFX != null) healVFX.enabled = true;
+        if (healVFX != null) healVFX.enabled = true;
 
         if (healCoroutine != null) StopCoroutine(healCoroutine);
         healCoroutine = StartCoroutine(VisualHeal(HP));
@@ -120,7 +122,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             yield return null;
         }
         healCoroutine = null;
-        if(healVFX != null) healVFX.enabled = false;
+        if (healVFX != null) healVFX.enabled = false;
     }
 
     private IEnumerator VisualDamage(float newLife)

@@ -62,16 +62,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
-    
+
     private FormSwitcher formSwitcher;
 
     void Start()
     {
         Boxes = null;
         controller = controller == null ? GetComponent<CharacterController>() : controller;
-    
+
         bool shouldRespawn = !PlayerPrefs.HasKey("PlayerSpawnX") || respawnAtStart;
-    
+
         if (shouldRespawn)
         {
             PlayerPrefs.SetFloat("PlayerSpawnX", transform.localPosition.x);
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
 
         // PASSING TRUE: This is the very first game initialization
         StartCoroutine(RespawnCoroutine(true));
-    
+
         formSwitcher = GetComponent<FormSwitcher>();
         if (playerInput == null) playerInput = GetComponent<PlayerInput>();
         currentAnimator = currentAttackManager.FormAnimator;
@@ -95,9 +95,12 @@ public class PlayerController : MonoBehaviour
         {
             CanRotate = false;
         }
+
         Vector3 moveDirection = ProjectPoint(direction);
+
         if (CanRotate) UpdateLookDirection(moveDirection);
         if (CanMove) Movement();
+
         AlignPlayer();
         ResetRotation();
     }
@@ -122,7 +125,7 @@ public class PlayerController : MonoBehaviour
         }
 
         Vector3 moveDirection = ProjectPoint(direction);
-        
+
         if (!controller.enabled) return;
 
         if (CanMove)
@@ -132,7 +135,7 @@ public class PlayerController : MonoBehaviour
 
             var movement = moveDirection * (speed * smoothedStickProgress * Time.deltaTime);
             var futurePosition = transform.position + movement;
-            
+
             isMoving = false;
             if (IsPlaceLandable(futurePosition) && !IsPlaceNotWall(moveDirection))
             {
@@ -146,7 +149,7 @@ public class PlayerController : MonoBehaviour
                 {
                     MusicManager.Instance.StopWalk();
                 }
-                
+
             }
             else
             {
@@ -187,7 +190,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 inputVector = _input.Get<Vector2>();
         float inputMagnitude = inputVector.magnitude;
-        
+
         var ldirection = _input.Get<Vector2>();
         if (currentAnimator.GetBool("isRunning"))
         {
@@ -199,11 +202,11 @@ public class PlayerController : MonoBehaviour
 
         if (isMoving)
         {
-            currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));   
+            currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));
         }
         else
         {
-            currentAnimator.SetBool("isRunning", false);  
+            currentAnimator.SetBool("isRunning", false);
         }
         if (currentStickProgress <= 0.1) return;
         direction = ldirection.normalized;
@@ -229,16 +232,16 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator RespawnCoroutine(bool isInitialSpawn)
     {
-        
+
         OnRespawn?.Invoke();
         controller.enabled = false;
-    
+
         Vector3 startPos = new Vector3(PlayerPrefs.GetFloat("PlayerSpawnX"), PlayerPrefs.GetFloat("PlayerSpawnY"), PlayerPrefs.GetFloat("PlayerSpawnZ"));
         transform.localPosition = startPos;
 
         CanMove = false;
         CanRotate = false;
-    
+
         // Check if we need to skip the 100 HP reset because it's the game startup
         if (!isInitialSpawn)
         {
