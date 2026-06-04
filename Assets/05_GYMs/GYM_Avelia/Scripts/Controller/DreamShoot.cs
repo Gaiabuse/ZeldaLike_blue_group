@@ -21,7 +21,7 @@ public class DreamShoot : AttackManager
     GameObject aimCone;
 
     [SerializeField]
-    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, coolDown = 0.1f, cooldownFinishShoot = 1f;
+    float ProjectileSpeed, autoAimTime = 0.3f, autoAimRadius = 3, offset = 0.2f, cooldownFinishShoot = 1f;
 
     [SerializeField]
     Transform SpawnPoint;
@@ -51,19 +51,26 @@ public class DreamShoot : AttackManager
     [SerializeField]
     private float lastAttackComboDamage = 10f;
 
-    private bool CanShoot = true;
+    [SerializeField] private bool CanShoot = true;
     private bool prepShoot = false;
 
 
-    public bool IsLastComboAttack => currentCombo == numberOfAttacksInCombo;
+    public bool IsLastComboAttack => currentCombo >= numberOfAttacksInCombo-1;
     private Projectile CurrentProjectile => IsLastComboAttack ? ultimateAttackOfCombo : attack;
 
     protected override void OnEnable()
     {
         base.OnEnable();
         numberOfAttacksInCombo = numberOfShotsForFinishCombo;
+
+        // Force-reset shooting safety guards when entering this form
+        CanShoot = true;
+        prepShoot = false;
+        switchInProgress = false;
+        currentCombo = 0; // Make sure combo starts at zero
     }
     float lastInputTime;
+    
 
     protected override void OnAttack(InputValue _input)
     {
@@ -165,17 +172,20 @@ public class DreamShoot : AttackManager
             CreateAutoTargettingShot(attackScaledPower);
         else CreateShot(attackScaledPower, transform.forward, CurrentProjectile);
 
+        bool wasLastCombo = IsLastComboAttack;
+        
         Combo();
         CanShoot = false;
-        StartCoroutine(FinishShoot());
-        yield return new WaitForSeconds(coolDown);
-        CanShoot = true;
+        StartCoroutine(FinishShoot(wasLastCombo));
+        yield return null;
     }
-
-    public IEnumerator FinishShoot()
+    
+    public IEnumerator FinishShoot(bool wasLastCombo)
     {
-        var cooldown = IsLastComboAttack ? lastAttackComboCoolDown : cooldownFinishShoot;
+        var cooldown = wasLastCombo ? lastAttackComboCoolDown : cooldownFinishShoot;
         yield return new WaitForSeconds(cooldown);
+        
+        CanShoot = true; 
         FinishAttack();
     }
 
@@ -232,16 +242,28 @@ public class DreamShoot : AttackManager
 
     void OnDisable()
     {
-        player.CanMove = true;
-        aimCone.SetActive(false);
+        // Turn off the aim UI instantly so it doesn't get stuck on screen
+        if (aimCone != null)
+            aimCone.SetActive(false);
+
+        if (player != null)
+        {
+            player.CanMove = true;
+            player.CanRotate = true;
+        }
+
         CanShoot = true;
         prepShoot = false;
+        switchInProgress = false;
         currentCombo = 0;
+
         if (ultimateCoroutine != null)
         {
             StopCoroutine(ultimateCoroutine);
             ultimateCoroutine = null;
         }
+ 
+        StopAllCoroutines(); 
     }
 
 

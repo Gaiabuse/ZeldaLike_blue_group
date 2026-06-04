@@ -374,10 +374,9 @@ MonoBehaviour:
   aimCone: {fileID: 8549774408609409626}
   ProjectileSpeed: 60.3
   autoAimTime: 0.33
-  autoAimRadius: 7.34
+  autoAimRadius: 20
   offset: 0.2
-  coolDown: 0.33
-  cooldownFinishShoot: 1
+  cooldownFinishShoot: 0.2
   SpawnPoint: {fileID: 1033709999584693957}
   type: 2
   data: {fileID: 11400000, guid: e7ff84f5d6c0bc0428e34313b0e52905, type: 2}
@@ -424,12 +423,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   MaxChargedTime: 1
-  minAttack: 10
-  maxAttack: 25
+  minAttack: 12
+  maxAttack: 50
   numberOfShotsForFinishCombo: 5
   numberOfShotsForUltimate: 24
-  ultimateAttackCooldown: 20
-  UltimateAttackDamage: 20
+  lastAttackComboCoolDown: 0.75
+  lastAttackComboDamage: 35
+  CanShoot: 1
 --- !u!114 &8715960371389895154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,7 +716,7 @@ MonoBehaviour:
   - {fileID: 8600280016486079122}
   playerController: {fileID: 8133830779634646023}
   timeForDoUltimate: 0.67
-  AvailableForms: 00000000
+  AvailableForms: 000000000100000002000000
   CanDoUltimate: 0
   canSwitchForm: 1
 --- !u!114 &8015218632366079429
@@ -2186,10 +2186,10 @@ MonoBehaviour:
   player: {fileID: 8133830779634646023}
   animator: {fileID: 7682282338266018527}
   rangeForGrab: 14
-  sideRangeForGrab: 0.75
+  sideRangeForGrab: 1.5
   grabActionDuration: 0.1
   rangeForSwallow: 2.5
-  sideRangeForSwallow: 0.5
+  sideRangeForSwallow: 3
   grabLayers:
     serializedVersion: 2
     m_Bits: 3200
@@ -2197,7 +2197,7 @@ MonoBehaviour:
   eatVFX: {fileID: 9062092622722049772}
   swallowVfxDuration: 0.35
   offsetGrabbedObject: 0.075
-  throwDistance: 4
+  throwDistance: 1
   throwDuration: 0
   AutoThrowDuration: 0
   throwMark: {fileID: 8778662250821000933}

@@ -73,6 +73,7 @@ public class FormSwitcher : MonoBehaviour
             CanDoUltimate = true;
             NotifyUltimateReady();
             
+            
             yield return new WaitForSecondsRealtime(TimeForDoUltimate);
             
             if (CanDoUltimate)
