@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public class BomberAttack : MonoBehaviour
 {
-    // Define a drop-down menu selection pattern for the inspector
     public enum ProjectileSelectionMode
     {
         UseSelectedIndex,
@@ -43,6 +42,7 @@ public class BomberAttack : MonoBehaviour
     
     [Header("Circle Launch")]
     [SerializeField] private bool isCircleLaunch;
+    [SerializeField] private bool isCircleDelayed;
     [SerializeField] private int nbCircleLaunched = 5;
     [SerializeField] private float circleRadius = 4;
     [SerializeField] private float circleLaunchSpeed = 0.5f;
@@ -66,13 +66,11 @@ public class BomberAttack : MonoBehaviour
         
         if (isLaunching) StartCoroutine(LaunchProcedure());
         if (isStriking) StartCoroutine(StartStrikeZone(strikeNb, player, strikeRadius));
-        if (isCircleLaunch) StartCoroutine(StartCircleLaunch(nbCircleLaunched, circleRadius, circleLaunchSpeed, player.position.y));
+        if (isCircleLaunch && isCircleDelayed) StartCoroutine(StartCircleLaunch(nbCircleLaunched, circleRadius, circleLaunchSpeed, player.position.y));
+        if (isCircleLaunch && !isCircleDelayed) StartCoroutine(StartCircleLaunch(nbCircleLaunched, circleRadius, 0, player.position.y));
         if (isRandomLaunch) StartCoroutine(StartRandomLaunch(nbRandomLaunched, randomRadius, randomLaunchSpeed, player.position.y));
     }
-
-    /// <summary>
-    /// Gets the chosen prefab from the pool depending on your current mode settings.
-    /// </summary>
+    
     private GameObject GetSelectedProjectilePrefab()
     {
         if (projectilePool == null || projectilePool.Count == 0)
@@ -96,13 +94,8 @@ public class BomberAttack : MonoBehaviour
     {
         if (projectile == null) return;
 
-        if (projectile.TryGetComponent<StarBomb>(out StarBomb star))
+        if (projectile.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
         {
-            star.ShowPreview(targetPos, player);
-        }
-        else if (projectile.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
-        {
-            enemy.ShowPreview(targetPos, player);
             enemy.isAirbone = true;
         
             if (projectile.GetComponent<Animator>() != null) 
@@ -110,6 +103,20 @@ public class BomberAttack : MonoBehaviour
             
             if (projectile.GetComponent<UnityEngine.AI.NavMeshAgent>() != null)
                 projectile.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+        }
+    }
+    
+    private void ShowPreview(GameObject projectile, Vector3 targetPos)
+    {
+        if (projectile == null) return;
+
+        if (projectile.TryGetComponent<StarBomb>(out StarBomb star))
+        {
+            star.ShowPreview(targetPos, player);
+        }
+        else if (projectile.TryGetComponent<EnnemyBase>(out EnnemyBase enemy))
+        {
+            enemy.ShowPreview(targetPos, player);
         }
     }
 
@@ -190,6 +197,7 @@ public class BomberAttack : MonoBehaviour
         
         foreach (var item in items)
         {
+            ShowPreview(item.obj, item.target);
             yield return new WaitForSeconds(lTime);
             
             if (item.obj != null)
@@ -232,6 +240,7 @@ public class BomberAttack : MonoBehaviour
         
         foreach (var item in items)
         {
+            ShowPreview(item.obj, item.target);
             float lTime = Random.Range(rndLTime.x, rndLTime.y);
             yield return new WaitForSeconds(lTime);
             
@@ -244,7 +253,7 @@ public class BomberAttack : MonoBehaviour
         isRandomLaunch = false;
     }
 
-    public IEnumerator Fire(GameObject projectile, Vector3 startPos, Vector3 targetPos)
+    private IEnumerator Fire(GameObject projectile, Vector3 startPos, Vector3 targetPos)
     {
         if (projectile == null) yield break;
 
