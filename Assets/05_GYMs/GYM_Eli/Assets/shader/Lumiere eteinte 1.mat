@@ -7,33 +7,47 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Lumiere etoile
+  m_Name: Lumiere eteinte 1
   m_Shader: {fileID: -6465566751694194690, guid: 255e4c4e42afa5a489406defe9ae73f3, type: 3}
-  m_Parent: {fileID: 2100000, guid: 76834368206ee684bacb60d02d9f2ded, type: 2}
+  m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2010
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BottomLine: 1
-    - _Metallic: 0.124
-    - _TopLine: 0.371
-    - _smoothness: 0.503
+    - _BottomLine: 0
+    - _Metallic: 1
+    - _QueueControl: 0
+    - _QueueOffset: 10
+    - _TopLine: 1
+    - _smoothness: 1
     m_Colors:
-    - _BaseColor: {r: 7.906698, g: 2.8038116, b: 0.8578023, a: 0.5372549}
-    - _BottomColor: {r: 178.90817, g: 24.868172, b: 0, a: 1}
-    - _TopColor: {r: 4.829897, g: 2.2691612, b: 1.070779, a: 1}
+    - _BaseColor: {r: 0.21072012, g: 0.21072012, b: 0.21072012, a: 0.5372549}
+    - _BottomColor: {r: 24.787, g: 23.481907, b: 23.267044, a: 1}
+    - _TopColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8637017740228543594
