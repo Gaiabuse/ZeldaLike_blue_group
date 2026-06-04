@@ -43,16 +43,11 @@ public class Textbox : MonoBehaviour
         textBox.text = null;
         textShow = text;
         textBox.text = textShow;
-        hideTextTween = transform.DOScale(Vector3.zero, tweenDuration).SetEase(Ease.InBounce).SetDelay(delayBeforeDisappear + tweenDuration).OnComplete(
-            () =>
-            {
-                phone.SetActive(false);
-            });
+        hideTextTween = transform.DOScale(Vector3.zero, tweenDuration).SetEase(Ease.InBounce).SetDelay(delayBeforeDisappear + tweenDuration);
     }
 
     private IEnumerator NotificationAnim()
     {
-        phone.SetActive(true);
         MusicManager.Instance.RingPhone();
         for (int i = 0; i < 3; i++)
         {

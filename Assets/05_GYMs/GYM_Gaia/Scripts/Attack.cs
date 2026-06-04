@@ -99,6 +99,15 @@ public class Attack : MonoBehaviour
                     knockbackStrength);
             }
         }
+        if (collision.transform.CompareTag("DreamCore"))
+        {
+            DreamCoreManager dreamCore = collision.transform.GetComponent<DreamCoreManager>();
+            if (dreamCore != null)
+            {
+                dreamCore.TakeDamages((int)damage);
+            }
+            touchedEnemy = true;
+        }
 
         if (collision.transform.CompareTag("Garbage"))
         {
