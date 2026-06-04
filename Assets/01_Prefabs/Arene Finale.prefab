@@ -2331,6 +2331,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4524194092636840352}
     m_Modifications:
+    - target: {fileID: 89793862590153615, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 437869511655515621, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -2355,6 +2359,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 800
       objectReference: {fileID: 0}
+    - target: {fileID: 2449266350866752399, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+      propertyPath: material
+      value: 
+      objectReference: {fileID: 2100000, guid: d57c65970bf068740b68cb71f7f870e3, type: 2}
     - target: {fileID: 2449266350866752399, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: maxGooSize
       value: 1.35
@@ -2402,6 +2410,18 @@ PrefabInstance:
     - target: {fileID: 4766491462024372216, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_SizeDelta.y
       value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 5089555663064565048, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+      propertyPath: chargeSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5089555663064565048, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+      propertyPath: circleRadius
+      value: 6.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5089555663064565048, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+      propertyPath: strikeRadius
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5089555663064565048, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: selectionMode
@@ -2555,10 +2575,27 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 548294692789133966, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 745398271489892852}
+    - targetCorrespondingSourceObject: {fileID: 548294692789133966, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6795213951971529084}
     - targetCorrespondingSourceObject: {fileID: 7766422758990376280, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2409928453024446965}
   m_SourcePrefab: {fileID: 100100000, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+--- !u!114 &113067481748946269 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5089555663064565048, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+  m_PrefabInstance: {fileID: 5129610620597024869}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4660071884227615467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be299544b974cce4eae7f1699e48e7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BomberAttack
 --- !u!4 &1345741550671161624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6169088581026271613, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
@@ -2581,6 +2618,357 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &4660071884227615467 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 548294692789133966, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
+  m_PrefabInstance: {fileID: 5129610620597024869}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &745398271489892852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4660071884227615467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e650dcc4080c0fd4ea525940dd07d75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossAttackPhaseManager
+  coreManager: {fileID: 7407721455791332330}
+  bomberScript: {fileID: 113067481748946269}
+  bossPhases:
+  - phaseName: Start Circle
+    healthPercentageThreshold: 100
+    playSequentially: 1
+    runOnlyOnce: 1
+    waitTimeAfterPhase: 3
+    attacksInPhase:
+    - actionName: Circle close
+      pattern: 2
+      projectileIndex: 0
+      projectileCountRange: {x: 8, y: 8}
+      radius: 5
+      launchSpeedRange: {x: 0.25, y: 0.25}
+      useCircleDelayed: 1
+      delayBeforeAttack: 0
+      delayAfterAttack: 0
+  - phaseName: 'First Phase [single launch]'
+    healthPercentageThreshold: 75
+    playSequentially: 1
+    runOnlyOnce: 0
+    waitTimeAfterPhase: 0
+    attacksInPhase:
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 0
+  - phaseName: Zonyr Launch
+    healthPercentageThreshold: 50
+    playSequentially: 1
+    runOnlyOnce: 1
+    waitTimeAfterPhase: 5
+    attacksInPhase:
+    - actionName: Zonyr Launch
+      pattern: 2
+      projectileIndex: 1
+      projectileCountRange: {x: 4, y: 4}
+      radius: 6.25
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 1
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+  - phaseName: 'Second Phase [random + circle]'
+    healthPercentageThreshold: 50
+    playSequentially: 0
+    runOnlyOnce: 0
+    waitTimeAfterPhase: 0
+    attacksInPhase:
+    - actionName: Random Launch normal
+      pattern: 3
+      projectileIndex: 0
+      projectileCountRange: {x: 5, y: 10}
+      radius: 9.5
+      launchSpeedRange: {x: 0.5, y: 1}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 1
+    - actionName: Random Launch fast
+      pattern: 3
+      projectileIndex: 0
+      projectileCountRange: {x: 5, y: 10}
+      radius: 9.5
+      launchSpeedRange: {x: 0.1, y: 0.5}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 1
+    - actionName: Random Launch 6 instant
+      pattern: 3
+      projectileIndex: 0
+      projectileCountRange: {x: 6, y: 6}
+      radius: 9.5
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 3
+    - actionName: Circle Launch
+      pattern: 2
+      projectileIndex: 0
+      projectileCountRange: {x: 6, y: 6}
+      radius: 5
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 5
+  - phaseName: Zonyr Launch 2
+    healthPercentageThreshold: 25
+    playSequentially: 1
+    runOnlyOnce: 1
+    waitTimeAfterPhase: 5
+    attacksInPhase:
+    - actionName: Zonyr Launch
+      pattern: 2
+      projectileIndex: 1
+      projectileCountRange: {x: 3, y: 3}
+      radius: 6
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Zonyr Cap Launch
+      pattern: 3
+      projectileIndex: 2
+      projectileCountRange: {x: 2, y: 2}
+      radius: 9
+      launchSpeedRange: {x: 0.1, y: 0.5}
+      useCircleDelayed: 0
+      delayBeforeAttack: 0
+      delayAfterAttack: 0
+  - phaseName: 'Third Phase [single + random + circle]'
+    healthPercentageThreshold: 25
+    playSequentially: 0
+    runOnlyOnce: 0
+    waitTimeAfterPhase: 0
+    attacksInPhase:
+    - actionName: Random Launch normal
+      pattern: 3
+      projectileIndex: 0
+      projectileCountRange: {x: 5, y: 10}
+      radius: 9.5
+      launchSpeedRange: {x: 0.5, y: 1}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 1
+    - actionName: Random Launch fast
+      pattern: 3
+      projectileIndex: 0
+      projectileCountRange: {x: 5, y: 10}
+      radius: 9.5
+      launchSpeedRange: {x: 0.1, y: 0.5}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 1
+    - actionName: Random Launch 6 instant
+      pattern: 3
+      projectileIndex: 0
+      projectileCountRange: {x: 6, y: 6}
+      radius: 9.5
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 3
+    - actionName: Circle Launch
+      pattern: 2
+      projectileIndex: 0
+      projectileCountRange: {x: 8, y: 8}
+      radius: 8
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 1
+      delayBeforeAttack: 2
+      delayAfterAttack: 5
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+  - phaseName: Zonyr Launch 3
+    healthPercentageThreshold: 0
+    playSequentially: 1
+    runOnlyOnce: 1
+    waitTimeAfterPhase: 5
+    attacksInPhase:
+    - actionName: Zonyr Launch
+      pattern: 2
+      projectileIndex: 1
+      projectileCountRange: {x: 2, y: 2}
+      radius: 5
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Zonyr Cap Launch
+      pattern: 3
+      projectileIndex: 2
+      projectileCountRange: {x: 1, y: 1}
+      radius: 9
+      launchSpeedRange: {x: 0.1, y: 0.5}
+      useCircleDelayed: 0
+      delayBeforeAttack: 0
+      delayAfterAttack: 0
+    - actionName: Zonyr Sheep Launch
+      pattern: 3
+      projectileIndex: 3
+      projectileCountRange: {x: 2, y: 2}
+      radius: 9
+      launchSpeedRange: {x: 0.1, y: 0.5}
+      useCircleDelayed: 0
+      delayBeforeAttack: 0
+      delayAfterAttack: 0
+  - phaseName: 'Last Phase [single + circle]'
+    healthPercentageThreshold: 0
+    playSequentially: 0
+    runOnlyOnce: 0
+    waitTimeAfterPhase: 0
+    attacksInPhase:
+    - actionName: Circle Launch
+      pattern: 2
+      projectileIndex: 0
+      projectileCountRange: {x: 6, y: 6}
+      radius: 5
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 2
+      delayAfterAttack: 5
+    - actionName: Circle Launch
+      pattern: 2
+      projectileIndex: 0
+      projectileCountRange: {x: 8, y: 8}
+      radius: 8
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 1
+      delayBeforeAttack: 2
+      delayAfterAttack: 5
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+    - actionName: Single Launch
+      pattern: 0
+      projectileIndex: 0
+      projectileCountRange: {x: 0, y: 0}
+      radius: 0
+      launchSpeedRange: {x: 0, y: 0}
+      useCircleDelayed: 0
+      delayBeforeAttack: 1
+      delayAfterAttack: 0
+--- !u!114 &6795213951971529084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4660071884227615467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6ba7f4b89739e4598df1f1c16687fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoAimable
+  weight: 1
 --- !u!135 &6934911262977245605 stripped
 SphereCollider:
   m_CorrespondingSourceObject: {fileID: 2814125946567457216, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
@@ -2591,7 +2979,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2449266350866752399, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
   m_PrefabInstance: {fileID: 5129610620597024869}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 4660071884227615467}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6176fd9ecd14124689765c0d6cca933, type: 3}

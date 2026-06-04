@@ -127,8 +127,9 @@ public class BomberAttack : MonoBehaviour
 
         Vector3 target = player.position;
         GameObject newProjectile = Instantiate(activePrefab, transform.position, activePrefab.transform.rotation);
-    
+
         SetupProjectile(newProjectile, target);
+        ShowPreview(newProjectile, target);
     
         yield return new WaitForSeconds(chargeSpeed);
         StartCoroutine(Fire(newProjectile, transform.position, target));
@@ -160,6 +161,7 @@ public class BomberAttack : MonoBehaviour
             items.Add((newProjectile, targetPos));
             
             SetupProjectile(newProjectile, targetPos);
+            ShowPreview(newProjectile, targetPos);
         }
     
         yield return new WaitForSeconds(chargeSpeed);
