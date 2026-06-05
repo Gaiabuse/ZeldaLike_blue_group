@@ -238,7 +238,11 @@ public class DreamShoot : AttackManager
         lAttack.transform.position = transform.position + direction * offset;
         lAttack.speed = direction * ProjectileSpeed;
 
-        lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
+        ScalingAttack scale = lAttack.GetComponent<ScalingAttack>();
+        if (scale != null)
+        {
+            lAttack.GetComponent<ScalingAttack>().SetMinMax(minAttack, maxAttack);
+        }
     }
 
     void CreateAutoTargettingShot(float attackPower)

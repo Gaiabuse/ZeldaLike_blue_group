@@ -33,6 +33,7 @@ public class BasicSheep : GroundEnnemy
 
         if (move == "roll")
         {
+            invincible = true;
             timerGeneral -= Time.deltaTime;
 
             if (Vector3.Distance(navMesh.destination, transform.position) <= 2)
@@ -54,9 +55,11 @@ public class BasicSheep : GroundEnnemy
                 navMesh.angularSpeed = SpeedRotate.x;
                 WhereToGoPos = CurrentTarget.position;
             }
+            
         }
         if (move == "reposition")
         {
+            invincible = false;
             if (Vector3.Distance(WhereToGoPos, transform.position) <= 2.5f)
             {
                 WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
@@ -80,12 +83,14 @@ public class BasicSheep : GroundEnnemy
         }
         if (move == "aim roll")
         {
+            invincible = false;
             Vector3 relativePos = new Vector3(CurrentTarget.position.x, transform.position.y, CurrentTarget.position.z) - transform.position;
             Quaternion lookAtTarget = Quaternion.LookRotation(relativePos, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookAtTarget, 0.5f);
         }
         if (move == "charge")
         {
+            invincible = true;
             timerGeneral -= Time.deltaTime;
             if (timerGeneral <= 0)
             {
@@ -108,6 +113,7 @@ public class BasicSheep : GroundEnnemy
         }
         if (move == "roll end")
         {
+            invincible = false;
             timerGeneral -= Time.deltaTime;
             if (timerGeneral <= 0)
             {
@@ -125,7 +131,7 @@ public class BasicSheep : GroundEnnemy
                 navMesh.destination = WhereToGoPos;
                 navMesh.isStopped = false;
                 move = "patrol";
-                invincible = false;
+                invincible = true;
             }
         }
 
@@ -235,18 +241,69 @@ public class BasicSheep : GroundEnnemy
 
     public override void TakeDamage(int damage, float stun)
     {
-        if (dotween != null)
+        // --- IF THE SHEEP IS HIDDEN IN ITS WOOL (INVINCIBLE) ---
+        if (invincible)
         {
-            dotween.Kill();
-            if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
+            // Reset any active UI DOTween animations so they don't overlap
+            if (dotween != null)
+            {
+                dotween.Kill();
+                if (hitValueDisplay) hitValueDisplay.transform.localScale = Vector3.zero;
+            }
+            dotween = null;
+
+            // Show the invincible message
+            if (hitValueDisplay)
+            {
+                hitValueDisplay.text = "0"; // Change this to whatever text you want
+                ShowHitDisplay();
+            }
+
+            return; // Stop the script here so it doesn't take damage or trigger hit animations
         }
 
-        dotween = null;
-        if (hitValueDisplay)
+        // --- IF THE SHEEP IS VULNERABLE (NOT INVINCIBLE) ---
+        base.TakeDamage(damage, stun);
+    
+        if (hitVFX)
         {
-            hitValueDisplay.text = "Nope";
+            hitVFX.transform.position = transform.position;
+            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
+            hitVFX.transform.LookAt(lookTarget);
+            hitVFX.transform.Rotate(0, 90, 0);
+            hitVFX.SetActive(true);
+        }
 
-            ShowHitDisplay();
+        animator.SetBool("IsChasing", false);
+        animator.SetBool("IsMoving", false);
+        animator.SetTrigger("tHit");
+
+        navMesh.isStopped = false;
+        if (stun > 0)
+        {
+            navMesh.velocity = Vector3.zero;
+        }
+        else
+        {
+            animator.SetBool("IsMoving", true);
+        }
+
+        if (HP > 0)
+        {
+            if (move != "stun")
+            {
+                move = "chase";
+                animator.SetBool("IsChasing", true);
+
+                EyesSetColorTo(colorChase);
+
+                navMesh.speed = speed.y;
+                navMesh.acceleration = acceleration.y;
+                navMesh.angularSpeed = SpeedRotate.y;
+
+                canLookAtPlayer = true;
+                WhereToGoPos = Player.position;
+            }
         }
     }
 }

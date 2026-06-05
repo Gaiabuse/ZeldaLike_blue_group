@@ -13,7 +13,11 @@ public class ScalingAttack : MonoBehaviour
     async void Start()
     {
         await Awaitable.NextFrameAsync();
-        if (transform == null) return;
+    
+        // Check 'this' or 'gameObject' directly before accessing any properties
+        if (this == null) return; 
+
+        // Safe to proceed now
         var scaleFactor = (attack.damage - MinAttack) / (MaxAttack - MinAttack);
         print(scaleFactor);
         transform.localScale = Vector3.Lerp(MinScale, MaxScale, scaleFactor);
