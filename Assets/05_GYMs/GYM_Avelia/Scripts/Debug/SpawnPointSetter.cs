@@ -1,13 +1,17 @@
 using UnityEngine;
+using TMPro;
 
 public class SpawnPointSetter : MonoBehaviour
 {
     [SerializeField]
-    RespawnZone respawnZone;
+    TMP_Text text_name;
+
+    private RespawnZone respawnZone;
 
     private void OnClick()
     {
         SetSpawnPoint();
+        RespawnPlayer();
     }
 
     private void SetSpawnPoint()
@@ -17,5 +21,17 @@ public class SpawnPointSetter : MonoBehaviour
         PlayerPrefs.SetFloat("PlayerSpawnX", respawnPos.x);
         PlayerPrefs.SetFloat("PlayerSpawnY", respawnPos.y);
         PlayerPrefs.SetFloat("PlayerSpawnZ", respawnPos.z);
+    }
+
+    public SpawnPointSetter SetRespawnZone(RespawnZone zone)
+    {
+        text_name.text = respawnZone.name;
+        return this;
+    }
+
+    private void RespawnPlayer()
+    {
+        var current_player = FindAnyObjectByType<PlayerController>();
+        current_player.TriggerRespawn();
     }
 }
