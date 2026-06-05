@@ -26,7 +26,7 @@ public class DreamDash : MonoBehaviour
 
     const float EXTRAPOLATION_FACTOR = .1f;
 
-    bool IsDashing = false;
+    public bool IsDashing = false;
 
     float bufTimer = 0f;
     bool IsBuffering = false;

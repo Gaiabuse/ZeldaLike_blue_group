@@ -24,7 +24,6 @@ public class PressurePlate : MonoBehaviour
         
         if (ContainsLayer(layerMask, other.gameObject.layer))
         {
-            Debug.Log("Pressed");
             isPressing = true;
             objectOnPressurePlate = other.gameObject;
             onPressure.Invoke();
@@ -39,7 +38,6 @@ public class PressurePlate : MonoBehaviour
         {
             if (!other.gameObject.activeInHierarchy) return;
             
-            Debug.Log("Stay Pressed");
             isPressing = true;
             objectOnPressurePlate = other.gameObject;
             onPressure.Invoke();
@@ -71,7 +69,6 @@ public class PressurePlate : MonoBehaviour
     
     private void ReleasePlate()
     {
-        Debug.Log("Unpressed");
         isPressing = false;
         objectOnPressurePlate = null;
         onUnpressure.Invoke();

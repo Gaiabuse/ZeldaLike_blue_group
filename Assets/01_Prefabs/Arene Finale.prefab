@@ -294,7 +294,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.3270051, z: -0, w: 0.94502264}
   m_LocalPosition: {x: 3.8098154, y: 2, z: -24.989754}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1345741550671161624}
@@ -2365,11 +2365,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: d57c65970bf068740b68cb71f7f870e3, type: 2}
     - target: {fileID: 2449266350866752399, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: maxGooSize
-      value: 1.35
+      value: 1.85
       objectReference: {fileID: 0}
     - target: {fileID: 2449266350866752399, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: minGooSize
-      value: 0.84
+      value: 0.83
       objectReference: {fileID: 0}
     - target: {fileID: 2449266350866752399, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: arenaObjects
@@ -2497,15 +2497,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6169088581026271613, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.35
+      value: 1.85
       objectReference: {fileID: 0}
     - target: {fileID: 6169088581026271613, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.35
+      value: 1.85
       objectReference: {fileID: 0}
     - target: {fileID: 6169088581026271613, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.35
+      value: 1.85
       objectReference: {fileID: 0}
     - target: {fileID: 6169088581026271613, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2639,10 +2639,10 @@ MonoBehaviour:
   bomberScript: {fileID: 113067481748946269}
   bossPhases:
   - phaseName: Start Circle
-    healthPercentageThreshold: 100
+    healthPercentageThreshold: 75
     playSequentially: 1
     runOnlyOnce: 1
-    waitTimeAfterPhase: 3
+    hasAnimation: 1
     attacksInPhase:
     - actionName: Circle close
       pattern: 2
@@ -2652,12 +2652,12 @@ MonoBehaviour:
       launchSpeedRange: {x: 0.25, y: 0.25}
       useCircleDelayed: 1
       delayBeforeAttack: 0
-      delayAfterAttack: 0
+      delayAfterAttack: 6
   - phaseName: 'First Phase [single launch]'
     healthPercentageThreshold: 75
     playSequentially: 1
     runOnlyOnce: 0
-    waitTimeAfterPhase: 0
+    hasAnimation: 0
     attacksInPhase:
     - actionName: Single Launch
       pattern: 0
@@ -2672,7 +2672,7 @@ MonoBehaviour:
     healthPercentageThreshold: 50
     playSequentially: 1
     runOnlyOnce: 1
-    waitTimeAfterPhase: 5
+    hasAnimation: 1
     attacksInPhase:
     - actionName: Zonyr Launch
       pattern: 2
@@ -2681,13 +2681,13 @@ MonoBehaviour:
       radius: 6.25
       launchSpeedRange: {x: 0, y: 0}
       useCircleDelayed: 1
-      delayBeforeAttack: 1
-      delayAfterAttack: 0
+      delayBeforeAttack: 0
+      delayAfterAttack: 3
   - phaseName: 'Second Phase [random + circle]'
     healthPercentageThreshold: 50
     playSequentially: 0
     runOnlyOnce: 0
-    waitTimeAfterPhase: 0
+    hasAnimation: 0
     attacksInPhase:
     - actionName: Random Launch normal
       pattern: 3
@@ -2696,8 +2696,8 @@ MonoBehaviour:
       radius: 9.5
       launchSpeedRange: {x: 0.5, y: 1}
       useCircleDelayed: 0
-      delayBeforeAttack: 2
-      delayAfterAttack: 1
+      delayBeforeAttack: 5
+      delayAfterAttack: 0
     - actionName: Random Launch fast
       pattern: 3
       projectileIndex: 0
@@ -2705,8 +2705,8 @@ MonoBehaviour:
       radius: 9.5
       launchSpeedRange: {x: 0.1, y: 0.5}
       useCircleDelayed: 0
-      delayBeforeAttack: 2
-      delayAfterAttack: 1
+      delayBeforeAttack: 3
+      delayAfterAttack: 0
     - actionName: Random Launch 6 instant
       pattern: 3
       projectileIndex: 0
@@ -2715,7 +2715,7 @@ MonoBehaviour:
       launchSpeedRange: {x: 0, y: 0}
       useCircleDelayed: 0
       delayBeforeAttack: 2
-      delayAfterAttack: 3
+      delayAfterAttack: 1
     - actionName: Circle Launch
       pattern: 2
       projectileIndex: 0
@@ -2729,7 +2729,7 @@ MonoBehaviour:
     healthPercentageThreshold: 25
     playSequentially: 1
     runOnlyOnce: 1
-    waitTimeAfterPhase: 5
+    hasAnimation: 1
     attacksInPhase:
     - actionName: Zonyr Launch
       pattern: 2
@@ -2738,7 +2738,7 @@ MonoBehaviour:
       radius: 6
       launchSpeedRange: {x: 0, y: 0}
       useCircleDelayed: 0
-      delayBeforeAttack: 1
+      delayBeforeAttack: 0
       delayAfterAttack: 0
     - actionName: Zonyr Cap Launch
       pattern: 3
@@ -2753,7 +2753,7 @@ MonoBehaviour:
     healthPercentageThreshold: 25
     playSequentially: 0
     runOnlyOnce: 0
-    waitTimeAfterPhase: 0
+    hasAnimation: 0
     attacksInPhase:
     - actionName: Random Launch normal
       pattern: 3
@@ -2849,7 +2849,7 @@ MonoBehaviour:
     healthPercentageThreshold: 0
     playSequentially: 1
     runOnlyOnce: 1
-    waitTimeAfterPhase: 5
+    hasAnimation: 1
     attacksInPhase:
     - actionName: Zonyr Launch
       pattern: 2
@@ -2858,7 +2858,7 @@ MonoBehaviour:
       radius: 5
       launchSpeedRange: {x: 0, y: 0}
       useCircleDelayed: 0
-      delayBeforeAttack: 1
+      delayBeforeAttack: 0
       delayAfterAttack: 0
     - actionName: Zonyr Cap Launch
       pattern: 3
@@ -2882,7 +2882,7 @@ MonoBehaviour:
     healthPercentageThreshold: 0
     playSequentially: 0
     runOnlyOnce: 0
-    waitTimeAfterPhase: 0
+    hasAnimation: 1
     attacksInPhase:
     - actionName: Circle Launch
       pattern: 2

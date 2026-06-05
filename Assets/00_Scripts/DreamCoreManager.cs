@@ -8,10 +8,6 @@ using Random = UnityEngine.Random;
 
 public class DreamCoreManager : MonoBehaviour
 {
-    [Header("Testing Tool (Play Mode Only)")]
-    [SerializeField] private bool triggerSwitchPhaseTest;
-    [SerializeField] private float testWaitTime = 3f;
-
     [SerializeField] private PlayerController Player;
     [SerializeField] private int hp = 1000;
 
@@ -46,31 +42,6 @@ public class DreamCoreManager : MonoBehaviour
         _tempHP = maxHP;
 
         UpdateGooScale(hp);
-    }
-    
-
-    // OnValidate safely catches the inspector click and flags it for the next frame
-    private void OnValidate()
-    {
-        if (triggerSwitchPhaseTest)
-        {
-            if (!Application.isPlaying)
-            {
-                Debug.LogWarning("DreamCoreManager: You must be in PLAY MODE to test the Switch Phase animation!");
-                triggerSwitchPhaseTest = false;
-                return;
-            }
-        }
-    }
-
-    private void Update()
-    {
-        // Safely executes the coroutine inside Unity's main loop during Play Mode
-        if (triggerSwitchPhaseTest)
-        {
-            triggerSwitchPhaseTest = false; // Immediately reset the checkbox
-            SwitchPhase(testWaitTime);
-        }
     }
 
     public void StartBossFight()
@@ -111,8 +82,7 @@ public class DreamCoreManager : MonoBehaviour
 
             hitVFX.transform.SetParent(transform.parent);
             hitVFX.transform.position = transform.position;
-            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y,
-                Player.transform.position.z);
+            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
             hitVFX.transform.LookAt(lookTarget);
             hitVFX.transform.Rotate(0, 90, 0);
 
@@ -172,15 +142,8 @@ public class DreamCoreManager : MonoBehaviour
         float lifeRatio = Mathf.Clamp01(value / maxHP);
         return Mathf.Lerp(minFillAmount, maxFillAmount, lifeRatio);
     }
-
-    public void SwitchPhase(float waitTimeAfterPhase)
-    {
-        Player.CanMove = false; // Fixed duplicate line
-        Player.CanRotate = false; // Fixed duplicate line
-        StartCoroutine(SwitchPhaseCoroutine(waitTimeAfterPhase));
-    }
     
-    private IEnumerator SwitchPhaseCoroutine(float waitTimeAfterPhase)
+    public IEnumerator SwitchPhaseCoroutine()
     {
         Debug.Log("Animation Started");
         if (material != null)
@@ -228,18 +191,16 @@ public class DreamCoreManager : MonoBehaviour
             
             // Reset to normal idle speed
             material.SetFloat("__Noise_speed", 0.23f);
-            
-            // Adjusted wait time calculation to include the jitter loops duration
-            float totalTweenTime = introDuration + (holdDuration * 5) + outroDuration;
-            yield return new WaitForSeconds(Mathf.Max(0, waitTimeAfterPhase - totalTweenTime));
-        }
-        else
-        {
-            yield return new WaitForSeconds(waitTimeAfterPhase);
         }
         
-        Player.CanMove = true;
-        Player.CanRotate = true;
+        Player.CanMove = true; Player.CanRotate = true;
         Debug.Log("Animation Finished");
+    }
+
+    private void OnDisable()
+    {
+        material.SetFloat("_Noise_height", 0.2f);
+        material.SetFloat("_Base_Strength", 2.81f);
+        material.SetFloat("__Noise_speed", 0.23f);
     }
 }

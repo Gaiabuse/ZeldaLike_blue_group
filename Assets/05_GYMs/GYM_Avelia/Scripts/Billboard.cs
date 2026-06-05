@@ -10,8 +10,4 @@ public class Billboard : MonoBehaviour
             transform.rotation = Camera.main.transform.rotation;
         }
     }
-    void OnDestroy()
-    {
-        Debug.Log("Le Billboard sur " + gameObject.name + " vient d'être détruit !");
-    }
 }

@@ -54,6 +54,16 @@ public class StarBomb : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isExploding)
         {
+            if (other.GetComponent<DreamDash>().IsDashing) return;
+            _ = Explode();
+        }
+    }
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") && !isExploding)
+        {
+            if (other.GetComponent<DreamDash>().IsDashing) return;
             _ = Explode();
         }
     }
