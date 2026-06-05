@@ -4,12 +4,8 @@ using UnityEngine.EventSystems;
 
 public class DebugScreen : MonoBehaviour
 {
-    [Header("OutsideReference")]
-    [SerializeField]
     PlayerPowder powder;
-    [SerializeField]
     PlayerHP hp;
-    [SerializeField]
     PlayerInput input;
 
     [Header("InternalReference")]
@@ -23,6 +19,18 @@ public class DebugScreen : MonoBehaviour
 
     [SerializeField]
     GameObject firstobjectdebug;
+
+    void Start()
+    {
+        GetRef();
+    }
+
+    private void GetRef()
+    {
+        powder = FindAnyObjectByType<PlayerPowder>();
+        hp = FindAnyObjectByType<PlayerHP>();
+        input = FindAnyObjectByType<PlayerInput>();
+    }
 
     public void OnActionDebugKey()
     {

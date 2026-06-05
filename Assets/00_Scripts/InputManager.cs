@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
-    [SerializeField] DebugScreen debugMenu;
+    DebugScreen debugMenu;
 
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
@@ -92,12 +92,14 @@ public class InputManager : MonoBehaviour
     public void OnDebugInput(InputValue value)
     {
         if (!SettingsManager.Instance.debugMode) return;
+        if (debugMenu == null) debugMenu = FindAnyObjectByType<DebugScreen>();
         debugMenu.OnActionDebugKey();
     }
 
     public void OnDebugVisual(InputValue value)
     {
         if (!SettingsManager.Instance.debugMode) return;
+        if (debugMenu == null) debugMenu = FindAnyObjectByType<DebugScreen>();
         debugMenu.OnVisualDebugKey();
     }
 

@@ -3,7 +3,6 @@ using TMPro;
 
 public class PositionDebugger : MonoBehaviour
 {
-    [SerializeField]
     PlayerController player;
     FormSwitcher switcher;
 
@@ -14,6 +13,7 @@ public class PositionDebugger : MonoBehaviour
 
     void Start()
     {
+        player = FindAnyObjectByType<PlayerController>();
         switcher = player.GetComponent<FormSwitcher>();
     }
 
