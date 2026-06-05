@@ -24,11 +24,11 @@ public class PauseMenuManager : MonoBehaviour
     private TweenerCore<float, float, FloatOptions> pauseDotween;
     private TweenerCore<float, float, FloatOptions> settingsDotween;
 
-    private void Start()
+    /*private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
+    }*/
 
     public void ClosePauseMenu()
     {

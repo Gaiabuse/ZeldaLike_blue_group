@@ -39,8 +39,8 @@ public class ProgressMenuUI : MonoBehaviour
     
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; 
-        Cursor.visible = false;
+        /*Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;*/
         SetMilestonesPosition(milestones);
         SetMilestonesPosition(milestonesPopUp);
     }

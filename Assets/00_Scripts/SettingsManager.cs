@@ -1,6 +1,7 @@
 using System;
 using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
@@ -16,7 +17,7 @@ public class SettingsManager : MonoBehaviour
     private FMOD.Studio.VCA musicVCA;
     private FMOD.Studio.VCA sfxVCA;
 
-    DebugScreen debugScreen;
+    [SerializeField] DebugScreen debugScreen;
 
     private void Awake()
     {
@@ -33,8 +34,6 @@ public class SettingsManager : MonoBehaviour
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
 
         LoadSettings();
-
-        debugScreen = FindAnyObjectByType<DebugScreen>();
     }
 
     private void Start()
@@ -66,7 +65,19 @@ public class SettingsManager : MonoBehaviour
     public void SetDebugMode(Toggle toggle)
     {
         debugMode = toggle.isOn;
-        PlayerPrefs.SetInt("DebugMode", debugMode ? 1 : 0);
+        if (SceneManager.SetActiveScene(SceneManager.GetSceneAt(0))) return;
+
+        if (debugMode)
+        {
+            Cursor.lockState = CursorLockMode.Confined; 
+            Cursor.visible = true; 
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked; 
+            Cursor.visible = false;
+        }
+        
         debugScreen.gameObject.SetActive(debugMode);
     }
 
@@ -75,11 +86,6 @@ public class SettingsManager : MonoBehaviour
         mainVolume = PlayerPrefs.GetFloat("MainVolume", 1.0f);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
         sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1.0f);
-
-        int debugInt = PlayerPrefs.GetInt("DebugMode", 0);
-        debugMode = (debugInt == 1);
-
-        debugScreen.gameObject.SetActive(debugMode);
     }
 
     private void ApplyVolumesToFMOD()
