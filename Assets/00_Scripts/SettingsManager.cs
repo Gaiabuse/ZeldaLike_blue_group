@@ -9,33 +9,32 @@ public class SettingsManager : MonoBehaviour
     public float musicVolume;
     public float sfxVolume;
     public bool debugMode;
-    
+
     public static SettingsManager Instance;
-    
+
     private FMOD.Studio.VCA mainVCA;
     private FMOD.Studio.VCA musicVCA;
     private FMOD.Studio.VCA sfxVCA;
 
+    DebugScreen debugScreen;
+
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null) Destroy(gameObject);
+
+        Instance = this;
+        if (transform.parent == null)
         {
-            Instance = this;
-            if (transform.parent == null)
-            {
-                DontDestroyOnLoad(gameObject); 
-            }
-            
-            mainVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Master"); 
-            musicVCA = FMODUnity.RuntimeManager.GetVCA("vca:/MUSIC");
-            sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
-            
-            LoadSettings();
+            DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        mainVCA = FMODUnity.RuntimeManager.GetVCA("vca:/Master");
+        musicVCA = FMODUnity.RuntimeManager.GetVCA("vca:/MUSIC");
+        sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
+
+        LoadSettings();
+
+        debugScreen = FindAnyObjectByType<DebugScreen>();
     }
 
     private void Start()
@@ -63,11 +62,12 @@ public class SettingsManager : MonoBehaviour
         PlayerPrefs.SetFloat("SfxVolume", sfxVolume);
         sfxVCA.setVolume(sfxVolume);
     }
-    
+
     public void SetDebugMode(Toggle toggle)
     {
         debugMode = toggle.isOn;
         PlayerPrefs.SetInt("DebugMode", debugMode ? 1 : 0);
+        debugScreen.gameObject.SetActive(debugMode);
     }
 
     private void LoadSettings()
@@ -75,9 +75,11 @@ public class SettingsManager : MonoBehaviour
         mainVolume = PlayerPrefs.GetFloat("MainVolume", 1.0f);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
         sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1.0f);
-        
+
         int debugInt = PlayerPrefs.GetInt("DebugMode", 0);
         debugMode = (debugInt == 1);
+
+        debugScreen.gameObject.SetActive(debugMode);
     }
 
     private void ApplyVolumesToFMOD()

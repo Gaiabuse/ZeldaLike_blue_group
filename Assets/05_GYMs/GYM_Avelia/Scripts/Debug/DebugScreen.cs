@@ -57,7 +57,5 @@ public class DebugScreen : MonoBehaviour
     public void DecreasePowder10() => powder.GainPowder(-10);
 
     public void ToggleInfiniteLife(bool value) { hp.invicible = value; }
-
-
 }
 

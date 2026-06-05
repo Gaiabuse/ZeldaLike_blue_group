@@ -91,11 +91,13 @@ public class InputManager : MonoBehaviour
 
     public void OnDebugInput(InputValue value)
     {
+        if (!SettingsManager.Instance.debugMode) return;
         debugMenu.OnActionDebugKey();
     }
 
     public void OnDebugVisual(InputValue value)
     {
+        if (!SettingsManager.Instance.debugMode) return;
         debugMenu.OnVisualDebugKey();
     }
 
