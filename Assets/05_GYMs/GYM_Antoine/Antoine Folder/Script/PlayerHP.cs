@@ -46,7 +46,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             if (healCoroutine != null) StopCoroutine(healCoroutine);
 
             HP -= damage;
-
+            Camera.main.transform.DOShakePosition(0.5f, 0.5f);
+            
             if (HP <= 0)
             {
                 HP = 0;
