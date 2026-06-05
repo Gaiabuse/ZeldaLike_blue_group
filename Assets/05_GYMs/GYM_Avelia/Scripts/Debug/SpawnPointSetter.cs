@@ -8,13 +8,13 @@ public class SpawnPointSetter : MonoBehaviour
 
     private RespawnZone respawnZone;
 
-    private void OnClick()
+    public void OnClick()
     {
         SetSpawnPoint();
         RespawnPlayer();
     }
 
-    private void SetSpawnPoint()
+    void SetSpawnPoint()
     {
         var respawnPos = respawnZone.GetRespawnPos();
 

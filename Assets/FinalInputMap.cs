@@ -181,6 +181,24 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebugInput"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe622fac-59a2-469d-889d-90c397f14a1b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebugVisual"",
+                    ""type"": ""Button"",
+                    ""id"": ""e71124ac-2d3f-4897-994a-d188d4684572"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -423,6 +441,50 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""OpenPhone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a6fa6f9-230d-41d3-b4a0-e54fa83321db"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1829f65-1059-4a73-9bcf-c457ba5830a9"",
+                    ""path"": ""<Keyboard>/pageUp"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugInput"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f991f75f-91e0-45d9-b4ff-fb0afdb8bb78"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugVisual"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a4313996-f96a-4bf4-9b45-2d916459eac9"",
+                    ""path"": ""<Keyboard>/pageDown"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DebugVisual"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -679,6 +741,8 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         m_PlayerControl_CatchOrRelease = m_PlayerControl.FindAction("CatchOrRelease", throwIfNotFound: true);
         m_PlayerControl_Pause = m_PlayerControl.FindAction("Pause", throwIfNotFound: true);
         m_PlayerControl_OpenPhone = m_PlayerControl.FindAction("OpenPhone", throwIfNotFound: true);
+        m_PlayerControl_DebugInput = m_PlayerControl.FindAction("DebugInput", throwIfNotFound: true);
+        m_PlayerControl_DebugVisual = m_PlayerControl.FindAction("DebugVisual", throwIfNotFound: true);
         // MenuControl
         m_MenuControl = asset.FindActionMap("MenuControl", throwIfNotFound: true);
         m_MenuControl_Unpause = m_MenuControl.FindAction("Unpause", throwIfNotFound: true);
@@ -789,6 +853,8 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerControl_CatchOrRelease;
     private readonly InputAction m_PlayerControl_Pause;
     private readonly InputAction m_PlayerControl_OpenPhone;
+    private readonly InputAction m_PlayerControl_DebugInput;
+    private readonly InputAction m_PlayerControl_DebugVisual;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerControl".
     /// </summary>
@@ -840,6 +906,14 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerControl/OpenPhone".
         /// </summary>
         public InputAction @OpenPhone => m_Wrapper.m_PlayerControl_OpenPhone;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControl/DebugInput".
+        /// </summary>
+        public InputAction @DebugInput => m_Wrapper.m_PlayerControl_DebugInput;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControl/DebugVisual".
+        /// </summary>
+        public InputAction @DebugVisual => m_Wrapper.m_PlayerControl_DebugVisual;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -896,6 +970,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @OpenPhone.started += instance.OnOpenPhone;
             @OpenPhone.performed += instance.OnOpenPhone;
             @OpenPhone.canceled += instance.OnOpenPhone;
+            @DebugInput.started += instance.OnDebugInput;
+            @DebugInput.performed += instance.OnDebugInput;
+            @DebugInput.canceled += instance.OnDebugInput;
+            @DebugVisual.started += instance.OnDebugVisual;
+            @DebugVisual.performed += instance.OnDebugVisual;
+            @DebugVisual.canceled += instance.OnDebugVisual;
         }
 
         /// <summary>
@@ -937,6 +1017,12 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
             @OpenPhone.started -= instance.OnOpenPhone;
             @OpenPhone.performed -= instance.OnOpenPhone;
             @OpenPhone.canceled -= instance.OnOpenPhone;
+            @DebugInput.started -= instance.OnDebugInput;
+            @DebugInput.performed -= instance.OnDebugInput;
+            @DebugInput.canceled -= instance.OnDebugInput;
+            @DebugVisual.started -= instance.OnDebugVisual;
+            @DebugVisual.performed -= instance.OnDebugVisual;
+            @DebugVisual.canceled -= instance.OnDebugVisual;
         }
 
         /// <summary>
@@ -1475,6 +1561,20 @@ public partial class @FinalInputMap: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnOpenPhone(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DebugInput" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDebugInput(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DebugVisual" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDebugVisual(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "MenuControl" which allows adding and removing callbacks.

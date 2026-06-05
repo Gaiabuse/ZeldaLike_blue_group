@@ -7,16 +7,16 @@ public class DebugScreen : MonoBehaviour
     [Header("OutsideReference")]
     [SerializeField]
     PlayerPowder powder;
-
     [SerializeField]
     PlayerHP hp;
-
     [SerializeField]
     PlayerInput input;
 
     [Header("InternalReference")]
     [SerializeField]
-    GameObject debugAction, debugVisual;
+    GameObject debugAction;
+    [SerializeField]
+    GameObject debugVisual;
 
     [SerializeField]
     TMPro.TMP_Text playerPosition;
@@ -39,7 +39,13 @@ public class DebugScreen : MonoBehaviour
 
     public void OnVisualDebugKey()
     {
+        if (debugVisual.activeSelf)
+        {
+            debugVisual.SetActive(false);
+            return;
+        }
 
+        debugVisual.SetActive(true);
     }
 
     public void DecreasePowder1() => powder.GainPowder(-1);

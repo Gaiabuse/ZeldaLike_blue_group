@@ -11,7 +11,7 @@ public class SpawnAllSpawnPointSetter : MonoBehaviour
 
         foreach (var zone in respawnPoint)
         {
-            var button = Instantiate(setters, transform);
+            var button = Instantiate(setters, transform).SetRespawnZone(zone);
         }
     }
 }

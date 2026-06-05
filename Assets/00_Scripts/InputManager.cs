@@ -96,7 +96,7 @@ public class InputManager : MonoBehaviour
 
     public void OnDebugVisual(InputValue value)
     {
-
+        debugMenu.OnVisualDebugKey();
     }
 
     private float scrollInput;
