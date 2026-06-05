@@ -10,6 +10,8 @@ public class InputManager : MonoBehaviour
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
     [SerializeField] DebugScreen debugMenu;
+    [SerializeField] private bool isTutoActionDone = false;
+    [SerializeField] private TutoIndicatorBlink tutoIndicator;
 
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
@@ -50,6 +52,10 @@ public class InputManager : MonoBehaviour
     public void OnOpenPhone(InputValue value)
     {
         if (!value.isPressed) return;
+        if (!isTutoActionDone)
+        {
+            tutoIndicator.StopBlink();
+        }
         progressMenu.OpenProgressMenu();
         playerInput.SwitchCurrentActionMap(PROGRESS_INPUT_MAP);
     }

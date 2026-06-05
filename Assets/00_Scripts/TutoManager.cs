@@ -14,6 +14,7 @@ public class TutoManager : MonoBehaviour
     [SerializeField]private Textbox textBox;
     [SerializeField]private ErasedManager erasedManager;
     [SerializeField] private List<GameObject> atkIndicators;
+    [SerializeField] private List<GameObject> tutoIndicator;
     [SerializeField] private TutoStep[] steps;
     [SerializeField] private ChatHistory chatHistory;
 
@@ -73,9 +74,9 @@ public class TutoManager : MonoBehaviour
     {
         foreach (TutoStep tutoStep in steps)
         {
-            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory);
+            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory, tutoIndicator);
         }
-        comboStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory);
+        comboStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory, tutoIndicator);
         formSwitcher.FirstUltimateTime += StartComboStep;
         formSwitcher.EndFirstUltimateTime += EndComboStep;
     }
@@ -107,9 +108,22 @@ public class TutoManager : MonoBehaviour
 [Serializable]
 public class TutoStep
 {
+    private enum ActivatedTutoIndicator
+    {
+        None,
+        Heal,
+        AtkN,
+        AtkNm,
+        AtkD,
+        Dash,
+        Spell,
+        Phone
+    }
+    
     [Tooltip("ne pas mettre pour le combo steps")]
     [SerializeField] private TriggerTuto colliderTrigger;
     [SerializeField] private List<Form> disponibleForms = new List<Form>();
+    [SerializeField] private ActivatedTutoIndicator activeTutoUi = ActivatedTutoIndicator.None;
     [SerializeField] private bool setForm;
     [SerializeField] private Form form;
     [SerializeField] private bool asDialogue;
@@ -127,8 +141,9 @@ public class TutoStep
     private ErasedManager _erasedManager;
     private List<GameObject> _atkIndicators; // Reference stored here
     private ChatHistory chatHistory; // Reference stored here
+    private List<GameObject> tutoIndicator; // Reference stored here
 
-    public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager, List<GameObject> indicators, ChatHistory _chatHistory)
+    public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager, List<GameObject> indicators, ChatHistory _chatHistory, List<GameObject> _tutoIndicator)
     {
         _formSwitcher = formSwitcher;
         _textbox = textbox;
@@ -136,6 +151,8 @@ public class TutoStep
         _atkIndicators = indicators; // Store reference
         if(colliderTrigger != null) colliderTrigger.ActivateTutoStep += StartTutoStep;
         chatHistory = _chatHistory;
+        tutoIndicator = _tutoIndicator;
+
     }
 
     public void OnDisableStep()
@@ -188,7 +205,35 @@ public class TutoStep
         {
             _erasedManager.maxPointsForCreate = numberOfPointsForErased;
         }
+
+        switch (activeTutoUi)
+        {
+            case ActivatedTutoIndicator.None:
+                break;
+            case  ActivatedTutoIndicator.Heal:
+                tutoIndicator[0].SetActive(true);
+                break;
+            case  ActivatedTutoIndicator.AtkN:
+                tutoIndicator[1].SetActive(true);
+                break;
+            case  ActivatedTutoIndicator.AtkNm:
+                tutoIndicator[2].SetActive(true);
+                break;
+            case  ActivatedTutoIndicator.AtkD:
+                tutoIndicator[3].SetActive(true);
+                break;
+            case  ActivatedTutoIndicator.Dash:
+                tutoIndicator[4].SetActive(true);
+                break;
+            case  ActivatedTutoIndicator.Spell:
+                tutoIndicator[5].SetActive(true);
+                break;
+            case  ActivatedTutoIndicator.Phone:
+                tutoIndicator[6].SetActive(true);
+                break;
+        }
     }
+    
 
     private void ShowTemporateUI()
     {
@@ -201,7 +246,6 @@ public class TutoStep
     }
 }
 
-// We wrap the entire custom editor class so the build completely ignores it
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(TutoStep))]
 public class TutoStepEditor : PropertyDrawer 
@@ -210,7 +254,8 @@ public class TutoStepEditor : PropertyDrawer
     {
         EditorGUI.BeginProperty(position, label, property);
         
-        // Find properties
+        // 1. Find properties (Added activeTutoUi here)
+        SerializedProperty activeTutoUi = property.FindPropertyRelative("activeTutoUi");
         SerializedProperty colliderTrigger = property.FindPropertyRelative("colliderTrigger");
         SerializedProperty disponibleForms = property.FindPropertyRelative("disponibleForms");
         SerializedProperty setForm = property.FindPropertyRelative("setForm");
@@ -231,6 +276,9 @@ public class TutoStepEditor : PropertyDrawer
 
         if (property.isExpanded)
         {
+            // 2. Render the property in the inspector
+            EditorGUILayout.PropertyField(activeTutoUi, new GUIContent("Active Tuto UI"));
+            
             EditorGUILayout.PropertyField(colliderTrigger);
             EditorGUILayout.PropertyField(disponibleForms, new GUIContent("Formes Disponibles"), true);
             

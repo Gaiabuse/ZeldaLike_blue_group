@@ -35,6 +35,8 @@ public class GrabSystem : MonoBehaviour
     [Header("Visual")]
     [SerializeField] private GameObject throwMark, grabMark;
     [SerializeField] private GameObject grabVfx;
+    [SerializeField] private bool isTutoActionDone = false;
+    [SerializeField] private TutoIndicatorBlink tutoIndicator;
 
     [SerializeField] private GameObject currentGrabbedObject;
 
@@ -145,6 +147,10 @@ public class GrabSystem : MonoBehaviour
     private IEnumerator GrabRoutine()
     {
         animator.SetTrigger("usingAbility");
+        if (!isTutoActionDone)
+        {
+            tutoIndicator.StopBlink();
+        }
         isGrabbing = true;
         Vector3 downPosition = transform.position - downValue;
 

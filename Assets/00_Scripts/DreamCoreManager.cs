@@ -145,6 +145,7 @@ public class DreamCoreManager : MonoBehaviour
     
     public IEnumerator SwitchPhaseCoroutine()
     {
+        Player.gameObject.GetComponent<PlayerPowder>().GainPowder(25);
         Debug.Log("Animation Started");
         if (material != null)
         {

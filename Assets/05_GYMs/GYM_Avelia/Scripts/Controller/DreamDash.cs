@@ -32,6 +32,9 @@ public class DreamDash : MonoBehaviour
     bool IsBuffering = false;
     [SerializeField]
     float maxBufferLength = 0.3f;
+    
+    [SerializeField] private bool isTutoActionDone = false;
+    [SerializeField] private TutoIndicatorBlink tutoIndicator;
 
     public void Update()
     {
@@ -144,6 +147,10 @@ public class DreamDash : MonoBehaviour
         dashVFX.SetActive(false);
 
         IsDashing = false;
+        if (!isTutoActionDone)
+        {
+            tutoIndicator.StopBlink();
+        }
     }
 
     Vector3? FindNearGround(Vector3 at)

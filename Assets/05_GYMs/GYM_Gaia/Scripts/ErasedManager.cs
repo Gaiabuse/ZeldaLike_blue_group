@@ -29,6 +29,9 @@ public class ErasedManager : MonoBehaviour
 
     [Header("Ui elements")]
     [SerializeField] private Image buttonPressVisual;
+    [SerializeField] private bool isTutoActionDone = false;
+    [SerializeField] private bool isTutoActionDone2 = false;
+    [SerializeField] private TutoIndicatorBlink tutoIndicator;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
     private bool erasedAllObjects;
@@ -230,6 +233,10 @@ public class ErasedManager : MonoBehaviour
             // >>> PAUSE CODE HERE: Wait for the VFX duration to finish before mutating world states
             yield return new WaitForSeconds(vfxDuration);
 
+            if (!isTutoActionDone)
+            {
+                tutoIndicator.StopBlink();
+            }
             currentPointsForCreate -= erasedObject.creationCost;
             erasedObject.Create();
             
@@ -248,6 +255,11 @@ public class ErasedManager : MonoBehaviour
             // >>> PAUSE CODE HERE: Wait for the VFX duration to complete
             yield return new WaitForSeconds(vfxDuration);
 
+            if (!isTutoActionDone)
+            {
+                tutoIndicator.StopBlink();
+            }
+            
             currentPointsForCreate += erasedObject.creationCost;
             erasedObject.Erase();
         

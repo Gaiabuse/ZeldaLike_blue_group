@@ -17,6 +17,8 @@ public class PlayerPowder : MonoBehaviour
     [SerializeField] private Image powderBar;
     [SerializeField] private PlayerHP _hp;
     [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private bool isTutoActionDone = false;
+    [SerializeField] private TutoIndicatorBlink tutoIndicator;
 
     private bool isHealing = false;
     private float currentChargeTimer = 0f;
@@ -74,6 +76,10 @@ public class PlayerPowder : MonoBehaviour
 
         if (powder <= 0 || _hp.HP >= _hp.maxHP)
         {
+            if (!isTutoActionDone)
+            {
+                tutoIndicator.StopBlink();
+            }
             InterruptAndReset();
         }
     }

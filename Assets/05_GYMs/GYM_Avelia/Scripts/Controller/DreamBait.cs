@@ -7,6 +7,8 @@ public class DreamBait : MonoBehaviour
 {
     [SerializeField] private DreamBaitProps BaitPrefab;
     [SerializeField] private Animator animator;
+    [SerializeField] private bool isTutoActionDone = false;
+    [SerializeField] private TutoIndicatorBlink tutoIndicator;
 
     private bool canExpode;
 
@@ -29,6 +31,10 @@ public class DreamBait : MonoBehaviour
             await currentBaitInstance.Explode();
             TransformIndicator.Instance.DisplayBaitIcon();
             animator.SetBool("isBombPlanted", false);
+            if (!isTutoActionDone)
+            {
+                tutoIndicator.StopBlink();
+            }
         }
     }
 
