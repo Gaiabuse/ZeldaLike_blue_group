@@ -35,6 +35,7 @@ public class DreamCoreManager : MonoBehaviour
     [SerializeField] private float gooLerpDuration = 0.2f;
     
     [SerializeField] private Material material;
+    [SerializeField] private CanvasGroup endScreen;
 
     // --- NEW PHASE GATING VARIABLES ---
     private bool isInvincible = true;
@@ -223,5 +224,11 @@ public class DreamCoreManager : MonoBehaviour
         material.SetFloat("_Noise_height", 0.2f);
         material.SetFloat("_Base_Strength", 2.81f);
         material.SetFloat("__Noise_speed", 0.23f);
+    }
+
+    public void KillBoss()
+    {
+        Time.timeScale = 0;
+        endScreen.DOFade(1f, 1f).SetEase(Ease.OutBack).SetUpdate(true);
     }
 }

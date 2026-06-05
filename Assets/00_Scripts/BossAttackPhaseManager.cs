@@ -196,6 +196,7 @@ public class BossAttackPhaseManager : MonoBehaviour
         if (disableManager)
         {
             Debug.Log("Fight Ended");
+            coreManager.KillBoss();
             this.enabled = false;
         }
     }

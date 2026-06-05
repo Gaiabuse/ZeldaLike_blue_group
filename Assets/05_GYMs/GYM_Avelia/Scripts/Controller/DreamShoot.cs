@@ -221,7 +221,7 @@ public class DreamShoot : AttackManager
         {
             float positionY = (360f / numberOfShotsForUltimate) * i;
             player.transform.rotation = Quaternion.Euler(0, positionY, 0);
-            CreateShot(maxAttack, transform.forward, attack);
+            CreateShot(lastAttackComboDamage, transform.forward, attack);
         }
         player.transform.rotation = LastRotation;
     }

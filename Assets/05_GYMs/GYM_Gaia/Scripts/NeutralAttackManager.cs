@@ -118,6 +118,7 @@ public class NeutralAttackManager : AttackManager
         player.CanMove = false;
         player.CanRotate = false;
         isInUltMod = true;
+        ultVFX.enabled = false;
         ultVFX.enabled = true;
 
         var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);

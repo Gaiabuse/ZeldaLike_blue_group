@@ -162,15 +162,10 @@ public class TutoStep
     
     public void StartTutoStep()
     {
-        Debug.Log("startTutoStep");
         if (disponibleForms.Count != 0)
         {
             _formSwitcher.AvailableForms.Clear();
             _formSwitcher.AvailableForms = new List<Form>(disponibleForms);
-            foreach (var formSwitcherDisponibleForm in _formSwitcher.AvailableForms)
-            {
-               Debug.Log(formSwitcherDisponibleForm); 
-            }
         }
 
         if (setForm)
