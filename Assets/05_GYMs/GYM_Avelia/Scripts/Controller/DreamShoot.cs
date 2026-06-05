@@ -194,6 +194,7 @@ public class DreamShoot : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
+        base.FormAnimator.SetTrigger("usingAtkSpe");
         Quaternion LastRotation = player.transform.rotation;
         for (int i = 0; i < numberOfShotsForUltimate; i++)
         {

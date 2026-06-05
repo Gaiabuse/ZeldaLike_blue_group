@@ -154,6 +154,8 @@ public class GrabSystem : MonoBehaviour
             currentGrabbedObject = hitSwallow.collider.gameObject;
             if (currentGrabbedObject != null)
             {
+                animator.SetBool("GrabSheep", true);
+                animator.SetTrigger("usingAbility");
                 // Activate and play your VFX
                 eatVFX.enabled = true;
                 eatVFX.Play();
@@ -186,6 +188,7 @@ public class GrabSystem : MonoBehaviour
             player.CanMove = true;
             throwTimer = Time.time; 
             isGrabbing = false;
+            animator.SetBool("GrabSheep", false);
             yield break; 
         }
 
