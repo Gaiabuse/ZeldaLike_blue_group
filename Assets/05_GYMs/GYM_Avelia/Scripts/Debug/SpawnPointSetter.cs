@@ -25,7 +25,8 @@ public class SpawnPointSetter : MonoBehaviour
 
     public SpawnPointSetter SetRespawnZone(RespawnZone zone)
     {
-        text_name.text = respawnZone.name;
+        respawnZone = zone;
+        text_name.text = zone.name;
         return this;
     }
 
