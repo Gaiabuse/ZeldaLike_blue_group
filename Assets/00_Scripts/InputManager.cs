@@ -9,9 +9,14 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
-    
+    [SerializeField] DebugScreen debugMenu;
+
     private bool _isPauseInitialized = false;
     private bool _isProgressInitialized = false;
+
+    public const string PLAYER_INPUT_MAP = "PlayerControl";
+    public const string MENU_INPUT_MAP = "MenuControl";
+    public const string PROGRESS_INPUT_MAP = "ProgressControl";
 
     private void Start()
     {
@@ -19,36 +24,36 @@ public class InputManager : MonoBehaviour
         {
             actionMap.Disable();
         }
-        playerInput.actions.FindActionMap("PlayerControl").Enable();
+        playerInput.actions.FindActionMap(PLAYER_INPUT_MAP).Enable();
     }
 
     public void OnPause(InputValue value)
     {
-        if (value.isPressed) 
+        if (value.isPressed)
         {
             DoPause();
         }
     }
 
     public void OnUnpause(InputValue value)
-    { 
+    {
         DoUnpause();
     }
 
     private void DoPause()
     {
         pauseMenu.OpenPauseMenu();
-        playerInput.SwitchCurrentActionMap("MenuControl");
-        playerInput.actions.FindActionMap("PlayerControl").Disable();
+        playerInput.SwitchCurrentActionMap(MENU_INPUT_MAP);
+        playerInput.actions.FindActionMap(PLAYER_INPUT_MAP).Disable();
     }
-    
+
     public void OnOpenPhone(InputValue value)
     {
-        if (!value.isPressed) return; 
+        if (!value.isPressed) return;
         progressMenu.OpenProgressMenu();
-        playerInput.SwitchCurrentActionMap("ProgressControl");
+        playerInput.SwitchCurrentActionMap(PROGRESS_INPUT_MAP);
     }
-    
+
     private void DoUnpause()
     {
         if (_isPauseInitialized)
@@ -60,7 +65,7 @@ public class InputManager : MonoBehaviour
             _isPauseInitialized = true;
         }
     }
-    
+
     public void OnClosePhone(InputValue value)
     {
         if (_isProgressInitialized)
@@ -78,10 +83,20 @@ public class InputManager : MonoBehaviour
         if (value.isPressed)
             pauseMenu.Return();
     }
-    
+
     public void OnSwitchToggle(InputValue value)
     {
         progressMenu.SwitchToggle();
+    }
+
+    public void OnDebugInput(InputValue value)
+    {
+        debugMenu.OnActionDebugKey();
+    }
+
+    public void OnDebugVisual(InputValue value)
+    {
+        debugMenu.OnVisualDebugKey();
     }
 
     private float scrollInput;
@@ -93,7 +108,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (playerInput.currentActionMap.name == "ProgressControl" && Mathf.Abs(scrollInput) > 0.01f)
+        if (playerInput.currentActionMap.name == PROGRESS_INPUT_MAP && Mathf.Abs(scrollInput) > 0.01f)
         {
             MusicManager.Instance.PlayScroll();
             progressMenu.Scroll(scrollInput);

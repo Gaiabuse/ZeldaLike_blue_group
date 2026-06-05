@@ -17,16 +17,16 @@ public class PauseMenuManager : MonoBehaviour
     [SerializeField] private GameObject settingsScreen;
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject pauseSfxTrigger;
-    
+
     private enum MenuState { Playing, Pause, Settings }
     private MenuState currentState = MenuState.Playing;
-    
+
     private TweenerCore<float, float, FloatOptions> pauseDotween;
     private TweenerCore<float, float, FloatOptions> settingsDotween;
-    
+
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
@@ -48,7 +48,7 @@ public class PauseMenuManager : MonoBehaviour
                     settingsScreen.SetActive(false);
                 });
         }
-        
+
         if (pauseDotween != null)
         {
             pauseDotween.Kill();
@@ -58,9 +58,9 @@ public class PauseMenuManager : MonoBehaviour
             .OnComplete(() =>
             {
                 pauseMenu.SetActive(false);
-                player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("PlayerControl");
+                player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap(InputManager.PLAYER_INPUT_MAP);
             });
-        
+
         currentState = MenuState.Playing;
     }
 
@@ -70,7 +70,7 @@ public class PauseMenuManager : MonoBehaviour
         currentState = MenuState.Pause;
         pauseMenu.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
-        
+
         EventSystem.current.SetSelectedGameObject(firstSelectedButton);
         if (pauseDotween != null)
         {
@@ -87,10 +87,10 @@ public class PauseMenuManager : MonoBehaviour
     public void OpenSettings()
     {
         MusicManager.Instance.PlayClick();
-        
+
         currentState = MenuState.Settings;
         settingsScreen.SetActive(true);
-        
+
         if (settingsDotween != null)
         {
             settingsDotween.Kill();
@@ -107,10 +107,10 @@ public class PauseMenuManager : MonoBehaviour
     public void CloseSettings()
     {
         MusicManager.Instance.PlayCancel();
-        
+
         currentState = MenuState.Pause;
         pauseMenu.SetActive(true);
-        
+
         if (settingsDotween != null)
         {
             settingsDotween.Kill();
@@ -123,7 +123,7 @@ public class PauseMenuManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(firstSelectedButton);
         });
     }
-    
+
     public void Restart()
     {
         player.TriggerRespawn();
@@ -152,33 +152,34 @@ public class PauseMenuManager : MonoBehaviour
             case MenuState.Pause:
                 ClosePauseMenu();
                 break;
-            
+
             case MenuState.Settings:
                 CloseSettings();
                 break;
         }
     }
-    
+
     private IEnumerator<WaitForSeconds> LoadMainMenuSequence()
     {
         StartCoroutine(RumbleCoroutine(0.5f, 0.5f, 0.5f));
-        
+
         loadingScreen.SetActive(true);
         loadingScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
-        
+
         // WaitForSecond have to be longer than the rumbling duration to avoid endless rumbling
         yield return new WaitForSeconds(1.5f);
-        
+
         AsyncOperation operation = SceneManager.LoadSceneAsync("MainMenu");
         while (operation != null && !operation.isDone)
         {
-            yield return null; 
+            yield return null;
         }
     }
-    
+
 
     // ReSharper disable Unity.PerformanceAnalysis
-    private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high) {
+    private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high)
+    {
         RumbleManager.Instance.TriggerVibration(low, high);
         yield return new WaitForSeconds(duration);
         RumbleManager.Instance.StopVibration();
