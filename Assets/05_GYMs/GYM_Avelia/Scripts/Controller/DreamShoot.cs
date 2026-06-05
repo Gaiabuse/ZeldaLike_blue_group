@@ -74,19 +74,53 @@ public class DreamShoot : AttackManager
 
     protected override void OnAttack(InputValue _input)
     {
+        // Pass the input to the base method safely
         base.OnAttack(_input);
-        if (!_input.isPressed && switchInProgress)
-            if (finishSwitchCoroutine != null)
-                StopCoroutine(finishSwitchCoroutine);
-            else
-                finishSwitchCoroutine = StartCoroutine(FinishSwitch());
-        if (switchInProgress)
+
+        // 1. BUTTON RELEASED
+        if (!_input.isPressed)
         {
-            UnprepShoot();
-            return;
+            // Trigger the release animation
+            if (base.FormAnimator != null)
+            {
+                base.FormAnimator.ResetTrigger("isMaintainingButton"); // Clean up the hold trigger just in case
+                base.FormAnimator.SetTrigger("Attack0");
+            }
+
+            if (switchInProgress)
+            {
+                if (finishSwitchCoroutine != null)
+                    StopCoroutine(finishSwitchCoroutine);
+                else
+                    finishSwitchCoroutine = StartCoroutine(FinishSwitch());
+            }
+
+            if (switchInProgress || !CanShoot)
+            {
+                UnprepShoot();
+                return;
+            }
+
+            // Fire the projectile
+            switchInProgress = false;
+            StartCoroutine(DoShoot());
         }
-        if (_input.isPressed)
+        // 2. BUTTON PRESSED / HELD
+        else 
         {
+            // Trigger the holding/charging animation
+            if (base.FormAnimator != null)
+            {
+                base.FormAnimator.ResetTrigger("Attack0"); // Clean up previous fire triggers
+                base.FormAnimator.SetTrigger("isMaintainingButton");
+            }
+
+            if (switchInProgress)
+            {
+                UnprepShoot();
+                return;
+            }
+
             var action = player.playerInput.actions["Attack"];
             if (action.activeControl != null)
             {
@@ -94,25 +128,12 @@ public class DreamShoot : AttackManager
                 if (dir != "buttonWest")
                 {
                     UnprepShoot();
-                    base.OnAttack(_input);
                     return;
                 }
             }
 
             PrepareShoot();
-            return;
         }
-
-        if (!_input.isPressed && !CanShoot)
-        {
-            UnprepShoot();
-            return;
-        }
-
-        if (!CanShoot) return;
-
-        switchInProgress = false;
-        StartCoroutine(DoShoot());
     }
 
     private void FixedUpdate()
