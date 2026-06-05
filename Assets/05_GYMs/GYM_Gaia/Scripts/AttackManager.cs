@@ -115,7 +115,10 @@ public abstract class AttackManager : MonoBehaviour
         
         if (!isTutoActionDone)
         {
-            tutoIndicator.StopBlink();
+            if (tutoIndicator != null)
+            {
+                tutoIndicator.StopBlink();
+            }
         }
 
         currentAttack = attack.Attack(player.transform);

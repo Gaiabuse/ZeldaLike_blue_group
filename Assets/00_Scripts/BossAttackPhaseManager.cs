@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening; // Added for Screen Shake
+using DG.Tweening; 
 
 public class BossAttackPhaseManager : MonoBehaviour
 {
@@ -26,10 +26,10 @@ public class BossAttackPhaseManager : MonoBehaviour
     public class BossPhase
     {
         public string phaseName = "New Phase";
-        [Range(0f, 100f)] public float healthPercentageThreshold = 0f; // Transition when HP goes BELOW this
+        [Range(0f, 100f)] public float healthPercentageThreshold = 0f; 
         public bool playSequentially = true;
         public bool runOnlyOnce = false;
-        public bool hasAnimation = true; // Trigger Roar/Cleanup when this phase starts/ends
+        public bool hasAnimation = true; 
         public List<AttackAction> attacksInPhase = new List<AttackAction>();
     }
 
@@ -46,7 +46,6 @@ public class BossAttackPhaseManager : MonoBehaviour
     {
         if (coreManager == null || bomberScript == null || bossPhases.Count == 0) return;
 
-        // Cache Max HP
         var hpField = typeof(DreamCoreManager).GetField("maxHP", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         if (hpField != null) maxHpCache = Convert.ToSingle(hpField.GetValue(coreManager));
 
@@ -60,11 +59,21 @@ public class BossAttackPhaseManager : MonoBehaviour
         {
             BossPhase phase = bossPhases[currentPhaseIndex];
 
+            // Update the Health Manager's Gatekeeper Threshold for the NEXT phase boundary
+            UpdateHealthGatingThreshold();
+
             // 1. PHASE START: Trigger Roar/Cleanup if needed
             if (phase.hasAnimation)
             {
-                StopAndCleanAllAttacks(false); // Clean arena but don't disable manager
+                coreManager.SetInvincible(true); // Secure invincibility state explicitly
+                StopAndCleanAllAttacks(false); 
                 yield return StartCoroutine(coreManager.SwitchPhaseCoroutine()); 
+                coreManager.SetInvincible(false); // Turn off invincibility after animation finishes
+            }
+            else
+            {
+                // Ensure they aren't stuck invincible if this phase skipped the animation
+                coreManager.SetInvincible(false); 
             }
 
             // 2. RUN ACTIONS
@@ -100,13 +109,28 @@ public class BossAttackPhaseManager : MonoBehaviour
         Debug.Log("Fight Ended: All phases exhausted.");
     }
 
+    // --- NEW METHOD TO CALCULATE AND SEND HEALTH GATE TO CORE MANAGER ---
+    private void UpdateHealthGatingThreshold()
+    {
+        // Look ahead to check the threshold requirement of the next phase index
+        int nextPhaseIndex = currentPhaseIndex + 1;
+        if (nextPhaseIndex < bossPhases.Count)
+        {
+            float targetPercentage = bossPhases[nextPhaseIndex].healthPercentageThreshold;
+            float minHpAllowed = (targetPercentage / 100f) * maxHpCache;
+            coreManager.SetHealthCap(minHpAllowed);
+        }
+        else
+        {
+            // If it's the last phase, let it drop all the way down to 0 HP
+            coreManager.SetHealthCap(0f);
+        }
+    }
+
     private bool ShouldInterruptPhase(BossPhase phase)
     {
-        // If it's a "Run Once" phase, we don't interrupt mid-sequence for HP.
         if (phase.runOnlyOnce) return false;
-        
-        // Otherwise, if HP is below threshold, quit phase.
-        return GetCurrentHealthPercentage() < phase.healthPercentageThreshold;
+        return GetCurrentHealthPercentage() <= phase.healthPercentageThreshold;
     }
 
     private float GetCurrentHealthPercentage()
@@ -121,7 +145,6 @@ public class BossAttackPhaseManager : MonoBehaviour
         isExecutingAction = true;
         if (action.delayBeforeAttack > 0) yield return new WaitForSeconds(action.delayBeforeAttack);
 
-        // Reflection to trigger BomberAttack methods (as per your original structure)
         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
         typeof(BomberAttack).GetField("currentProjectileIndex", flags)?.SetValue(bomberScript, action.projectileIndex);
         
@@ -155,14 +178,11 @@ public class BossAttackPhaseManager : MonoBehaviour
     {
         Debug.Log("[Boss Manager] Cleaning Arena...");
         
-        // Shake Camera (Uses DOTween)
         Camera.main.transform.DOShakePosition(0.5f, 0.5f);
 
-        // Stop current logic
         if (disableManager) StopAllCoroutines();
         bomberScript.StopAllCoroutines();
 
-        // Kill Projectiles
         foreach (var bomb in FindObjectsByType<StarBomb>(FindObjectsSortMode.None))
         {
             var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
@@ -171,7 +191,6 @@ public class BossAttackPhaseManager : MonoBehaviour
             Destroy(bomb.gameObject);
         }
 
-        // Kill Enemies
         foreach (var enemy in FindObjectsByType<EnnemyBase>(FindObjectsSortMode.None)) Destroy(enemy.gameObject);
 
         if (disableManager)

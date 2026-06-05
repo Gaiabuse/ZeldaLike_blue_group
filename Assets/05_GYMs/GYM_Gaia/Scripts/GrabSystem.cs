@@ -149,6 +149,7 @@ public class GrabSystem : MonoBehaviour
         animator.SetTrigger("usingAbility");
         if (!isTutoActionDone)
         {
+            if (tutoIndicator == null) yield  break;
             tutoIndicator.StopBlink();
         }
         isGrabbing = true;

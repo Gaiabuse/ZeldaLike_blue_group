@@ -235,6 +235,7 @@ public class ErasedManager : MonoBehaviour
 
             if (!isTutoActionDone)
             {
+                if (tutoIndicator == null) yield break;
                 tutoIndicator.StopBlink();
             }
             currentPointsForCreate -= erasedObject.creationCost;
@@ -257,6 +258,7 @@ public class ErasedManager : MonoBehaviour
 
             if (!isTutoActionDone)
             {
+                if (tutoIndicator == null) yield break;
                 tutoIndicator.StopBlink();
             }
             

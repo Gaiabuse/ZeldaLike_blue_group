@@ -54,6 +54,7 @@ public class InputManager : MonoBehaviour
         if (!value.isPressed) return;
         if (!isTutoActionDone)
         {
+            if (tutoIndicator == null) return;
             tutoIndicator.StopBlink();
         }
         progressMenu.OpenProgressMenu();

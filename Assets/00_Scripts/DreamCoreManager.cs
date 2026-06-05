@@ -36,8 +36,13 @@ public class DreamCoreManager : MonoBehaviour
     
     [SerializeField] private Material material;
 
+    // --- NEW PHASE GATING VARIABLES ---
+    private bool isInvincible = true;
+    private float healthCap = 0f; // The absolute lowest HP the boss can reach in the current sub-phase
+
     private void Start()
     {
+        isInvincible = true;
         maxHP = hp;
         _tempHP = maxHP;
 
@@ -73,29 +78,51 @@ public class DreamCoreManager : MonoBehaviour
         GetComponent<BossAttackPhaseManager>().StartBossAttack();
     }
 
+    // --- NEW PUBLIC METHODS TO CONTROL INVINCIBILITY ---
+    public void SetInvincible(bool state)
+    {
+        isInvincible = state;
+    }
+
+    public void SetHealthCap(float minHPThreshold)
+    {
+        healthCap = minHPThreshold;
+    }
+
     public void TakeDamages(int damage)
     {
-        if (hp > 0)
+        // 1. If explicitly invincible, block damage entirely
+        if (isInvincible || hp <= 0) return;
+
+        // 2. Calculate intended new health
+        float targetHP = hp - damage;
+
+        // 3. GATEKEEPING: If this damage crosses the next phase threshold, clamp it!
+        if (targetHP <= healthCap)
         {
-            float targetHP = (float)Math.Round((decimal)(hp - damage), 2);
-            hp -= damage;
+            targetHP = healthCap;
+            isInvincible = true; // Automatically turn on invincibility because we hit a wall
+        }
 
-            hitVFX.transform.SetParent(transform.parent);
-            hitVFX.transform.position = transform.position;
-            Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
-            hitVFX.transform.LookAt(lookTarget);
-            hitVFX.transform.Rotate(0, 90, 0);
+        targetHP = (float)Math.Round((decimal)targetHP, 2);
+        hp = Mathf.Max(0, (int)targetHP); // Ensure it doesn't go below 0
 
-            hitVFX.SetActive(false);
-            hitVFX.SetActive(true);
+        // Visuals
+        hitVFX.transform.SetParent(transform.parent);
+        hitVFX.transform.position = transform.position;
+        Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
+        hitVFX.transform.LookAt(lookTarget);
+        hitVFX.transform.Rotate(0, 90, 0);
 
-            StartCoroutine(VisualDamage(targetHP));
-            UpdateGooScale(hp);
+        hitVFX.SetActive(false);
+        hitVFX.SetActive(true);
 
-            if (hp <= 0)
-            {
-                Death();
-            }
+        StartCoroutine(VisualDamage(targetHP));
+        UpdateGooScale(hp);
+
+        if (hp <= 0)
+        {
+            Death();
         }
     }
 
@@ -160,13 +187,12 @@ public class DreamCoreManager : MonoBehaviour
             RumbleManager.Instance.TriggerVibration(0.5f,0.5f);
             Tween introTween = DOVirtual.Float(0f, 1f, introDuration, value =>
             {
-                material.SetFloat("_Noise_height", Mathf.Lerp(0.2f, 0.85f, value)); // Made peak height higher
+                material.SetFloat("_Noise_height", Mathf.Lerp(0.2f, 0.85f, value)); 
                 material.SetFloat("_Base_Strength", Mathf.Lerp(2.81f, -1.0f, value));
             }).SetEase(Ease.OutBack);
             
             Tween jitterTween = DOVirtual.Float(0f, 1f, holdDuration, value =>
             {
-                // Random.Range creates that unstable, glitchy, erratic movement
                 float jitter = Random.Range(-0.1f, 0.1f); 
                 RumbleManager.Instance.TriggerVibration(0.5f + jitter*2,0.5f + jitter*2);
                 material.SetFloat("_Noise_height", 0.85f + jitter);

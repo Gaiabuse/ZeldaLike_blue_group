@@ -149,6 +149,7 @@ public class DreamDash : MonoBehaviour
         IsDashing = false;
         if (!isTutoActionDone)
         {
+            if (tutoIndicator == null) yield return null;
             tutoIndicator.StopBlink();
         }
     }

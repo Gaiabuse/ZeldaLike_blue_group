@@ -78,6 +78,7 @@ public class PlayerPowder : MonoBehaviour
         {
             if (!isTutoActionDone)
             {
+                if (tutoIndicator == null) return;
                 tutoIndicator.StopBlink();
             }
             InterruptAndReset();

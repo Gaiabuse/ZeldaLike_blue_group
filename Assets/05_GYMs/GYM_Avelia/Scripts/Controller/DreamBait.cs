@@ -33,6 +33,7 @@ public class DreamBait : MonoBehaviour
             animator.SetBool("isBombPlanted", false);
             if (!isTutoActionDone)
             {
+                if (tutoIndicator == null) return;
                 tutoIndicator.StopBlink();
             }
         }
