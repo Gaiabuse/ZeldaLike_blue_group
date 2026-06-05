@@ -152,45 +152,39 @@ public class DreamCoreManager : MonoBehaviour
             float holdDuration = 0.10f;
             float outroDuration = 0.75f;
     
-            // CRANK up the noise speed during anger to make the shader texture go wild
             material.SetFloat("__Noise_speed", -25f); 
             
             Sequence angerSequence = DOTween.Sequence();
-            
-            // --- INTRO (The Explosive Outburst) ---
-            // Changed to OutBack so it "overshoots" and pops out aggressively
+
+            RumbleManager.Instance.TriggerVibration(0.5f,0.5f);
             Tween introTween = DOVirtual.Float(0f, 1f, introDuration, value =>
             {
                 material.SetFloat("_Noise_height", Mathf.Lerp(0.2f, 0.85f, value)); // Made peak height higher
                 material.SetFloat("_Base_Strength", Mathf.Lerp(2.81f, -1.0f, value));
             }).SetEase(Ease.OutBack);
             
-            // --- JITTER / SHAKE (The Boiling Point) ---
-            // While holding, we rapidly jitter the values to look like vibrating rage
             Tween jitterTween = DOVirtual.Float(0f, 1f, holdDuration, value =>
             {
                 // Random.Range creates that unstable, glitchy, erratic movement
                 float jitter = Random.Range(-0.1f, 0.1f); 
+                RumbleManager.Instance.TriggerVibration(0.5f + jitter*2,0.5f + jitter*2);
                 material.SetFloat("_Noise_height", 0.85f + jitter);
-            }).SetLoops(5, LoopType.Yoyo); // Rapidly flips back and forth
+            }).SetLoops(5, LoopType.Yoyo);
             
-            // --- OUTRO (The Cool Down) ---
-            // Changed to OutBounce so it visibly bounces as it settles back to normal
             Tween outroTween = DOVirtual.Float(0f, 1f, outroDuration, value =>
             {
                 material.SetFloat("_Noise_height", Mathf.Lerp(0.85f, 0.2f, value));
                 material.SetFloat("_Base_Strength", Mathf.Lerp(-1.0f, 2.81f, value));
             }).SetEase(Ease.OutBounce); 
             
-            // Assemble the chaos
             angerSequence.Append(introTween);
-            angerSequence.Append(jitterTween); // Replaced the boring flat interval with active shaking
+            angerSequence.Append(jitterTween);
             angerSequence.Append(outroTween);
     
             yield return angerSequence.WaitForCompletion();
             
-            // Reset to normal idle speed
             material.SetFloat("__Noise_speed", 0.23f);
+            RumbleManager.Instance.StopVibration();
         }
         
         Player.CanMove = true; Player.CanRotate = true;
