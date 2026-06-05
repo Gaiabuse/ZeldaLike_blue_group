@@ -1751,6 +1751,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Book Ennemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7694450120366358666, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8177315087459937969, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1919,6 +1923,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 968a4f87acd7ced40b4824c9d89dffa4, type: 3}
+--- !u!1001 &6894102483881449192
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -15.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1107260716419295642, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3954701623170135338, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: m_Name
+      value: Basic Sheep
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: rollDuration
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: DistStartAttack
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: DistanceGetInShell
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
+      propertyPath: stunRollEndDuration
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
 --- !u!1001 &8916109998498793748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2140,6 +2217,7 @@ SceneRoots:
   - {fileID: 8916109998498793748}
   - {fileID: 494955643}
   - {fileID: 2675474934450549962}
+  - {fileID: 6894102483881449192}
   - {fileID: 943400049}
   - {fileID: 9027460101694799328}
   - {fileID: 396968143}
