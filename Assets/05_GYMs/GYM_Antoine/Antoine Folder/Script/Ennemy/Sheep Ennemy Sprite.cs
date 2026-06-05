@@ -184,10 +184,6 @@ public class SheepEnnemySprite : GroundEnnemy
 
     protected override void AttackPatern()
     {
-        /*if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= 1f && CurrentTarget != null)
-    {
-        AttackStart(-1);
-    }*/
         if (move != "stun")
         {
             if (CurrentTarget != null && shellHere)
