@@ -24,11 +24,26 @@ public class PauseMenuManager : MonoBehaviour
     private TweenerCore<float, float, FloatOptions> pauseDotween;
     private TweenerCore<float, float, FloatOptions> settingsDotween;
 
-    /*private void Start()
+    private GameObject lastFocusedButton;
+
+    private void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }*/
+        if (currentState == MenuState.Playing) return;
+
+        GameObject currentSelection = EventSystem.current.currentSelectedGameObject;
+
+        if (currentSelection != null)
+        {
+            lastFocusedButton = currentSelection;
+        }
+        else
+        {
+            if (lastFocusedButton != null && lastFocusedButton.activeInHierarchy)
+            {
+                EventSystem.current.SetSelectedGameObject(lastFocusedButton);
+            }
+        }
+    }
 
     public void ClosePauseMenu()
     {
@@ -62,6 +77,7 @@ public class PauseMenuManager : MonoBehaviour
             });
 
         currentState = MenuState.Playing;
+        lastFocusedButton = null;
     }
 
     public void OpenPauseMenu()
@@ -72,6 +88,8 @@ public class PauseMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
 
         EventSystem.current.SetSelectedGameObject(firstSelectedButton);
+        lastFocusedButton = firstSelectedButton;
+
         if (pauseDotween != null)
         {
             pauseDotween.Kill();
@@ -100,7 +118,9 @@ public class PauseMenuManager : MonoBehaviour
             .OnComplete(() =>
         {
             pauseMenu.SetActive(false);
+            
             EventSystem.current.SetSelectedGameObject(settingsFirstSelectedButton);
+            lastFocusedButton = settingsFirstSelectedButton;
         });
     }
 
@@ -120,7 +140,9 @@ public class PauseMenuManager : MonoBehaviour
             .OnComplete(() =>
         {
             settingsScreen.SetActive(false);
+            
             EventSystem.current.SetSelectedGameObject(firstSelectedButton);
+            lastFocusedButton = firstSelectedButton;
         });
     }
 
@@ -166,7 +188,6 @@ public class PauseMenuManager : MonoBehaviour
         loadingScreen.SetActive(true);
         loadingScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
 
-        // WaitForSecond have to be longer than the rumbling duration to avoid endless rumbling
         yield return new WaitForSeconds(1.5f);
 
         AsyncOperation operation = SceneManager.LoadSceneAsync("MainMenu");
@@ -175,7 +196,6 @@ public class PauseMenuManager : MonoBehaviour
             yield return null;
         }
     }
-
 
     // ReSharper disable Unity.PerformanceAnalysis
     private IEnumerator<WaitForSeconds> RumbleCoroutine(float duration, float low, float high)

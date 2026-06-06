@@ -13,8 +13,8 @@ public abstract class AttackManager : MonoBehaviour
     [SerializeField] private int ManaAddAtSuccessCombo = 5;
     [SerializeField] protected FormSwitcher formSwitcher;
     [HideInInspector] public bool CanAttack;
-    [SerializeField] private bool isTutoActionDone = false;
-    [SerializeField] private TutoIndicatorBlink tutoIndicator;
+    public bool isTutoActionDone = false;
+    public TutoIndicatorBlink tutoIndicator;
 
     [SerializeField] private float timeForDoUltimate;
     protected bool canChargedAttack;

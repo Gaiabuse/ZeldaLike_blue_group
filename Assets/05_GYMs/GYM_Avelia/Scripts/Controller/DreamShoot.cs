@@ -80,6 +80,13 @@ public class DreamShoot : AttackManager
         // 1. BUTTON RELEASED
         if (!_input.isPressed)
         {
+            if (!isTutoActionDone)
+            {
+                if (tutoIndicator != null)
+                {
+                    tutoIndicator.StopBlink();
+                }
+            }
             // Trigger the release animation
             if (base.FormAnimator != null)
             {

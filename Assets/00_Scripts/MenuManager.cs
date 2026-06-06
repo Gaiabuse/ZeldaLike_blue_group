@@ -21,11 +21,13 @@ public class MenuManager : MonoBehaviour
     
     private enum MenuState { Title, Settings, Credits }
     private MenuState currentState = MenuState.Title;
+    private GameObject lastFocusedButton;
     
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
+        lastFocusedButton = EventSystem.current.currentSelectedGameObject;
     }
 
     private void OnReturn()
@@ -38,6 +40,42 @@ public class MenuManager : MonoBehaviour
 
             case MenuState.Credits:
                 CloseCredits();
+                break;
+        }
+    }
+
+    private void Update()
+    {
+        GameObject currentSelection = EventSystem.current.currentSelectedGameObject;
+
+        if (currentSelection != null)
+        {
+            // The player is safely navigating; remember this button!
+            lastFocusedButton = currentSelection;
+        }
+        else
+        {
+            // Focus was lost to a mouse click! Restore the last known button.
+            if (lastFocusedButton != null && lastFocusedButton.activeInHierarchy)
+            {
+                EventSystem.current.SetSelectedGameObject(lastFocusedButton);
+            }
+        }
+    }
+
+    private void RefocusMenu()
+    {
+        switch (currentState)
+        {
+            case MenuState.Title:
+                EventSystem.current.SetSelectedGameObject(mainFirstSelected);
+                break;
+
+            case MenuState.Settings:
+                EventSystem.current.SetSelectedGameObject(settingsFirstSelected);
+                break;
+
+            case MenuState.Credits:
                 break;
         }
     }
@@ -61,13 +99,16 @@ public class MenuManager : MonoBehaviour
         titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             titleScreen.SetActive(false);
             settingsScreen.SetActive(true);
+        
             EventSystem.current.SetSelectedGameObject(settingsFirstSelected);
+            lastFocusedButton = settingsFirstSelected; 
+        
             settingsScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
-        
+    
         currentState = MenuState.Settings;
     }
-    
+
     public void CloseSettings()
     {
         cancelSFX.SetActive(false);
@@ -75,10 +116,13 @@ public class MenuManager : MonoBehaviour
         settingsScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             settingsScreen.SetActive(false);
             titleScreen.SetActive(true);
+        
             EventSystem.current.SetSelectedGameObject(mainFirstSelected);
+            lastFocusedButton = mainFirstSelected;
+        
             titleScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
-        
+    
         currentState = MenuState.Title;
     }
     

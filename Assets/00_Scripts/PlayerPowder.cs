@@ -62,6 +62,11 @@ public class PlayerPowder : MonoBehaviour
 
     private void DoHeal()
     {
+        if (!isTutoActionDone)
+        {
+            if (tutoIndicator == null) return;
+            tutoIndicator.StopBlink();
+        }
         float amountToHeal = (float)Math.Round(healRate * Time.deltaTime, 2);
 
         if (amountToHeal > powder)
@@ -76,11 +81,6 @@ public class PlayerPowder : MonoBehaviour
 
         if (powder <= 0 || _hp.HP >= _hp.maxHP)
         {
-            if (!isTutoActionDone)
-            {
-                if (tutoIndicator == null) return;
-                tutoIndicator.StopBlink();
-            }
             InterruptAndReset();
         }
     }
