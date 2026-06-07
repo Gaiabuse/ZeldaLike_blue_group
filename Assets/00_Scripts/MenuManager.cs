@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject creditsScreen;
     [SerializeField] private GameObject clickSFX;
     [SerializeField] private GameObject cancelSFX;
+    [SerializeField] private TMP_Text versionText;
     
     private enum MenuState { Title, Settings, Credits }
     private MenuState currentState = MenuState.Title;
@@ -25,9 +27,25 @@ public class MenuManager : MonoBehaviour
     
     private void Start()
     {
+        SetVersionText(); 
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
         lastFocusedButton = EventSystem.current.currentSelectedGameObject;
+    }
+    
+    private void OnValidate()
+    {
+        SetVersionText();
+    }
+    
+    private void SetVersionText()
+    {
+        string currentVersion = Application.version; 
+        
+        if (versionText != null)
+        {
+            versionText.text = $"v{currentVersion}";
+        }
     }
 
     private void OnReturn()
