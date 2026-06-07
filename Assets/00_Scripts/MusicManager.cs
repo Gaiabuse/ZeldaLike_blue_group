@@ -1,8 +1,11 @@
 using System;
+using FMODUnity;
 using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    [SerializeField] private StudioEventEmitter fightMusic;
+    [SerializeField] private GameObject bossMusic;
     [SerializeField] private GameObject fightTrigger;
     [SerializeField] private GameObject exploTrigger;
     [SerializeField] private GameObject transfo;
@@ -65,6 +68,12 @@ public class MusicManager : MonoBehaviour
         }
     }
 
+    public void StartBossMusic()
+    {
+        fightMusic.enabled = false;
+        bossMusic.SetActive(true);
+    }
+    
     public void PlayCreate()
     {
         create.SetActive(false);

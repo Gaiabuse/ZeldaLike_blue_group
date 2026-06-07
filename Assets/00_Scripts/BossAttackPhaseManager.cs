@@ -66,8 +66,9 @@ public class BossAttackPhaseManager : MonoBehaviour
             if (phase.hasAnimation)
             {
                 coreManager.SetInvincible(true); // Secure invincibility state explicitly
-                StopAndCleanAllAttacks(false); 
-                yield return StartCoroutine(coreManager.SwitchPhaseCoroutine()); 
+                StopAndCleanAllAttacks(false);
+                yield return StartCoroutine(coreManager.SwitchPhaseCoroutine());
+                MusicManager.Instance.StartBossMusic();
                 coreManager.SetInvincible(false); // Turn off invincibility after animation finishes
             }
             else
