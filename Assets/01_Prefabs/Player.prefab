@@ -367,6 +367,8 @@ MonoBehaviour:
   ManaAddAtSuccessCombo: 5
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
   timeForDoUltimate: 1
   attack: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
   ultimateAttackOfCombo: {fileID: 310886409025104788, guid: 5b402079e5f983747b43b7af0fbab159, type: 3}
@@ -444,6 +446,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DreamBait
   BaitPrefab: {fileID: 5512050949420604262, guid: e0f036760597f0219aaf42cf77137e91, type: 3}
   animator: {fileID: 0}
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
 --- !u!1 &3904385373315590954
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,6 +693,8 @@ MonoBehaviour:
   pauseMenu: {fileID: 0}
   progressMenu: {fileID: 0}
   debugMenu: {fileID: 0}
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
 --- !u!114 &475458454912018690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -921,6 +927,8 @@ MonoBehaviour:
   tolerance: 0.5
   IsDashing: 0
   maxBufferLength: 0.3
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
 --- !u!114 &3607936565226332866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -941,6 +949,8 @@ MonoBehaviour:
   powderBar: {fileID: 0}
   _hp: {fileID: 1915928875852587533}
   _playerInput: {fileID: 8015218632366079429}
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
 --- !u!54 &5878750112163619366
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2207,6 +2217,8 @@ MonoBehaviour:
   throwMark: {fileID: 8778662250821000933}
   grabMark: {fileID: 7543173321296793734}
   grabVfx: {fileID: 1362549211489825662}
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
   currentGrabbedObject: {fileID: 0}
 --- !u!114 &8600280016486079122
 MonoBehaviour:
@@ -2226,6 +2238,8 @@ MonoBehaviour:
   ManaAddAtSuccessCombo: 20
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
   timeForDoUltimate: 1
   comboAttacks:
   - AttackData: {fileID: 11400000, guid: 16b18c8ee79c6f649bdd0de1043d89cb, type: 2}
@@ -2550,6 +2564,9 @@ MonoBehaviour:
   VFX: {fileID: 2776420777314177123}
   vfxDuration: 0.25
   buttonPressVisual: {fileID: 3096164795337757771}
+  isTutoActionDone: 0
+  isTutoActionDone2: 0
+  tutoIndicator: {fileID: 0}
 --- !u!65 &223095147346892054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2589,6 +2606,8 @@ MonoBehaviour:
   ManaAddAtSuccessCombo: 20
   formSwitcher: {fileID: 475458454912018690}
   CanAttack: 0
+  isTutoActionDone: 0
+  tutoIndicator: {fileID: 0}
   timeForDoUltimate: 1
   erasedManager: {fileID: 5060730504946467261}
   comboAttacks:

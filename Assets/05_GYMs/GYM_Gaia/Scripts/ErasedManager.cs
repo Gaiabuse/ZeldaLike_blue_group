@@ -334,8 +334,15 @@ public class ErasedManager : MonoBehaviour
 
     public void GainPointForCreate()
     {
-        maxPointsForCreate++;
-        currentPointsForCreate++;
+        maxPointsForCreate = Mathf.Clamp(maxPointsForCreate+1, 0, 3);
+        currentPointsForCreate = Mathf.Clamp(currentPointsForCreate+1, 0, 3);
+        TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
+    }
+    
+    public void LoosePointForCreate()
+    {
+        maxPointsForCreate = Mathf.Clamp(maxPointsForCreate-1, 0, 3);
+        currentPointsForCreate = Mathf.Clamp(currentPointsForCreate-1, 0, 3);
         TransformIndicator.Instance.DisplayNeutralChargeIcon(currentPointsForCreate);
     }
 }

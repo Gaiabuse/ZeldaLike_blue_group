@@ -1,12 +1,18 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class DebugScreen : MonoBehaviour
 {
     PlayerPowder powder;
     PlayerHP hp;
     PlayerInput input;
+    FormSwitcher formSwitcher;
+    ErasedManager erasedManager;
+    List<Form> choosenForms = new List<Form>() {Form.neutral};
 
     [Header("InternalReference")]
     [SerializeField]
@@ -16,9 +22,8 @@ public class DebugScreen : MonoBehaviour
 
     [SerializeField]
     TMPro.TMP_Text playerPosition;
-
-    [SerializeField]
-    GameObject firstobjectdebug;
+    
+    //[SerializeField] GameObject firstobjectdebug;
 
     void Start()
     {
@@ -30,6 +35,8 @@ public class DebugScreen : MonoBehaviour
         powder = FindAnyObjectByType<PlayerPowder>();
         hp = FindAnyObjectByType<PlayerHP>();
         input = FindAnyObjectByType<PlayerInput>();
+        formSwitcher = FindAnyObjectByType<FormSwitcher>();
+        erasedManager = FindAnyObjectByType<ErasedManager>();
     }
 
     public void OnActionDebugKey()
@@ -42,7 +49,7 @@ public class DebugScreen : MonoBehaviour
         }
 
         debugAction.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(firstobjectdebug);
+        //EventSystem.current.SetSelectedGameObject(firstobjectdebug);
     }
 
     public void OnVisualDebugKey()
@@ -56,14 +63,43 @@ public class DebugScreen : MonoBehaviour
         debugVisual.SetActive(true);
     }
 
-    public void DecreasePowder1() => powder.GainPowder(-1);
+    private void SetForms(Form form, Toggle toggle)
+    {
+        if (choosenForms.Contains(form))
+        {
+            if (choosenForms.Count > 1)
+            {
+                choosenForms.Remove(form);
+            }
+            else
+            {
+                toggle.isOn = true;
+            }
+        }
+        else choosenForms.Add(form);
+        
+        
+        formSwitcher.AvailableForms = choosenForms;
+        
+        if (choosenForms.Count == 1)
+        {
+            formSwitcher.ChangeForm(choosenForms[0]);
+        }
+    }
 
-    public void IncreasePowder1() => powder.GainPowder(1);
+    public void ToggleNeutralForm(Toggle toggle) => SetForms(Form.neutral, toggle);
+    public void ToggleNightmareForm(Toggle toggle) => SetForms(Form.nightmare, toggle);
+    public void ToggleDreamForm(Toggle toggle) => SetForms(Form.dream, toggle);
+
+    //public void DecreasePowder1() => powder.GainPowder(-1);
+    //public void IncreasePowder1() => powder.GainPowder(1);
 
     public void IncreasePowder10() => powder.GainPowder(10);
-
     public void DecreasePowder10() => powder.GainPowder(-10);
+    
+    public void GainCPoint() => erasedManager.GainPointForCreate();
+    public void LooseCPoint() => erasedManager.LoosePointForCreate();
 
-    public void ToggleInfiniteLife(bool value) { hp.invicible = value; }
+    public void ToggleInfiniteLife(Toggle toggle) { hp.invicible = toggle.isOn; }
 }
 
