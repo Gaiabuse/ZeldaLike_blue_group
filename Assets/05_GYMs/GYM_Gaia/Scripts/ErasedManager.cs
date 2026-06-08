@@ -29,8 +29,8 @@ public class ErasedManager : MonoBehaviour
 
     [Header("Ui elements")]
     [SerializeField] private Image buttonPressVisual;
-    [SerializeField] private bool isTutoActionDone = false;
-    [SerializeField] private bool isTutoActionDone2 = false;
+    private bool isTutoActionDone = false;
+    private bool isTutoActionDone2 = false;
     [SerializeField] private TutoIndicatorBlink tutoIndicator;
     private GameObject currentObject;
     private List<ErasedObject> objectsErased = new List<ErasedObject>();
