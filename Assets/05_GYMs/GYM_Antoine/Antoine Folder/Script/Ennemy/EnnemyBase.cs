@@ -73,7 +73,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [Tooltip("value when HP = Maximum")]
     [Range(0, 1)][SerializeField] private float maxFillAmount = 0.9f;
     
-    [SerializeField] private GameObject targetPreview;
+    [SerializeField] protected GameObject targetPreview;
     public bool isAirbone;
 
     protected virtual void Start()

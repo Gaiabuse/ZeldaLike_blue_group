@@ -30,6 +30,7 @@ public class BookEnnemy : EnnemyBase
 
     [Header("Layer")]
     [SerializeField] LayerMask LayerTarget;
+    [SerializeField] LayerMask GroundLayer;
 
     protected override void Start()
     {
@@ -93,6 +94,14 @@ public class BookEnnemy : EnnemyBase
                         move = "melee";
                         animator.SetTrigger("tCharge");
                         timerGeneral = FallWait;
+
+                        RaycastHit hit;
+                        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, GroundLayer))
+                        {
+                            targetPreview.transform.position = hit.point;
+                            targetPreview.transform.position += Vector3.up * 0.01f;
+                            targetPreview.SetActive(true);
+                        }
                     }
                 }
                 else
@@ -244,6 +253,7 @@ public class BookEnnemy : EnnemyBase
             animator.SetBool("Stun", true);
             timerGeneral = StunTimeRecoverFromAttack;
             ToogleMainAttack(1);
+            targetPreview.SetActive(false);
         }
     }
 
