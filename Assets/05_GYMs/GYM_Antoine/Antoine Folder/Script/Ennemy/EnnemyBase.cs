@@ -345,18 +345,25 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
+        EyesSetColorTo(colorMotionless);
+        ToogleMainAttack(-1);
+        move = "stun";
+        timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
+    }
+    
+    public virtual void StunEnemyUlt(float stunTime)
+    {
         if (MusicManager.Instance != null) MusicManager.Instance.PlayStun();
         stunVFX.SetActive(true);
         EyesSetColorTo(colorMotionless);
         ToogleMainAttack(-1);
         move = "stun";
-        timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
-
+        timerGeneral = stunTime;
     }
 
     protected virtual void EndStun()
     {
-        MusicManager.Instance.StopStun();
+        if (MusicManager.Instance != null) MusicManager.Instance.StopStun();
         stunVFX.SetActive(false);
         EyesSetColorTo(colorNormal);
         animator.SetBool("Stun", false);

@@ -147,11 +147,13 @@ public class MusicManager : MonoBehaviour
     
     public void PlayStun()
     {
+        nbStun++;
         stun.SetActive(true);
     }
     
     public void StopStun()
     {
+        nbStun--;
         if (nbStun <= 0)
         {
             stun.SetActive(false);

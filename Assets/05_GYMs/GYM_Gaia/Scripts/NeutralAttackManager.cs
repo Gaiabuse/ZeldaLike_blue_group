@@ -123,7 +123,7 @@ public class NeutralAttackManager : AttackManager
                 EnnemyBase ennemyBase = enemy.GetComponent<EnnemyBase>();
                 if (ennemyBase != null)
                 {
-                    ennemyBase.StunEnnemy(ultStun+durationUltimate-timer,false);
+                    ennemyBase.StunEnemyUlt(ultStun+durationUltimate-timer);
                 }
             }
         }
