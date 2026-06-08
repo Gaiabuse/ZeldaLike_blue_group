@@ -903,7 +903,7 @@ MonoBehaviour:
   bounceDuration: 0
   minFillAmount: 0.1
   maxFillAmount: 0.9
-  targetPreview: {fileID: 0}
+  targetPreview: {fileID: 8013974859417523442}
   isAirbone: 0
   SpriteEnnemy: {fileID: 6339943764020020021}
   LookRange: 12
@@ -925,6 +925,9 @@ MonoBehaviour:
   LayerTarget:
     serializedVersion: 2
     m_Bits: 1536
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!114 &8346926213722028055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,7 +1315,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1698221360502068158, guid: dfea2239e74be234ea47bfdfb12f5015, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2367343150089077812, guid: dfea2239e74be234ea47bfdfb12f5015, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1356,7 +1359,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5963930598153764778, guid: dfea2239e74be234ea47bfdfb12f5015, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561804502403871966, guid: dfea2239e74be234ea47bfdfb12f5015, type: 3}
+      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7561804502403871966, guid: dfea2239e74be234ea47bfdfb12f5015, type: 3}
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[1].m_Value
@@ -1370,5 +1377,10 @@ PrefabInstance:
 --- !u!4 &6376093173986968440 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2367343150089077812, guid: dfea2239e74be234ea47bfdfb12f5015, type: 3}
+  m_PrefabInstance: {fileID: 8693654791526205260}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8013974859417523442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1698221360502068158, guid: dfea2239e74be234ea47bfdfb12f5015, type: 3}
   m_PrefabInstance: {fileID: 8693654791526205260}
   m_PrefabAsset: {fileID: 0}
