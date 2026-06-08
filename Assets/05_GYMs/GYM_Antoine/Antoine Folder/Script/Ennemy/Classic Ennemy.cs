@@ -19,6 +19,7 @@ public class ClassicEnnemy : EnnemyBase
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] protected float DistanceAttack = 2;
     [SerializeField] float chargeAttackTime = 1.5f;
+    [SerializeField] GameObject hitboxVFX;
     [SerializeField] protected float waitAfterAttack = 1.5f;
 
     [SerializeField] float waitBeforeDelete = 1.5f;
@@ -117,6 +118,8 @@ public class ClassicEnnemy : EnnemyBase
                 {
                     move = "attack";
                     timerGeneral = waitAfterAttack;
+                    hitboxVFX.SetActive(false);
+                    hitboxVFX.SetActive(true);
                     animator.SetTrigger("tAttack");
                 }
             }

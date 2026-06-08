@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class BasicSheep : GroundEnnemy
 {
@@ -8,6 +9,7 @@ public class BasicSheep : GroundEnnemy
 
     [SerializeField] float DistStartAttack = 5f;
     [SerializeField] float ChargeDuration = 0.5f;
+    [SerializeField] VisualEffect chargeVFX;
     [SerializeField] float rollSpeed = 35f;
     [SerializeField] float rollDuration = 2.5f;
     [SerializeField] float stunRollEndDuration = 2f;
@@ -19,6 +21,7 @@ public class BasicSheep : GroundEnnemy
     protected override void Start()
     {
         base.Start();
+        chargeVFX.SetFloat("TimeBeforeAttack", ChargeDuration);
         sheepCollider = GetComponent<SphereCollider>();
 
         invincible = false;
@@ -215,6 +218,8 @@ public class BasicSheep : GroundEnnemy
         if (attackID == 2)
         {
             timerGeneral = ChargeDuration;
+            chargeVFX.enabled = false;
+            chargeVFX.enabled = true;
             move = "charge";
         }
     }
