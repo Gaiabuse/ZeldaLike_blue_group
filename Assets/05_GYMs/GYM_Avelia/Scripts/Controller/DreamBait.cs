@@ -1,7 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class DreamBait : MonoBehaviour
 {
@@ -45,7 +47,15 @@ public class DreamBait : MonoBehaviour
         currentBaitInstance = Instantiate(BaitPrefab, transform.position, Quaternion.identity);
         TransformIndicator.Instance.DisplayExplodeIcon();
         canExpode = true;
+        StartCoroutine(WaitEndAnimation());
+        
+    }
+
+    private IEnumerator WaitEndAnimation()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
         animator.SetBool("isBombPlanted", true);
+        yield return null;
     }
 
     void OnDisable()

@@ -311,6 +311,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected virtual void Death()
     {
+        if (MusicManager.Instance != null) MusicManager.Instance.StopStun();
         lifeBar.SetActive(false);
         dotween?.Kill(); 
         transform.DOKill();
@@ -323,6 +324,16 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         }
         OnDeath?.Invoke(this);
         Destroy(gameObject);
+    }
+
+    private void OnDisable()
+    {
+        if (MusicManager.Instance != null) MusicManager.Instance.StopStun();
+    }
+
+    private void OnDestroy()
+    {
+        if (MusicManager.Instance != null) MusicManager.Instance.StopStun();
     }
 
     public virtual void AttackStart(int attackID)
@@ -351,7 +362,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
     }
     
-    public virtual void StunEnemyUlt(float stunTime)
+    public void StunEnemyUlt(float stunTime)
     {
         if (MusicManager.Instance != null) MusicManager.Instance.PlayStun();
         stunVFX.SetActive(true);

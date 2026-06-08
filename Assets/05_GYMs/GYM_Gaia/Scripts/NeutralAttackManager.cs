@@ -100,8 +100,6 @@ public class NeutralAttackManager : AttackManager
         base.Ultimate();
         StartCoroutine(StartUlt());
     }
-
-    
     #region UltMod
 
     private IEnumerator StartUlt()

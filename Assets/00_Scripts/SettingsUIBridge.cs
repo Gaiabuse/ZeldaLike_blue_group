@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingsUIBridge : MonoBehaviour
@@ -24,6 +25,12 @@ public class SettingsUIBridge : MonoBehaviour
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(delegate { manager.SetMusicVolume(musicSlider); });
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(delegate { manager.SetSfxVolume(sfxSlider); });
             if (debugToggle != null) debugToggle.onValueChanged.AddListener(delegate { manager.SetDebugMode(debugToggle); });
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+                if (debugToggle != null)
+                {
+                    debugToggle.isOn = false;
+                    manager.SetDebugMode(debugToggle);
+                }
             
         }
         else

@@ -46,7 +46,14 @@ public class BossAttackPhaseManager : MonoBehaviour
     {
         if (coreManager == null || bomberScript == null || bossPhases.Count == 0) return;
 
-        var hpField = typeof(DreamCoreManager).GetField("maxHP", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        // Re-enable in case it was disabled by a previous KillBoss
+        this.enabled = true;
+
+        // Stop any lingering coroutines before starting fresh
+        StopAllCoroutines();
+
+        var hpField = typeof(DreamCoreManager).GetField("maxHP", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         if (hpField != null) maxHpCache = Convert.ToSingle(hpField.GetValue(coreManager));
 
         currentPhaseIndex = 0;
@@ -178,10 +185,14 @@ public class BossAttackPhaseManager : MonoBehaviour
     public void StopAndCleanAllAttacks(bool disableManager = true)
     {
         Debug.Log("[Boss Manager] Cleaning Arena...");
-        
+
         Camera.main.transform.DOShakePosition(0.5f, 0.5f);
 
-        if (disableManager) StopAllCoroutines();
+        // Only stop coroutines when fully shutting down (death or cancel),
+        // NOT during mid-fight phase transitions
+        if (disableManager)
+            StopAllCoroutines();
+
         bomberScript.StopAllCoroutines();
 
         foreach (var bomb in FindObjectsByType<StarBomb>(FindObjectsSortMode.None))
@@ -192,7 +203,11 @@ public class BossAttackPhaseManager : MonoBehaviour
             Destroy(bomb.gameObject);
         }
 
-        foreach (var enemy in FindObjectsByType<EnnemyBase>(FindObjectsSortMode.None)) Destroy(enemy.gameObject);
+        foreach (var enemy in FindObjectsByType<EnnemyBase>(FindObjectsSortMode.None))
+            Destroy(enemy.gameObject);
+
+        currentPhaseIndex = 0;
+        isExecutingAction = false;
 
         if (disableManager)
         {

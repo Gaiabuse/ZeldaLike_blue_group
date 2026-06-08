@@ -40,7 +40,27 @@ public class DreamCoreManager : MonoBehaviour
     // --- NEW PHASE GATING VARIABLES ---
     private bool isInvincible = true;
     private float healthCap = 0f; // The absolute lowest HP the boss can reach in the current sub-phase
+    private bool isBossActive = false;
+    [Header("Arena Trigger")]
+    [SerializeField] private StartBossFight arenaEnterTrigger;
 
+    private void OnEnable()
+    {
+        PlayerController.OnRespawn += CancelBossFight;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.OnRespawn -= CancelBossFight;
+        // Reset material to defaults (in case the scene unloads mid-fight)
+        if (material != null)
+        {
+            material.SetFloat("_Noise_height", 0.2f);
+            material.SetFloat("_Base_Strength", 2.81f);
+            material.SetFloat("__Noise_speed", 0.23f);
+        }
+    }
+    
     private void Start()
     {
         isInvincible = true;
@@ -52,7 +72,54 @@ public class DreamCoreManager : MonoBehaviour
 
     public void StartBossFight()
     {
+        isBossActive = true;
         StartCoroutine(StartFight());
+        Debug.Log("BossFight");
+    }
+
+    private void CancelBossFight()
+    {
+        if (!isBossActive) return;
+
+        // Stop DreamCoreManager coroutines first
+        StopAllCoroutines();
+
+        var phaseManager = GetComponent<BossAttackPhaseManager>();
+        if (phaseManager != null)
+        {
+            // Explicitly stop the MasterPhaseLoop on the phase manager
+            phaseManager.StopAllCoroutines();
+            // Then clean up projectiles/enemies without triggering KillBoss
+            phaseManager.StopAndCleanAllAttacks(disableManager: false);
+        }
+
+        // Reset boss state
+        isBossActive = false;
+        isInvincible = true;
+        healthCap = 0f;
+        hp = (int)maxHP;
+        _tempHP = maxHP;
+
+        // Reset visuals
+        lifeBar.SetActive(false);
+        hitVFX.SetActive(false);
+        UpdateLifeBarVisuals();
+        UpdateGooScale(hp);
+
+        // Reset material
+        if (material != null)
+        {
+            material.SetFloat("_Noise_height", 0.2f);
+            material.SetFloat("_Base_Strength", 2.81f);
+            material.SetFloat("__Noise_speed", 0.23f);
+        }
+
+        // Tear down arena, re-enable trigger
+        sphereCollider.enabled = false;
+        arenaObjects.SetActive(false);
+
+        if (arenaEnterTrigger != null)
+            arenaEnterTrigger.gameObject.SetActive(true);
     }
 
     private IEnumerator StartFight()
@@ -217,13 +284,6 @@ public class DreamCoreManager : MonoBehaviour
         
         Player.CanMove = true; Player.CanRotate = true;
         Debug.Log("Animation Finished");
-    }
-
-    private void OnDisable()
-    {
-        material.SetFloat("_Noise_height", 0.2f);
-        material.SetFloat("_Base_Strength", 2.81f);
-        material.SetFloat("__Noise_speed", 0.23f);
     }
 
     public void KillBoss()

@@ -93,12 +93,12 @@ public class SettingsManager : MonoBehaviour
     public void SetDebugMode(Toggle toggle)
     {
         debugMode = toggle.isOn;
-        PlayerPrefs.SetInt("DebugMenu", (debugMode) ? 1 : 0);
     
         if (DebugScreen.Instance != null)
         {
             if (debugMode)
             {
+                if (SceneManager.GetActiveScene().name == "MainMenu") return;
                 DebugScreen.Instance.Activate();
                 Cursor.lockState = CursorLockMode.None; 
                 Cursor.visible = true; 
@@ -122,7 +122,6 @@ public class SettingsManager : MonoBehaviour
         mainVolume = PlayerPrefs.GetFloat("MainVolume", 1.0f);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
         sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1.0f);
-        debugMode = (PlayerPrefs.GetInt("DebugMenu", 1) == 1);
     }
 
     private void ApplyVolumesToFMOD()

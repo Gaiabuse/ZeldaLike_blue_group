@@ -74,23 +74,28 @@ public class DreamShoot : AttackManager
 
     protected override void OnAttack(InputValue _input)
     {
-        // Pass the input to the base method safely
         base.OnAttack(_input);
 
         // 1. BUTTON RELEASED
         if (!_input.isPressed)
         {
+            // ✅ Add the same button guard here
+            var action = player.playerInput.actions["Attack"];
+            if (action.activeControl != null && action.activeControl.name != "buttonWest")
+            {
+                UnprepShoot();
+                return;
+            }
+
             if (!isTutoActionDone)
             {
                 if (tutoIndicator != null)
-                {
                     tutoIndicator.StopBlink();
-                }
             }
-            // Trigger the release animation
+
             if (base.FormAnimator != null)
             {
-                base.FormAnimator.ResetTrigger("isMaintainingButton"); // Clean up the hold trigger just in case
+                base.FormAnimator.ResetTrigger("isMaintainingButton");
                 base.FormAnimator.SetTrigger("Attack0");
             }
 
@@ -108,17 +113,15 @@ public class DreamShoot : AttackManager
                 return;
             }
 
-            // Fire the projectile
             switchInProgress = false;
             StartCoroutine(DoShoot());
         }
         // 2. BUTTON PRESSED / HELD
-        else 
+        else
         {
-            // Trigger the holding/charging animation
             if (base.FormAnimator != null)
             {
-                base.FormAnimator.ResetTrigger("Attack0"); // Clean up previous fire triggers
+                base.FormAnimator.ResetTrigger("Attack0");
                 base.FormAnimator.SetTrigger("isMaintainingButton");
             }
 
@@ -129,14 +132,10 @@ public class DreamShoot : AttackManager
             }
 
             var action = player.playerInput.actions["Attack"];
-            if (action.activeControl != null)
+            if (action.activeControl != null && action.activeControl.name != "buttonWest")
             {
-                string dir = action.activeControl.name;
-                if (dir != "buttonWest")
-                {
-                    UnprepShoot();
-                    return;
-                }
+                UnprepShoot();
+                return;
             }
 
             PrepareShoot();
