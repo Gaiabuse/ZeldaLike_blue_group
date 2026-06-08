@@ -9,7 +9,6 @@ public class InputManager : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] PauseMenuManager pauseMenu;
     [SerializeField] ProgressMenuUI progressMenu;
-    [SerializeField] DebugScreen debugMenu;
     [SerializeField] private bool isTutoActionDone = false;
     [SerializeField] private TutoIndicatorBlink tutoIndicator;
 
@@ -99,15 +98,15 @@ public class InputManager : MonoBehaviour
     public void OnDebugInput(InputValue value)
     {
         if (!SettingsManager.Instance.debugMode) return;
-        if (debugMenu == null) debugMenu = FindAnyObjectByType<DebugScreen>();
-        debugMenu.OnActionDebugKey();
+        if (DebugScreen.Instance == null) return;
+        DebugScreen.Instance.OnActionDebugKey();
     }
 
     public void OnDebugVisual(InputValue value)
     {
         if (!SettingsManager.Instance.debugMode) return;
-        if (debugMenu == null) debugMenu = FindAnyObjectByType<DebugScreen>();
-        debugMenu.OnVisualDebugKey();
+        if (DebugScreen.Instance == null) return;
+        DebugScreen.Instance.OnVisualDebugKey();
     }
 
     private float scrollInput;

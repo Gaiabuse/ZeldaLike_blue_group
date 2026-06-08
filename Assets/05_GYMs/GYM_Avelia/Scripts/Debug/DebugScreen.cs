@@ -25,6 +25,19 @@ public class DebugScreen : MonoBehaviour
     
     //[SerializeField] GameObject firstobjectdebug;
 
+    public static DebugScreen Instance;
+    
+    private void Awake()
+    {
+        if (Instance != null) Destroy(gameObject);
+
+        Instance = this;
+        if (transform.parent == null)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+    
     void Start()
     {
         GetRef();

@@ -17,8 +17,6 @@ public class SettingsManager : MonoBehaviour
     private FMOD.Studio.VCA musicVCA;
     private FMOD.Studio.VCA sfxVCA;
 
-    [SerializeField] DebugScreen debugScreen;
-
     private void Awake()
     {
         if (Instance != null) Destroy(gameObject);
@@ -78,7 +76,7 @@ public class SettingsManager : MonoBehaviour
             Cursor.visible = false;
         }
         
-        debugScreen.gameObject.SetActive(debugMode);
+        DebugScreen.Instance.gameObject.SetActive(debugMode);
     }
 
     private void LoadSettings()
