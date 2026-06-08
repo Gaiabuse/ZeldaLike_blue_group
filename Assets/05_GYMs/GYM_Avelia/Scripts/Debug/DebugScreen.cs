@@ -32,10 +32,6 @@ public class DebugScreen : MonoBehaviour
         if (Instance != null) Destroy(gameObject);
 
         Instance = this;
-        if (transform.parent == null)
-        {
-            DontDestroyOnLoad(gameObject);
-        }
     }
     
     void Start()
@@ -114,5 +110,17 @@ public class DebugScreen : MonoBehaviour
     public void LooseCPoint() => erasedManager.LoosePointForCreate();
 
     public void ToggleInfiniteLife(Toggle toggle) { hp.invicible = toggle.isOn; }
+
+    public void Activate()
+    {
+        debugVisual.SetActive(true);
+        debugAction.SetActive(true);
+    }
+
+    public void Disactivate()
+    {
+        debugVisual.SetActive(false);
+        debugAction.SetActive(false);
+    }
 }
 

@@ -24,11 +24,14 @@ public class PositionDebugger : MonoBehaviour
     void Start()
     {
         player = FindAnyObjectByType<PlayerController>();
+        if (player == null) return;
         switcher = player.GetComponent<FormSwitcher>();
     }
 
     void Update()
     {
+        if (player == null) return;
+        if (switcher == null) return;
         positionText.text = $"Position {player.transform.position}";
         form.text = GetForms();
         FrameCounter();

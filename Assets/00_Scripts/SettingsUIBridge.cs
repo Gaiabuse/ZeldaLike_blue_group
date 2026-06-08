@@ -24,6 +24,7 @@ public class SettingsUIBridge : MonoBehaviour
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(delegate { manager.SetMusicVolume(musicSlider); });
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(delegate { manager.SetSfxVolume(sfxSlider); });
             if (debugToggle != null) debugToggle.onValueChanged.AddListener(delegate { manager.SetDebugMode(debugToggle); });
+            
         }
         else
         {

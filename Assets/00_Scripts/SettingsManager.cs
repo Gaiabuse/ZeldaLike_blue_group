@@ -3,6 +3,7 @@ using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Scene = UnityEngine.SceneManagement.Scene;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -19,7 +20,11 @@ public class SettingsManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) Destroy(gameObject);
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return; // Stop execution so the rest of Awake doesn't run on the duplicate
+        }
 
         Instance = this;
         if (transform.parent == null)
@@ -32,6 +37,31 @@ public class SettingsManager : MonoBehaviour
         sfxVCA = FMODUnity.RuntimeManager.GetVCA("vca:/SFX");
 
         LoadSettings();
+    }
+    
+    private void OnEnable()
+    {
+        // Subscribe to the sceneLoaded event
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to prevent memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+// This runs automatically EVERY time a new scene finishes loading
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ApplyVolumesToFMOD();
+    
+        // Re-apply the debug mode state to whatever DebugScreen exists in the new scene
+        if (DebugScreen.Instance != null)
+        {
+            if (debugMode) DebugScreen.Instance.Activate();
+            else DebugScreen.Instance.Disactivate();
+        }
     }
 
     private void Start()
@@ -63,20 +93,28 @@ public class SettingsManager : MonoBehaviour
     public void SetDebugMode(Toggle toggle)
     {
         debugMode = toggle.isOn;
-        if (SceneManager.SetActiveScene(SceneManager.GetSceneAt(0))) return;
-
-        if (debugMode)
+        PlayerPrefs.SetInt("DebugMenu", (debugMode) ? 1 : 0);
+    
+        if (DebugScreen.Instance != null)
         {
-            Cursor.lockState = CursorLockMode.None; 
-            Cursor.visible = true; 
+            if (debugMode)
+            {
+                DebugScreen.Instance.Activate();
+                Cursor.lockState = CursorLockMode.None; 
+                Cursor.visible = true; 
+            }
+            else
+            {
+                DebugScreen.Instance.Disactivate();
+                Cursor.lockState = CursorLockMode.Locked; 
+                Cursor.visible = false;
+            }
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked; 
-            Cursor.visible = false;
+            Debug.LogWarning("DebugScreen instance is missing in this scene! " +
+                             "Make sure the DebugScreen prefab/object is placed in the Game scene.");
         }
-        
-        DebugScreen.Instance.gameObject.SetActive(debugMode);
     }
 
     private void LoadSettings()
@@ -84,6 +122,7 @@ public class SettingsManager : MonoBehaviour
         mainVolume = PlayerPrefs.GetFloat("MainVolume", 1.0f);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
         sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1.0f);
+        debugMode = (PlayerPrefs.GetInt("DebugMenu", 1) == 1);
     }
 
     private void ApplyVolumesToFMOD()
