@@ -12,25 +12,26 @@ using UnityEngine.VFX;
 public class NeutralAttackManager : AttackManager
 {
     [SerializeField] private ErasedManager erasedManager;
-    [SerializeField]
-    private SimpleAttack[] comboAttacks;
+    [SerializeField] private SimpleAttack[] comboAttacks;
+    [SerializeField] private float dashOffset = 1.0f;
  
     [SerializeField] private PlayerInput playerInput;
     [Header("Ult")]
-    [SerializeField] private float durationUltimate;
     //[SerializeField]private float knockbackDistance = 2.0f;
-    [SerializeField]private float dashOffset = 1.0f;
+    [SerializeField] private float durationUltimate;
     [SerializeField]private float ultStun = 2f;
     [SerializeField]private float ultRadius = 3f;
     [SerializeField]private VisualEffect ultVFX;
+    
     private EnnemyBase currentEnemy;
-    private int enemyInt;
     private Coroutine ultModCoroutine;
     private Coroutine securityCoroutine;
+    private int enemyInt;
 
     private void Start()
     {
         ultVFX.SetFloat("Size", ultRadius*(5/3.75f));
+        ultVFX.SetFloat("Lifetime", durationUltimate);
     }
 
     protected override void OnEnable()
@@ -97,29 +98,36 @@ public class NeutralAttackManager : AttackManager
     public override void Ultimate()
     {
         base.Ultimate();
-        StartUlt();
+        StartCoroutine(StartUlt());
     }
 
     
     #region UltMod
 
-    private void StartUlt()
+    private IEnumerator StartUlt()
     {
         player.CanMove = false;
         player.CanRotate = false;
         isInUltMod = true;
         ultVFX.enabled = false;
         ultVFX.enabled = true;
+        
+        float timer = 0;
 
-        var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
-        foreach (AutoAimable enemy in enemiesAim)
+        while (timer < durationUltimate)
         {
-            EnnemyBase ennemyBase = enemy.GetComponent<EnnemyBase>();
-            if (ennemyBase != null)
+            timer += Time.deltaTime;
+            var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
+            foreach (AutoAimable enemy in enemiesAim)
             {
-                ennemyBase.StunEnnemy(ultStun,false);
+                EnnemyBase ennemyBase = enemy.GetComponent<EnnemyBase>();
+                if (ennemyBase != null)
+                {
+                    ennemyBase.StunEnnemy(ultStun+durationUltimate-timer,false);
+                }
             }
         }
+        
         player.CanMove = true;
         player.CanRotate = true;
         isInUltMod = false;
@@ -127,6 +135,7 @@ public class NeutralAttackManager : AttackManager
         {
             currentEnemy.SetUltIndicator(false);
         }
+        yield return null;
     }
     
     
