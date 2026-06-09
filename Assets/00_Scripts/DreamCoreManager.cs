@@ -84,6 +84,11 @@ public class DreamCoreManager : MonoBehaviour
     private void CancelBossFight()
     {
         if (!isBossActive) return;
+        
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.StopBossMusic();
+        }
 
         StopAllCoroutines();
 

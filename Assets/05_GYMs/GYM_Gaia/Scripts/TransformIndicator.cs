@@ -132,62 +132,92 @@ public class TransformIndicator : MonoBehaviour
             eraseIcon.SetActive(true);
         }
     }
-
-    public void DisplayNeutralChargeIcon(int icon)
-    {
-        if (hasToBlink) return;
-        for (int i = 0; i < chargesIcon.Length; i++)
-        {
-            chargesIcon[i].SetActive(i == icon-1); 
-        }
-    }
     
-    public void StartBlink(int i)
+    public void DisplayNeutralChargeIcon(int icon)
+{
+    // Don't interrupt if a blink is actively overriding the UI layout
+    if (hasToBlink) return; 
+    
+    for (int i = 0; i < chargesIcon.Length; i++)
     {
-        hasToBlink = true;
-        if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
-        blinkCoroutine = StartCoroutine(BlinkNeutralChargeIcon(i));
-    }
-    public void StopBlink(int iconIndex)
-    {
-        int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
-        hasToBlink = false;
-        if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
-        if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+        chargesIcon[i].SetActive(i == icon - 1); 
         
-        if (index+1 < 0) return;
-        var cg = chargesIcon[index+1].GetComponent<CanvasGroup>();
-        if (cg != null)
-        {
-            cg.alpha = 1f;
-        }
+        // Ensure alpha is fully reset to visible when updated normally
+        CanvasGroup cg = chargesIcon[i].GetComponent<CanvasGroup>();
+        if (cg != null) cg.alpha = 1f;
+    }
+}
+
+public void StartBlink(int cost)
+{
+    int currentPoints = ErasedManager.Instance.currentPointsForCreate;
+
+    // Rule: If less points than needed, don't blink
+    if (currentPoints < cost)
+    {
+        StopBlink();
+        return;
     }
 
-    public IEnumerator BlinkNeutralChargeIcon(int iconIndex)
-    {
-        int index = iconIndex+(ErasedManager.Instance.currentPointsForCreate-3);
-        if (index+1 < 0) yield break;
-        CanvasGroup canvasGroupOut = chargesIcon[index+1].GetComponent<CanvasGroup>();
-        if (index >= 0)
-        {
-            chargesIcon[index].SetActive(true);
-            CanvasGroup cg = chargesIcon[index].GetComponent<CanvasGroup>();
-            if (cg == null) cg = chargesIcon[index].AddComponent<CanvasGroup>();
-            cg.alpha = 1f;
-            chargesIcon[index].SetActive(true);
-        }
-        
-        if (canvasGroupOut == null) canvasGroupOut = chargesIcon[index+1].AddComponent<CanvasGroup>();
+    hasToBlink = true;
+    if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
+    blinkCoroutine = StartCoroutine(BlinkNeutralChargeIconRoutine(currentPoints, cost));
+}
 
-        hasToBlink = true;
-        float fadeDuration = 0.5f;
+public void StopBlink(int cost = 0) // Kept the optional parameter so ErasedObject script doesn't break
+{
+    hasToBlink = false;
+    if (blinkCoroutine != null) StopCoroutine(blinkCoroutine);
+    if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+
+    // Revert UI back to reflecting exactly what the player currently holds
+    int currentPoints = ErasedManager.Instance.currentPointsForCreate;
+    for (int i = 0; i < chargesIcon.Length; i++)
+    {
+        CanvasGroup cg = chargesIcon[i].GetComponent<CanvasGroup>();
+        if (cg != null) cg.alpha = 1f;
+        
+        chargesIcon[i].SetActive(i == currentPoints - 1);
+    }
+}
+
+private IEnumerator BlinkNeutralChargeIconRoutine(int currentPoints, int cost)
+{
+    int sourceIndex = currentPoints - 1;       // The stacked group that blinks
+    int targetIndex = currentPoints - cost - 1; // The remaining points layer showing underneath
+
+    // Deactivate everything first to establish a clean state
+    for (int i = 0; i < chargesIcon.Length; i++)
+    {
+        chargesIcon[i].SetActive(false);
+    }
+
+    // 1. Activate the background 'target' point layer (e.g., if 3 points and cost 1, show 2 points statically)
+    if (targetIndex >= 0 && targetIndex < chargesIcon.Length)
+    {
+        chargesIcon[targetIndex].SetActive(true);
+        CanvasGroup targetCg = chargesIcon[targetIndex].GetComponent<CanvasGroup>();
+        if (targetCg == null) targetCg = chargesIcon[targetIndex].AddComponent<CanvasGroup>();
+        targetCg.alpha = 1f;
+    }
+
+    // 2. Activate the foreground 'source' layer and start blinking it
+    if (sourceIndex >= 0 && sourceIndex < chargesIcon.Length)
+    {
+        chargesIcon[sourceIndex].SetActive(true);
+        CanvasGroup sourceCg = chargesIcon[sourceIndex].GetComponent<CanvasGroup>();
+        if (sourceCg == null) sourceCg = chargesIcon[sourceIndex].AddComponent<CanvasGroup>();
+        sourceCg.alpha = 1f;
+
+        float fadeDuration = 0.35f; // Slightly accelerated for a snappier UI feel
         
         while (hasToBlink)
         {
-            yield return fadeCoroutine = StartCoroutine(FadeAlpha(canvasGroupOut, 0, 1, fadeDuration));
-            yield return fadeCoroutine = StartCoroutine(FadeAlpha(canvasGroupOut, 1, 0, fadeDuration));
+            yield return fadeCoroutine = StartCoroutine(FadeAlpha(sourceCg, 1f, 0f, fadeDuration));
+            yield return fadeCoroutine = StartCoroutine(FadeAlpha(sourceCg, 0f, 1f, fadeDuration));
         }
     }
+}
     
     private IEnumerator FadeAlpha(CanvasGroup cg, float start, float end, float duration)
     {

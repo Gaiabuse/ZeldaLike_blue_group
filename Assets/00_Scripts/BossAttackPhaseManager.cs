@@ -299,7 +299,6 @@ public class BossAttackPhaseManager : MonoBehaviour
     {
         Debug.Log("[Boss Manager] Cleaning Arena...");
         Camera.main.transform.DOShakePosition(0.5f, 0.5f);
-        MusicManager.Instance.StopBossMusic();
         
         if (disableManager)
         {
