@@ -32,6 +32,7 @@ public class BasicSheep : GroundEnnemy
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (CurrentTarget == null) CurrentTarget = Player;
         float distPlayer = Vector3.Distance(CurrentTarget.position, transform.position);
 
         if (move == "roll")
@@ -140,14 +141,6 @@ public class BasicSheep : GroundEnnemy
 
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(5, 0.5f);
-        }
-    }
-
     protected override void AttackPatern()
     {
         if (move != "stun")
@@ -242,6 +235,7 @@ public class BasicSheep : GroundEnnemy
         OnDeath?.Invoke(this);
         animator.SetBool("Death", true);
         move = "death";
+        navMesh.isStopped = true;
     }
 
     public override void TakeDamage(int damage, float stun)

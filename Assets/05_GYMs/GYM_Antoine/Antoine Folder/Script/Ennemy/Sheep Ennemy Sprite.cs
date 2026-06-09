@@ -42,6 +42,7 @@ public class SheepEnnemySprite : GroundEnnemy
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
+        if (CurrentTarget == null) CurrentTarget = Player;
         float distPlayer = Vector3.Distance(CurrentTarget.position, transform.position);
 
         if (shellHere)

@@ -834,6 +834,31 @@ BlendTree:
   m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 1
+--- !u!1101 &-6247979680191317965
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isMaintainingButton
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -1974161978014793904}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!206 &-4931429761241528122
 BlendTree:
   m_ObjectHideFlags: 1
@@ -2215,6 +2240,7 @@ AnimatorState:
   - {fileID: 1948742925585378339}
   - {fileID: -3160522991266168542}
   - {fileID: -2335594639642207438}
+  - {fileID: -6247979680191317965}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -2793,7 +2819,7 @@ AnimatorController:
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Attack1
     m_Type: 9
@@ -4447,7 +4473,7 @@ AnimatorStateMachine:
     m_Position: {x: 1530, y: -400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1465348835723384202}
-    m_Position: {x: 1300, y: -250, z: 0}
+    m_Position: {x: 1270, y: -280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 257515241983824959}
     m_Position: {x: 1360, y: -100, z: 0}

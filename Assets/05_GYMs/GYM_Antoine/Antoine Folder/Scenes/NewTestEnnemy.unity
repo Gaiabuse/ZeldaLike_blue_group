@@ -1621,6 +1621,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3379602093690487687, guid: bc4e85244c1f086479403c6d1b1d02c9, type: 3}
   m_PrefabInstance: {fileID: 6568076655182181927}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1939558620 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 208783627264138939, guid: bc4e85244c1f086479403c6d1b1d02c9, type: 3}
+  m_PrefabInstance: {fileID: 6568076655182181927}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2122703107 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1454483050964883994, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
@@ -1773,6 +1778,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Book Ennemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7694450120366358666, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8013974859417523442, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -1894,6 +1903,14 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.116977744
       objectReference: {fileID: 0}
+    - target: {fileID: 6901096604386033714, guid: bc4e85244c1f086479403c6d1b1d02c9, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1939558620}
+    - target: {fileID: 6901096604386033714, guid: bc4e85244c1f086479403c6d1b1d02c9, type: 3}
+      propertyPath: isTutoActionDone
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7191208461166333709, guid: bc4e85244c1f086479403c6d1b1d02c9, type: 3}
     m_RemovedGameObjects: []
@@ -2011,7 +2028,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3954701623170135338, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
       propertyPath: rollDuration
