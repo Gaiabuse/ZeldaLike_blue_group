@@ -42,10 +42,6 @@ public class BossAttackPhaseManager : MonoBehaviour
     private bool isExecutingAction = false;
     private float maxHpCache = 1000f;
 
-    // FIX: Set to true the instant DreamCoreManager clamps HP to the phase
-    // floor and fires OnPhaseCapped. ExecuteAttackAction polls this flag at
-    // every yield point so it exits as soon as the cap is hit, regardless
-    // of where it is in the charge / delay / launch sequence.
     private bool _phaseCappedMidAttack = false;
 
     private void OnEnable()
@@ -58,14 +54,11 @@ public class BossAttackPhaseManager : MonoBehaviour
         DreamCoreManager.OnPhaseCapped -= HandlePhaseCappedMidAttack;
     }
 
-    // FIX: Fires the instant HP hits the floor mid-attack.
-    // Aborts setup/charge coroutines on BomberAttack immediately,
-    // while Fire() coroutines (hosted here) keep running so
-    // already-airborne projectiles complete their arcs naturally.
     private void HandlePhaseCappedMidAttack()
     {
         _phaseCappedMidAttack = true;
-        bomberScript.AbortPendingLaunches();
+        // FIX: We no longer call bomberScript.AbortPendingLaunches() here. 
+        // This ensures the boss finishes actively shooting before the animation starts.
     }
 
     public void StartBossAttack()
@@ -75,9 +68,6 @@ public class BossAttackPhaseManager : MonoBehaviour
         this.enabled = true;
         StopAllCoroutines();
 
-        // FIX: Tell BomberAttack to host all Fire() coroutines here on the
-        // phase manager, so AbortPendingLaunches() (which calls
-        // bomberScript.StopAllCoroutines) cannot kill in-flight arcs.
         bomberScript.fireCoroutineHost = this;
 
         var hpField = typeof(DreamCoreManager).GetField("maxHP",
@@ -87,10 +77,6 @@ public class BossAttackPhaseManager : MonoBehaviour
         currentPhaseIndex = 0;
         _phaseCappedMidAttack = false;
 
-        // FIX: Apply the health gate for phase 0 BEFORE any attack runs,
-        // so a burst of damage at the very start of the fight is already
-        // capped correctly. Previously this only happened inside the loop,
-        // meaning the very first attack had no gate in place.
         UpdateHealthGatingThreshold();
 
         StartCoroutine(MasterPhaseLoop());
@@ -101,21 +87,13 @@ public class BossAttackPhaseManager : MonoBehaviour
         while (currentPhaseIndex < bossPhases.Count)
         {
             BossPhase phase = bossPhases[currentPhaseIndex];
-
-            // FIX: Clear the flag at the top of every phase so a cap event
-            // from the previous phase does not immediately short-circuit this one.
             _phaseCappedMidAttack = false;
 
             // --- PHASE ENTRY ANIMATION ---
             if (phase.hasAnimation)
             {
-                // Boss is already invincible (set by TakeDamages when it hit
-                // the floor), but set it explicitly here to be safe.
                 coreManager.SetInvincible(true);
-
-                // Do NOT destroy projectiles here — let in-flight bombs land.
                 yield return StartCoroutine(coreManager.SwitchPhaseCoroutine());
-
                 MusicManager.Instance.StartBossMusic();
                 coreManager.SetInvincible(false);
             }
@@ -125,80 +103,131 @@ public class BossAttackPhaseManager : MonoBehaviour
             }
 
             // --- ATTACK LOOP ---
-            while (true)
+            if (phase.runOnlyOnce)
             {
-                bool phaseShouldEnd = false;
-
                 if (phase.playSequentially)
                 {
                     foreach (var action in phase.attacksInPhase)
                     {
                         yield return StartCoroutine(ExecuteAttackAction(action));
-
-                        // FIX: Check the cap flag after every single action.
-                        // Previously only ShouldInterruptPhase was checked,
-                        // which runs after a full natural completion — meaning
-                        // heavy damage during a long attack could push HP below
-                        // a threshold without the phase ever noticing until the
-                        // next attack finished.
-                        if (_phaseCappedMidAttack || ShouldInterruptPhase(phase))
-                        {
-                            phaseShouldEnd = true;
-                            break;
-                        }
+                        // Break early if we hit the animation health cap mid-sequence
+                        if (_phaseCappedMidAttack) break;
                     }
                 }
                 else
                 {
-                    int randomIndex = UnityEngine.Random.Range(0, phase.attacksInPhase.Count);
-                    yield return StartCoroutine(ExecuteAttackAction(phase.attacksInPhase[randomIndex]));
+                    // Random non-repeating shuffle for Run Only Once
+                    List<int> indices = new List<int>();
+                    for (int i = 0; i < phase.attacksInPhase.Count; i++) indices.Add(i);
 
-                    if (_phaseCappedMidAttack || ShouldInterruptPhase(phase))
-                        phaseShouldEnd = true;
+                    // Shuffle list
+                    for (int i = 0; i < indices.Count; i++)
+                    {
+                        int temp = indices[i];
+                        int randomIndex = UnityEngine.Random.Range(i, indices.Count);
+                        indices[i] = indices[randomIndex];
+                        indices[randomIndex] = temp;
+                    }
+
+                    foreach (int idx in indices)
+                    {
+                        yield return StartCoroutine(ExecuteAttackAction(phase.attacksInPhase[idx]));
+                        if (_phaseCappedMidAttack) break;
+                    }
                 }
-
-                if (phase.runOnlyOnce || phaseShouldEnd)
+            }
+            else
+            {
+                // Looping phase
+                while (true)
                 {
-                    currentPhaseIndex++;
+                    bool phaseShouldEnd = false;
 
-                    // FIX: Update the health gate immediately after advancing
-                    // the index, before looping back to the top where the
-                    // animation plays. This ensures the new floor is in place
-                    // for the very next phase from the first frame onwards.
-                    UpdateHealthGatingThreshold();
-                    break;
+                    if (phase.playSequentially)
+                    {
+                        foreach (var action in phase.attacksInPhase)
+                        {
+                            yield return StartCoroutine(ExecuteAttackAction(action));
+                            if (_phaseCappedMidAttack || GetCurrentHealthPercentage() <= phase.healthPercentageThreshold)
+                            {
+                                phaseShouldEnd = true;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int randomIndex = UnityEngine.Random.Range(0, phase.attacksInPhase.Count);
+                        yield return StartCoroutine(ExecuteAttackAction(phase.attacksInPhase[randomIndex]));
+
+                        if (_phaseCappedMidAttack || GetCurrentHealthPercentage() <= phase.healthPercentageThreshold)
+                        {
+                            phaseShouldEnd = true;
+                        }
+                    }
+
+                    if (phaseShouldEnd) break;
                 }
+            }
 
-                yield return null;
+            // --- EVALUATE NEXT PHASE ---
+            float currentHP = GetCurrentHealthPercentage();
+            int nextPhase = currentPhaseIndex + 1;
+
+            // FIX: Skip minor phases if player dealt massive damage, 
+            // but always stop if a phase requires an animation or is a special RunOnce sequence.
+            while (nextPhase < bossPhases.Count)
+            {
+                if (bossPhases[nextPhase].hasAnimation) break;
+                if (bossPhases[nextPhase].runOnlyOnce) break;
+                if (currentHP > bossPhases[nextPhase].healthPercentageThreshold) break;
+                
+                nextPhase++;
+            }
+
+            currentPhaseIndex = nextPhase;
+            
+            if (currentPhaseIndex < bossPhases.Count)
+            {
+                UpdateHealthGatingThreshold();
+            }
+            else
+            {
+                break;
             }
         }
 
         Debug.Log("Fight Ended: All phases exhausted.");
     }
 
-    // FIX: Called both at StartBossAttack (before phase 0 runs) AND
-    // immediately after currentPhaseIndex is incremented. This guarantees
-    // the health floor is always set for the current phase with no gap.
     private void UpdateHealthGatingThreshold()
     {
-        int nextPhaseIndex = currentPhaseIndex + 1;
-        if (nextPhaseIndex < bossPhases.Count)
+        float targetPercentage = 0f;
+        bool foundCap = false;
+
+        // Look ahead to find the next phase that requires an animation transition
+        for (int i = currentPhaseIndex + 1; i < bossPhases.Count; i++)
         {
-            float targetPercentage = bossPhases[nextPhaseIndex].healthPercentageThreshold;
+            if (bossPhases[i].hasAnimation)
+            {
+                // The cap is the threshold of the phase immediately PRECEDING the animation phase
+                // This represents the HP at which the animation phase begins.
+                targetPercentage = bossPhases[i - 1].healthPercentageThreshold;
+                foundCap = true;
+                break;
+            }
+        }
+
+        if (foundCap)
+        {
             float minHpAllowed = (targetPercentage / 100f) * maxHpCache;
             coreManager.SetHealthCap(minHpAllowed);
         }
         else
         {
-            // Last phase — let HP drop all the way to zero.
+            // No future animation phases, boss can die naturally
             coreManager.SetHealthCap(0f);
         }
-    }
-
-    private bool ShouldInterruptPhase(BossPhase phase)
-    {
-        if (phase.runOnlyOnce) return false;
-        return GetCurrentHealthPercentage() <= phase.healthPercentageThreshold;
     }
 
     private float GetCurrentHealthPercentage()
@@ -213,24 +242,9 @@ public class BossAttackPhaseManager : MonoBehaviour
     {
         isExecutingAction = true;
 
-        // FIX: If the cap was already hit during the previous action's
-        // delayAfter, skip this action entirely rather than starting it
-        // and immediately aborting — avoids spawning projectiles that
-        // would be cleaned up one frame later.
-        if (_phaseCappedMidAttack) { isExecutingAction = false; yield break; }
-
-        // FIX: Replace WaitForSeconds with a manual loop so we can poll
-        // _phaseCappedMidAttack every frame. A plain WaitForSeconds would
-        // sit out the full duration even after the cap has been hit.
         if (action.delayBeforeAttack > 0)
         {
-            float elapsed = 0f;
-            while (elapsed < action.delayBeforeAttack)
-            {
-                if (_phaseCappedMidAttack) { isExecutingAction = false; yield break; }
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
+            yield return new WaitForSeconds(action.delayBeforeAttack);
         }
 
         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
@@ -265,15 +279,14 @@ public class BossAttackPhaseManager : MonoBehaviour
                 break;
         }
 
-        // FIX: Same polling loop for the post-attack delay. Without this,
-        // the phase manager would sit here for the full delayAfter duration
-        // even after the cap was hit, delaying the transition animation.
         if (action.delayAfterAttack > 0)
         {
             float elapsed = 0f;
             while (elapsed < action.delayAfterAttack)
             {
-                if (_phaseCappedMidAttack) { isExecutingAction = false; yield break; }
+                // FIX: If the cap is hit mid-delay, we break out immediately to skip the dead time 
+                // and transition directly into the animation.
+                if (_phaseCappedMidAttack) break;
                 elapsed += Time.deltaTime;
                 yield return null;
             }
@@ -286,14 +299,14 @@ public class BossAttackPhaseManager : MonoBehaviour
     {
         Debug.Log("[Boss Manager] Cleaning Arena...");
         Camera.main.transform.DOShakePosition(0.5f, 0.5f);
-
+        MusicManager.Instance.StopBossMusic();
+        
         if (disableManager)
         {
-            MusicManager.Instance.StopBossMusic();
             StopAllCoroutines();
         }
 
-        bomberScript.StopAllCoroutines();
+        bomberScript.AbortPendingLaunches();
 
         foreach (var bomb in FindObjectsByType<StarBomb>(FindObjectsSortMode.None))
         {
@@ -308,9 +321,6 @@ public class BossAttackPhaseManager : MonoBehaviour
 
         currentPhaseIndex = 0;
         isExecutingAction = false;
-
-        // FIX: Reset the mid-attack flag so a stale true value from a
-        // previous fight does not short-circuit the next StartBossAttack.
         _phaseCappedMidAttack = false;
 
         if (disableManager)

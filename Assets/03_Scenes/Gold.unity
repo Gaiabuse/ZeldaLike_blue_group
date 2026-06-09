@@ -39001,7 +39001,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1457405190}
-  - {fileID: 750746892}
   m_Father: {fileID: 1158717474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &593849315
@@ -46697,6 +46696,38 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 352241037}
     - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[0].phaseName
+      value: Phase 0 - Intro
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[1].phaseName
+      value: Phase 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[2].phaseName
+      value: Transition Phase 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[3].phaseName
+      value: Phase 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[4].phaseName
+      value: Transition Phase 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[5].phaseName
+      value: Phase 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].phaseName
+      value: Transition Phase 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[7].phaseName
+      value: Phase 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
       propertyPath: bossPhases.Array.data[2].attacksInPhase.Array.data[0].useCircleDelayed
       value: 0
       objectReference: {fileID: 0}
@@ -46752,6 +46783,10 @@ PrefabInstance:
       propertyPath: endScreen
       value: 
       objectReference: {fileID: 128864977}
+    - target: {fileID: 8161814242358978806, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: eede949c1c596224fb9244deac73297d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50385,119 +50420,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1149973307703454695, guid: 7cc0449d2180c0b42a12292a484dd9ee, type: 3}
---- !u!1 &750746891
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 750746892}
-  - component: {fileID: 750746895}
-  - component: {fileID: 750746894}
-  - component: {fileID: 750746893}
-  m_Layer: 0
-  m_Name: Noyau
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &750746892
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750746891}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.000107130974, y: -0.000000018557271, z: 0.00017322043, w: 1}
-  m_LocalPosition: {x: -46.85, y: 2.09, z: 54.48}
-  m_LocalScale: {x: 2.0499997, y: 2.0499995, z: 2.05}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 593805981}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &750746893
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750746891}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 8ed381574e844be4b91185bf2751233a, type: 2}
---- !u!33 &750746894
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750746891}
-  m_Mesh: {fileID: 4300000, guid: 8ed381574e844be4b91185bf2751233a, type: 2}
---- !u!23 &750746895
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750746891}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 55cb5519bf7ad964d9a63f2f0c14cb78, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1001 &751127124
 PrefabInstance:
   m_ObjectHideFlags: 0
