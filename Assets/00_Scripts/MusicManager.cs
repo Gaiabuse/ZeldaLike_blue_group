@@ -12,6 +12,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject create;
     [SerializeField] private GameObject erase;
     [SerializeField] private GameObject stun;
+    [SerializeField] private GameObject coreRoar;
     [SerializeField] private GameObject phoneNotification;
     [SerializeField] private GameObject click;
     [SerializeField] private GameObject cancel;
@@ -155,6 +156,12 @@ public class MusicManager : MonoBehaviour
     {
         nbStun++;
         stun.SetActive(true);
+    }
+    
+    public void PlayCoreRoar()
+    {
+        coreRoar.SetActive(false);
+        coreRoar.SetActive(true);
     }
     
     public void StopStun()

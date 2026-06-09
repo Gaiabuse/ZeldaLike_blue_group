@@ -11,15 +11,15 @@ public class DreamCoreManager : MonoBehaviour
     [SerializeField] private PlayerController Player;
     [SerializeField] private int hp = 1000;
 
-    [Header("ArenaTriggers")] 
+    [Header("ArenaTriggers")]
     [SerializeField] private SphereCollider sphereCollider;
     [SerializeField] private GameObject arenaObjects;
     [SerializeField] private float timeForStarFight = 0.5f;
-    
-    [Header("Damage Display")] 
+
+    [Header("Damage Display")]
     [SerializeField] protected GameObject hitVFX;
 
-    [Header("Life display")] 
+    [Header("Life display")]
     [SerializeField] private GameObject lifeBar;
     [SerializeField] private Image frontLife;
     [SerializeField] private Image dmgLife;
@@ -29,20 +29,26 @@ public class DreamCoreManager : MonoBehaviour
     [Tooltip("value when HP = 0")] [Range(0, 1)] [SerializeField] private float minFillAmount = 0.1f;
     [Tooltip("value when HP = Maximum")] [Range(0, 1)] [SerializeField] private float maxFillAmount = 0.9f;
 
-    [Header("Goo Size Display")] 
+    [Header("Goo Size Display")]
     [Tooltip("size of goo when HP = 0")] [Range(0, 2)] [SerializeField] private float minGooSize = 0.1f;
     [Tooltip("size of goo HP = Maximum")] [Range(0, 2)] [SerializeField] private float maxGooSize = 0.9f;
     [SerializeField] private float gooLerpDuration = 0.2f;
-    
+
     [SerializeField] private Material material;
     [SerializeField] private CanvasGroup endScreen;
 
-    // --- NEW PHASE GATING VARIABLES ---
+    // --- PHASE GATING ---
     private bool isInvincible = true;
-    private float healthCap = 0f; // The absolute lowest HP the boss can reach in the current sub-phase
+    private float healthCap = 0f;
     private bool isBossActive = false;
+
     [Header("Arena Trigger")]
     [SerializeField] private StartBossFight arenaEnterTrigger;
+
+    // FIX: Event fired the instant HP is clamped to the phase floor,
+    // so the phase manager can react mid-frame without waiting for the
+    // current attack coroutine to finish naturally.
+    public static event Action OnPhaseCapped;
 
     private void OnEnable()
     {
@@ -52,7 +58,6 @@ public class DreamCoreManager : MonoBehaviour
     private void OnDisable()
     {
         PlayerController.OnRespawn -= CancelBossFight;
-        // Reset material to defaults (in case the scene unloads mid-fight)
         if (material != null)
         {
             material.SetFloat("_Noise_height", 0.2f);
@@ -60,13 +65,12 @@ public class DreamCoreManager : MonoBehaviour
             material.SetFloat("__Noise_speed", 0.23f);
         }
     }
-    
+
     private void Start()
     {
         isInvincible = true;
         maxHP = hp;
         _tempHP = maxHP;
-
         UpdateGooScale(hp);
     }
 
@@ -81,32 +85,26 @@ public class DreamCoreManager : MonoBehaviour
     {
         if (!isBossActive) return;
 
-        // Stop DreamCoreManager coroutines first
         StopAllCoroutines();
 
         var phaseManager = GetComponent<BossAttackPhaseManager>();
         if (phaseManager != null)
         {
-            // Explicitly stop the MasterPhaseLoop on the phase manager
             phaseManager.StopAllCoroutines();
-            // Then clean up projectiles/enemies without triggering KillBoss
             phaseManager.StopAndCleanAllAttacks(disableManager: false);
         }
 
-        // Reset boss state
         isBossActive = false;
         isInvincible = true;
         healthCap = 0f;
         hp = (int)maxHP;
         _tempHP = maxHP;
 
-        // Reset visuals
         lifeBar.SetActive(false);
         hitVFX.SetActive(false);
         UpdateLifeBarVisuals();
         UpdateGooScale(hp);
 
-        // Reset material
         if (material != null)
         {
             material.SetFloat("_Noise_height", 0.2f);
@@ -114,7 +112,6 @@ public class DreamCoreManager : MonoBehaviour
             material.SetFloat("__Noise_speed", 0.23f);
         }
 
-        // Tear down arena, re-enable trigger
         sphereCollider.enabled = false;
         arenaObjects.SetActive(false);
 
@@ -126,27 +123,26 @@ public class DreamCoreManager : MonoBehaviour
     {
         sphereCollider.enabled = true;
         arenaObjects.SetActive(true);
-        
+
         Player.CanMove = false;
         Player.CanRotate = false;
-        
+
         yield return new WaitForSeconds(0.25f);
-        
+
         if (!lifeBar.activeSelf)
         {
             lifeBar.SetActive(true);
             lifeBar.GetComponent<CanvasGroup>().DOFade(1f, gooLerpDuration);
             lifeBar.transform.DOScale(1f, bounceDuration).SetEase(Ease.OutCubic);
         }
-        
+
         yield return new WaitForSeconds(timeForStarFight);
-        
+
         Player.CanMove = true;
         Player.CanRotate = true;
         GetComponent<BossAttackPhaseManager>().StartBossAttack();
     }
 
-    // --- NEW PUBLIC METHODS TO CONTROL INVINCIBILITY ---
     public void SetInvincible(bool state)
     {
         isInvincible = state;
@@ -159,23 +155,25 @@ public class DreamCoreManager : MonoBehaviour
 
     public void TakeDamages(int damage)
     {
-        // 1. If explicitly invincible, block damage entirely
         if (isInvincible || hp <= 0) return;
 
-        // 2. Calculate intended new health
         float targetHP = hp - damage;
 
-        // 3. GATEKEEPING: If this damage crosses the next phase threshold, clamp it!
+        // FIX: When a hit crosses the phase floor, clamp to the floor,
+        // turn on invincibility, then fire OnPhaseCapped so the phase
+        // manager can abort pending launches and start the transition
+        // animation immediately — without waiting for the current
+        // attack coroutine to reach its natural end.
         if (targetHP <= healthCap)
         {
             targetHP = healthCap;
-            isInvincible = true; // Automatically turn on invincibility because we hit a wall
+            isInvincible = true;
+            OnPhaseCapped?.Invoke();
         }
 
         targetHP = (float)Math.Round((decimal)targetHP, 2);
-        hp = Mathf.Max(0, (int)targetHP); // Ensure it doesn't go below 0
+        hp = Mathf.Max(0, (int)targetHP);
 
-        // Visuals
         hitVFX.transform.SetParent(transform.parent);
         hitVFX.transform.position = transform.position;
         Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
@@ -198,7 +196,7 @@ public class DreamCoreManager : MonoBehaviour
     {
         lifeBar.SetActive(false);
         hitVFX.SetActive(false);
-    
+
         if (TryGetComponent<BossAttackPhaseManager>(out var phaseManager))
         {
             phaseManager.StopAndCleanAllAttacks();
@@ -211,7 +209,6 @@ public class DreamCoreManager : MonoBehaviour
         {
             float nextHP = Mathf.MoveTowards(_tempHP, newLife, 50 * Time.deltaTime);
             _tempHP = (float)Math.Round(nextHP, 2);
-
             UpdateLifeBarVisuals();
             yield return null;
         }
@@ -237,52 +234,54 @@ public class DreamCoreManager : MonoBehaviour
         float lifeRatio = Mathf.Clamp01(value / maxHP);
         return Mathf.Lerp(minFillAmount, maxFillAmount, lifeRatio);
     }
-    
+
     public IEnumerator SwitchPhaseCoroutine()
     {
         Player.gameObject.GetComponent<PlayerPowder>().GainPowder(25);
         Debug.Log("Animation Started");
+        MusicManager.Instance.PlayCoreRoar();
         if (material != null)
         {
             float introDuration = 0.5f;
             float holdDuration = 0.10f;
             float outroDuration = 0.75f;
-    
-            material.SetFloat("__Noise_speed", -25f); 
-            
+
+            material.SetFloat("__Noise_speed", -25f);
+
             Sequence angerSequence = DOTween.Sequence();
 
-            RumbleManager.Instance.TriggerVibration(0.5f,0.5f);
+            RumbleManager.Instance.TriggerVibration(0.5f, 0.5f);
             Tween introTween = DOVirtual.Float(0f, 1f, introDuration, value =>
             {
-                material.SetFloat("_Noise_height", Mathf.Lerp(0.2f, 0.85f, value)); 
+                material.SetFloat("_Noise_height", Mathf.Lerp(0.2f, 0.85f, value));
                 material.SetFloat("_Base_Strength", Mathf.Lerp(2.81f, -1.0f, value));
             }).SetEase(Ease.OutBack);
-            
+
             Tween jitterTween = DOVirtual.Float(0f, 1f, holdDuration, value =>
             {
-                float jitter = Random.Range(-0.1f, 0.1f); 
-                RumbleManager.Instance.TriggerVibration(0.5f + jitter*2,0.5f + jitter*2);
+                float jitter = Random.Range(-0.1f, 0.1f);
+                RumbleManager.Instance.TriggerVibration(0.5f + jitter * 2, 0.5f + jitter * 2);
                 material.SetFloat("_Noise_height", 0.85f + jitter);
             }).SetLoops(5, LoopType.Yoyo);
-            
+
             Tween outroTween = DOVirtual.Float(0f, 1f, outroDuration, value =>
             {
                 material.SetFloat("_Noise_height", Mathf.Lerp(0.85f, 0.2f, value));
                 material.SetFloat("_Base_Strength", Mathf.Lerp(-1.0f, 2.81f, value));
-            }).SetEase(Ease.OutBounce); 
-            
+            }).SetEase(Ease.OutBounce);
+
             angerSequence.Append(introTween);
             angerSequence.Append(jitterTween);
             angerSequence.Append(outroTween);
-    
+
             yield return angerSequence.WaitForCompletion();
-            
+
             material.SetFloat("__Noise_speed", 0.23f);
             RumbleManager.Instance.StopVibration();
         }
-        
-        Player.CanMove = true; Player.CanRotate = true;
+
+        Player.CanMove = true;
+        Player.CanRotate = true;
         Debug.Log("Animation Finished");
     }
 
