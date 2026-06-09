@@ -2398,7 +2398,7 @@ GameObject:
   - component: {fileID: 33661438}
   - component: {fileID: 33661437}
   m_Layer: 9
-  m_Name: Respawn 4
+  m_Name: Respawn Main Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19855,76 +19855,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2094435811}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &324673211
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 324673212}
-  - component: {fileID: 324673215}
-  - component: {fileID: 324673214}
-  m_Layer: 9
-  m_Name: Respawn 5
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &324673212
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324673211}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -8.67, y: 2.18, z: -13.01}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1980468680}
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!65 &324673214
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324673211}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 11.107924, y: 10.253241, z: 6.362694}
-  m_Center: {x: 4.1480427, y: 1.3028474, z: 0.58569366}
---- !u!114 &324673215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 324673211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85a83dd36f178ab498de502a37035526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RespawnZone
-  onPlayerRespawn:
-    m_PersistentCalls:
-      m_Calls: []
-  playerRespawnPosition: {x: -26, y: 0.6, z: 85}
 --- !u!1 &324956008
 GameObject:
   m_ObjectHideFlags: 0
@@ -46766,6 +46696,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 352241037}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[2].attacksInPhase.Array.data[0].useCircleDelayed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[5].attacksInPhase.Array.data[3].useCircleDelayed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1620279340878611645, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -34.4
@@ -55544,7 +55482,7 @@ GameObject:
   - component: {fileID: 823321641}
   - component: {fileID: 823321640}
   m_Layer: 9
-  m_Name: Respawn 6
+  m_Name: Respawn Fight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57647,7 +57585,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1130730550}
   - {fileID: 1143071283}
   - {fileID: 591535931}
   - {fileID: 1629213553}
@@ -58383,6 +58320,85 @@ Transform:
   - {fileID: 314048124}
   m_Father: {fileID: 220859169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &871200888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 871200889}
+  - component: {fileID: 871200891}
+  - component: {fileID: 871200890}
+  m_Layer: 5
+  m_Name: TP points
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &871200889
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871200888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1174923932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 298.4, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &871200890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871200888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 100, y: 35}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 1
+  m_ConstraintCount: 3
+--- !u!114 &871200891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871200888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e01f1ece491a7a1b89a0bc5d4b3e63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnAllSpawnPointSetter
+  setters: {fileID: 1459782527331811835, guid: f4fce9e3a949098a48969030d1a23eea, type: 3}
+  respawnPoint:
+  - {fileID: 1725597430}
+  - {fileID: 33661437}
+  - {fileID: 1559869572}
+  - {fileID: 1088651445}
 --- !u!1001 &873005285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72359,7 +72375,7 @@ GameObject:
   - component: {fileID: 1078945239}
   - component: {fileID: 1078945238}
   m_Layer: 9
-  m_Name: Respawn 2
+  m_Name: Respawn Dream TUTO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77499,76 +77515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffa8918146302244aa7b5f764068ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutoIndicatorBlink
---- !u!1 &1130730549
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1130730550}
-  - component: {fileID: 1130730552}
-  - component: {fileID: 1130730551}
-  m_Layer: 9
-  m_Name: Respawn 4
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1130730550
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130730549}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.38, y: 0.5, z: 32.57}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 856569024}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1130730551
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130730549}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 8.425524, y: 3.5977976, z: 6.362694}
-  m_Center: {x: 3.7127619, y: 1.2988988, z: 0.5856972}
---- !u!114 &1130730552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130730549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85a83dd36f178ab498de502a37035526, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RespawnZone
-  onPlayerRespawn:
-    m_PersistentCalls:
-      m_Calls: []
-  playerRespawnPosition: {x: 24.5, y: 0.6, z: 53}
 --- !u!1 &1131719182
 GameObject:
   m_ObjectHideFlags: 0
@@ -80747,6 +80693,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 4537921779077779337, guid: d5ab4555948f5dd4baa2f3c1082b908b, type: 3}
   m_PrefabInstance: {fileID: 1174442746}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1174923932 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8150422481894329738, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
+  m_PrefabInstance: {fileID: 2102904170}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1175034173
 PrefabInstance:
@@ -98567,7 +98518,7 @@ GameObject:
   - component: {fileID: 1365500161}
   - component: {fileID: 1365500160}
   m_Layer: 9
-  m_Name: Respawn 1
+  m_Name: Respawn Night TUTO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112645,7 +112596,7 @@ GameObject:
   - component: {fileID: 1559869573}
   - component: {fileID: 1559869572}
   m_Layer: 9
-  m_Name: Respawn 5
+  m_Name: Respawn Glue Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123232,7 +123183,7 @@ GameObject:
   - component: {fileID: 1725597431}
   - component: {fileID: 1725597430}
   m_Layer: 9
-  m_Name: Respawn 3
+  m_Name: Respawn End TUTO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125853,7 +125804,7 @@ GameObject:
   - component: {fileID: 1767935196}
   - component: {fileID: 1767935195}
   m_Layer: 9
-  m_Name: Respawn 9
+  m_Name: Respawn Puzzle End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133225,7 +133176,7 @@ GameObject:
   - component: {fileID: 1865041688}
   - component: {fileID: 1865041687}
   m_Layer: 9
-  m_Name: Respawn 10
+  m_Name: Respawn Puzzle END bis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140525,7 +140476,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 324673212}
   - {fileID: 1064451373}
   - {fileID: 389545460}
   - {fileID: 2090926747}
@@ -145704,7 +145654,7 @@ GameObject:
   - component: {fileID: 2055504966}
   - component: {fileID: 2055504965}
   m_Layer: 9
-  m_Name: Respawn 8
+  m_Name: Respawn Puzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148982,7 +148932,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5787305742869685013, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6581499523554087249, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -149018,7 +148968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7214266092065662163, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7382356163226620666, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -149035,6 +148985,14 @@ PrefabInstance:
     - target: {fileID: 7382356163226620666, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150422481894329738, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 8150422481894329738, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 8326403541806378139, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_AnchorMax.y
@@ -149054,7 +149012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8851345397909349871, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9030317942985434923, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
       propertyPath: m_Pivot.x
@@ -149136,9 +149094,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7214266092065662163, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8150422481894329738, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 871200889}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
 --- !u!224 &2102904171 stripped

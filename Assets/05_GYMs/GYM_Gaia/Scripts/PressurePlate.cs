@@ -10,7 +10,7 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] private UnityEvent onPressure;
     [SerializeField] private UnityEvent onUnpressure;
     
-    private GameObject objectOnPressurePlate;
+    private HashSet<GameObject> objectsOnPlate = new HashSet<GameObject>();
     private bool isPressing = false;
     
     public bool ContainsLayer(LayerMask mask, int layer)
@@ -20,26 +20,27 @@ public class PressurePlate : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (isPressing) return;
-        
-        if (ContainsLayer(layerMask, other.gameObject.layer))
+        if (!ContainsLayer(layerMask, other.gameObject.layer)) return;
+
+        objectsOnPlate.Add(other.gameObject);
+
+        if (!isPressing)
         {
             isPressing = true;
-            objectOnPressurePlate = other.gameObject;
             onPressure.Invoke();
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (isPressing) return;
-        
-        if (ContainsLayer(layerMask, other.gameObject.layer))
+        if (!ContainsLayer(layerMask, other.gameObject.layer)) return;
+        if (!other.gameObject.activeInHierarchy) return;
+
+        objectsOnPlate.Add(other.gameObject);
+
+        if (!isPressing)
         {
-            if (!other.gameObject.activeInHierarchy) return;
-            
             isPressing = true;
-            objectOnPressurePlate = other.gameObject;
             onPressure.Invoke();
         }
     }
@@ -47,8 +48,10 @@ public class PressurePlate : MonoBehaviour
     private void FixedUpdate()
     {
         if (!isPressing) return;
-        
-        if (objectOnPressurePlate == null || !objectOnPressurePlate.activeInHierarchy)
+
+        objectsOnPlate.RemoveWhere(go => go == null || !go.activeInHierarchy);
+
+        if (objectsOnPlate.Count == 0)
         {
             ReleasePlate();
         }
@@ -56,21 +59,20 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!isPressing) return;
+        if (!ContainsLayer(layerMask, other.gameObject.layer)) return;
 
-        if (ContainsLayer(layerMask, other.gameObject.layer))
+        objectsOnPlate.Remove(other.gameObject);
+
+        if (isPressing && objectsOnPlate.Count == 0)
         {
-            if (other.gameObject == objectOnPressurePlate)
-            {
-                ReleasePlate();
-            }
+            ReleasePlate();
         }
     }
     
     private void ReleasePlate()
     {
         isPressing = false;
-        objectOnPressurePlate = null;
+        objectsOnPlate.Clear();
         onUnpressure.Invoke();
     }
 }

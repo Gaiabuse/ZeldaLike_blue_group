@@ -1,18 +1,19 @@
+using Unity.Cecil.Awesome.Ordering;
 using UnityEngine;
 
 public class SpawnAllSpawnPointSetter : MonoBehaviour
 {
-    [SerializeField]
-    SpawnPointSetter setters;
+    [SerializeField] SpawnPointSetter setters;
+    [SerializeField] RespawnZone[] respawnPoint;
 
     void Start()
     {
-        var respawnPoint = FindObjectsByType<RespawnZone>(FindObjectsSortMode.None);
-
+        //var respawnPoint = FindObjectsByType<RespawnZone>(FindObjectsSortMode.None);
+        
         foreach (var zone in respawnPoint)
         {
             var button = Instantiate(setters, transform);
-
+            
             button.SetRespawnZone(zone);
         }
     }
