@@ -74,6 +74,12 @@ public class MusicManager : MonoBehaviour
         bossMusic.SetActive(true);
     }
     
+    public void StopBossMusic()
+    {
+        fightMusic.enabled = true;
+        bossMusic.SetActive(false);
+    }
+    
     public void PlayCreate()
     {
         create.SetActive(false);

@@ -15,13 +15,9 @@ public class DebugScreen : MonoBehaviour
     List<Form> choosenForms = new List<Form>() {Form.neutral};
 
     [Header("InternalReference")]
-    [SerializeField]
-    GameObject debugAction;
-    [SerializeField]
-    GameObject debugVisual;
-
-    [SerializeField]
-    TMPro.TMP_Text playerPosition;
+    [SerializeField] GameObject debugAction;
+    [SerializeField] GameObject debugVisual;
+    [SerializeField] GameObject box;
     
     //[SerializeField] GameObject firstobjectdebug;
 
@@ -46,6 +42,11 @@ public class DebugScreen : MonoBehaviour
         input = FindAnyObjectByType<PlayerInput>();
         formSwitcher = FindAnyObjectByType<FormSwitcher>();
         erasedManager = FindAnyObjectByType<ErasedManager>();
+    }
+
+    public void SpawnBox()
+    {
+        Instantiate(box, hp.transform.position, box.transform.rotation);
     }
 
     public void OnActionDebugKey()

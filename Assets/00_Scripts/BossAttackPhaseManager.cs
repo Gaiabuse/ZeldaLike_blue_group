@@ -185,7 +185,7 @@ public class BossAttackPhaseManager : MonoBehaviour
     public void StopAndCleanAllAttacks(bool disableManager = true)
     {
         Debug.Log("[Boss Manager] Cleaning Arena...");
-
+        MusicManager.Instance.StopBossMusic();
         Camera.main.transform.DOShakePosition(0.5f, 0.5f);
 
         // Only stop coroutines when fully shutting down (death or cancel),
