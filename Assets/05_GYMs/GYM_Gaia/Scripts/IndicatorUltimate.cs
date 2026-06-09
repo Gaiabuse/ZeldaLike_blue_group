@@ -12,30 +12,38 @@ public class IndicatorUltimate : MonoBehaviour
     private TweenerCore<Vector3, Vector3, VectorOptions> tween;
     private bool isShow;
     private float indicatorSize;
+
     private void OnEnable()
     {
         AttackManager.CanUltimate += ShowIndicator;
         AttackManager.EndForUltimate += HideIndicator;
     }
 
-    void Start()
+    private void OnDisable()
+    {
+        AttackManager.CanUltimate -= ShowIndicator;
+        AttackManager.EndForUltimate -= HideIndicator;
+    }
+
+    private void Start()
     {
         indicatorSize = indicator.transform.localScale.x;
     }
 
     private void ShowIndicator()
     {
-        if (!indicator && isShow) return;
+        if (indicator == null || isShow) return;  // fix: || not &&
         isShow = true;
         indicator.SetActive(true);
-        if(tween != null)tween.Kill();
+        if (tween != null) tween.Kill();
         tween = indicator.transform.DOScale(indicatorSize, dotweenTime).SetEase(Ease.OutBounce);
     }
 
     private void HideIndicator()
     {
-        if (!indicator && !isShow) return;
-        if(tween != null)tween.Kill();
+        if (indicator == null) return;  // fix: || not &&
+        isShow = false;
+        if (tween != null) tween.Kill();
         tween = indicator.transform.DOScale(Vector3.zero, dotweenTime).SetEase(Ease.InBounce);
     }
 }
