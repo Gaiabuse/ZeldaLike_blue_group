@@ -30,11 +30,20 @@ public class Glue : MonoBehaviour
         platform.layer = LayerMask.NameToLayer("Ground");
         foreach (Transform child in platform.transform)
         {
-            foreach (Transform _child in child.transform)
+            if (child.transform.childCount > 0)
             {
-                _child.tag = "Ground";
-                _child.gameObject.layer = LayerMask.NameToLayer("Ground");
+                foreach (Transform _child in child.transform)
+                {
+                    _child.tag = "Ground";
+                    _child.gameObject.layer = LayerMask.NameToLayer("Ground");
+                }
             }
+            else
+            {
+                child.tag = "Ground";
+                child.gameObject.layer = LayerMask.NameToLayer("Ground");
+            }
+            
         }
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
