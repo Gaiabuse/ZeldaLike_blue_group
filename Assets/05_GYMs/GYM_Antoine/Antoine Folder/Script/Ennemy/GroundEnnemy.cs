@@ -60,6 +60,7 @@ public class GroundEnnemy : EnnemyBase
                     move = "chase";
                 }
 
+                if (CurrentTarget == null) CurrentTarget = Player;
                 WhereToGoPos = CurrentTarget.position;
             }
             else

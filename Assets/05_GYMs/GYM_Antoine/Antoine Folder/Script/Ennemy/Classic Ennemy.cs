@@ -69,6 +69,7 @@ public class ClassicEnnemy : EnnemyBase
                     animator.SetBool("IsChasing", true);
                 }
 
+                if (CurrentTarget == null) CurrentTarget = Player;
                 WhereToGoPos = CurrentTarget.position;
             }
             else
