@@ -5188,6 +5188,7 @@ Transform:
   - {fileID: 1305260523}
   - {fileID: 1589093518}
   - {fileID: 631205110}
+  - {fileID: 893158799}
   - {fileID: 1976847403}
   - {fileID: 1167773256}
   - {fileID: 849952597}
@@ -5285,10 +5286,10 @@ MonoBehaviour:
     changeIndicator: 0
     ativeAtk: 0
     numberOfPointsForErased: 0
-    hadUI: 0
+    hadUI: 1
     temporateUI: 0
     timeOfUI: 0
-    uiObject: {fileID: 0}
+    uiObject: {fileID: 1501724258}
   - colliderTrigger: {fileID: 662206931}
     disponibleForms: 00000000
     activeTutoUi: 7
@@ -5301,10 +5302,10 @@ MonoBehaviour:
     changeIndicator: 0
     ativeAtk: 0
     numberOfPointsForErased: 0
-    hadUI: 0
+    hadUI: 1
     temporateUI: 0
     timeOfUI: 0
-    uiObject: {fileID: 0}
+    uiObject: {fileID: 2104164556}
   - colliderTrigger: {fileID: 1141386771}
     disponibleForms: 00000000
     activeTutoUi: 6
@@ -5327,8 +5328,8 @@ MonoBehaviour:
     setForm: 0
     form: 0
     asDialogue: 1
-    dialogue: "Tiens, j\u2019esp\xE8re que tu ne les as pas oubli\xE9s, eux, ils
-      d\xE9gueulassent tout dans les r\xEAves."
+    dialogue: "Tiens, j\u2019esp\xE8re que tu ne les as pas oubli\xE9s, eux, nettoie
+      ce Zonyr qui d\xE9gueulasse le r\xEAve."
     setNumberOfPointsForErased: 0
     changeIndicator: 0
     ativeAtk: 0
@@ -5344,7 +5345,7 @@ MonoBehaviour:
     form: 0
     asDialogue: 1
     dialogue: "T\u2019es d\xE9j\xE0 bless\xE9 ? Bah, sers-toi de ces poussi\xE8res
-      \xE9tincelantes pour te soigner. Maintiens A pour te soigner"
+      \xE9tincelantes pour te soigner. \n(MAINTENIR A)"
     setNumberOfPointsForErased: 0
     changeIndicator: 1
     ativeAtk: 2
@@ -5360,7 +5361,7 @@ MonoBehaviour:
     form: 0
     asDialogue: 1
     dialogue: "Si tu effaces les \xE9l\xE9ments que tu as cr\xE9\xE9s, tu peux r\xE9cup\xE9rer
-      ta puissance de cr\xE9ations."
+      ta puissance de cr\xE9ation."
     setNumberOfPointsForErased: 0
     changeIndicator: 0
     ativeAtk: 0
@@ -5375,7 +5376,8 @@ MonoBehaviour:
     setForm: 0
     form: 0
     asDialogue: 1
-    dialogue: "Maintiens R1 si tu veux tout effacer d\u2019un coup."
+    dialogue: "Tu peux aussi effacer tout les \xE9l\xE9ments que tu as cr\xE9er en
+      te concentrant.\n(MAINTENIR R1)"
     setNumberOfPointsForErased: 0
     changeIndicator: 0
     ativeAtk: 0
@@ -5384,14 +5386,13 @@ MonoBehaviour:
     temporateUI: 0
     timeOfUI: 0
     uiObject: {fileID: 0}
-  - colliderTrigger: {fileID: 1976847404}
+  - colliderTrigger: {fileID: 893158800}
     disponibleForms: 02000000
     activeTutoUi: 3
     setForm: 1
     form: 2
     asDialogue: 1
-    dialogue: "Ah les peluches\u2026 Si tu passes en forme cauchemar, tu pourras
-      les ramasser et les recracher, enfin \xE7a, tu le sais d\xE9j\xE0, non ?"
+    dialogue: Bon, maintenant on va revoir ensemble la forme cauchemar.
     setNumberOfPointsForErased: 0
     changeIndicator: 1
     ativeAtk: 3
@@ -5405,17 +5406,17 @@ MonoBehaviour:
     activeTutoUi: 6
     setForm: 0
     form: 2
-    asDialogue: 0
-    dialogue: "Ah les peluches\u2026 Si tu passes en forme cauchemar, tu pourras
-      les ramasser et les recracher, enfin \xE7a, tu le sais d\xE9j\xE0, non ?"
+    asDialogue: 1
+    dialogue: "Ah les peluches\u2026 Si jamais elles sont trop loin, tu peux les
+      tirer vers toi et les avaler pour les poser autre part.\n"
     setNumberOfPointsForErased: 0
-    changeIndicator: 0
+    changeIndicator: 1
     ativeAtk: 3
     numberOfPointsForErased: 0
-    hadUI: 0
+    hadUI: 1
     temporateUI: 0
     timeOfUI: 0
-    uiObject: {fileID: 1847948337}
+    uiObject: {fileID: 300991356}
   - colliderTrigger: {fileID: 2109056450}
     disponibleForms: 000000000200000001000000
     activeTutoUi: 0
@@ -5423,7 +5424,7 @@ MonoBehaviour:
     form: 0
     asDialogue: 1
     dialogue: "Allez j\u2019suis gentil, je te laisse acc\xE9der \xE0 toute tes formes,
-      maintenant fais ton boulot"
+      maintenant fais ton boulot."
     setNumberOfPointsForErased: 0
     changeIndicator: 1
     ativeAtk: 5
@@ -5438,7 +5439,7 @@ MonoBehaviour:
     setForm: 1
     form: 1
     asDialogue: 1
-    dialogue: "Ok, tu vois ce tas de poussi\xE8res au loin, nettoie-le  \xE0 distance
+    dialogue: "Ok, tu vois ce tas de poussi\xE8res au loin, nettoie-le \xE0 distance
       sous forme onirique"
     setNumberOfPointsForErased: 0
     changeIndicator: 1
@@ -5448,7 +5449,7 @@ MonoBehaviour:
     temporateUI: 0
     timeOfUI: 0
     uiObject: {fileID: 1636810410}
-  - colliderTrigger: {fileID: 849952598}
+  - colliderTrigger: {fileID: 357723729}
     disponibleForms: 01000000
     activeTutoUi: 6
     setForm: 0
@@ -5460,10 +5461,10 @@ MonoBehaviour:
     changeIndicator: 0
     ativeAtk: 4
     numberOfPointsForErased: 0
-    hadUI: 0
+    hadUI: 1
     temporateUI: 0
     timeOfUI: 0
-    uiObject: {fileID: 1636810410}
+    uiObject: {fileID: 300991356}
   chatHistory: {fileID: 1553568492}
   comboStep:
     colliderTrigger: {fileID: 0}
@@ -22390,7 +22391,7 @@ GameObject:
   - component: {fileID: 357723730}
   - component: {fileID: 357723729}
   m_Layer: 9
-  m_Name: Trigger Onirique (1)
+  m_Name: Trigger Onirique spell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22404,13 +22405,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 357723727}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.19920807, z: -0, w: 0.9799573}
-  m_LocalPosition: {x: -2.53, y: 1.41, z: 138.33}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 55.7, y: 1.41, z: 202}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 83057588}
-  m_LocalEulerAnglesHint: {x: 0, y: -22.981, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &357723729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41204,7 +41205,7 @@ Transform:
   m_GameObject: {fileID: 631205109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.71417266, z: -0, w: 0.69996965}
-  m_LocalPosition: {x: 59.5, y: 0.8499999, z: -3.38}
+  m_LocalPosition: {x: 67.61, y: 0.8499999, z: -0.59}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57156,7 +57157,7 @@ Transform:
   m_GameObject: {fileID: 849952596}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.19920807, z: -0, w: 0.9799573}
-  m_LocalPosition: {x: -2.53, y: 1.41, z: 138.33}
+  m_LocalPosition: {x: -2.3, y: 1.41, z: 142.9}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -59445,6 +59446,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5643281716026712257, guid: 3fddd90ffd6bf87409567a47d41ef52a, type: 3}
   m_PrefabInstance: {fileID: 892460036}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &893158798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 893158799}
+  - component: {fileID: 893158801}
+  - component: {fileID: 893158800}
+  m_Layer: 9
+  m_Name: Trigger Attaque Cauchemar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &893158799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893158798}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.014790847, z: -0, w: 0.9998907}
+  m_LocalPosition: {x: 109.86, y: 1.67, z: 16.27}
+  m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 83057588}
+  m_LocalEulerAnglesHint: {x: 0, y: 1.695, z: 0}
+--- !u!114 &893158800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893158798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e34f51a85b53a4ba5f67b394c5b194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TriggerTuto
+--- !u!65 &893158801
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893158798}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4969368, y: 5.4, z: 2.029817}
+  m_Center: {x: -0.30706614, y: -0.918401, z: 0.5149062}
 --- !u!1001 &894175442
 PrefabInstance:
   m_ObjectHideFlags: 0
