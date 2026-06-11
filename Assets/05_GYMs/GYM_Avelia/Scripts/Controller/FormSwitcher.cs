@@ -45,8 +45,8 @@ public class FormSwitcher : MonoBehaviour
         isFirstUltimateTime = true;
         TimeForDoUltimate = timeForDoUltimate;
     }
-    
-    public void NotifyUltimateReady()
+
+    private void NotifyUltimateReady()
     {
         if (isFirstUltimateTime)
         {
@@ -69,18 +69,25 @@ public class FormSwitcher : MonoBehaviour
         var requiredForms = new[] { Form.neutral, Form.nightmare, Form.dream };
         if (requiredForms.All(f => AvailableForms.Contains(f)))
         {
+            bool wasFirstTime = isFirstUltimateTime;
             AttackManager.CanUltimate?.Invoke();
             CanDoUltimate = true;
             NotifyUltimateReady();
-            
-            
-            yield return new WaitForSecondsRealtime(TimeForDoUltimate);
-            
-            if (CanDoUltimate)
+
+            if (wasFirstTime)
             {
-                AttackManager.EndForUltimate?.Invoke();
-                EndFirstUltimateTime?.Invoke();
-                CanDoUltimate = false;
+                yield break;
+            }
+            else
+            {
+                yield return new WaitForSecondsRealtime(TimeForDoUltimate);
+            
+                if (CanDoUltimate)
+                {
+                    AttackManager.EndForUltimate?.Invoke();
+                    EndFirstUltimateTime?.Invoke();
+                    CanDoUltimate = false;
+                }   
             }
         }
     }

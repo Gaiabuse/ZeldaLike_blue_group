@@ -32,7 +32,7 @@ public class TutoManager : MonoBehaviour
     {
         originalFixedDeltaTime = Time.fixedDeltaTime;
     }
-    public void TriggerSlowMotion()
+    private void TriggerSlowMotion()
     {
         if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
         timeLerpCoroutine = StartCoroutine(LerpTime(targetSlowTime, transitionInDuration));
@@ -43,7 +43,7 @@ public class TutoManager : MonoBehaviour
         timeLerpCoroutine = StartCoroutine(LerpTime(1f, transitionOutDuration));
     }
     
-    public void SetTimeScaleInstant(float value)
+    private void SetTimeScaleInstant(float value)
     {
         if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
         Time.timeScale = value;
@@ -70,6 +70,7 @@ public class TutoManager : MonoBehaviour
         Time.timeScale = targetScale;
         Time.fixedDeltaTime = originalFixedDeltaTime * targetScale;
     }
+    
     private void OnEnable()
     {
         foreach (TutoStep tutoStep in steps)
