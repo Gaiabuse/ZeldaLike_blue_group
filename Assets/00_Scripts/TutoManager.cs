@@ -43,11 +43,13 @@ public class TutoManager : MonoBehaviour
     private void StartComboStep()
     {
         comboStep.StartTutoStep();
+        GameManager.Instance.StartUltTuto();
         GameManager.Instance.TriggerSlowMotion();
     }
 
     private void EndComboStep()
     {
+        GameManager.Instance.EndUltTuto();
         GameManager.Instance.ResetTimeScale();
         formSwitcher.EndFirstUltimateTime -= EndComboStep;
     }

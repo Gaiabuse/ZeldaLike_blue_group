@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private float originalFixedDeltaTime;
     private Coroutine timeLerpCoroutine;
+    private bool ultTuto;
 
     private void Awake()
     {
@@ -35,9 +36,20 @@ public class GameManager : MonoBehaviour
 
     public void ResetTimeScale()
     {
+        if (ultTuto) return;
         CurrentTargetTimeScale = 1f;
         if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
         timeLerpCoroutine = StartCoroutine(LerpTime(1f, transitionOutDuration));
+    }
+
+    public void EndUltTuto()
+    {
+        ultTuto = false;
+    }
+    
+    public void StartUltTuto()
+    {
+        ultTuto = true;
     }
 
     private void SetTimeScaleInstant(float value)
