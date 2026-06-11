@@ -25075,6 +25075,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2458391128632700168, guid: 6ab5643717ee05345ba4f6f1ea7bbd7f, type: 3}
   m_PrefabInstance: {fileID: 388522402}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &388914433 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7407721455791332330, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+  m_PrefabInstance: {fileID: 720716173}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6176fd9ecd14124689765c0d6cca933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DreamCoreManager
 --- !u!1001 &389387426
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134740,6 +134751,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1485107461}
     m_Modifications:
+    - target: {fileID: 862031402401309550, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374869021679894113, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5035036407257675011, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 256.63208
@@ -134780,10 +134799,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5170484257413647070, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
+      propertyPath: m_Name
+      value: LowLifeTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 6082151333170772881, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
+      propertyPath: TriggerEvent
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6133227914751294705, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
       propertyPath: m_Name
       value: MusicManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6246431992964466341, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
+      propertyPath: Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
+      propertyPath: dreamCoreManager
+      value: 
+      objectReference: {fileID: 388914433}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

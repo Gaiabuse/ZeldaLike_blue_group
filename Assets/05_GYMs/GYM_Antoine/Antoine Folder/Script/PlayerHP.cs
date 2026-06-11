@@ -90,6 +90,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private void LowLifeFeedback()
     {
+        MusicManager.Instance.PlayLowLife();
+        
         if (lowLifeTween != null && lowLifeTween.IsActive() && lowLifeTween.IsPlaying()) return;
 
         lowLifeFadeOutTween?.Kill();
@@ -110,6 +112,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private void StopLowLifeFeedback()
     {
+        MusicManager.Instance.StopLowLife();
+        
         lowLifeFadeInTween?.Kill();
         lowLifeTween?.Kill();
         lowLifeFadeInTween = null;

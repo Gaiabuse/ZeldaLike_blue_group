@@ -40,7 +40,7 @@ public class DreamCoreManager : MonoBehaviour
     // --- PHASE GATING ---
     private bool isInvincible = true;
     private float healthCap = 0f;
-    private bool isBossActive = false;
+    public bool isBossActive = false;
 
     [Header("Arena Trigger")]
     [SerializeField] private StartBossFight arenaEnterTrigger;

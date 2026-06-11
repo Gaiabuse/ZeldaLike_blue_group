@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    [SerializeField] private DreamCoreManager dreamCoreManager;
     [SerializeField] private StudioEventEmitter fightMusic;
     [SerializeField] private GameObject bossMusic;
     [SerializeField] private GameObject fightTrigger;
@@ -12,6 +13,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject create;
     [SerializeField] private GameObject erase;
     [SerializeField] private GameObject stun;
+    [SerializeField] private GameObject lowLife;
     [SerializeField] private GameObject coreRoar;
     [SerializeField] private GameObject phoneNotification;
     [SerializeField] private GameObject click;
@@ -64,6 +66,7 @@ public class MusicManager : MonoBehaviour
     {
         if (fightTrigger != null && exploTrigger != null)
         {
+            if (dreamCoreManager.isBossActive) return;
             fightTrigger.SetActive(EnnemyManager.Instance.IsInFight);
             exploTrigger.SetActive(!EnnemyManager.Instance.IsInFight);
         }
@@ -91,6 +94,16 @@ public class MusicManager : MonoBehaviour
     {
         erase.SetActive(false);
         erase.SetActive(true);
+    }
+    
+    public void PlayLowLife()
+    {
+        lowLife.SetActive(true);
+    }
+    
+    public void StopLowLife()
+    {
+        lowLife.SetActive(false);
     }
 
     public void RingPhone()
