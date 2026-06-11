@@ -11,6 +11,7 @@ public class SettingsManager : MonoBehaviour
     public float musicVolume;
     public float sfxVolume;
     public bool debugMode;
+    public bool vSync;
 
     public static SettingsManager Instance;
 
@@ -122,6 +123,9 @@ public class SettingsManager : MonoBehaviour
         mainVolume = PlayerPrefs.GetFloat("MainVolume", 1.0f);
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
         sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1.0f);
+        vSync = PlayerPrefs.GetFloat("vSync", 1.0f) != 0;
+        
+        QualitySettings.vSyncCount = vSync ? 1 : 0;
     }
 
     private void ApplyVolumesToFMOD()
@@ -129,5 +133,13 @@ public class SettingsManager : MonoBehaviour
         mainVCA.setVolume(mainVolume);
         musicVCA.setVolume(musicVolume);
         sfxVCA.setVolume(sfxVolume);
+    }
+
+    public void ToggleVSync(Toggle vSyncToggle)
+    {
+        vSync = vSyncToggle.isOn;
+        QualitySettings.vSyncCount = vSync ? 1 : 0;
+        Debug.Log(QualitySettings.vSyncCount + " vSync is " + vSyncToggle.isOn);
+        PlayerPrefs.SetFloat("vSync", vSync ? 1 : 0);
     }
 }

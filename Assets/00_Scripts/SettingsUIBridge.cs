@@ -9,6 +9,7 @@ public class SettingsUIBridge : MonoBehaviour
     public Slider musicSlider;
     public Slider sfxSlider;
     public Toggle debugToggle;
+    public Toggle vSyncToggle;
 
     private void Start()
     {
@@ -20,11 +21,13 @@ public class SettingsUIBridge : MonoBehaviour
             if (musicSlider != null) musicSlider.value = manager.musicVolume;
             if (sfxSlider != null) sfxSlider.value = manager.sfxVolume;
             if (debugToggle != null) debugToggle.isOn = manager.debugMode;
+            if (vSyncToggle != null) vSyncToggle.isOn = manager.vSync;
             
             if (mainSlider != null) mainSlider.onValueChanged.AddListener(delegate { manager.SetMainVolume(mainSlider); });
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(delegate { manager.SetMusicVolume(musicSlider); });
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(delegate { manager.SetSfxVolume(sfxSlider); });
             if (debugToggle != null) debugToggle.onValueChanged.AddListener(delegate { manager.SetDebugMode(debugToggle); });
+            if (vSyncToggle != null) vSyncToggle.onValueChanged.AddListener(delegate { manager.ToggleVSync(vSyncToggle); });
             if (SceneManager.GetActiveScene().name == "MainMenu")
                 if (debugToggle != null)
                 {
