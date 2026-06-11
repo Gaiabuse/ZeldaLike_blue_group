@@ -28,7 +28,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] protected Transform Leure;
 
     protected bool TargetInFieldOfView;
-    protected Transform CurrentTarget;
+    [SerializeField] protected Transform CurrentTarget;
 
     [SerializeField] protected float timerGeneral = 0;
 

@@ -150,6 +150,7 @@ public class ClassicEnnemy : EnnemyBase
                 {
                     if (Leure != rangeChecks[i].transform) Leure = rangeChecks[i].transform;
                     leureDetected = true;
+                    Debug.Log("Leure");
                 }
                 if (rangeChecks[i].CompareTag("Player"))
                 {
@@ -159,15 +160,14 @@ public class ClassicEnnemy : EnnemyBase
 
             if (leureDetected)
             {
-                if (CanSeeObject(Leure))
+                if (CanSeeObject(Leure) || alwaysAgro)
                 {
                     TargetInFieldOfView = true;
                     CurrentTarget = Leure;
                 }
-
                 else if (Player != null)
                 {
-                    if (CanSeeObject(Player))
+                    if (CanSeeObject(Player) || alwaysAgro)
                     {
                         TargetInFieldOfView = true;
                         CurrentTarget = Player;
@@ -179,7 +179,7 @@ public class ClassicEnnemy : EnnemyBase
             }
             else if (Player != null)
             {
-                if (CanSeeObject(Player))
+                if (CanSeeObject(Player) || alwaysAgro)
                 {
                     TargetInFieldOfView = true;
                     CurrentTarget = Player;
@@ -322,7 +322,6 @@ public class ClassicEnnemy : EnnemyBase
         navMesh.angularSpeed = SpeedRotate.y;
         canLookAtPlayer = true;
 
-        Debug.Log(Vector3.Distance(transform.position, CurrentTarget.position));
         if (Vector3.Distance(transform.position, CurrentTarget.position) > DistanceAlwaysSeeEnnemy) PatrolStart();
         else
         {

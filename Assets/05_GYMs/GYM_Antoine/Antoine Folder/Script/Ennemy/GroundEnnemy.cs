@@ -127,15 +127,14 @@ public class GroundEnnemy : EnnemyBase
 
             if (leureDetected)
             {
-                if (CanSeeObject(Leure))
+                if (CanSeeObject(Leure) || alwaysAgro)
                 {
                     TargetInFieldOfView = true;
                     CurrentTarget = Leure;
                 }
-
                 else if (Player != null)
                 {
-                    if (CanSeeObject(Player))
+                    if (CanSeeObject(Player) || alwaysAgro)
                     {
                         TargetInFieldOfView = true;
                         CurrentTarget = Player;
@@ -147,7 +146,7 @@ public class GroundEnnemy : EnnemyBase
             }
             else if (Player != null)
             {
-                if (CanSeeObject(Player))
+                if (CanSeeObject(Player) || alwaysAgro)
                 {
                     TargetInFieldOfView = true;
                     CurrentTarget = Player;
