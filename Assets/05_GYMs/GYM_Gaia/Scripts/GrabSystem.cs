@@ -159,7 +159,15 @@ public class GrabSystem : MonoBehaviour
         if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
-            if (currentGrabbedObject != null)
+            EnnemyBase currentEnnemyGrab = currentGrabbedObject.GetComponent<EnnemyBase>();
+            bool dontGrab = false;
+
+            if (currentEnnemyGrab && currentEnnemyGrab.CheckHP() <= 0)
+            {
+                dontGrab = true;
+            }
+
+            if (currentGrabbedObject != null && !dontGrab)
             {
                 animator.SetBool("GrabSheep", true);
                 animator.SetTrigger("usingAbility");
@@ -177,7 +185,7 @@ public class GrabSystem : MonoBehaviour
                     SheepEnnemyScript.LoseShell();
                     isSheep = true;
                 }
-                
+
                 SheepEnnemySprite SheepSprite = currentGrabbedObject.GetComponent<SheepEnnemySprite>();
                 if (SheepSprite != null && SheepSprite.shellHere)
                 {

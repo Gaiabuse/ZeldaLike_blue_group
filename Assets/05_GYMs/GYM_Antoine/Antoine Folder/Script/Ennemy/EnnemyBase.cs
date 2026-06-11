@@ -415,4 +415,9 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     {
         deathVFX.SetActive(true);
     }
+
+    public int CheckHP()
+    {
+        return HP;
+    }
 }

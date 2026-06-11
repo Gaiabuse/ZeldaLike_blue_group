@@ -239,6 +239,7 @@ public class GroundEnnemy : EnnemyBase
 
     protected virtual void AttackPatern()
     {
+        if (CurrentTarget == null) CurrentTarget = Player;
         if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= DistanceAttack && CurrentTarget != null)
         {
             AttackStart(1);
