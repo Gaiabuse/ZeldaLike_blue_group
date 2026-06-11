@@ -5180,6 +5180,7 @@ Transform:
   m_Children:
   - {fileID: 1612775576}
   - {fileID: 1700577932}
+  - {fileID: 977070193}
   - {fileID: 261345078}
   - {fileID: 662206930}
   - {fileID: 1141386770}
@@ -5256,14 +5257,46 @@ MonoBehaviour:
     temporateUI: 0
     timeOfUI: 0
     uiObject: {fileID: 0}
+  - colliderTrigger: {fileID: 977070194}
+    disponibleForms: 00000000
+    activeTutoUi: 5
+    setForm: 0
+    form: 1
+    asDialogue: 0
+    dialogue: "Ok, tu vois ce tas de poussi\xE8res au loin, nettoie-le  \xE0 distance
+      sous forme onirique"
+    setNumberOfPointsForErased: 0
+    changeIndicator: 0
+    ativeAtk: 4
+    numberOfPointsForErased: 0
+    hadUI: 1
+    temporateUI: 0
+    timeOfUI: 0
+    uiObject: {fileID: 1316928781}
+  - colliderTrigger: {fileID: 261345079}
+    disponibleForms: 00000000
+    activeTutoUi: 2
+    setForm: 0
+    form: 0
+    asDialogue: 1
+    dialogue: "Je te rappelle que tu as un quota \xE0 remplir, alors nettoie ces
+      tas de poussi\xE8res !"
+    setNumberOfPointsForErased: 0
+    changeIndicator: 0
+    ativeAtk: 0
+    numberOfPointsForErased: 0
+    hadUI: 0
+    temporateUI: 0
+    timeOfUI: 0
+    uiObject: {fileID: 0}
   - colliderTrigger: {fileID: 662206931}
     disponibleForms: 00000000
     activeTutoUi: 7
     setForm: 0
     form: 0
     asDialogue: 1
-    dialogue: "Pense bien a check ton t\xE9l\xE9phone pour voir ou tu en es au niveau
-      de ton quotas."
+    dialogue: "Pense bien \xE0 v\xE9rifier ton t\xE9l\xE9phone pour voir o\xF9 tu
+      en es au niveau de ton quota."
     setNumberOfPointsForErased: 0
     changeIndicator: 0
     ativeAtk: 0
@@ -5278,24 +5311,8 @@ MonoBehaviour:
     setForm: 0
     form: 0
     asDialogue: 1
-    dialogue: "C\u2019est nous qui te donnons acc\xE8s \xE0 ta puissance de cr\xE9ation
-      alors fais bien ton taff"
-    setNumberOfPointsForErased: 0
-    changeIndicator: 0
-    ativeAtk: 0
-    numberOfPointsForErased: 0
-    hadUI: 0
-    temporateUI: 0
-    timeOfUI: 0
-    uiObject: {fileID: 0}
-  - colliderTrigger: {fileID: 261345079}
-    disponibleForms: 00000000
-    activeTutoUi: 2
-    setForm: 0
-    form: 0
-    asDialogue: 1
-    dialogue: "Je te rappelle que tu as un quota \xE0 remplir, alors nettoie ces
-      tas de poussi\xE8res !"
+    dialogue: "C\u2019est nous qui te donnons acc\xE8s \xE0 ta puissance de cr\xE9ation,
+      alors fais bien ton taff pour acc\xE9der \xE0 la suite du r\xEAve !"
     setNumberOfPointsForErased: 0
     changeIndicator: 0
     ativeAtk: 0
@@ -16382,7 +16399,7 @@ Transform:
   m_GameObject: {fileID: 261345077}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 35.4, y: -1.56, z: -100.3}
+  m_LocalPosition: {x: 41, y: -1.56, z: -100.3}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -42685,7 +42702,7 @@ Transform:
   m_GameObject: {fileID: 662206929}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 46.26, y: -1.99, z: -64.47}
+  m_LocalPosition: {x: 52, y: -1.99, z: -64.47}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -65125,6 +65142,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5646287125489054645, guid: 7c78b48db8f22fd48a59bc572f9a8a59, type: 3}
   m_PrefabInstance: {fileID: 976928498}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &977070192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 977070193}
+  - component: {fileID: 977070195}
+  - component: {fileID: 977070194}
+  m_Layer: 9
+  m_Name: Trigger Dash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &977070193
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977070192}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 36.08, y: 0.66, z: -125.8}
+  m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 83057588}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &977070194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977070192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e34f51a85b53a4ba5f67b394c5b194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TriggerTuto
+--- !u!65 &977070195
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977070192}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 10.74, z: 2.61}
+  m_Center: {x: 0, y: -0.918401, z: 0}
 --- !u!1 &977143782
 GameObject:
   m_ObjectHideFlags: 0
@@ -93241,7 +93324,7 @@ Transform:
   m_GameObject: {fileID: 1305260522}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.06, y: -0.77, z: -24.1}
+  m_LocalPosition: {x: -7.1, y: -0.77, z: -13.38}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -115735,7 +115818,7 @@ Transform:
   m_GameObject: {fileID: 1612775575}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.30924898, z: -0, w: 0.9509811}
-  m_LocalPosition: {x: 30.8, y: -1.66, z: -218.6}
+  m_LocalPosition: {x: 35.24, y: -1.66, z: -221.72}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -117322,6 +117405,10 @@ PrefabInstance:
     - target: {fileID: 3601714264686761247, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3764065836901190208, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4004794338706422604, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
       propertyPath: m_Pivot.x
@@ -121562,7 +121649,7 @@ Transform:
   m_GameObject: {fileID: 1700577931}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.3, y: 0.66, z: -180.6}
+  m_LocalPosition: {x: 56.31, y: 0.66, z: -180.6}
   m_LocalScale: {x: 19.406466, y: 1, z: 5.5446}
   m_ConstrainProportionsScale: 0
   m_Children: []
