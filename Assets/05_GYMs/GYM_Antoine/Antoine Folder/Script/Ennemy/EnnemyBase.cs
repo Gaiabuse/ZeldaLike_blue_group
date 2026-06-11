@@ -28,7 +28,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] protected Transform Leure;
 
     protected bool TargetInFieldOfView;
-    protected Transform CurrentTarget;
+    [SerializeField] protected Transform CurrentTarget;
 
     [SerializeField] protected float timerGeneral = 0;
 
@@ -425,5 +425,10 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected virtual void DeathVFXAppear()
     {
         deathVFX.SetActive(true);
+    }
+
+    public int CheckHP()
+    {
+        return HP;
     }
 }

@@ -69,7 +69,7 @@ public class BasicSheep : GroundEnnemy
                 WhereToGoPos = transform.position + (CurrentTarget.transform.forward * (DistStartAttack + 5));
                 navMesh.destination = WhereToGoPos;
             }
-            if (distPlayer > DistStartAttack && distPlayer > DistanceGetInShell)
+            if (distPlayer + 0.5f >= DistStartAttack && distPlayer > DistanceGetInShell)
             {
                 animator.SetBool("Chase", false);
                 repositionToAttack = false;
