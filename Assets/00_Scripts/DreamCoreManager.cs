@@ -292,7 +292,7 @@ public class DreamCoreManager : MonoBehaviour
 
     public void KillBoss()
     {
-        Time.timeScale = 0;
+        GameManager.Instance.TriggerSlowMotion();
         endScreen.DOFade(1f, 1f).SetEase(Ease.OutBack).SetUpdate(true);
     }
 }

@@ -88,7 +88,7 @@ public class ProgressMenuUI : MonoBehaviour
             .SetEase(Ease.OutBack)
             .OnComplete(() =>
             {
-                Time.timeScale = 0;
+                GameManager.Instance.TriggerSlowMotion();
                 UpdatePhoneInfos(progressSlider, progressAnimGO);
                 AnimateSpriteSheet(progressAnim);
                 player.transform.GetComponent<PlayerInput>().SwitchCurrentActionMap("ProgressControl");
@@ -100,7 +100,7 @@ public class ProgressMenuUI : MonoBehaviour
     public void CloseProgressMenu()
     {
         pauseSfxTrigger.SetActive(false);
-        Time.timeScale = 1;
+        GameManager.Instance.ResetTimeScale();
     
         RectTransform rect = progressMenu.GetComponent<RectTransform>();
 

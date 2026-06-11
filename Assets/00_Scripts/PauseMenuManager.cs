@@ -49,7 +49,7 @@ public class PauseMenuManager : MonoBehaviour
     {
         pauseSfxTrigger.SetActive(false);
         MusicManager.Instance.PlayCancel();
-        Time.timeScale = 1;
+        GameManager.Instance.ResetTimeScale();
         if (currentState == MenuState.Settings)
         {
             if (settingsDotween != null)
@@ -98,7 +98,7 @@ public class PauseMenuManager : MonoBehaviour
             .SetUpdate(true)
             .OnComplete(() =>
         {
-            Time.timeScale = 0;
+            GameManager.Instance.TriggerSlowMotion();
         });
     }
 
@@ -155,7 +155,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        Time.timeScale = 1;
+        GameManager.Instance.ResetTimeScale();
         StartCoroutine(LoadMainMenuSequence());
         MusicManager.Instance.PlayClick();
     }

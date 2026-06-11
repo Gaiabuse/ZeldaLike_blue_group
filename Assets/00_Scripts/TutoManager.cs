@@ -17,59 +17,7 @@ public class TutoManager : MonoBehaviour
     [SerializeField] private List<GameObject> tutoIndicator;
     [SerializeField] private TutoStep[] steps;
     [SerializeField] private ChatHistory chatHistory;
-
-    
     [SerializeField] private TutoStep comboStep;
-    [Range(0f, 1f)] 
-    [SerializeField] private float targetSlowTime = 0.1f;
-    [SerializeField] private float transitionInDuration = 0.05f;
-    [SerializeField] private float transitionOutDuration = 0.05f; 
-
-    private float originalFixedDeltaTime;
-    private Coroutine timeLerpCoroutine;
-
-    private void Awake()
-    {
-        originalFixedDeltaTime = Time.fixedDeltaTime;
-    }
-    private void TriggerSlowMotion()
-    {
-        if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
-        timeLerpCoroutine = StartCoroutine(LerpTime(targetSlowTime, transitionInDuration));
-    }
-    public void ResetTimeScale()
-    {
-        if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
-        timeLerpCoroutine = StartCoroutine(LerpTime(1f, transitionOutDuration));
-    }
-    
-    private void SetTimeScaleInstant(float value)
-    {
-        if (timeLerpCoroutine != null) StopCoroutine(timeLerpCoroutine);
-        Time.timeScale = value;
-        Time.fixedDeltaTime = originalFixedDeltaTime * Time.timeScale;
-    }
-
-    private IEnumerator LerpTime(float targetScale, float duration)
-    {
-        float startScale = Time.timeScale;
-        float elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.unscaledDeltaTime; 
-            
-            float newScale = Mathf.Lerp(startScale, targetScale, elapsed / duration);
-            
-            Time.timeScale = newScale;
-            Time.fixedDeltaTime = originalFixedDeltaTime * newScale; 
-
-            yield return null;
-        }
-        
-        Time.timeScale = targetScale;
-        Time.fixedDeltaTime = originalFixedDeltaTime * targetScale;
-    }
     
     private void OnEnable()
     {
@@ -95,12 +43,12 @@ public class TutoManager : MonoBehaviour
     private void StartComboStep()
     {
         comboStep.StartTutoStep();
-        TriggerSlowMotion();
+        GameManager.Instance.TriggerSlowMotion();
     }
 
     private void EndComboStep()
     {
-        SetTimeScaleInstant(1f);
+        GameManager.Instance.ResetTimeScale();
         formSwitcher.EndFirstUltimateTime -= EndComboStep;
     }
 }

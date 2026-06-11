@@ -5415,9 +5415,6 @@ MonoBehaviour:
     temporateUI: 0
     timeOfUI: 0
     uiObject: {fileID: 0}
-  targetSlowTime: 0
-  transitionInDuration: 0.5
-  transitionOutDuration: 1
 --- !u!1 &83556736
 GameObject:
   m_ObjectHideFlags: 0
@@ -22496,6 +22493,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a90b55d3d77477e469e8edbafa82ae65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  targetSlowTime: 0
+  transitionInDuration: 0.25
+  transitionOutDuration: 0.1
 --- !u!1001 &361356105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110546,6 +110546,10 @@ PrefabInstance:
     - target: {fileID: 1488364916639394070, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.022
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641382786485186228, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7133797105035261512, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
       propertyPath: player
