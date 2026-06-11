@@ -33,6 +33,8 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     [SerializeField] private Vector2 volumeDeltaIntensity;
     private Vignette vignette;
     private Tween lowLifeTween;
+    private Tween lowLifeFadeInTween;
+    private Tween lowLifeFadeOutTween;
 
     private Coroutine damageCoroutine;
     private Coroutine healCoroutine;
@@ -88,26 +90,35 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
     private void LowLifeFeedback()
     {
-        DOTween.To(() => vignette.intensity.value,
+        if (lowLifeTween != null && lowLifeTween.IsActive() && lowLifeTween.IsPlaying()) return;
+
+        lowLifeFadeOutTween?.Kill();
+        lowLifeFadeInTween?.Kill();
+        lowLifeTween?.Kill();
+
+        lowLifeFadeInTween = DOTween.To(() => vignette.intensity.value,
             x => vignette.intensity.value = x,
             volumeDeltaIntensity.x,
-            blinkTime*2).OnComplete(() =>
+            blinkTime * 2).OnComplete(() =>
         {
-            lowLifeTween = DOTween.To(() => vignette.intensity.value, 
-                x => vignette.intensity.value = x, 
-                volumeDeltaIntensity.y, 
+            lowLifeTween = DOTween.To(() => vignette.intensity.value,
+                x => vignette.intensity.value = x,
+                volumeDeltaIntensity.y,
                 blinkTime).SetLoops(-1, LoopType.Yoyo);
         });
-        
     }
 
     private void StopLowLifeFeedback()
     {
-        lowLifeTween? .Kill();
-        lowLifeTween = DOTween.To(() => vignette.intensity.value, 
-            x => vignette.intensity.value = x, 
-            0, 
-            blinkTime*2);
+        lowLifeFadeInTween?.Kill();
+        lowLifeTween?.Kill();
+        lowLifeFadeInTween = null;
+        lowLifeTween = null;
+
+        lowLifeFadeOutTween = DOTween.To(() => vignette.intensity.value,
+            x => vignette.intensity.value = x,
+            0,
+            blinkTime * 4);
     }
 
     private void HandleDeath()
@@ -126,12 +137,12 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         });
     }
 
-    // Called exclusively on standard respawns
     public void ResetHealth()
     {
         if (damageCoroutine != null) StopCoroutine(damageCoroutine);
         if (healCoroutine != null) StopCoroutine(healCoroutine);
 
+        StopLowLifeFeedback();
         HP = maxHP;
         tempHP = maxHP;
         UpdateVisuals();
@@ -154,8 +165,11 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
         HP = (float)Math.Round(Mathf.Min(HP + heal, maxHP), 2);
         tempHP = HP;
-        if (healVFX != null) healVFX.enabled = true;
 
+        if (HP > lifeThreshold)
+            StopLowLifeFeedback();
+
+        if (healVFX != null) healVFX.enabled = true;
         if (healCoroutine != null) StopCoroutine(healCoroutine);
         healCoroutine = StartCoroutine(VisualHeal(HP));
     }
