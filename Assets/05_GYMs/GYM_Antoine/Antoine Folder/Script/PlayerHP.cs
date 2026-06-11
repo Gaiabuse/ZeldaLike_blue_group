@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 
@@ -23,6 +25,14 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     [SerializeField] Image damagesBar;
     [SerializeField] VisualEffect healVFX;
     [SerializeField] CanvasGroup deathScreen;
+    
+    [Header("LowLife Feedback")]
+    [SerializeField] private Volume lowLifeVolume;
+    [SerializeField] private float lifeThreshold = 15f;
+    [SerializeField] private float blinkTime = 0.5f;
+    [SerializeField] private Vector2 volumeDeltaIntensity;
+    private Vignette vignette;
+    private Tween lowLifeTween;
 
     private Coroutine damageCoroutine;
     private Coroutine healCoroutine;
@@ -35,6 +45,11 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         HP = startHP;
         tempHP = startHP;
         UpdateVisuals();
+        
+        if (lowLifeVolume.profile.TryGet(out Vignette vig))
+        {
+            vignette = vig;
+        }
     }
 
     public void TakeDamage(int damage, float stun = 0f)
@@ -54,12 +69,45 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
                 HandleDeath();
                 return;
             }
+            
+            if (HP <= lifeThreshold)
+            {
+                LowLifeFeedback();
+            }
+            else
+            {
+                StopLowLifeFeedback();
+            }
 
             float targetHP = (float)Math.Round(HP, 2);
             damageCoroutine = StartCoroutine(VisualDamage(targetHP));
         }
 
         OnTakeDamage?.Invoke();
+    }
+
+    private void LowLifeFeedback()
+    {
+        DOTween.To(() => vignette.intensity.value,
+            x => vignette.intensity.value = x,
+            volumeDeltaIntensity.x,
+            blinkTime*2).OnComplete(() =>
+        {
+            lowLifeTween = DOTween.To(() => vignette.intensity.value, 
+                x => vignette.intensity.value = x, 
+                volumeDeltaIntensity.y, 
+                blinkTime).SetLoops(-1, LoopType.Yoyo);
+        });
+        
+    }
+
+    private void StopLowLifeFeedback()
+    {
+        lowLifeTween? .Kill();
+        lowLifeTween = DOTween.To(() => vignette.intensity.value, 
+            x => vignette.intensity.value = x, 
+            0, 
+            blinkTime*2);
     }
 
     private void HandleDeath()

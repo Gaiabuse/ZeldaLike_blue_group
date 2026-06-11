@@ -10,6 +10,8 @@ public class StarBomb : MonoBehaviour
     [SerializeField] private GameObject targetPreview;
     [SerializeField] private GameObject explodePreview;
     [SerializeField] private float timeToExplode;
+    [Tooltip("In milliseconds 1000ms = 1s")] [SerializeField] private int explodeDuration;
+    [SerializeField] private float startBlinkInterval;
     [SerializeField] private int damages;
     
     [Header("HDR Blink Colors")]
@@ -84,7 +86,7 @@ public class StarBomb : MonoBehaviour
     private IEnumerator SelfExplodeCountdown()
 {
     float elapsed = 0;
-    float currentBlinkInterval = 1f;
+    float currentBlinkInterval = startBlinkInterval;
     float lastBlinkTime = 0;
     
     bool useColorA = true;
@@ -146,7 +148,7 @@ public class StarBomb : MonoBehaviour
         _colorTween?.Kill();
     }
 
-    public async Task Explode()
+    private async Task Explode()
     {
         if (isExploding) return;
         if (targetPreview != null) Destroy(targetPreview);
@@ -157,7 +159,7 @@ public class StarBomb : MonoBehaviour
         GetComponent<MeshRenderer>().enabled = false;
         transform.GetChild(0).gameObject.SetActive(false);
 
-        await Task.Delay(1000);
+        await Task.Delay(explodeDuration);
         
         if (explodeZone != null) explodeZone.SetActive(false);
         if (gameObject != null) Destroy(gameObject);
