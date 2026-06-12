@@ -12,6 +12,7 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [Header("Grab")]
+    [SerializeField] private GameObject grabAimVfx;
     [SerializeField] private float rangeForGrab = 3f;
     [SerializeField] private float radiusForGrab = 0.4f;          // <-- renamed & visible
     [SerializeField] private float grabActionDuration = 0.1f;
@@ -49,6 +50,14 @@ public class GrabSystem : MonoBehaviour
     void Start()
     {
         throwMark.transform.localPosition = Vector3.forward * throwDistance;
+        rangeForGrab-=radiusForGrab;
+        radiusForSwallow-=radiusForSwallow;
+    }
+
+    private void OnValidate()
+    {
+        rangeForGrab-=radiusForGrab;
+        radiusForSwallow-=radiusForSwallow;
     }
 
     void Update()
@@ -67,10 +76,14 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 downPosition = transform.position - downValue;
 
-        if (DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow) is RaycastHit)
+        if (DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow) is RaycastHit hit)
+        {
             TransformIndicator.Instance.DisplayNightmareIcon(1);
+        }
         else
+        {
             TransformIndicator.Instance.DisplayNightmareIcon(0);
+        }
     }
 
     void DoStateGrab()
@@ -86,6 +99,10 @@ public class GrabSystem : MonoBehaviour
 
     void OnSecondPower(InputValue _input)
     {
+        if (!_input.isPressed)
+        {
+            grabAimVfx.SetActive(false);
+        }
         if (IsThrowing || isGrabbing) return;
         if (currentGrabbedObject == null) { ProcessGrab(_input); return; }
         ProcessThrow(_input);
@@ -207,7 +224,13 @@ public class GrabSystem : MonoBehaviour
 
     private void CleanUpThrow() { throwMark.SetActive(false); currentGrabbedObject = null; IsThrowing = false; }
     private void ShowThrowPrediction() { throwMark.SetActive(true); grabbingState = GrabbingState.ShowThrowPred; }
-    private void ShowGrabPrediction() { grabbingState = GrabbingState.ShowGrabPred; }
+
+    private void ShowGrabPrediction()
+    {
+        grabAimVfx.SetActive(false);
+        grabAimVfx.SetActive(true);
+        grabbingState = GrabbingState.ShowGrabPred;
+    }
 
     private void ShowGrabPredictionUpdate()
     {
@@ -241,6 +264,7 @@ public class GrabSystem : MonoBehaviour
         if (hits.Length == 0)
         {
             Debug.DrawRay(origin, transform.forward * range, Color.red);
+            grabAimVfx.GetComponent<VisualEffect>().SetFloat("Lenght", rangeForGrab);
             return null;
         }
 
@@ -249,6 +273,9 @@ public class GrabSystem : MonoBehaviour
         for (int i = 1; i < hits.Length; i++)
             if (hits[i].distance < closest.distance)
                 closest = hits[i];
+        
+        float dist = Vector3.Distance(transform.position, closest.transform.position);
+        grabAimVfx.GetComponent<VisualEffect>().SetFloat("Lenght", dist);
 
         Debug.DrawRay(origin, transform.forward * range, Color.green);
         return closest;
