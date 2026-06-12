@@ -2,14 +2,17 @@ using System;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class IndicatorUltimate : MonoBehaviour
 {
     [SerializeField] private float dotweenTime = 0.1f;
+    [SerializeField] private float bounceMinScale = 0.9f;
+    [SerializeField] private float bounceMaxScale = 1.1f;
+    [SerializeField] private float bounceDuration = 0.5f;
     [SerializeField] private GameObject indicator;
-    private TweenerCore<Vector3, Vector3, VectorOptions> tween;
+
+    private Tween tween;
     private bool isShow;
     private float indicatorSize;
 
@@ -32,18 +35,43 @@ public class IndicatorUltimate : MonoBehaviour
 
     private void ShowIndicator()
     {
-        if (indicator == null || isShow) return;  // fix: || not &&
+        if (indicator == null || isShow) return;
         isShow = true;
+
         indicator.SetActive(true);
-        if (tween != null) tween.Kill();
-        tween = indicator.transform.DOScale(indicatorSize, dotweenTime).SetEase(Ease.OutBounce);
+        indicator.transform.localScale = Vector3.zero;
+
+        tween?.Kill();
+
+        indicator.transform
+            .DOScale(indicatorSize * bounceMaxScale, dotweenTime)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(true)
+            .OnComplete(StartBounceLoop);
+    }
+
+    private void StartBounceLoop()
+    {
+        tween?.Kill();
+
+        tween = indicator.transform
+            .DOScale(indicatorSize * bounceMinScale, bounceDuration)
+            .SetEase(Ease.InOutSine)
+            .SetUpdate(true)
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
     private void HideIndicator()
     {
-        if (indicator == null) return;  // fix: || not &&
+        if (indicator == null) return;
         isShow = false;
-        if (tween != null) tween.Kill();
-        tween = indicator.transform.DOScale(Vector3.zero, dotweenTime).SetEase(Ease.InBounce);
+
+        tween?.Kill();
+
+        tween = indicator.transform
+            .DOScale(Vector3.zero, dotweenTime)
+            .SetEase(Ease.InBack)
+            .SetUpdate(true)
+            .OnComplete(() => indicator.SetActive(false));
     }
 }
