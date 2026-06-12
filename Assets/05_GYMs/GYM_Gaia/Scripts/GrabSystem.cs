@@ -12,22 +12,21 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private Animator animator;
 
     [Header("Grab")]
-    [SerializeField] private float rangeForGrab;
-    [SerializeField] private float sideRangeForGrab = 0.1f;
+    [SerializeField] private float rangeForGrab = 3f;
+    [SerializeField] private float radiusForGrab = 0.4f;          // <-- renamed & visible
     [SerializeField] private float grabActionDuration = 0.1f;
 
-    [SerializeField] private float rangeForSwallow;
-    [SerializeField] private float sideRangeForSwallow = 0.1f;
+    [SerializeField] private float rangeForSwallow = 1.5f;
+    [SerializeField] private float radiusForSwallow = 0.5f;       // <-- renamed & visible
     [SerializeField] private LayerMask grabLayers;
     [SerializeField] private Vector3 downValue = Vector3.down;
     [SerializeField] private VisualEffect eatVFX;
     [Tooltip("How long the script will wait for the Swallow/Eat VFX to finish playing.")]
-    [SerializeField] private float swallowVfxDuration = 1.5f; 
-
+    [SerializeField] private float swallowVfxDuration = 1.5f;
     [SerializeField] private float offsetGrabbedObject = .05f;
 
     [Header("Throw")]
-    [Tooltip("The enemy will end up at this distance of the enemy")]
+    [Tooltip("The enemy will end up at this distance from the player")]
     [SerializeField] private float throwDistance = 4f;
     [Tooltip("Duration in seconds")]
     [SerializeField] private float throwDuration = .1f, AutoThrowDuration = 2f;
@@ -41,16 +40,9 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private GameObject currentGrabbedObject;
 
     private bool CanThrow = true, IsThrowing = false;
-    private bool isGrabbing = false; // Prevents overlapping grab triggers
+    private bool isGrabbing = false;
 
-    enum GrabbingState
-    {
-        None,
-        ShowGrabPred,
-        ShowThrowPred,
-        TimerLimitThrow,
-    }
-
+    enum GrabbingState { None, ShowGrabPred, ShowThrowPred, TimerLimitThrow }
     private GrabbingState grabbingState;
     private float throwTimer;
 
@@ -75,73 +67,41 @@ public class GrabSystem : MonoBehaviour
 
         Vector3 downPosition = transform.position - downValue;
 
-        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hit)
-        {
+        if (DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow) is RaycastHit)
             TransformIndicator.Instance.DisplayNightmareIcon(1);
-        }
         else
-        {
             TransformIndicator.Instance.DisplayNightmareIcon(0);
-        }
     }
 
     void DoStateGrab()
     {
         switch (grabbingState)
         {
-            case GrabbingState.None:
-                break;
-            case GrabbingState.ShowGrabPred:
-                ShowGrabPredictionUpdate();
-                break;
-            case GrabbingState.ShowThrowPred:
-                break;
-            case GrabbingState.TimerLimitThrow:
-                break;
+            case GrabbingState.None: break;
+            case GrabbingState.ShowGrabPred: ShowGrabPredictionUpdate(); break;
+            case GrabbingState.ShowThrowPred: break;
+            case GrabbingState.TimerLimitThrow: break;
         }
     }
 
     void OnSecondPower(InputValue _input)
     {
         if (IsThrowing || isGrabbing) return;
-
-        if (currentGrabbedObject == null)
-        {
-            ProcessGrab(_input);
-            return;
-        }
-
+        if (currentGrabbedObject == null) { ProcessGrab(_input); return; }
         ProcessThrow(_input);
     }
 
     private void ProcessThrow(InputValue _input)
     {
-        if (_input.isPressed)
-        {
-            ShowThrowPrediction();
-            player.CanMove = false;
-            player.CanRotate = true;
-            return;
-        }
-
+        if (_input.isPressed) { ShowThrowPrediction(); player.CanMove = false; player.CanRotate = true; return; }
         Throw();
         player.CanMove = true;
     }
 
     private void ProcessGrab(InputValue _input)
     {
-        if (_input.isPressed)
-        {
-            ShowGrabPrediction();
-            player.CanMove = false;
-            return;
-        }
-
-        // Fire off the Coroutine instead of a standard method
-        if (!isGrabbing)
-        {
-            StartCoroutine(GrabRoutine());
-        }
+        if (_input.isPressed) { ShowGrabPrediction(); player.CanMove = false; return; }
+        if (!isGrabbing) StartCoroutine(GrabRoutine());
     }
 
     private IEnumerator GrabRoutine()
@@ -149,49 +109,33 @@ public class GrabSystem : MonoBehaviour
         animator.SetTrigger("usingAbility");
         if (!isTutoActionDone)
         {
-            if (tutoIndicator == null) yield  break;
+            if (tutoIndicator == null) yield break;
             tutoIndicator.StopBlink();
         }
         isGrabbing = true;
         Vector3 downPosition = transform.position - downValue;
 
         // --- 1. SWALLOW LOGIC ---
-        if (DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) is RaycastHit hitSwallow)
+        if (DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow) is RaycastHit hitSwallow)
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
             EnnemyBase currentEnnemyGrab = currentGrabbedObject.GetComponent<EnnemyBase>();
-            bool dontGrab = false;
-
-            if (currentEnnemyGrab && currentEnnemyGrab.CheckHP() <= 0)
-            {
-                dontGrab = true;
-            }
+            bool dontGrab = currentEnnemyGrab && currentEnnemyGrab.CheckHP() <= 0;
 
             if (currentGrabbedObject != null && !dontGrab)
             {
                 animator.SetBool("GrabSheep", true);
                 animator.SetTrigger("usingAbility");
-                // Activate and play your VFX
                 eatVFX.enabled = true;
                 eatVFX.Play();
-
-                // PAUSE CODE HERE: Holds script execution right here until the VFX finishes
                 yield return new WaitForSeconds(swallowVfxDuration);
 
                 bool isSheep = false;
-                SheepEnnemyTest SheepEnnemyScript = currentGrabbedObject.GetComponent<SheepEnnemyTest>();
-                if (SheepEnnemyScript != null && SheepEnnemyScript.shellHere)
-                {
-                    SheepEnnemyScript.LoseShell();
-                    isSheep = true;
-                }
+                SheepEnnemyTest sheepScript = currentGrabbedObject.GetComponent<SheepEnnemyTest>();
+                if (sheepScript != null && sheepScript.shellHere) { sheepScript.LoseShell(); isSheep = true; }
 
-                SheepEnnemySprite SheepSprite = currentGrabbedObject.GetComponent<SheepEnnemySprite>();
-                if (SheepSprite != null && SheepSprite.shellHere)
-                {
-                    SheepSprite.LoseShell();
-                    isSheep = true;
-                }
+                SheepEnnemySprite sheepSprite = currentGrabbedObject.GetComponent<SheepEnnemySprite>();
+                if (sheepSprite != null && sheepSprite.shellHere) { sheepSprite.LoseShell(); isSheep = true; }
 
                 if (currentGrabbedObject.transform.parent != null)
                     currentGrabbedObject = currentGrabbedObject.transform.parent.gameObject;
@@ -199,34 +143,27 @@ public class GrabSystem : MonoBehaviour
                 if (!isSheep) currentGrabbedObject.SetActive(false);
             }
 
-            // Wrap up state cleanly after VFX concludes
             player.CanMove = true;
-            throwTimer = Time.time; 
+            throwTimer = Time.time;
             isGrabbing = false;
             animator.SetBool("GrabSheep", false);
-            yield break; 
+            yield break;
         }
 
         // --- 2. STANDARD ATTRACT LOGIC ---
-        RaycastHit? maybeHitGrabbed = DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab);
-
-        if (maybeHitGrabbed is null)
+        if (DoGrabCheck(downPosition, rangeForGrab, radiusForGrab) is not RaycastHit hitGrabbed)
         {
             player.CanMove = true;
             isGrabbing = false;
             yield break;
         }
 
-        RaycastHit hitGrabbed = maybeHitGrabbed ?? throw new Exception("Unreachable");
-
         GameObject targetSubject = hitGrabbed.transform.parent != null
             ? hitGrabbed.transform.parent.gameObject
             : hitGrabbed.collider.gameObject;
 
-        // PAUSE CODE HERE: Wait for the object to finish flying towards the player
         yield return StartCoroutine(AttractObjectRoutine(targetSubject));
 
-        // Wrap up state cleanly after movement completes
         player.CanMove = true;
         throwTimer = Time.time;
         isGrabbing = false;
@@ -235,115 +172,125 @@ public class GrabSystem : MonoBehaviour
     private IEnumerator AttractObjectRoutine(GameObject subject)
     {
         var finalPosition = transform.position + transform.forward * offsetGrabbedObject;
-
         if (!Physics.Raycast(finalPosition + Vector3.up, Vector3.down * 2f)) yield break;
 
         var tween = subject.transform.DOMove(finalPosition, grabActionDuration);
-        GameObject vfxInstance = null;
-
-        if (grabVfx)
-        {
-            vfxInstance = Instantiate(grabVfx, subject.transform);
-        }
+        GameObject vfxInstance = grabVfx ? Instantiate(grabVfx, subject.transform) : null;
 
         tween.Play();
-        
-        // DOTween Coroutine Integration: Pauses here dynamically until the tween completes
         yield return tween.WaitForCompletion();
 
-        if (vfxInstance != null)
-        {
-            Destroy(vfxInstance);
-        }
+        if (vfxInstance != null) Destroy(vfxInstance);
     }
 
     private void Throw()
     {
         grabbingState = GrabbingState.None;
         grabMark.SetActive(false);
-
         IsThrowing = true;
         TransformIndicator.Instance.DisplayNightmareIcon(0);
 
         Collider collider = currentGrabbedObject.GetComponent<BoxCollider>();
-        if (collider != null)
-        {
-            collider.enabled = false;
-        }
+        if (collider != null) collider.enabled = false;
 
         currentGrabbedObject.SetActive(true);
-
         currentGrabbedObject.transform.position = transform.position + Vector3.up * 2f;
-        var landingSpot = transform.position + transform.forward * throwDistance;
 
+        var landingSpot = transform.position + transform.forward * throwDistance;
         EnnemyBase isEnnemy = currentGrabbedObject.GetComponent<EnnemyBase>();
         if (isEnnemy != null) isEnnemy.StunEnnemy(2, false);
 
         var animation = currentGrabbedObject.transform.DOMove(landingSpot, throwDuration);
-
-        animation.onComplete += () =>
-        {
-            if (collider != null) collider.enabled = true;
-            CleanUpThrow();
-        };
-
+        animation.onComplete += () => { if (collider != null) collider.enabled = true; CleanUpThrow(); };
         animation.Play();
     }
 
-    private void CleanUpThrow()
-    {
-        throwMark.SetActive(false);
-        currentGrabbedObject = null;
-        IsThrowing = false;
-    }
-
-    private void ShowThrowPrediction()
-    {
-        throwMark.SetActive(true);
-        grabbingState = GrabbingState.ShowThrowPred;
-    }
-
-    private void ShowGrabPrediction()
-    {
-        grabbingState = GrabbingState.ShowGrabPred;
-    }
+    private void CleanUpThrow() { throwMark.SetActive(false); currentGrabbedObject = null; IsThrowing = false; }
+    private void ShowThrowPrediction() { throwMark.SetActive(true); grabbingState = GrabbingState.ShowThrowPred; }
+    private void ShowGrabPrediction() { grabbingState = GrabbingState.ShowGrabPred; }
 
     private void ShowGrabPredictionUpdate()
     {
         grabMark.SetActive(true);
-
         Vector3 downPosition = transform.position - downValue;
+        var hit = DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow)
+               ?? DoGrabCheck(downPosition, rangeForGrab, radiusForGrab);
 
-        var grabchecks = DoGrabCheck(downPosition, rangeForSwallow, sideRangeForSwallow) ?? DoGrabCheck(downPosition, rangeForGrab, sideRangeForGrab);
-
-        if (grabchecks is RaycastHit hit)
-        {
-            PutGrabMarkAtTarget(hit.collider.transform.position);
-            return;
-        }
-
+        if (hit is RaycastHit h) { PutGrabMarkAtTarget(h.collider.transform.position); return; }
         grabMark.SetActive(false);
     }
 
-    private void PutGrabMarkAtTarget(Vector3 position)
-    {
-        grabMark.transform.position = position;
-    }
+    private void PutGrabMarkAtTarget(Vector3 position) { grabMark.transform.position = position; }
 
     private void DoAutoThrowUpdate()
     {
-        var PassedTime = Time.time - throwTimer;
-        if (PassedTime < AutoThrowDuration) return;
+        if (Time.time - throwTimer < AutoThrowDuration) return;
         Throw();
         grabbingState = GrabbingState.None;
     }
 
+    /// <summary>
+    /// Casts a sphere along the player's forward axis and returns the CLOSEST valid hit.
+    /// Using SphereCastAll + manual closest-pick solves the ambiguity when multiple
+    /// objects fall inside the enlarged radius — the nearest one always wins.
+    /// </summary>
+    private RaycastHit? DoGrabCheck(Vector3 origin, float range, float radius)
+    {
+        RaycastHit[] hits = Physics.SphereCastAll(origin, radius, transform.forward, range, grabLayers);
+
+        if (hits.Length == 0)
+        {
+            Debug.DrawRay(origin, transform.forward * range, Color.red);
+            return null;
+        }
+
+        // Pick the closest hit — deterministic, no random "whoever Unity finds first" surprise
+        RaycastHit closest = hits[0];
+        for (int i = 1; i < hits.Length; i++)
+            if (hits[i].distance < closest.distance)
+                closest = hits[i];
+
+        Debug.DrawRay(origin, transform.forward * range, Color.green);
+        return closest;
+    }
+
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position - downValue, transform.forward * rangeForGrab);
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position - downValue, transform.forward * rangeForSwallow);
+        Vector3 origin = transform.position - downValue;
+
+        // Swallow zone — red, shorter & fatter
+        DrawSphereCastGizmo(origin, transform.forward, rangeForSwallow, radiusForSwallow, Color.red);
+
+        // Grab zone — green, longer & thinner
+        DrawSphereCastGizmo(origin, transform.forward, rangeForGrab, radiusForGrab, Color.green);
+    }
+
+    /// <summary>
+    /// Draws a SphereCast as two end-cap wireframe spheres + connecting lines,
+    /// accurately representing what Physics.SphereCastAll will sweep through.
+    /// </summary>
+    private void DrawSphereCastGizmo(Vector3 origin, Vector3 direction, float range, float radius, Color color)
+    {
+        Gizmos.color = color;
+        direction = direction.normalized;
+
+        Vector3 endPoint = origin + direction * range;
+
+        // Start and end spheres
+        Gizmos.DrawWireSphere(origin, radius);
+        Gizmos.DrawWireSphere(endPoint, radius);
+
+        // Four connecting lines along the "tube" edges (up/down/left/right of travel axis)
+        Vector3 perpUp    = Vector3.Cross(direction, Vector3.right).normalized * radius;
+        Vector3 perpRight = Vector3.Cross(direction, Vector3.up).normalized    * radius;
+
+        if (perpUp    == Vector3.zero) perpUp    = Vector3.up    * radius;
+        if (perpRight == Vector3.zero) perpRight = Vector3.right * radius;
+
+        Gizmos.DrawLine(origin + perpUp,    endPoint + perpUp);
+        Gizmos.DrawLine(origin - perpUp,    endPoint - perpUp);
+        Gizmos.DrawLine(origin + perpRight, endPoint + perpRight);
+        Gizmos.DrawLine(origin - perpRight, endPoint - perpRight);
     }
 
     private void OnDisable()
@@ -352,18 +299,5 @@ public class GrabSystem : MonoBehaviour
         throwMark.SetActive(false);
         player.CanMove = true;
         grabMark.SetActive(false);
-    }
-
-    private RaycastHit? DoGrabCheck(Vector3 down, float range, float siderange)
-    {
-        if (Physics.SphereCast(down, siderange, transform.forward, out RaycastHit hitGrabbed, range, grabLayers))
-        {
-            Debug.DrawRay(transform.position, transform.forward * range, Color.green);
-            return hitGrabbed;
-        }
-
-        Debug.DrawRay(transform.position, transform.forward * range, Color.red);
-
-        return null;
     }
 }
