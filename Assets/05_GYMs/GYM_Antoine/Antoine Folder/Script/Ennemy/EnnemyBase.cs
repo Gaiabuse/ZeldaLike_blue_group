@@ -351,6 +351,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public void ToogleMainAttack(int toogle)
     {
+        if (MainHitBox == null) return;
         if (toogle == 1) MainHitBox.ToggleHitBox(true);
         else MainHitBox.ToggleHitBox(false);
     }

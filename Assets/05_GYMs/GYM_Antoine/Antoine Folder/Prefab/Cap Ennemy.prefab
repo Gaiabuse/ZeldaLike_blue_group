@@ -313,9 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579cc199e80376e4899e36d0e32d4407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Laser
-  damage: 1
-  waitBeforeTickDamage: 0.1
-  multihit: 1
+  damage: 3
+  waitBeforeTickDamage: 1
 --- !u!1 &3166195594457280733
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +368,7 @@ GameObject:
   - component: {fileID: 4121157818133078294}
   m_Layer: 0
   m_Name: Cap Ennemy
-  m_TagString: Untagged
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -463,6 +462,7 @@ MonoBehaviour:
   showDamageDisplayInvincible: 1
   Player: {fileID: 0}
   Leure: {fileID: 0}
+  CurrentTarget: {fileID: 0}
   timerGeneral: 0
   alwaysAgro: 0
   stunMultiplier: 1
@@ -497,6 +497,7 @@ MonoBehaviour:
   AttackTrigger: {fileID: 3131157192974588627}
   DistanceAttack: 7
   chargeAttackTime: 3
+  hitboxVFX: {fileID: 0}
   waitAfterAttack: 3
   waitBeforeDelete: 0.75
   LayerBlockRay:
