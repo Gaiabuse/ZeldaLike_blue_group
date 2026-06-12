@@ -14,17 +14,18 @@ public class EnnemyHit : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (!canHit) return;
+        if (!canHit || !collision.CompareTag("Player")) return;
         Debug.Log("Bonk Player");
 
-        var otherDamageablePlayer = collision.GetComponent<IPlayerDamageable>();
+        PlayerHP otherDamageablePlayer = collision.GetComponent<PlayerHP>();
 
         if (otherDamageablePlayer == null) return;
 
         otherDamageablePlayer.TakeDamage(damage);
+        canHit = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (!canHit) return;
         Debug.Log("Bonk Player");
@@ -34,10 +35,11 @@ public class EnnemyHit : MonoBehaviour
         if (otherDamageablePlayer == null) return;
 
         otherDamageablePlayer.TakeDamage(damage);
-    }
+    }*/
 
     public void ToggleHitBox(bool toggle)
     {
+        Debug.Log("Activate Hitbox");
         canHit = toggle;
         col.enabled = toggle;
     }

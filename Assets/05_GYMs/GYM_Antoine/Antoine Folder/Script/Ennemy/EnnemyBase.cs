@@ -134,6 +134,12 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         }
         if (move == "stun")
         {
+            if (HP <= 0)
+            {
+                timerGeneral = 0;
+                Death();
+                return;
+            }
             timerGeneral -= Time.deltaTime;
             if (timerGeneral <= 0)
             {
@@ -151,6 +157,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         }
         if (move == "death")
         {
+            if (timerGeneral == Mathf.Infinity) timerGeneral = 0.5f;
+            
             timerGeneral -= Time.deltaTime;
             if (timerGeneral <= 0)
             {
