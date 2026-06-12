@@ -15,6 +15,7 @@ public class SettingsManager : MonoBehaviour
     public bool isEnglish;
 
     public static SettingsManager Instance;
+    public static event Action OnLanguageChanged;
 
     private FMOD.Studio.VCA mainVCA;
     private FMOD.Studio.VCA musicVCA;
@@ -57,6 +58,7 @@ public class SettingsManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ApplyVolumesToFMOD();
+        OnLanguageChanged?.Invoke();
     
         // Re-apply the debug mode state to whatever DebugScreen exists in the new scene
         if (DebugScreen.Instance != null)
@@ -128,6 +130,7 @@ public class SettingsManager : MonoBehaviour
         isEnglish = PlayerPrefs.GetInt("isEnglish", 0) != 0;
         
         QualitySettings.vSyncCount = vSync ? 1 : 0;
+        OnLanguageChanged?.Invoke();
     }
 
     private void ApplyVolumesToFMOD()
@@ -148,6 +151,6 @@ public class SettingsManager : MonoBehaviour
     {
         isEnglish = languageToggle.isOn;
         PlayerPrefs.SetInt("isEnglish", isEnglish ? 1 : 0);
-        Debug.Log("Language is " + isEnglish);
+        OnLanguageChanged?.Invoke();
     }
 }

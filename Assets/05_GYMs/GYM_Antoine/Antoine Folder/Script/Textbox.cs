@@ -5,7 +5,6 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Textbox : MonoBehaviour
@@ -14,17 +13,39 @@ public class Textbox : MonoBehaviour
     [SerializeField] float delayBeforeDisappear = 1f;
     [SerializeField] float tweenDuration = 0.2f;
     [SerializeField] GameObject phone;
-    string textShow;
-    
-    TweenerCore<Vector3, Vector3, VectorOptions> showTextTween;
 
+    string textShow;
+    private TutoStep _activeStep;
+
+    TweenerCore<Vector3, Vector3, VectorOptions> showTextTween;
     TweenerCore<Vector3, Vector3, VectorOptions> hideTextTween;
+
+    private void OnEnable()
+    {
+        SettingsManager.OnLanguageChanged += RefreshActiveDialogue;
+    }
+
+    private void OnDisable()
+    {
+        SettingsManager.OnLanguageChanged -= RefreshActiveDialogue;
+    }
+
     private void Start()
     {
         textBox.text = null;
         transform.localScale = Vector3.zero;
     }
-    
+
+    public void SetActiveStep(TutoStep step)
+    {
+        _activeStep = step;
+    }
+
+    private void RefreshActiveDialogue()
+    {
+        if (_activeStep != null)
+            AppearText(_activeStep.CurrentDialogue);
+    }
 
     public void AppearText(string text)
     {
