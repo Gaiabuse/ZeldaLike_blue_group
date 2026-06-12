@@ -112,6 +112,15 @@ public class DebugScreen : MonoBehaviour
 
     public void ToggleInfiniteLife(Toggle toggle) { hp.invicible = toggle.isOn; }
 
+    public void KillAllEnemies()
+    {
+        List<EnnemyBase> enemiesToKill = new List<EnnemyBase>(EnnemyManager.Instance.enemies);
+        foreach (EnnemyBase nmi in enemiesToKill)
+        {
+            nmi.Kill();
+        }
+    }
+
     public void Activate()
     {
         debugVisual.SetActive(true);

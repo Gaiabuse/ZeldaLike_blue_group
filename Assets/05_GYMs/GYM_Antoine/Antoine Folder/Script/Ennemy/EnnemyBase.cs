@@ -270,6 +270,11 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         }
     }
 
+    public void Kill()
+    {
+        Death();
+    }
+
     public void SetUltIndicator(bool value)
     {
         if (UltIndicator) UltIndicator.SetActive(value);
@@ -312,6 +317,9 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected virtual void Death()
     {
+        AutoAimable aimable = GetComponent<AutoAimable>();
+        if (aimable != null) aimable.enabled = false;
+        
         if (MusicManager.Instance != null) MusicManager.Instance.StopStun();
         lifeBar.SetActive(false);
         dotween?.Kill(); 

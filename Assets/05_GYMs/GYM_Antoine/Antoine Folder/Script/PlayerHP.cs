@@ -137,7 +137,10 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
         deathScreen.DOFade(1f, 0.5f).OnComplete(() =>
         {
             playerController.TriggerRespawn();
-            deathScreen.DOFade(0f, 0.5f);
+            deathScreen.DOFade(1f, 1f).OnComplete(() =>
+            {
+                deathScreen.DOFade(0f, 0.5f);
+            });
         });
     }
 

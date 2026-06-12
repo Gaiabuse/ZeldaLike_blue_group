@@ -14,12 +14,11 @@ public class PositionDebugger : MonoBehaviour
     public float m_refreshTime = 0.25f;
 
     [Header ("Text")]
-    [SerializeField]
-    TMP_Text positionText;
-    [SerializeField]
-    TMP_Text form;
-    [SerializeField]
-    TMP_Text FPS;
+    [SerializeField] TMP_Text positionText;
+    [SerializeField] TMP_Text form;
+    [SerializeField] TMP_Text FPS;
+    [SerializeField] TMP_Text enemiesCounter;
+    [SerializeField] TMP_Text gameState;
 
     void Start()
     {
@@ -34,6 +33,8 @@ public class PositionDebugger : MonoBehaviour
         if (switcher == null) return;
         positionText.text = $"Position {player.transform.position}";
         form.text = GetForms();
+        enemiesCounter.text = $"Enemies : {EnnemyManager.Instance.enemies.Count}";
+        gameState.text = $"State : {(EnnemyManager.Instance.IsInFight ? "fight" : "exploration")}";
         FrameCounter();
     }
 
