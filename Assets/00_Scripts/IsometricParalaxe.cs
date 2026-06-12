@@ -14,7 +14,7 @@ public class IsometricParalaxe : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (player.isMoving)
+        if (player.isMoving && player.CanMove)
         {
             transform.localPosition += (Vector3)parallaxMove * (speed * Time.fixedDeltaTime);
         }

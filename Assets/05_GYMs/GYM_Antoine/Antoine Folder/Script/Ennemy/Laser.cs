@@ -14,6 +14,7 @@ public class Laser : MonoBehaviour
         {
             if (other.GetComponent<DreamDash>().IsDashing) return;
             playerHp = other.GetComponent<PlayerHP>();
+            t = waitBeforeTickDamage;
         }
     }
 

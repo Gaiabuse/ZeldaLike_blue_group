@@ -241,6 +241,7 @@ public class PlayerController : MonoBehaviour
 
         CanMove = false;
         CanRotate = false;
+        isMoving = false;
 
         // Check if we need to skip the 100 HP reset because it's the game startup
         if (!isInitialSpawn)
