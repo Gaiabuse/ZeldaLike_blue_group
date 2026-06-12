@@ -12,6 +12,7 @@ public class SettingsManager : MonoBehaviour
     public float sfxVolume;
     public bool debugMode;
     public bool vSync;
+    public bool isEnglish;
 
     public static SettingsManager Instance;
 
@@ -124,6 +125,7 @@ public class SettingsManager : MonoBehaviour
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
         sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1.0f);
         vSync = PlayerPrefs.GetFloat("vSync", 1.0f) != 0;
+        isEnglish = PlayerPrefs.GetInt("isEnglish", 0) != 0;
         
         QualitySettings.vSyncCount = vSync ? 1 : 0;
     }
@@ -139,7 +141,13 @@ public class SettingsManager : MonoBehaviour
     {
         vSync = vSyncToggle.isOn;
         QualitySettings.vSyncCount = vSync ? 1 : 0;
-        Debug.Log(QualitySettings.vSyncCount + " vSync is " + vSyncToggle.isOn);
         PlayerPrefs.SetFloat("vSync", vSync ? 1 : 0);
+    }
+    
+    public void ToggleLanguage(Toggle languageToggle)
+    {
+        isEnglish = languageToggle.isOn;
+        PlayerPrefs.SetInt("isEnglish", isEnglish ? 1 : 0);
+        Debug.Log("Language is " + isEnglish);
     }
 }
