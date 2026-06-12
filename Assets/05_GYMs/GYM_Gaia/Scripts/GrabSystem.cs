@@ -50,6 +50,14 @@ public class GrabSystem : MonoBehaviour
     void Start()
     {
         throwMark.transform.localPosition = Vector3.forward * throwDistance;
+        rangeForGrab-=radiusForGrab;
+        radiusForSwallow-=radiusForSwallow;
+    }
+
+    private void OnValidate()
+    {
+        rangeForGrab-=radiusForGrab;
+        radiusForSwallow-=radiusForSwallow;
     }
 
     void Update()
