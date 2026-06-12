@@ -240,6 +240,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
                 hitVFX.transform.LookAt(lookTarget);
                 hitVFX.transform.Rotate(0, 90, 0);
 
+                hitVFX.SetActive(false);
                 hitVFX.SetActive(true);
                 StartCoroutine(VisualDamage(targetHP));
             }

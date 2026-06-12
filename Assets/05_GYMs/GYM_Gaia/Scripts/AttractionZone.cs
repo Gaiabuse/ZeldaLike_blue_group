@@ -8,6 +8,7 @@ public class AttractionZone : MonoBehaviour
 
     public List<EnnemyBase> EnemyAttract;
     
+    [SerializeField] private DreamCoreManager dreamCore;
     [SerializeField] private float stopDistance = 2f;
     [SerializeField] private int damagesPerSeconds = 5;
     private float t = 0;
@@ -35,6 +36,10 @@ public class AttractionZone : MonoBehaviour
         {
             EnemyAttract.Add(other.gameObject.GetComponent<EnnemyBase>());
         }
+        else if (other.CompareTag("DreamCore"))
+        {
+            dreamCore = other.gameObject.GetComponent<DreamCoreManager>();
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -42,6 +47,10 @@ public class AttractionZone : MonoBehaviour
         if (other.CompareTag("Ennemy"))
         {
             EnemyAttract.Remove(other.gameObject.GetComponent<EnnemyBase>());
+        }
+        else if (other.CompareTag("DreamCore"))
+        {
+            dreamCore = null;
         }
     }
 
@@ -54,6 +63,11 @@ public class AttractionZone : MonoBehaviour
             foreach (EnnemyBase nmi in EnemyAttract)
             {
                 nmi.TakeDamage(damagesPerSeconds, 0);
+            }
+
+            if (dreamCore != null)
+            {
+                dreamCore.TakeDamages(damagesPerSeconds);
             }
         }
     }
