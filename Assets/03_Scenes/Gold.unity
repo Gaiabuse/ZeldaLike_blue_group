@@ -5426,7 +5426,7 @@ MonoBehaviour:
     timeOfUI: 0
     uiObject: {fileID: 300991356}
   - colliderTrigger: {fileID: 805349269}
-    disponibleForms: 01000000
+    disponibleForms: 010000000000000002000000
     activeTutoUi: 0
     setForm: 0
     form: 1
@@ -6085,6 +6085,26 @@ PrefabInstance:
     - target: {fileID: 3267306723963454552, guid: fc49e479b596327408cfc192491dbbf2, type: 3}
       propertyPath: m_Name
       value: SM_Tree_Big (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312800974634449858, guid: fc49e479b596327408cfc192491dbbf2, type: 3}
+      propertyPath: m_Size.x
+      value: 8.131823
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312800974634449858, guid: fc49e479b596327408cfc192491dbbf2, type: 3}
+      propertyPath: m_Size.z
+      value: 18.571297
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312800974634449858, guid: fc49e479b596327408cfc192491dbbf2, type: 3}
+      propertyPath: m_Center.x
+      value: -2.1366446
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312800974634449858, guid: fc49e479b596327408cfc192491dbbf2, type: 3}
+      propertyPath: m_Center.z
+      value: 7.317103
+      objectReference: {fileID: 0}
+    - target: {fileID: 5347368746932677468, guid: fc49e479b596327408cfc192491dbbf2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11072,6 +11092,14 @@ PrefabInstance:
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 720551158295007547, guid: 87b91e10584711641bd0efa925948962, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 720551158295007547, guid: 87b91e10584711641bd0efa925948962, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.47
       objectReference: {fileID: 0}
     - target: {fileID: 2853439257365917298, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_Name
@@ -19095,7 +19123,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6151013427733615941, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6151013427733615941, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: m_Center.x
@@ -19120,6 +19148,10 @@ PrefabInstance:
     - target: {fileID: 6853517184108811184, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: m_Name
       value: Arene 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6853517184108811184, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.size
@@ -21302,80 +21334,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3767920934971744919, guid: c8e6ed19be0c7d148b74ceade2043dac, type: 3}
   m_PrefabInstance: {fileID: 338698956}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &344774263
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 708831806}
-    m_Modifications:
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 104.6511
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 54.72
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.98899305
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.14796227
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 17.018
-      objectReference: {fileID: 0}
-    - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2853439257365917298, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: m_Name
-      value: Garbages (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596488635380405021, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: hasZonyr
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596488635380405021, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: spawnRatio
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7596488635380405021, guid: 87b91e10584711641bd0efa925948962, type: 3}
-      propertyPath: containPowder
-      value: 15
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 87b91e10584711641bd0efa925948962, type: 3}
---- !u!4 &344774264 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
-  m_PrefabInstance: {fileID: 344774263}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &345021460
 GameObject:
   m_ObjectHideFlags: 0
@@ -21462,7 +21420,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.84
+      value: -0.49
       objectReference: {fileID: 0}
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalPosition.y
@@ -21470,7 +21428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -35.94
+      value: -44.94
       objectReference: {fileID: 0}
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalRotation.w
@@ -24380,7 +24338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: timeBeforeSpawnEnemies
@@ -24392,11 +24350,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[0].Enemy
@@ -24429,7 +24387,7 @@ PrefabInstance:
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[2].Enemy
       value: 
-      objectReference: {fileID: 4252265134932699148, guid: 389223b118273ef4aa60732feb39755e, type: 3}
+      objectReference: {fileID: 2354149709401249501, guid: a0804f92e1d88e145a7b7f993c152ed9, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[3].Enemy
       value: 
@@ -24437,15 +24395,19 @@ PrefabInstance:
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[0].Enemy
       value: 
-      objectReference: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      objectReference: {fileID: 6380544062438564481, guid: 41cc16bc211e88b4e800bef0d692181c, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[1].Enemy
       value: 
-      objectReference: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      objectReference: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[2].Enemy
       value: 
-      objectReference: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      objectReference: {fileID: 2354149709401249501, guid: a0804f92e1d88e145a7b7f993c152ed9, type: 3}
+    - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
+      propertyPath: hordes.Array.data[2].Enemies.Array.data[3].Enemy
+      value: 
+      objectReference: {fileID: 2354149709401249501, guid: a0804f92e1d88e145a7b7f993c152ed9, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[0].SpawnPoint.x
       value: -203
@@ -24532,15 +24494,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[2].SpawnPoint.x
-      value: 23
+      value: -196
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[2].SpawnPoint.y
-      value: 2.18
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[2].SpawnPoint.z
-      value: 156
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[3].SpawnPoint.x
@@ -24556,39 +24518,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[0].SpawnPoint.x
-      value: 18
+      value: -195.5
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[0].SpawnPoint.y
-      value: 2.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[0].SpawnPoint.z
-      value: 294
+      value: 87.4
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[1].SpawnPoint.x
-      value: 21
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[1].SpawnPoint.y
-      value: 2.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[1].SpawnPoint.z
-      value: 290
+      value: 92
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[2].SpawnPoint.x
-      value: 25
+      value: -196
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[2].SpawnPoint.y
-      value: 2.3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[2].SpawnPoint.z
-      value: 298
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
+      propertyPath: hordes.Array.data[2].Enemies.Array.data[3].SpawnPoint.x
+      value: -203
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
+      propertyPath: hordes.Array.data[2].Enemies.Array.data[3].SpawnPoint.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
+      propertyPath: hordes.Array.data[2].Enemies.Array.data[3].SpawnPoint.z
+      value: 82
       objectReference: {fileID: 0}
     - target: {fileID: 6913486923155779247, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: m_LocalScale.x
@@ -35462,11 +35436,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.size
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.size
@@ -35475,11 +35449,11 @@ PrefabInstance:
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[0].Enemy
       value: 
-      objectReference: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
+      objectReference: {fileID: 2354149709401249501, guid: a0804f92e1d88e145a7b7f993c152ed9, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[1].Enemy
       value: 
-      objectReference: {fileID: 2354149709401249501, guid: a0804f92e1d88e145a7b7f993c152ed9, type: 3}
+      objectReference: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[2].Enemy
       value: 
@@ -35499,7 +35473,7 @@ PrefabInstance:
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[0].Enemy
       value: 
-      objectReference: {fileID: 2354149709401249501, guid: a0804f92e1d88e145a7b7f993c152ed9, type: 3}
+      objectReference: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[1].Enemy
       value: 
@@ -35534,7 +35508,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[0].SpawnPoint.y
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[0].SpawnPoint.z
@@ -35542,7 +35516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[1].SpawnPoint.x
-      value: -80
+      value: -83
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[1].SpawnPoint.y
@@ -35550,7 +35524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[1].SpawnPoint.z
-      value: 99
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[2].SpawnPoint.x
@@ -35606,7 +35580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[0].SpawnPoint.y
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[0].SpawnPoint.z
@@ -37425,7 +37399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7596488635380405021, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: containPowder
-      value: 0
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -45184,7 +45158,6 @@ Transform:
   - {fileID: 274083465}
   - {fileID: 1613019791}
   - {fileID: 2134108981}
-  - {fileID: 344774264}
   - {fileID: 1702688817}
   - {fileID: 1538823707}
   - {fileID: 105755434}
@@ -46265,12 +46238,96 @@ PrefabInstance:
       value: Phase 4
       objectReference: {fileID: 0}
     - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].radius
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[2].radius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].pattern
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[2].pattern
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].actionName
+      value: Zonyr Cap Launch
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[1].actionName
+      value: Zonyr Sheep Launch
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[2].actionName
+      value: Zonyr Launch
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].projectileIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[1].projectileIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[2].projectileIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
       propertyPath: bossPhases.Array.data[2].attacksInPhase.Array.data[0].useCircleDelayed
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
       propertyPath: bossPhases.Array.data[5].attacksInPhase.Array.data[3].useCircleDelayed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].launchSpeedRange.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].launchSpeedRange.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[2].launchSpeedRange.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[2].launchSpeedRange.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[4].attacksInPhase.Array.data[1].projectileCountRange.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[4].attacksInPhase.Array.data[1].projectileCountRange.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].projectileCountRange.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[0].projectileCountRange.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[1].projectileCountRange.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 745398271489892852, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
+      propertyPath: bossPhases.Array.data[6].attacksInPhase.Array.data[1].projectileCountRange.y
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1620279340878611645, guid: f9481672960429241b5d8e5d4758aa9a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -58343,7 +58400,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.63191223
+      value: 4.78
       objectReference: {fileID: 0}
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalPosition.y
@@ -58351,7 +58408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -36.36489
+      value: -34.69
       objectReference: {fileID: 0}
     - target: {fileID: 355235060147487060, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: m_LocalRotation.w
@@ -71823,7 +71880,7 @@ PrefabInstance:
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[0].Enemy
       value: 
-      objectReference: {fileID: 6380544062438564481, guid: 41cc16bc211e88b4e800bef0d692181c, type: 3}
+      objectReference: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[1].Enemy
       value: 
@@ -96579,6 +96636,10 @@ PrefabInstance:
       propertyPath: m_Size.z
       value: 19.98
       objectReference: {fileID: 0}
+    - target: {fileID: 5347368746932677468, guid: fc49e479b596327408cfc192491dbbf2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -97486,7 +97547,7 @@ PrefabInstance:
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[1].Enemy
       value: 
-      objectReference: {fileID: 6380544062438564481, guid: 41cc16bc211e88b4e800bef0d692181c, type: 3}
+      objectReference: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[0].Enemy
       value: 
@@ -118516,11 +118577,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.size
@@ -118553,15 +118614,15 @@ PrefabInstance:
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[1].Enemy
       value: 
-      objectReference: {fileID: 6380544062438564481, guid: 41cc16bc211e88b4e800bef0d692181c, type: 3}
+      objectReference: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[2].Enemy
       value: 
-      objectReference: {fileID: 6380544062438564481, guid: 41cc16bc211e88b4e800bef0d692181c, type: 3}
+      objectReference: {fileID: 4826024396728377704, guid: 5e3c8ceff728c0b4ebc0a91a033c1b25, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[3].Enemy
       value: 
-      objectReference: {fileID: 8591770561947437112, guid: b3ff225d650b48f4b9cdd57d693a46e7, type: 3}
+      objectReference: {fileID: 2354149709401249501, guid: a0804f92e1d88e145a7b7f993c152ed9, type: 3}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[0].Enemy
       value: 
@@ -118600,7 +118661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[2].SpawnPoint.x
-      value: -196
+      value: -155.7
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[2].SpawnPoint.y
@@ -118608,7 +118669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[2].SpawnPoint.z
-      value: 80
+      value: 23.6
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[0].Enemies.Array.data[3].SpawnPoint.x
@@ -118672,15 +118733,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[3].SpawnPoint.x
-      value: 28
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[3].SpawnPoint.y
-      value: 1.7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[1].Enemies.Array.data[3].SpawnPoint.z
-      value: 154
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 6889515071796997092, guid: 238bb3c12e94fcc40a6f7989263b3b5e, type: 3}
       propertyPath: hordes.Array.data[2].Enemies.Array.data[0].SpawnPoint.x
@@ -130096,7 +130157,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7596488635380405021, guid: 87b91e10584711641bd0efa925948962, type: 3}
       propertyPath: containPowder
-      value: 0
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -133956,6 +134017,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1003094256}
     m_Modifications:
+    - target: {fileID: 659643992352445260, guid: 328e04dfc3446024395c632d301ece60, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1714177598703217361, guid: 328e04dfc3446024395c632d301ece60, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.22
@@ -133996,15 +134061,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1797947922405911630, guid: 328e04dfc3446024395c632d301ece60, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3253877245878788661, guid: 328e04dfc3446024395c632d301ece60, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3792192685095806480, guid: 328e04dfc3446024395c632d301ece60, type: 3}
       propertyPath: m_Name
       value: PF_Platform_Island_1
       objectReference: {fileID: 0}
+    - target: {fileID: 8902218884326605859, guid: 328e04dfc3446024395c632d301ece60, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8902218884326605859, guid: 328e04dfc3446024395c632d301ece60, type: 3}
+    - {fileID: 1797947922405911630, guid: 328e04dfc3446024395c632d301ece60, type: 3}
+    - {fileID: 3253877245878788661, guid: 328e04dfc3446024395c632d301ece60, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1714177598703217361, guid: 328e04dfc3446024395c632d301ece60, type: 3}
-      insertIndex: 3
+      insertIndex: 0
       addedObject: {fileID: 1959974143}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328e04dfc3446024395c632d301ece60, type: 3}
@@ -136691,6 +136771,10 @@ PrefabInstance:
     - target: {fileID: 4456623862480274482, guid: 3d75a2c9cda9fc942b7ffad6d8271185, type: 3}
       propertyPath: m_Name
       value: PF_Platform_1 (65)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456623862480274482, guid: 3d75a2c9cda9fc942b7ffad6d8271185, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5530411388386139716, guid: 3d75a2c9cda9fc942b7ffad6d8271185, type: 3}
       propertyPath: m_LocalPosition.x
