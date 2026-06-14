@@ -42,6 +42,8 @@ public class BookEnnemy : EnnemyBase
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.isKinematic = true;
+        rb.linearDamping = 1f;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
         if (Cooldown.Count > 0) cooldownAttack = Cooldown[currentCooldown];
         else cooldownAttack = 0;
@@ -172,6 +174,7 @@ public class BookEnnemy : EnnemyBase
                     rb.isKinematic = false;
 
                     rb.AddForce(Vector3.down * addForceDive, ForceMode.Impulse);
+                    rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20f);
 
                     animator.SetBool("IsMoving", false);
                     animator.SetBool("IsChasing", false);
@@ -243,23 +246,26 @@ public class BookEnnemy : EnnemyBase
     {
         if (move == "melee")
         {
+            if (((1 << collision.gameObject.layer) & GroundLayer) == 0) return; // ignore player collider
+
             move = "melee2";
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-
             rb.useGravity = false;
-            rb.isKinematic = true;
+            rb.isKinematic = true; // kinematic immediately = no more collision events while stunned on ground
+
             animator.SetTrigger("tAttack");
             animator.SetBool("Stun", true);
             timerGeneral = StunTimeRecoverFromAttack;
             ToogleMainAttack(1);
             targetPreview.SetActive(false);
         }
-    }
+    }   
 
     public override void TakeDamage(int damage, float stun)
     {
         base.TakeDamage(damage, stun);
+
         if (HP > 0)
         {
             hitVFX.transform.SetParent(transform.parent);
@@ -271,7 +277,8 @@ public class BookEnnemy : EnnemyBase
             hitVFX.SetActive(true);
             animator.SetTrigger("tHit");
 
-            StunEnnemy(0, false);
+            // DON'T call StunEnnemy here — base.TakeDamage already handles it
+            // StunEnnemy was leaving rb active on the ground, causing multi-hit
 
             animator.SetBool("IsMoving", false);
             animator.SetBool("IsChasing", false);
@@ -280,6 +287,9 @@ public class BookEnnemy : EnnemyBase
 
     public override void StunEnnemy(float stunTime, bool infiniteStun)
     {
+        // Don't interrupt the dive or ground recovery with a stun
+        if (move == "melee" || move == "melee2") return;
+
         base.StunEnnemy(stunTime, infiniteStun);
         rb.isKinematic = false;
         rb.useGravity = true;
