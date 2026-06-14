@@ -14,11 +14,11 @@ public class GrabSystem : MonoBehaviour
     [Header("Grab")]
     [SerializeField] private GameObject grabAimVfx;
     [SerializeField] private float rangeForGrab = 3f;
-    [SerializeField] private float radiusForGrab = 0.4f;          // <-- renamed & visible
+    [SerializeField] private float radiusForGrab = 0.4f;         
     [SerializeField] private float grabActionDuration = 0.1f;
 
     [SerializeField] private float rangeForSwallow = 1.5f;
-    [SerializeField] private float radiusForSwallow = 0.5f;       // <-- renamed & visible
+    [SerializeField] private float radiusForSwallow = 0.5f;
     [SerializeField] private LayerMask grabLayers;
     [SerializeField] private Vector3 downValue = Vector3.down;
     [SerializeField] private VisualEffect eatVFX;
@@ -50,12 +50,6 @@ public class GrabSystem : MonoBehaviour
     void Start()
     {
         throwMark.transform.localPosition = Vector3.forward * throwDistance;
-        rangeForGrab-=radiusForGrab;
-        radiusForSwallow-=radiusForSwallow;
-    }
-
-    private void OnValidate()
-    {
         rangeForGrab-=radiusForGrab;
         radiusForSwallow-=radiusForSwallow;
     }
@@ -235,11 +229,32 @@ public class GrabSystem : MonoBehaviour
     private void ShowGrabPredictionUpdate()
     {
         grabMark.SetActive(true);
-        Vector3 downPosition = transform.position - downValue;
-        var hit = DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow)
-               ?? DoGrabCheck(downPosition, rangeForGrab, radiusForGrab);
 
-        if (hit is RaycastHit h) { PutGrabMarkAtTarget(h.collider.transform.position); return; }
+        Vector3 downPosition = transform.position - downValue;
+
+        RaycastHit? hit = DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow);
+        bool isSwallow = hit.HasValue;
+
+        if (!isSwallow)
+            hit = DoGrabCheck(downPosition, rangeForGrab, radiusForGrab);
+
+        if (hit.HasValue)
+        {
+            if (isSwallow)
+            {
+                grabMark.transform.GetChild(0).gameObject.SetActive(false);
+                grabMark.transform.GetChild(1).gameObject.SetActive(true);
+            }
+            else
+            {
+                grabMark.transform.GetChild(0).gameObject.SetActive(true);
+                grabMark.transform.GetChild(1).gameObject.SetActive(false);
+            }
+
+            PutGrabMarkAtTarget(hit.Value.collider.transform.position);
+            return;
+        }
+
         grabMark.SetActive(false);
     }
 
