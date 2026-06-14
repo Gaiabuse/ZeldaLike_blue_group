@@ -72,22 +72,24 @@ public class FormSwitcher : MonoBehaviour
             bool wasFirstTime = isFirstUltimateTime;
             AttackManager.CanUltimate?.Invoke();
             CanDoUltimate = true;
-            NotifyUltimateReady();
+            NotifyUltimateReady(); // fires FirstUltimateTime, flips isFirstUltimateTime to false
 
             if (wasFirstTime)
             {
-                yield break;
+                // Wait indefinitely — ChangeForm() will clean up when the player acts
+                yield return new WaitUntil(() => !CanDoUltimate);
+                // At this point ChangeForm() already handled EndFirstUltimateTime + reset
             }
             else
             {
                 yield return new WaitForSecondsRealtime(TimeForDoUltimate);
-            
+
                 if (CanDoUltimate)
                 {
                     AttackManager.EndForUltimate?.Invoke();
                     EndFirstUltimateTime?.Invoke();
                     CanDoUltimate = false;
-                }   
+                }
             }
         }
     }
