@@ -25,7 +25,7 @@ public class BasicSheep : GroundEnnemy
         sheepCollider = GetComponent<SphereCollider>();
 
         invincible = false;
-        showDamageDisplayInvincible = false;
+        //showDamageDisplayInvincible = false;
         animator.SetInteger("Shell", 1);
     }
 
