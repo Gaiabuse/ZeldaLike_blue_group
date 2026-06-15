@@ -161,14 +161,6 @@ public class FlyingEnnemy : EnnemyBase
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(0, 5);
-        }
-    }
-
     void isPlayerInFieldOfView()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, LookRange, LayerTarget);

@@ -61,6 +61,15 @@ public class BookEnnemy : EnnemyBase
             float DistancePlayer = Vector3.Distance(transform.position, CurrentTarget.position);
             float DistancePlayerDown = Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(CurrentTarget.position.x, CurrentTarget.position.z));
 
+            if (move == "wait" || move == "0" || move == "targetInRange")
+            {
+                RaycastHit GroundDistHit;
+                if (Physics.Raycast(transform.position, Vector3.down, out GroundDistHit, Mathf.Infinity))
+                {
+                    if (GroundDistHit.distance < DistanceFromGround) move = "recoverDive";
+                }
+            }
+
             if (TargetInFieldOfView || alwaysAgro)
             {
                 if (move == "wait" || move == "0")

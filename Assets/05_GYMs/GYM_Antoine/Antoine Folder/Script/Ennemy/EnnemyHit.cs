@@ -39,7 +39,6 @@ public class EnnemyHit : MonoBehaviour
 
     public void ToggleHitBox(bool toggle)
     {
-        Debug.Log("Activate Hitbox");
         canHit = toggle;
         col.enabled = toggle;
     }
