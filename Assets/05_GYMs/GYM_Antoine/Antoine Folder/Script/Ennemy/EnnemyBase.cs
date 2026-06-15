@@ -66,6 +66,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] private Image frontLife;
     [SerializeField] private Image dmgLife;
     [SerializeField] private float bounceDuration;
+    public bool showDamageDisplayInvincible;
     private float _tempHP;
     private float maxHP;
     [Tooltip("value when HP = 0")]
