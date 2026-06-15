@@ -483,7 +483,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -877,7 +877,6 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 56c86251768efa94c8765fc47bace01a, type: 2}
   HP: 5
   invincible: 0
-  showDamageDisplayInvincible: 1
   Player: {fileID: 0}
   Leure: {fileID: 0}
   CurrentTarget: {fileID: 0}
@@ -902,6 +901,7 @@ MonoBehaviour:
   frontLife: {fileID: 7273574411299896058}
   dmgLife: {fileID: 8661567162012203952}
   bounceDuration: 0
+  showDamageDisplayInvincible: 1
   minFillAmount: 0.1
   maxFillAmount: 0.9
   targetPreview: {fileID: 8013974859417523442}

@@ -273,6 +273,8 @@ public class BookEnnemy : EnnemyBase
 
     public override void TakeDamage(int damage, float stun)
     {
+        bool wasStun = move == "stun" || move == "melee2";
+
         base.TakeDamage(damage, stun);
 
         if (HP > 0)
@@ -291,6 +293,10 @@ public class BookEnnemy : EnnemyBase
 
             animator.SetBool("IsMoving", false);
             animator.SetBool("IsChasing", false);
+            animator.ResetTrigger("tCharge");
+
+            if (wasStun) move = "stun";
+            else RecoverStun();
         }
     }
 

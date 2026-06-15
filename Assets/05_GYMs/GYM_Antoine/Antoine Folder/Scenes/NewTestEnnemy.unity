@@ -315,11 +315,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1901821740}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &176235623 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8013974859417523442, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-  m_PrefabInstance: {fileID: 3366084799636011294}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &177333260 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3987803212892058397, guid: df733580aa26fe64d808b3bbc6fe781a, type: 3}
@@ -772,7 +767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885ba94960d272b4fbdbb71963d8f425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 0}
+  target: {fileID: 1663908930}
   sensitivity: 0.5
   parallaxePivotList: []
 --- !u!114 &780663961
@@ -1256,6 +1251,11 @@ Transform:
   - {fileID: 780663959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -40, z: 0}
+--- !u!4 &1663908930 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1033709999584693957, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+  m_PrefabInstance: {fileID: 1901217310}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1675089553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1892,45 +1892,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1177407463913272210, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_PropertySheet.m_Float.m_Array.Array.data[0].m_Value
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1541462299080781178, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2653911351638029503, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3054060393560504550, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7694450120366358666, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
       propertyPath: m_Name
       value: Book Ennemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 7694450120366358666, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8013974859417523442, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: Player
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: targetPreview
-      value: 
-      objectReference: {fileID: 176235623}
-    - target: {fileID: 8433256294076623238, guid: 545b3df8627d0184cb7242a3e7f06c08, type: 3}
-      propertyPath: GroundLayer.m_Bits
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
