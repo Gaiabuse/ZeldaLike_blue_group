@@ -114,7 +114,7 @@ public class NeutralAttackManager : AttackManager
 
         while (timer < durationUltimate)
         {
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             var enemiesAim = AutoAimable.GetTargetAround(transform.position, ultRadius);
             foreach (AutoAimable enemy in enemiesAim)
             {
@@ -124,6 +124,7 @@ public class NeutralAttackManager : AttackManager
                     ennemyBase.StunEnemyUlt(ultStun+durationUltimate-timer);
                 }
             }
+            yield return null;
         }
         
         player.CanMove = true;
@@ -133,7 +134,6 @@ public class NeutralAttackManager : AttackManager
         {
             currentEnemy.SetUltIndicator(false);
         }
-        yield return null;
     }
     
     
