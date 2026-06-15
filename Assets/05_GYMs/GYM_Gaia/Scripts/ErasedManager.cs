@@ -291,13 +291,26 @@ public class ErasedManager : MonoBehaviour
             // >>> PAUSE CODE HERE: Wait for the VFX duration to clear
             yield return new WaitForSeconds(vfxDuration);
 
+            List<ErasedObject> objList = new List<ErasedObject>();
+            
+            RaycastHit hitInfo;
+            bool didHit = Physics.Raycast(transform.position, Vector3.down, out hitInfo, 5, LayerMask.GetMask("Ground"));
+            ErasedObject erasedObj = didHit ? hitInfo.collider.GetComponentInParent<ErasedObject>() : null;
+            
             foreach (var obj in objectsErased)
             {
-                if (obj != null) obj.Erase();
+                if (erasedObj == null || erasedObj.gameObject != obj.gameObject)
+                {
+                    obj.Erase();
+                    currentPointsForCreate += obj.creationCost;
+                    objList.Add(obj);
+                }
             }
-            
-            objectsErased.Clear();
-            currentPointsForCreate = maxPointsForCreate;
+
+            foreach (var obj in objList)
+            {
+                objectsErased.Remove(obj);
+            }
             UpdateNeutralUI();
         }
 
