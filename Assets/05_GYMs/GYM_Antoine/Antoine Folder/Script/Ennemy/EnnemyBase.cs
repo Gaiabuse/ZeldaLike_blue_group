@@ -157,7 +157,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         }
         if (move == "death")
         {
-            if (timerGeneral == Mathf.Infinity) timerGeneral = 0.5f;
+            if (timerGeneral == Mathf.Infinity) timerGeneral = 1;
             
             timerGeneral -= Time.deltaTime;
             if (timerGeneral <= 0)
@@ -372,10 +372,13 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public virtual void StunEnnemy(float stunTime, bool infiniteStun)
     {
-        EyesSetColorTo(colorMotionless);
-        ToogleMainAttack(-1);
-        move = "stun";
-        timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
+        if (!invincible)
+        {
+            EyesSetColorTo(colorMotionless);
+            ToogleMainAttack(-1);
+            move = "stun";
+            timerGeneral = infiniteStun ? Mathf.Infinity : stunTime;
+        }
     }
     
     public void StunEnemyUlt(float stunTime)
