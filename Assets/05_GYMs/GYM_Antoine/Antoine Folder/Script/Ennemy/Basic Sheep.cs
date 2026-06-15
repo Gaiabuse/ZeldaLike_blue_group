@@ -138,7 +138,6 @@ public class BasicSheep : GroundEnnemy
                 invincible = true;
             }
         }
-
     }
 
     protected override void AttackPatern()
