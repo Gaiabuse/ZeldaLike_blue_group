@@ -129,6 +129,10 @@ public abstract class AttackManager : MonoBehaviour
 
     public virtual void Ultimate()
     {
+        if (formSwitcher.tutoTrigger.activeSelf)
+        {
+            formSwitcher.tutoTrigger.SetActive(false);
+        }
         EndForUltimate?.Invoke();
     }
 

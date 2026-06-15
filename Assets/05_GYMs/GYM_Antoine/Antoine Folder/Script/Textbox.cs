@@ -60,11 +60,11 @@ public class Textbox : MonoBehaviour
         }
 
         StartCoroutine(NotificationAnim());
-        showTextTween = transform.DOScale(Vector3.one, tweenDuration).SetEase(Ease.OutBounce);
+        showTextTween = transform.DOScale(Vector3.one, tweenDuration).SetEase(Ease.OutBounce).SetUpdate(true);
         textBox.text = null;
         textShow = text;
         textBox.text = textShow;
-        hideTextTween = transform.DOScale(Vector3.zero, tweenDuration).SetEase(Ease.InBounce).SetDelay(delayBeforeDisappear + tweenDuration);
+        hideTextTween = transform.DOScale(Vector3.zero, tweenDuration).SetEase(Ease.InBounce).SetDelay(delayBeforeDisappear + tweenDuration).SetUpdate(true);
     }
 
     private IEnumerator NotificationAnim()
@@ -76,7 +76,7 @@ public class Textbox : MonoBehaviour
             phone.transform.DOShakeRotation(0.22f, new Vector3(0f, 0f, 20f)).OnComplete(() =>
             {
                 RumbleManager.Instance.StopVibration();
-            });
+            }).SetUpdate(true);
             yield return new WaitForSeconds(0.33f);
         }
     }
