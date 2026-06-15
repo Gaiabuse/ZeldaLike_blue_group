@@ -80,10 +80,10 @@ public class BasicSheep : GroundEnnemy
                 navMesh.isStopped = false;
                 navMesh.speed = 0;
             }
-            if (distPlayer <= DistanceGetInShell)
+            /*if (distPlayer <= DistanceGetInShell)
             {
                 GetInShell();
-            }
+            }*/
         }
         if (move == "aim roll")
         {
@@ -169,10 +169,10 @@ public class BasicSheep : GroundEnnemy
 
                     move = "reposition";
                 }
-                else if (distTarget <= DistanceGetInShell && move != "shell")
+                /*else if (distTarget <= DistanceGetInShell && move != "shell")
                 {
                     GetInShell();
-                }
+                }*/
             }
         }
     }
@@ -191,14 +191,14 @@ public class BasicSheep : GroundEnnemy
         transform.rotation = lookAtTarget;
     }
 
-    void GetInShell()
+    /*void GetInShell()
     {
         move = "shell";
         animator.SetInteger("Shell", 2);
         navMesh.isStopped = true;
         repositionToAttack = false;
         invincible = true;
-    }
+    }*/
 
     public void SetShell(int shell)
     {
