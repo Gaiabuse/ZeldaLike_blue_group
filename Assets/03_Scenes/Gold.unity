@@ -5452,9 +5452,9 @@ MonoBehaviour:
     dialogueFR: "Ah si ! Tu peux  <b><color=#FF00D7>changer de formes</color></b>
       apr\xE8s tes combos pour faire une <b><color=#FF00D7>attaque puissante</color></b>
       . Tu t'en souviens n'est ce  pas ? \\n<b><color=#FF00D7>(appuyer sur x/y/b)</color></b> "
-    dialogueEN: 'Do you remeber ? You can <b><color=#FF00D7>switc form</color></b>
+    dialogueEN: 'Do you remeber ? You can <b><color=#FF00D7>switch form</color></b>
       after a combo to perform a <b><color=#FF00D7>powerfull attack</color></b> . 
-      \n<b><color=#FF00D7>(appuyer sur x/y/b)</color></b> '
+      \n<b><color=#FF00D7>(press x/y/b)</color></b> '
     setNumberOfPointsForErased: 0
     changeIndicator: 0
     ativeAtk: 4
@@ -40301,6 +40301,26 @@ PrefabInstance:
       propertyPath: tutoIndicator
       value: 
       objectReference: {fileID: 300991358}
+    - target: {fileID: 4998133702965906704, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998133702965906704, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998133702965906704, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998133702965906704, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998133702965906704, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5060730504946467261, guid: b1f00b52ab16dee4e9d22bf9fd2f3b42, type: 3}
       propertyPath: tutoIndicator
       value: 
@@ -110584,10 +110604,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1316420896}
     m_Modifications:
-    - target: {fileID: 250972636935843986, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 439603698915516154, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
       propertyPath: m_Name
       value: Progress Menu UI
@@ -110671,10 +110687,6 @@ PrefabInstance:
     - target: {fileID: 1488364916639394070, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.022
-      objectReference: {fileID: 0}
-    - target: {fileID: 4641382786485186228, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7133797105035261512, guid: 651cd558495687b489db35d69ff9fc76, type: 3}
       propertyPath: player
