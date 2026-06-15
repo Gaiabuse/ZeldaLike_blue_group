@@ -65,7 +65,7 @@ public class Attack : MonoBehaviour
 
     public void TryDoDamage(Collider collider)
     {
-        var ennemyScript = collider.transform.GetComponent<EnnemyBase>();
+        EnnemyBase ennemyScript = collider.transform.GetComponent<EnnemyBase>();
         if (ennemyScript != null)
         {
             ennemyScript.TakeDamage((int)damage, stun);
@@ -79,19 +79,18 @@ public class Attack : MonoBehaviour
         if (collision.transform.CompareTag("Ennemy"))
         {
             SheepEnnemyTest isSheep = collision.GetComponent<SheepEnnemyTest>();
-
             KnockBackFeedback knockBackFeedback = collision.GetComponent<KnockBackFeedback>();
             touchedEnemy = true;
 
-            if (isSheep != null)
+            if (isSheep)
             {
                 if (isSheep.shellHere)
                 {
-                    if (BlockHitSpark != null) SpawnSpark(BlockHitSpark);
+                    if (BlockHitSpark) SpawnSpark(BlockHitSpark);
                 }
-                else if (HitSpark != null) SpawnSpark(HitSpark);
+                else if (HitSpark) SpawnSpark(HitSpark);
             }
-            else if (HitSpark != null) SpawnSpark(HitSpark);
+            else if (HitSpark) SpawnSpark(HitSpark);
 
             if (knockBackFeedback != null)
             {
