@@ -157,7 +157,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         }
         if (move == "death")
         {
-            if (timerGeneral == Mathf.Infinity) timerGeneral = 0.5f;
+            if (timerGeneral == Mathf.Infinity) timerGeneral = 1;
             
             timerGeneral -= Time.deltaTime;
             if (timerGeneral <= 0)
