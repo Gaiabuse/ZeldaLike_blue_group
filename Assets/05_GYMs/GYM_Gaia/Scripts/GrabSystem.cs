@@ -50,8 +50,6 @@ public class GrabSystem : MonoBehaviour
     void Start()
     {
         throwMark.transform.localPosition = Vector3.forward * throwDistance;
-        rangeForGrab-=radiusForGrab;
-        radiusForSwallow-=radiusForSwallow;
     }
 
     void Update()
@@ -183,7 +181,12 @@ public class GrabSystem : MonoBehaviour
     private IEnumerator AttractObjectRoutine(GameObject subject)
     {
         var finalPosition = transform.position + transform.forward * offsetGrabbedObject;
-        if (!Physics.Raycast(finalPosition + Vector3.up, Vector3.down * 2f)) yield break;
+        if (!Physics.Raycast(finalPosition + Vector3.up, Vector3.down * 2f))
+        {
+            finalPosition = transform.position + transform.forward * -offsetGrabbedObject;
+            if (!Physics.Raycast(finalPosition + Vector3.up, Vector3.down * 2f)) yield return null;
+        }
+        
 
         var tween = subject.transform.DOMove(finalPosition, grabActionDuration);
         GameObject vfxInstance = grabVfx ? Instantiate(grabVfx, subject.transform) : null;

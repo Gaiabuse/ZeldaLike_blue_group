@@ -21,7 +21,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     protected Vector2 SpeedRotate;
 
     [SerializeField] protected bool invincible = false;
-    [SerializeField] protected bool showDamageDisplayInvincible = true;
+    //[SerializeField] protected bool showDamageDisplayInvincible = true;
 
     [Header("Basic")]
     [SerializeField] protected Transform Player;
@@ -66,6 +66,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
     [SerializeField] private Image frontLife;
     [SerializeField] private Image dmgLife;
     [SerializeField] private float bounceDuration;
+    public bool showDamageDisplayInvincible;
     private float _tempHP;
     private float maxHP;
     [Tooltip("value when HP = 0")]
@@ -217,12 +218,10 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             dotween = null;
             if (hitValueDisplay)
             {
-                if (invincible)
+                if (!invincible)
                 {
-                    if (showDamageDisplayInvincible) hitValueDisplay.text = damage.ToString();
-                    else hitValueDisplay.text = "Nope";
+                    hitValueDisplay.text = damage.ToString();
                 }
-                else hitValueDisplay.text = damage.ToString();
 
                 ShowHitDisplay();
             }
