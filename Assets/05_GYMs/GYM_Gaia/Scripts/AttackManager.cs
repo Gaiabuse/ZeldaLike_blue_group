@@ -56,12 +56,7 @@ public abstract class AttackManager : MonoBehaviour
             if (action.activeControl != null)
             {
                 string direction = action.activeControl.name;
-                Debug.Log("activeControl: " + direction);
                 HandleDirectionalInput(direction);
-            }
-            else
-            {
-                Debug.Log("activeControl est NULL");
             }
         }
     }
@@ -127,8 +122,16 @@ public abstract class AttackManager : MonoBehaviour
         currentAttack.FinishedAttackFull += FinishAttack;
     }
 
+    protected void EndUltimate()
+    {
+        formSwitcher.canSwitchForm = true;
+        CanAttack = true;
+    }
+
     public virtual void Ultimate()
     {
+        formSwitcher.canSwitchForm = false;
+        CanAttack = false;
         if (formSwitcher.tutoTrigger.activeSelf)
         {
             formSwitcher.tutoTrigger.SetActive(false);

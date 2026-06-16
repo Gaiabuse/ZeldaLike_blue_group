@@ -134,6 +134,7 @@ public class NeutralAttackManager : AttackManager
         {
             currentEnemy.SetUltIndicator(false);
         }
+        EndUltimate();
     }
     
     

@@ -230,6 +230,7 @@ public class DreamShoot : AttackManager
             CreateShot(lastAttackComboDamage, transform.forward, attack);
         }
         player.transform.rotation = LastRotation;
+        EndUltimate();
     }
 
     void CreateShot(float attackPower, Vector3 direction, Projectile Shot)
