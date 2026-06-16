@@ -18,6 +18,7 @@ public class ClassicEnnemy : EnnemyBase
 
     [SerializeField] protected Transform AttackTrigger;
     [SerializeField] protected float DistanceAttack = 2;
+    [SerializeField] protected float OffsetAttack;
     [SerializeField] float chargeAttackTime = 1.5f;
     [SerializeField] GameObject hitboxVFX;
     [SerializeField] protected float waitAfterAttack = 1.5f;
@@ -25,6 +26,7 @@ public class ClassicEnnemy : EnnemyBase
     [SerializeField] float waitBeforeDelete = 1.5f;
 
     protected Vector3 WhereToGoPos;
+    protected bool canVFX = true;
 
     [Header("Layer")]
     [SerializeField] LayerMask LayerBlockRay;
@@ -114,14 +116,20 @@ public class ClassicEnnemy : EnnemyBase
 
             if (move == "charge")
             {
+                
                 timerGeneral -= Time.deltaTime;
                 if (timerGeneral <= 0)
                 {
                     move = "attack";
                     timerGeneral = waitAfterAttack;
+                    animator.SetTrigger("tAttack");
+                    canVFX = true;
+                }
+                else if (canVFX)
+                {
                     hitboxVFX.SetActive(false);
                     hitboxVFX.SetActive(true);
-                    animator.SetTrigger("tAttack");
+                    canVFX = false;
                 }
             }
 
@@ -297,7 +305,10 @@ public class ClassicEnnemy : EnnemyBase
     protected virtual void AttackPatern()
     {
         if (CurrentTarget == null) CurrentTarget = Player;
-        if (Vector3.Distance(AttackTrigger.position, CurrentTarget.position) <= DistanceAttack && CurrentTarget != null)
+    
+        Vector3 offsetPosition = AttackTrigger.position + AttackTrigger.forward * OffsetAttack;
+    
+        if (Vector3.Distance(offsetPosition, CurrentTarget.position) <= DistanceAttack && CurrentTarget != null)
         {
             navMesh.speed = 0;
             navMesh.velocity = Vector3.zero;
@@ -425,7 +436,8 @@ public class ClassicEnnemy : EnnemyBase
         if (AttackTrigger != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(AttackTrigger.position, DistanceAttack);
+            Vector3 offsetPosition = AttackTrigger.position + AttackTrigger.forward * OffsetAttack;
+            Gizmos.DrawWireSphere(offsetPosition, DistanceAttack);
         }
     }
 
