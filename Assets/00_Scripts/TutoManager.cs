@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -18,14 +19,15 @@ public class TutoManager : MonoBehaviour
     [SerializeField] private TutoStep[] steps;
     [SerializeField] private ChatHistory chatHistory;
     [SerializeField] private TutoStep comboStep;
+    [SerializeField] private List<Toggle> disponibleFormsToogle;
 
     private void OnEnable()
     {
         foreach (TutoStep tutoStep in steps)
         {
-            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory, tutoIndicator, this);
+            tutoStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory, tutoIndicator, this, disponibleFormsToogle);
         }
-        comboStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory, tutoIndicator, this);
+        comboStep.OnEnableStep(formSwitcher, textBox, erasedManager, atkIndicators, chatHistory, tutoIndicator, this, disponibleFormsToogle);
         formSwitcher.FirstUltimateTime += StartComboStep;
         formSwitcher.EndFirstUltimateTime += EndComboStep;
     }
@@ -89,6 +91,7 @@ public class TutoStep
     [SerializeField] private float timeOfUI;
     [SerializeField] private GameObject uiObject;
 
+    private List<Toggle> _disponibleFormsToogle = new List<Toggle>();
     private FormSwitcher _formSwitcher;
     private Textbox _textbox;
     private ErasedManager _erasedManager;
@@ -98,8 +101,10 @@ public class TutoStep
     private TutoManager _manager;
 
     public void OnEnableStep(FormSwitcher formSwitcher, Textbox textbox, ErasedManager erasedManager,
-        List<GameObject> indicators, ChatHistory chatHistory, List<GameObject> tutoIndicator, TutoManager manager)
+        List<GameObject> indicators, ChatHistory chatHistory, List<GameObject> tutoIndicator, TutoManager manager,
+        List<Toggle> disponibleFormsToogle)
     {
+        _disponibleFormsToogle = disponibleFormsToogle;
         _formSwitcher = formSwitcher;
         _textbox = textbox;
         _erasedManager = erasedManager;
@@ -124,6 +129,9 @@ public class TutoStep
         {
             _formSwitcher.AvailableForms.Clear();
             _formSwitcher.AvailableForms = new List<Form>(disponibleForms);
+            _disponibleFormsToogle[0].isOn = _formSwitcher.AvailableForms.Contains(Form.neutral);
+            _disponibleFormsToogle[1].isOn = _formSwitcher.AvailableForms.Contains(Form.nightmare);
+            _disponibleFormsToogle[2].isOn = _formSwitcher.AvailableForms.Contains(Form.dream);
         }
 
         if (setForm)

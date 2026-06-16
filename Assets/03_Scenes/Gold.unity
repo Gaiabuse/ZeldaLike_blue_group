@@ -5505,6 +5505,10 @@ MonoBehaviour:
     temporateUI: 0
     timeOfUI: 0
     uiObject: {fileID: 0}
+  disponibleFormsToogle:
+  - {fileID: 799309087}
+  - {fileID: 969320566}
+  - {fileID: 1922226412}
 --- !u!1 &83556736
 GameObject:
   m_ObjectHideFlags: 0
@@ -54024,6 +54028,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3705489703371422441, guid: 727acb56956bf614daa91b802823bb34, type: 3}
   m_PrefabInstance: {fileID: 799143625}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &799309087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6334589247809693195, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
+  m_PrefabInstance: {fileID: 2102904170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
 --- !u!1 &801333152
 GameObject:
   m_ObjectHideFlags: 0
@@ -63732,6 +63747,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5071337755766452219, guid: 2e039108e2458054b8102f6f6295f126, type: 3}
   m_PrefabInstance: {fileID: 969170699}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &969320566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6694645663609449187, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
+  m_PrefabInstance: {fileID: 2102904170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
 --- !u!1001 &969751587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67290,6 +67316,14 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 265274104411103970, guid: b3ac518d8ba38cf4893905f7c7f59f23, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 265274104411103970, guid: b3ac518d8ba38cf4893905f7c7f59f23, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d0eb5c031d8bbb64380f0dc7e5357bef, type: 2}
     - target: {fileID: 371258215768644728, guid: b3ac518d8ba38cf4893905f7c7f59f23, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
@@ -135339,6 +135373,17 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &1922226412 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3724326034644690242, guid: db177215dbea72e34a0f361897ec3bca, type: 3}
+  m_PrefabInstance: {fileID: 2102904170}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
 --- !u!1 &1922999160
 GameObject:
   m_ObjectHideFlags: 0
