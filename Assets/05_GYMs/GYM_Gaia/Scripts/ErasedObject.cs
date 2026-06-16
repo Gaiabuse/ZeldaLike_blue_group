@@ -11,10 +11,12 @@ public class ErasedObject : MonoBehaviour
     [SerializeField]private Image createIcon;
     [SerializeField]private Image createPointsIcon;
     [SerializeField]private List<Sprite> createPointsSprite;
+    [SerializeField]private bool isTuto;
     
     [Range(1,3)] public int creationCost;
     
     private bool _isCreated;
+    private ErasedManager erasedManager;
     private MeshRenderer renderer;
     private MaterialPropertyBlock _propertyBlock;
     private bool isPlayerInside;
@@ -27,6 +29,7 @@ public class ErasedObject : MonoBehaviour
 
     private void Start()
     {
+        erasedManager = FindObjectOfType<ErasedManager>();
         createIcon = TransformIndicator.Instance.createIconImg;
         createPointsIcon = TransformIndicator.Instance.createPointsIconeateIconImg;
         renderer = erasedObject.GetComponent<MeshRenderer>();
@@ -37,15 +40,23 @@ public class ErasedObject : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (erasedManager != null && isTuto)
+            {
+                erasedManager.DisplayTuto(true);
+            }
             isPlayerInside = true;
             UpdateUIVisibility();
         }
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            if (erasedManager != null && isTuto)
+            {
+                erasedManager.DisplayTuto(false);
+            }
             isPlayerInside = false;
             UpdateUIVisibility();
         }

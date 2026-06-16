@@ -160,7 +160,7 @@ public class TutoStep
             case ActivatedTutoIndicator.AtkNm:  _tutoIndicator[2].SetActive(true); break;
             case ActivatedTutoIndicator.AtkD:   _tutoIndicator[3].SetActive(true); break;
             case ActivatedTutoIndicator.Dash:   _tutoIndicator[4].SetActive(true); break;
-            case ActivatedTutoIndicator.Spell:  _tutoIndicator[5].SetActive(true); break;
+            case ActivatedTutoIndicator.Spell:  _tutoIndicator[5].SetActive(true); _tutoIndicator[5].GetComponent<TutoIndicatorBlink>().StartBlink(); break;
             case ActivatedTutoIndicator.Phone:  _tutoIndicator[6].SetActive(true); break;
         }
     }
