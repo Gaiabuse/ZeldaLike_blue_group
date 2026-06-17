@@ -43,7 +43,6 @@ public class BookEnnemy : EnnemyBase
         rb.useGravity = false;
         rb.isKinematic = true;
         rb.linearDamping = 1f;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
         if (Cooldown.Count > 0) cooldownAttack = Cooldown[currentCooldown];
         else cooldownAttack = 0;
@@ -274,6 +273,9 @@ public class BookEnnemy : EnnemyBase
     public override void TakeDamage(int damage, float stun)
     {
         bool wasStun = move == "stun" || move == "melee2";
+
+        rb.useGravity = false;
+        rb.isKinematic = true;
 
         base.TakeDamage(damage, stun);
 
