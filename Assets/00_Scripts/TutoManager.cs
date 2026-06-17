@@ -216,6 +216,7 @@ public class TutoStepEditor : PropertyDrawer
         {
             EditorGUILayout.PropertyField(activeTutoUi, new GUIContent("Active Tuto UI"));
             EditorGUILayout.PropertyField(colliderTrigger);
+            EditorGUILayout.PropertyField(isTutoEnd);
             EditorGUILayout.PropertyField(disponibleForms, new GUIContent("Formes Disponibles"), true);
 
             EditorGUILayout.PropertyField(setForm);

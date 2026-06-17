@@ -6173,6 +6173,7 @@ Transform:
   - {fileID: 357723728}
   - {fileID: 2109056449}
   - {fileID: 805349268}
+  - {fileID: 152073111}
   m_Father: {fileID: 1962799378}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &83057589
@@ -6531,6 +6532,23 @@ MonoBehaviour:
     dialogueEN: 'Do you remember? You can <b><color=#FF0000>switch form</color></b>
       after a combo to perform a <b><color=#FF0000>powerful attack</color></b>. \n<b><color=#FF0000>(PRESS
       X/Y/B)</color></b> '
+    setNumberOfPointsForErased: 0
+    changeIndicator: 0
+    ativeAtk: 4
+    numberOfPointsForErased: 0
+    hadUI: 0
+    temporateUI: 0
+    timeOfUI: 0
+    uiObject: {fileID: 300991356}
+  - colliderTrigger: {fileID: 152073112}
+    disponibleForms: 010000000000000002000000
+    isTutoEnd: 1
+    activeTutoUi: 0
+    setForm: 0
+    form: 1
+    asDialogue: 0
+    dialogueFR: 
+    dialogueEN: 
     setNumberOfPointsForErased: 0
     changeIndicator: 0
     ativeAtk: 4
@@ -12978,6 +12996,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8560742304415499693, guid: c637f54e9dcad8542ab2a836085d9c40, type: 3}
   m_PrefabInstance: {fileID: 151001722}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &152073110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 152073111}
+  - component: {fileID: 152073113}
+  - component: {fileID: 152073112}
+  m_Layer: 9
+  m_Name: Trigger End Tuto Achievement
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &152073111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152073110}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.9997291, z: -0, w: -0.023277659}
+  m_LocalPosition: {x: 76.83, y: 0.8499999, z: 264.38}
+  m_LocalScale: {x: 19.406466, y: 1, z: 3.17}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 83057588}
+  m_LocalEulerAnglesHint: {x: 0, y: -182.668, z: 0}
+--- !u!114 &152073112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152073110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e34f51a85b53a4ba5f67b394c5b194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TriggerTuto
+--- !u!65 &152073113
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152073110}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 6.4, z: 5.342443}
+  m_Center: {x: 5.3387206e-10, y: -0.918401, z: -0.48068595}
 --- !u!1001 &153030870
 PrefabInstance:
   m_ObjectHideFlags: 0
