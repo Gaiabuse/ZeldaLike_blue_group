@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [HideInInspector] public GameObject Boxes;
     [SerializeField] private bool respawnAtStart = true;
+    [SerializeField] private GameObject moveVFX;
 
     private FormSwitcher formSwitcher;
 
@@ -202,6 +203,7 @@ public class PlayerController : MonoBehaviour
 
         if (isMoving)
         {
+            moveVFX.SetActive(true);
             currentAnimator.SetBool("isRunning", currentStickProgress >= Math.Abs(0.1));
         }
         else

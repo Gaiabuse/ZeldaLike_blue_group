@@ -80,13 +80,6 @@ public class DreamDash : MonoBehaviour
 
     IEnumerator Dash()
     {
-        if (undodashTween != null) undodashTween.Kill();
-        
-        dashTrail.widthCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f));
-        dashVFX.SetActive(true);
-        
-        controller.currentAnimator.SetTrigger("isDashing");
-
         Vector3 originalPosition = transform.position;
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
@@ -102,6 +95,13 @@ public class DreamDash : MonoBehaviour
             }
             else yield break;
         }
+        
+        if (undodashTween != null) undodashTween.Kill();
+        
+        dashTrail.widthCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f));
+        dashVFX.SetActive(true);
+        
+        controller.currentAnimator.SetTrigger("isDashing");
 
         DashSetUp();
 
