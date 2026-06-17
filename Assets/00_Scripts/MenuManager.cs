@@ -11,6 +11,8 @@ using UnityEngine.InputSystem;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] private string gameScene;
+    [SerializeField] private GameObject menuIllu;
+    [SerializeField] private GameObject menuCutscene;
     [SerializeField] private GameObject mainFirstSelected;
     [SerializeField] private GameObject settingsFirstSelected;
     [SerializeField] private GameObject titleScreen;
@@ -175,20 +177,22 @@ public class MenuManager : MonoBehaviour
     private IEnumerator LaunchGameSequence()
     {
         StartCoroutine(RumbleCoroutine(0.5f, 0.5f, 0.5f));
-        
+        menuIllu.SetActive(false);
+        menuCutscene.SetActive(true);
+
         titleScreen.GetComponent<CanvasGroup>().DOFade(0f, 0.25f).OnComplete(() => {
             titleScreen.SetActive(false);
             loadingScreen.SetActive(true);
             loadingScreen.GetComponent<CanvasGroup>().DOFade(1f, 0.5f);
         });
         
-        yield return new WaitForSeconds(1.5f);
+        Animator cutsceneAnimator = menuCutscene.GetComponent<Animator>();
         
-        AsyncOperation operation = SceneManager.LoadSceneAsync(gameScene);
-        while (operation != null && !operation.isDone)
-        {
-            yield return null; 
-        }
+        yield return new WaitUntil(() => 
+            !cutsceneAnimator.IsInTransition(0) 
+            && cutsceneAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+
+        SceneManager.LoadSceneAsync(gameScene);
     }
     
 
