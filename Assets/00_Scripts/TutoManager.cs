@@ -72,6 +72,7 @@ public class TutoStep
     [Tooltip("ne pas mettre pour le combo steps")]
     [SerializeField] private TriggerTuto colliderTrigger;
     [SerializeField] private List<Form> disponibleForms = new List<Form>();
+    [SerializeField] private bool isTutoEnd;
     [SerializeField] private ActivatedTutoIndicator activeTutoUi = ActivatedTutoIndicator.None;
     [SerializeField] private bool setForm;
     [SerializeField] private Form form;
@@ -144,6 +145,11 @@ public class TutoStep
             _chatHistory.AddMessage(dialogueFR, dialogueEN);
         }
 
+        if (isTutoEnd)
+        {
+            SteamAchievements.Instance.UnlockEndTuto();
+        }
+
         if (hadUI)
             uiObject.SetActive(true);
 
@@ -186,6 +192,7 @@ public class TutoStepEditor : PropertyDrawer
         EditorGUI.BeginProperty(position, label, property);
 
         SerializedProperty activeTutoUi        = property.FindPropertyRelative("activeTutoUi");
+        SerializedProperty isTutoEnd           = property.FindPropertyRelative("isTutoEnd");
         SerializedProperty colliderTrigger     = property.FindPropertyRelative("colliderTrigger");
         SerializedProperty disponibleForms     = property.FindPropertyRelative("disponibleForms");
         SerializedProperty setForm             = property.FindPropertyRelative("setForm");

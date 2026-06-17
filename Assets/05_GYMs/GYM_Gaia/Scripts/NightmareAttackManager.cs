@@ -18,6 +18,8 @@ public class NightmareAttackManager : AttackManager
     [SerializeField] private UltReference ultReference;
   
     private Coroutine ultimateCoroutine;
+    
+    private bool isFirstUltimate = true;
 
     [Serializable]
     private class UltReference
@@ -161,5 +163,10 @@ public class NightmareAttackManager : AttackManager
     
         yield return new WaitForSeconds(0.5f);
         FormAnimator.SetBool("UltiEnd", false);
+        if (isFirstUltimate)
+        {
+            SteamAchievements.Instance.UnlockUltNightmare();
+            isFirstUltimate = false;
+        }
     }
 }

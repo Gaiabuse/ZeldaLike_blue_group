@@ -294,6 +294,9 @@ public class DreamCoreManager : MonoBehaviour
     public void KillBoss()
     {
         GameManager.Instance.TriggerSlowMotion();
-        endScreen.DOFade(1f, 1f).SetEase(Ease.OutBack).SetUpdate(true);
+        endScreen.DOFade(1f, 1f).SetEase(Ease.OutBack).SetUpdate(true).OnComplete(() =>
+        {
+            SteamAchievements.Instance.UnlockEndGame();
+        });
     }
 }
