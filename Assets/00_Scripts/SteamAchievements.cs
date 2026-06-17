@@ -33,6 +33,7 @@ public class SteamAchievements : MonoBehaviour
 
     void Start()
     {
+        SteamAPI.Init();
         if (!SteamManager.Initialized)
         {
             Debug.LogWarning("[Steam] SteamManager not initialized, achievements disabled.");
@@ -89,8 +90,31 @@ public class SteamAchievements : MonoBehaviour
     [ContextMenu("DEBUG: Reset All Stats & Achievements")]
     public void ResetAllStats()
     {
-        SteamUserStats.ResetAllStats(true); // true also resets achievements
-        SteamUserStats.StoreStats();
-        Debug.Log("[Steam] All stats and achievements reset.");
+        if (!SteamManager.Initialized) return;
+        
+        if (SteamUserStats.ResetAllStats(true)) 
+        {
+            string[] allAchievements = { 
+                ACH_FINISH_GAME, 
+                ACH_ULT_NEUTRAL, 
+                ACH_ULT_NIGHTMARE, 
+                ACH_ULT_DREAM, 
+                ACH_FINISH_TUTO, 
+                ACH_CLEAN_ALL_DUST 
+            };
+
+            foreach (string ach in allAchievements)
+            {
+                SteamUserStats.ClearAchievement(ach);
+            }
+            
+            SteamUserStats.StoreStats();
+
+            Debug.Log("[Steam] All stats reset and local cache hard-cleared instantly!");
+        }
+        else
+        {
+            Debug.LogError("[Steam] Failed to issue ResetAllStats.");
+        }
     }
 }
