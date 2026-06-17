@@ -63,7 +63,7 @@ public class DreamCoreManager : MonoBehaviour
             material.SetFloat("_Size_Wobbly", 0.15f);
             material.SetFloat("_Fresnel_Smooth", 0.42f);
             material.SetVector("_Speed_Move", new Vector2(1f, 0.75f));
-            material.SetFloat("_Spike_Size", 0.25f);
+            material.SetFloat("_Spike_Size", 0.45f);
         }
     }
 
@@ -116,7 +116,7 @@ public class DreamCoreManager : MonoBehaviour
             material.SetFloat("_Size_Wobbly", 0.15f);
             material.SetFloat("_Fresnel_Smooth", 0.42f);
             material.SetVector("_Speed_Move", new Vector2(1f, 0.75f));
-            material.SetFloat("_Spike_Size", 0.25f);
+            material.SetFloat("_Spike_Size", 0.45f);
         }
 
         sphereCollider.enabled = false;
@@ -253,7 +253,7 @@ public class DreamCoreManager : MonoBehaviour
             float holdDuration = 0.10f;
             float outroDuration = 0.75f;
 
-            material.SetVector("_Speed_Move", new Vector2(-1f, -3f));
+            material.SetVector("_Speed_Move", new Vector2(-2f, -6f));
 
             Sequence angerSequence = DOTween.Sequence();
 
@@ -261,8 +261,8 @@ public class DreamCoreManager : MonoBehaviour
             Tween introTween = DOVirtual.Float(0f, 1f, introDuration, value =>
             {
                 material.SetFloat("_Size_Wobbly", Mathf.Lerp(0.15f, 0.35f, value));
-                material.SetFloat("_Spike_Size", Mathf.Lerp(0.25f, 1f, value));
-                material.SetFloat("_Fresnel_Smooth", Mathf.Lerp(2.07f, 0f, value));
+                material.SetFloat("_Spike_Size", Mathf.Lerp(0.45f, 1f, value));
+                //material.SetFloat("_Fresnel_Smooth", Mathf.Lerp(0.42f, 0f, value));
             }).SetEase(Ease.OutBack);
 
             Tween jitterTween = DOVirtual.Float(0f, 1f, holdDuration, value =>
@@ -270,15 +270,15 @@ public class DreamCoreManager : MonoBehaviour
                 float jitter = Random.Range(-0.1f, 0.1f);
                 RumbleManager.Instance.TriggerVibration(0.5f + jitter * 2, 0.5f + jitter * 2);
                 material.SetFloat("_Size_Wobbly", 0.35f + jitter);
-                material.SetFloat("_Fresnel_Smooth", 0.1f + jitter);
+                //material.SetFloat("_Fresnel_Smooth", 0.1f + jitter);
                 material.SetFloat("_Spike_Size", 1f + jitter*2);
             }).SetLoops(5, LoopType.Yoyo);
 
             Tween outroTween = DOVirtual.Float(0f, 1f, outroDuration, value =>
             {
                 material.SetFloat("_Size_Wobbly", Mathf.Lerp(0.35f, 0.15f, value));
-                material.SetFloat("_Fresnel_Smooth", Mathf.Lerp(0f, 0.42f, value));
-                material.SetFloat("_Spike_Size", Mathf.Lerp(1f, 0.25f, value));
+                //material.SetFloat("_Fresnel_Smooth", Mathf.Lerp(0f, 0.42f, value));
+                material.SetFloat("_Spike_Size", Mathf.Lerp(1f, 0.45f, value));
             }).SetEase(Ease.OutBounce);
 
             angerSequence.Append(introTween);
