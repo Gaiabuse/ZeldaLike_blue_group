@@ -25,23 +25,31 @@ public class SteamManager : MonoBehaviour {
 	protected static bool s_EverInitialized = false;
 
 	protected static SteamManager s_instance;
+	protected static bool s_isQuitting = false;
 	protected static SteamManager Instance {
 		get {
+			if (s_isQuitting) {
+				return null; // don't resurrect during shutdown
+			}
 			if (s_instance == null) {
 				return new GameObject("SteamManager").AddComponent<SteamManager>();
 			}
-			else {
-				return s_instance;
-			}
+			return s_instance;
 		}
 	}
 
 	protected bool m_bInitialized = false;
 	public static bool Initialized {
 		get {
-			return Instance.m_bInitialized;
+			var instance = Instance;
+			return instance != null && instance.m_bInitialized;
 		}
 	}
+	
+	protected virtual void OnApplicationQuit() {
+		s_isQuitting = true;
+	}
+	
 
 	protected SteamAPIWarningMessageHook_t m_SteamAPIWarningMessageHook;
 
@@ -154,13 +162,10 @@ public class SteamManager : MonoBehaviour {
 		if (s_instance != this) {
 			return;
 		}
-
 		s_instance = null;
-
 		if (!m_bInitialized) {
 			return;
 		}
-
 		SteamAPI.Shutdown();
 	}
 

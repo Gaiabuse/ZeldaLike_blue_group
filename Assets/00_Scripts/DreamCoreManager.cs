@@ -300,6 +300,7 @@ public class DreamCoreManager : MonoBehaviour
 
     public void KillBoss()
     {
+        GameManager.Instance.CheckAchievements();
         GameManager.Instance.TriggerSlowMotion();
         StartCoroutine(EndGame());
     }

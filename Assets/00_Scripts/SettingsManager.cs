@@ -103,6 +103,7 @@ public class SettingsManager : MonoBehaviour
             if (debugMode)
             {
                 if (SceneManager.GetActiveScene().name == "MainMenu") return;
+                if (SteamAchievements.Instance != null) SteamAchievements.Instance.LockAchievements();
                 DebugScreen.Instance.Activate();
                 Cursor.lockState = CursorLockMode.None; 
                 Cursor.visible = true; 

@@ -145,7 +145,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.35
   m_Center: {x: 0, y: 0, z: 0}
@@ -262,7 +262,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1645238847385706646}
-  m_LocalRotation: {x: -0.116977744, y: -0.8830223, z: 0.3213938, w: -0.3213938}
+  m_LocalRotation: {x: 0.17042726, y: -0.8645371, z: 0.25295523, w: 0.39942935}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -544,7 +544,7 @@ MonoBehaviour:
   LoseFocusDist: 2
   AttackTrigger: {fileID: 5318037661655833559}
   DistanceAttack: 1.5
-  OffsetAttack: 0
+  OffsetAttack: 1
   chargeAttackTime: 1.25
   hitboxVFX: {fileID: 5938799138536707889}
   waitAfterAttack: 1.5
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6411934043868205969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -966,7 +966,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8944353282468324225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3213938, y: -0.3213938, z: 0.116977744, w: 0.8830223}
+  m_LocalRotation: {x: 0.25295523, y: 0.39942935, z: -0.17042726, w: 0.8645371}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1121,7 +1121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6418889437048302696, guid: 69492dd47fee2444a894e78007be5235, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6780345457764888485, guid: 69492dd47fee2444a894e78007be5235, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,11 +1,6 @@
 using UnityEngine;
 using Steamworks;
 
-/// <summary>
-/// Handles 5 binary (on/off) achievements + 1 stat-based achievement (0-100)
-/// using Steamworks.NET. Attach this to a persistent GameObject in your first scene,
-/// alongside (or after) your SteamManager.
-/// </summary>
 public class SteamAchievements : MonoBehaviour
 {
     public static SteamAchievements Instance { get; private set; }
@@ -17,12 +12,20 @@ public class SteamAchievements : MonoBehaviour
     public const string ACH_ULT_DREAM   = "ACHIEVEMENT_ULTIMATE_DREAM";
     public const string ACH_FINISH_TUTO      = "ACHIEVEMENT_FINISH_TUTO";
     public const string ACH_CLEAN_ALL_DUST      = "ACHIEVEMENT_CLEAN_ALL";
+    public const string ACH_DONT_DIE     = "ACHIEVEMENT_DONT_DIE";
+    public const string ACH_NO_HIT     = "ACHIEVEMENT_NO_HIT";
+    public const string ACH_SPARE_ZONYR      = "ACHIEVEMENT_SPARE_LIFE";
+    public const string ACH_SPEEDRUN      = "ACHIEVEMENT_SPEEDRUN";
     
 
     private bool statsInitialized = false;
 
     protected Callback<UserStatsStored_t> userStatsStoredCallback;
     protected Callback<UserAchievementStored_t> userAchievementStoredCallback;
+    
+    public bool achLocked = false;
+    [SerializeField] private GameObject achLockTxt;
+    [SerializeField] private GameObject debugMenuTxt;
 
     void Awake()
     {
@@ -33,20 +36,19 @@ public class SteamAchievements : MonoBehaviour
 
     void Start()
     {
-        SteamAPI.Init();
         if (!SteamManager.Initialized)
         {
             Debug.LogWarning("[Steam] SteamManager not initialized, achievements disabled.");
             return;
         }
 
-        // Stats are automatically synced by Steam before launch in current SDK versions
         statsInitialized = true;
 
         userStatsStoredCallback = Callback<UserStatsStored_t>.Create(OnUserStatsStored);
         userAchievementStoredCallback = Callback<UserAchievementStored_t>.Create(OnAchievementStored);
 
         Debug.Log("[Steam] Achievements manager ready.");
+        LockAchievements();
     }
 
     private void OnUserStatsStored(UserStatsStored_t pCallback)
@@ -66,6 +68,11 @@ public class SteamAchievements : MonoBehaviour
     /// <summary>Unlocks an achievement by its API name. Safe to call multiple times.</summary>
     public void UnlockAchievement(string achievementId)
     {
+        if (achLocked)
+        {
+            Debug.Log("[Steam] Can't unlock achievement: DebugMenu activated ");
+            return;
+        }
         if (!SteamManager.Initialized || !statsInitialized) return;
 
         bool alreadyUnlocked;
@@ -83,6 +90,10 @@ public class SteamAchievements : MonoBehaviour
     public void UnlockUltDream()   => UnlockAchievement(ACH_ULT_DREAM);
     public void UnlockEndTuto()      => UnlockAchievement(ACH_FINISH_TUTO);
     public void UnlockAllCleaned()      => UnlockAchievement(ACH_CLEAN_ALL_DUST);
+    public void UnlockDontDie()      => UnlockAchievement(ACH_DONT_DIE);
+    public void UnlockNoHit()      => UnlockAchievement(ACH_NO_HIT);
+    public void UnlockSpareZonyr()      => UnlockAchievement(ACH_SPARE_ZONYR);
+    public void UnlockSpeedrun()      => UnlockAchievement(ACH_SPEEDRUN);
 
 
     // ===================== Debug / testing =====================
@@ -100,7 +111,11 @@ public class SteamAchievements : MonoBehaviour
                 ACH_ULT_NIGHTMARE, 
                 ACH_ULT_DREAM, 
                 ACH_FINISH_TUTO, 
-                ACH_CLEAN_ALL_DUST 
+                ACH_CLEAN_ALL_DUST,
+                ACH_DONT_DIE,
+                ACH_NO_HIT,
+                ACH_SPARE_ZONYR,
+                ACH_SPEEDRUN
             };
 
             foreach (string ach in allAchievements)
@@ -115,6 +130,18 @@ public class SteamAchievements : MonoBehaviour
         else
         {
             Debug.LogError("[Steam] Failed to issue ResetAllStats.");
+        }
+    }
+    
+    // ===================== Lock Achievements on Cheat =====================
+    
+    public void LockAchievements()
+    {
+        if (SettingsManager.Instance.debugMode)
+        {
+            achLocked = true;
+            debugMenuTxt.SetActive(false);
+            achLockTxt.SetActive(true);
         }
     }
 }

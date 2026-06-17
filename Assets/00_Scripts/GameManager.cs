@@ -15,6 +15,13 @@ public class GameManager : MonoBehaviour
     private Coroutine timeLerpCoroutine;
     private bool ultTuto;
 
+    public bool achDontDie = true;
+    public bool achNoHit = true;
+    public EnnemyBase firstZonyr;
+    public bool achSpareZonyr = true;
+    public bool achSpeedrun = true;
+    public float achSpeedrunTime = 600;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -24,7 +31,16 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        playTime += Time.unscaledDeltaTime; 
+        playTime += Time.unscaledDeltaTime;
+        if (achSpareZonyr)
+        {
+            if (firstZonyr == null) achSpareZonyr = false;
+        }
+
+        if (achSpeedrun)
+        {
+            if (playTime > achSpeedrunTime) achSpeedrun =  false;
+        }
     }
 
     public void TriggerSlowMotion()
@@ -79,5 +95,28 @@ public class GameManager : MonoBehaviour
         
         Time.timeScale = targetScale;
         Time.fixedDeltaTime = originalFixedDeltaTime * targetScale;
+    }
+
+    public void CheckAchievements()
+    {
+        if (achDontDie)
+        {
+            SteamAchievements.Instance.UnlockDontDie();
+        }
+
+        if (achNoHit)
+        {
+            SteamAchievements.Instance.UnlockNoHit();
+        }
+
+        if (achSpareZonyr)
+        {
+            SteamAchievements.Instance.UnlockSpareZonyr();
+        }
+
+        if (achSpeedrun)
+        {
+            SteamAchievements.Instance.UnlockSpeedrun();
+        }
     }
 }

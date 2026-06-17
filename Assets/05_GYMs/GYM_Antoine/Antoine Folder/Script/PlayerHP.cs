@@ -63,6 +63,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             if (healCoroutine != null) StopCoroutine(healCoroutine);
 
             HP -= damage;
+            GameManager.Instance.achNoHit = false;
             Camera.main.transform.DOShakePosition(0.5f, 0.5f);
             
             if (HP <= 0)
@@ -132,6 +133,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
 
         tempHP = 0;
         HP = 0;
+        GameManager.Instance.achDontDie = false;
 
         UpdateVisuals();
         deathScreen.DOFade(1f, 0.5f).OnComplete(() =>
