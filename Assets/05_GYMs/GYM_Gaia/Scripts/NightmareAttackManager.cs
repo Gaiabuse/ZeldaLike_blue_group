@@ -18,6 +18,8 @@ public class NightmareAttackManager : AttackManager
     [SerializeField] private UltReference ultReference;
   
     private Coroutine ultimateCoroutine;
+    
+    private bool isFirstUltimate = true;
 
     [Serializable]
     private class UltReference
@@ -75,7 +77,7 @@ public class NightmareAttackManager : AttackManager
                 targetPos.y = transform.parent.position.y;
                 transform.parent.LookAt(targetPos);
             }
-            player.CanMove = false;
+            if (CanAttack) player.CanMove = false;
             player.CanRotate = false;
             if (canChargedAttack)
             {
@@ -119,6 +121,7 @@ public class NightmareAttackManager : AttackManager
     
         ultReference.characterController.detectCollisions = false;
         player.LockRotation = true;
+        player.CanMove = true;
     }
 
     private void UltimateDesactivation()
@@ -137,7 +140,8 @@ public class NightmareAttackManager : AttackManager
         player.CanMove = true;
         player.CanRotate = true;
 
-        Attack(ultimateAttack); 
+        Attack(ultimateAttack);
+        EndUltimate();
     }
 
     private IEnumerator UltimateCoroutine()
@@ -152,11 +156,17 @@ public class NightmareAttackManager : AttackManager
         yield return new WaitForSeconds(timeOfUltimate);
         FormAnimator.SetBool("UltiEnd", true);
         ultReference.playerSprite.GetComponent<SpriteRenderer>().enabled = true;
+        yield return new WaitForSeconds(0.35f);
     
         UltimateDesactivation();
         ultimateCoroutine = null;
     
         yield return new WaitForSeconds(0.5f);
         FormAnimator.SetBool("UltiEnd", false);
+        if (isFirstUltimate)
+        {
+            SteamAchievements.Instance.UnlockUltNightmare();
+            isFirstUltimate = false;
+        }
     }
 }

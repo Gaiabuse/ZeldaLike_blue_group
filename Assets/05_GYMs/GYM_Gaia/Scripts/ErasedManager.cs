@@ -209,6 +209,32 @@ public class ErasedManager : MonoBehaviour
             HoldTimeCoroutine = null;
         }
     }
+    
+    public void DisplayTuto(bool active)
+    {
+        if (active)
+        {
+            if (!isTutoActionDone)
+            {
+                if (currentPointsForCreate != 0)
+                {
+                    tutoIndicator.gameObject.SetActive(true);
+                }
+            }
+            else if (isTutoActionDone && !isTutoActionDone2)
+            {
+                tutoIndicator.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (isTutoActionDone)
+            {
+                tutoIndicator.StopBlink();
+            }
+        }
+        
+    }
 
     private IEnumerator EraseOrCreateRoutine()
     {
@@ -237,6 +263,13 @@ public class ErasedManager : MonoBehaviour
             {
                 if (tutoIndicator == null) yield break;
                 tutoIndicator.StopBlink();
+                isTutoActionDone = true;
+            }
+            else if (!isTutoActionDone2 && isTutoActionDone)
+            {
+                if (tutoIndicator == null) yield break;
+                tutoIndicator.StopBlink();
+                isTutoActionDone2 = true;
             }
             currentPointsForCreate -= erasedObject.creationCost;
             erasedObject.Create();
@@ -253,13 +286,19 @@ public class ErasedManager : MonoBehaviour
             
             MusicManager.Instance.PlayErase();
             
-            // >>> PAUSE CODE HERE: Wait for the VFX duration to complete
             yield return new WaitForSeconds(vfxDuration);
 
             if (!isTutoActionDone)
             {
                 if (tutoIndicator == null) yield break;
                 tutoIndicator.StopBlink();
+                isTutoActionDone = true; // ← add this
+            }
+            else if (!isTutoActionDone2 && isTutoActionDone)   // ← add this whole block
+            {
+                if (tutoIndicator == null) yield break;
+                tutoIndicator.StopBlink();
+                isTutoActionDone2 = true;
             }
             
             currentPointsForCreate += erasedObject.creationCost;
@@ -291,13 +330,31 @@ public class ErasedManager : MonoBehaviour
             // >>> PAUSE CODE HERE: Wait for the VFX duration to clear
             yield return new WaitForSeconds(vfxDuration);
 
-            foreach (var obj in objectsErased)
+            if (tutoIndicator != null)
             {
-                if (obj != null) obj.Erase();
+                tutoIndicator.StopBlink();
             }
             
-            objectsErased.Clear();
-            currentPointsForCreate = maxPointsForCreate;
+            List<ErasedObject> objList = new List<ErasedObject>();
+            
+            RaycastHit hitInfo;
+            bool didHit = Physics.Raycast(transform.position, Vector3.down, out hitInfo, 5, LayerMask.GetMask("Ground"));
+            ErasedObject erasedObj = didHit ? hitInfo.collider.GetComponentInParent<ErasedObject>() : null;
+            
+            foreach (var obj in objectsErased)
+            {
+                if (erasedObj == null || erasedObj.gameObject != obj.gameObject)
+                {
+                    obj.Erase();
+                    currentPointsForCreate += obj.creationCost;
+                    objList.Add(obj);
+                }
+            }
+
+            foreach (var obj in objList)
+            {
+                objectsErased.Remove(obj);
+            }
             UpdateNeutralUI();
         }
 

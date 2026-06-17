@@ -65,7 +65,7 @@ public class BookEnnemy : EnnemyBase
             if (move == "wait" || move == "0" || move == "targetInRange")
             {
                 RaycastHit GroundDistHit;
-                if (Physics.Raycast(transform.position, Vector3.down, out GroundDistHit, Mathf.Infinity))
+                if (Physics.Raycast(transform.position, Vector3.down, out GroundDistHit, Mathf.Infinity,LayerMask.GetMask("Ground")))
                 {
                     if (GroundDistHit.distance < DistanceFromGround) move = "recoverDive";
                 }
@@ -106,7 +106,7 @@ public class BookEnnemy : EnnemyBase
                         timerGeneral = FallWait;
 
                         RaycastHit hit;
-                        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, GroundLayer))
+                        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
                         {
                             targetPreview.transform.position = hit.point;
                             targetPreview.transform.position += Vector3.up * 0.01f;
@@ -129,7 +129,7 @@ public class BookEnnemy : EnnemyBase
                 transform.Translate(speed.y * Vector3.up * Time.deltaTime);
 
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity))
+                if (Physics.Raycast(transform.position, Vector3.down, out hit,Mathf.Infinity, LayerMask.GetMask("Ground")))
                 {
                     if (hit.distance >= DistanceFromGround)
                     {
@@ -314,6 +314,7 @@ public class BookEnnemy : EnnemyBase
 
     protected override void EndStun()
     {
+        base.EndStun();
         animator.SetBool("Stun", false);
         rb.isKinematic = true;
         rb.useGravity = false;

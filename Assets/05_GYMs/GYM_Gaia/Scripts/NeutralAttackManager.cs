@@ -27,6 +27,7 @@ public class NeutralAttackManager : AttackManager
     private Coroutine ultModCoroutine;
     private Coroutine securityCoroutine;
     private int enemyInt;
+    private bool isFirstUltimate = true;
 
     private void Start()
     {
@@ -134,6 +135,14 @@ public class NeutralAttackManager : AttackManager
         {
             currentEnemy.SetUltIndicator(false);
         }
+
+        if (isFirstUltimate)
+        {
+            SteamAchievements.Instance.UnlockUltNeutral();
+            isFirstUltimate = false;
+        }
+        
+        EndUltimate();
     }
     
     

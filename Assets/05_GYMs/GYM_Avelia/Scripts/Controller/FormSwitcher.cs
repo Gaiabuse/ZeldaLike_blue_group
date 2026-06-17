@@ -124,8 +124,8 @@ public class FormSwitcher : MonoBehaviour
             case Form.neutral:
                 switchToNeutralFX.Play();
                 neutralFormObject.SetActive(true);
+                if (ultIndicatorSprites.Count > 0) ultIndicator.sprite = ultIndicatorSprites[0];
                 if (wasCanDoUltimate) FormAttackManagers[0].Ultimate();
-                else if (ultIndicatorSprites.Count > 0) ultIndicator.sprite = ultIndicatorSprites[0];
                 playerController.currentAttackManager = FormAttackManagers[0];
                 playerController.currentAnimator = FormAttackManagers[0].FormAnimator;
                 break;
@@ -133,8 +133,8 @@ public class FormSwitcher : MonoBehaviour
             case Form.dream:
                 switchToDreamFX.Play();
                 dreamFormObject.SetActive(true);
+                if (ultIndicatorSprites.Count > 1) ultIndicator.sprite = ultIndicatorSprites[1];
                 if (wasCanDoUltimate) FormAttackManagers[1].Ultimate();
-                else if (ultIndicatorSprites.Count > 1) ultIndicator.sprite = ultIndicatorSprites[1];
                 playerController.currentAttackManager = FormAttackManagers[1];
                 playerController.currentAnimator = FormAttackManagers[1].FormAnimator;
                 break;
@@ -142,8 +142,8 @@ public class FormSwitcher : MonoBehaviour
             case Form.nightmare:
                 switchToNightmareFX.Play();
                 nightmareFormObject.SetActive(true);
+                if (ultIndicatorSprites.Count > 2) ultIndicator.sprite = ultIndicatorSprites[2];
                 if (wasCanDoUltimate) FormAttackManagers[2].Ultimate();
-                else if (ultIndicatorSprites.Count > 2) ultIndicator.sprite = ultIndicatorSprites[2];
                 playerController.currentAttackManager = FormAttackManagers[2];
                 playerController.currentAnimator = FormAttackManagers[2].FormAnimator;
                 break;

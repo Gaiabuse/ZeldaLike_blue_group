@@ -10,6 +10,7 @@ public class SettingsUIBridge : MonoBehaviour
     public Slider sfxSlider;
     public Toggle debugToggle;
     public Toggle vSyncToggle;
+    public Toggle languageToggle;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class SettingsUIBridge : MonoBehaviour
             if (sfxSlider != null) sfxSlider.value = manager.sfxVolume;
             if (debugToggle != null) debugToggle.isOn = manager.debugMode;
             if (vSyncToggle != null) vSyncToggle.isOn = manager.vSync;
+            if (languageToggle != null) languageToggle.isOn = manager.isEnglish;
             
             if (mainSlider != null) mainSlider.onValueChanged.AddListener(delegate { manager.SetMainVolume(mainSlider); });
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(delegate { manager.SetMusicVolume(musicSlider); });

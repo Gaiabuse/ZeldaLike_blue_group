@@ -10,6 +10,7 @@ public class QuotaManager : MonoBehaviour
     [SerializeField] private ProgressMenuUI progressMenuUI;
     public int DustCount;
     public int cleanedDustCount;
+    private bool hasAchievement;
     
     private int quotaIndex;
     
@@ -32,6 +33,11 @@ public class QuotaManager : MonoBehaviour
         if (cleanPoints+progress > 100)
         {
             cleanPoints = 100;
+            if (!hasAchievement)
+            {
+                SteamAchievements.Instance.UnlockAllCleaned();
+                hasAchievement = true;
+            }
         }
         else
         {

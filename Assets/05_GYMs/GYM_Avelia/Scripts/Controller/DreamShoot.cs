@@ -54,6 +54,8 @@ public class DreamShoot : AttackManager
     [SerializeField] private bool CanShoot = true;
     private bool prepShoot = false;
 
+    private bool isFirstUltimate = true;
+
 
     public bool IsLastComboAttack => currentCombo >= numberOfAttacksInCombo-1;
     private Projectile CurrentProjectile => IsLastComboAttack ? ultimateAttackOfCombo : attack;
@@ -230,6 +232,12 @@ public class DreamShoot : AttackManager
             CreateShot(lastAttackComboDamage, transform.forward, attack);
         }
         player.transform.rotation = LastRotation;
+        EndUltimate();
+        if (isFirstUltimate)
+        {
+            SteamAchievements.Instance.UnlockUltDream();
+            isFirstUltimate = false;
+        }
     }
 
     void CreateShot(float attackPower, Vector3 direction, Projectile Shot)
