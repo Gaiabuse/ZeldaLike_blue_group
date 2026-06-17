@@ -1,7 +1,10 @@
+     using System;
      using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Linq;
+using DG.Tweening;
+using UnityEngine.VFX;
 
 public class DreamDash : MonoBehaviour
 {
@@ -14,6 +17,7 @@ public class DreamDash : MonoBehaviour
 
     [SerializeField]
     private GameObject dashVFX;
+    private TrailRenderer dashTrail;
 
     [SerializeField]
     LayerMask layerWall, layerGround;
@@ -35,6 +39,13 @@ public class DreamDash : MonoBehaviour
     
     [SerializeField] private bool isTutoActionDone = false;
     [SerializeField] private TutoIndicatorBlink tutoIndicator;
+    
+    private Tween undodashTween;
+
+    private void Start()
+    {
+        dashTrail = dashVFX.transform.GetChild(0).GetComponent<TrailRenderer>();
+    }
 
     public void Update()
     {
@@ -69,7 +80,11 @@ public class DreamDash : MonoBehaviour
 
     IEnumerator Dash()
     {
+        if (undodashTween != null) undodashTween.Kill();
+        
+        dashTrail.widthCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 1f));
         dashVFX.SetActive(true);
+        
         controller.currentAnimator.SetTrigger("isDashing");
 
         Vector3 originalPosition = transform.position;
@@ -143,8 +158,20 @@ public class DreamDash : MonoBehaviour
         //controller.currentAnimator.SetTrigger("isDashing");
 
         yield return new WaitForSeconds(DashCoolDownSeconds);
-
-        dashVFX.SetActive(false);
+        
+        float startValue = 1f;
+        float endValue = 0f;
+        
+        undodashTween = DOVirtual.Float(startValue, endValue, 0.5f, (float value) =>
+        {
+            AnimationCurve curve = dashTrail.widthCurve;
+            curve.MoveKey(0, new Keyframe(0f, value));
+            curve.MoveKey(1, new Keyframe(1f, value));
+            dashTrail.widthCurve = curve;
+        }).OnComplete(() =>
+        {
+            dashVFX.SetActive(false);
+        });
 
         IsDashing = false;
         if (!isTutoActionDone)
