@@ -30,7 +30,7 @@ public class QuotaManager : MonoBehaviour
 
     public void GainCleanPoints(int progress)
     {
-        if (cleanPoints+progress > 100)
+        if (cleanPoints+progress >= 100)
         {
             cleanPoints = 100;
             if (!hasAchievement)
@@ -38,6 +38,7 @@ public class QuotaManager : MonoBehaviour
                 SteamAchievements.Instance.UnlockAllCleaned();
                 hasAchievement = true;
             }
+            progressMenuUI.ShowProgressPopUp();
         }
         else
         {
