@@ -33,6 +33,7 @@ public class MenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; 
         Cursor.visible = false;
         lastFocusedButton = EventSystem.current.currentSelectedGameObject;
+        Time.timeScale = 1f;
     }
     
     private void OnValidate()

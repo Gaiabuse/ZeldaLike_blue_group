@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -36,6 +37,7 @@ public class DreamCoreManager : MonoBehaviour
 
     [SerializeField] private Material material;
     [SerializeField] private CanvasGroup endScreen;
+    [SerializeField] private GameObject thanksScreen;
 
     // --- PHASE GATING ---
     private bool isInvincible = true;
@@ -299,9 +301,87 @@ public class DreamCoreManager : MonoBehaviour
     public void KillBoss()
     {
         GameManager.Instance.TriggerSlowMotion();
-        endScreen.DOFade(1f, 1f).SetEase(Ease.OutBack).SetUpdate(true).OnComplete(() =>
+        StartCoroutine(EndGame());
+    }
+    
+    IEnumerator EndGame()
+    {
+        Animator animator = endScreen.GetComponentInChildren<Animator>(true);
+        animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        SpriteRenderer[] sprites = animator != null
+            ? animator.gameObject.GetComponentsInChildren<SpriteRenderer>(true)
+            : null;
+        GameObject credits = thanksScreen.transform.GetChild(1).gameObject;
+    
+        Camera.main.transform.DOShakePosition(0.5f, 0.5f);
+        RumbleManager.Instance.TriggerVibration(0.5f, 0.5f);
+        MusicManager.Instance.PlayCoreRoar();
+        MusicManager.Instance.StopBossMusic();
+    
+        yield return new WaitForSecondsRealtime(0.5f);
+        RumbleManager.Instance.StopVibration();
+    
+        bool fadeInDone = false;
+        endScreen.DOFade(1f, 1f)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                if (animator != null)
+                    animator.gameObject.SetActive(true);
+                fadeInDone = true;
+            });
+    
+        yield return new WaitUntil(() => fadeInDone);
+    
+        if (animator != null)
         {
-            SteamAchievements.Instance.UnlockEndGame();
-        });
+            yield return null;
+    
+            yield return new WaitUntil(() =>
+                !animator.IsInTransition(0)
+                && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
+        }
+    
+        SteamAchievements.Instance.UnlockEndGame();
+    
+        yield return new WaitForSecondsRealtime(1f);
+    
+        if (thanksScreen != null)
+            thanksScreen.SetActive(true);
+    
+        if (sprites != null && sprites.Length > 0)
+        {
+            bool thanksFadeDone = false;
+    
+            DOVirtual.Float(1f, 0f, 1f, value =>
+            {
+                foreach (var spr in sprites)
+                {
+                    Color c = spr.color;
+                    c.a = value;
+                    spr.color = c;
+                }
+            })
+            .SetEase(Ease.OutQuad)
+            .SetUpdate(true)
+            .OnComplete(() =>
+            {
+                thanksFadeDone = true;
+            });
+    
+            yield return new WaitUntil(() => thanksFadeDone);
+            yield return new WaitForSecondsRealtime(1.5f);
+            bool moveDone = false;
+            credits.GetComponent<RectTransform>()
+                .DOAnchorPosY(450f, 3f)
+                .SetUpdate(true)
+                .OnComplete(() => moveDone = true);
+
+            yield return new WaitUntil(() => moveDone);
+            yield return new WaitForSecondsRealtime(1.5f);
+        }
+    
+        SceneManager.LoadSceneAsync("03_Scenes/MainMenu");
     }
 }
