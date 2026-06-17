@@ -21,7 +21,11 @@ public class SettingsUIBridge : MonoBehaviour
             if (mainSlider != null) mainSlider.value = manager.mainVolume;
             if (musicSlider != null) musicSlider.value = manager.musicVolume;
             if (sfxSlider != null) sfxSlider.value = manager.sfxVolume;
-            if (debugToggle != null) debugToggle.isOn = manager.debugMode;
+            if (debugToggle != null)
+            {
+                debugToggle.isOn = manager.debugMode;
+                if (debugToggle.isOn) manager.SetDebugMode(debugToggle);
+            }
             if (vSyncToggle != null) vSyncToggle.isOn = manager.vSync;
             if (languageToggle != null) languageToggle.isOn = manager.isEnglish;
             
@@ -43,5 +47,6 @@ public class SettingsUIBridge : MonoBehaviour
         {
             Debug.LogWarning("SettingsManager instance not found in this scene!");
         }
+        gameObject.SetActive(false);
     }
 }
