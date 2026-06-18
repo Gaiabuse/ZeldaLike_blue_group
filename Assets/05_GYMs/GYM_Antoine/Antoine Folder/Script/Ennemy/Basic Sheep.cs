@@ -138,6 +138,11 @@ public class BasicSheep : GroundEnnemy
                 invincible = true;
             }
         }
+        if (move == "chase" && invincible)
+        {
+            invincible = false;
+            animator.SetInteger("Shell", 1);
+        }
     }
 
     protected override void AttackPatern()
