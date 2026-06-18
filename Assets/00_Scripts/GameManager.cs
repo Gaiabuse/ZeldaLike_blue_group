@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +28,11 @@ public class GameManager : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
         originalFixedDeltaTime = Time.fixedDeltaTime;
+    }
+
+    private void Start()
+    {
+        if (SceneManager.GetSceneByBuildIndex(0).isLoaded) SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(0).name);
     }
 
     private void Update()

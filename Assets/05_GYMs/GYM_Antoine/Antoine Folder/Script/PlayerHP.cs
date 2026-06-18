@@ -35,6 +35,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
     private Tween lowLifeTween;
     private Tween lowLifeFadeInTween;
     private Tween lowLifeFadeOutTween;
+    private Tween takeDamagesTween;
 
     private Coroutine damageCoroutine;
     private Coroutine healCoroutine;
@@ -63,6 +64,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             if (healCoroutine != null) StopCoroutine(healCoroutine);
 
             HP -= damage;
+            TakeHitFeedback();
             GameManager.Instance.achNoHit = false;
             Camera.main.transform.DOShakePosition(0.5f, 0.5f);
             
@@ -77,7 +79,7 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
             {
                 LowLifeFeedback();
             }
-            else
+            else if (lowLifeTween != null && lowLifeTween.IsActive() && lowLifeTween.IsPlaying())
             {
                 StopLowLifeFeedback();
             }
@@ -108,6 +110,25 @@ public class PlayerHP : MonoBehaviour, IPlayerDamageable
                 x => vignette.intensity.value = x,
                 volumeDeltaIntensity.y,
                 blinkTime).SetLoops(-1, LoopType.Yoyo);
+        });
+    }
+
+    private void TakeHitFeedback()
+    {
+        if (lowLifeTween != null && lowLifeTween.IsActive() && lowLifeTween.IsPlaying()) return;
+        if (takeDamagesTween != null && takeDamagesTween.IsActive() && takeDamagesTween.IsPlaying()) return;
+        takeDamagesTween?.Kill();
+
+        vignette.intensity.value = volumeDeltaIntensity.x;
+        takeDamagesTween = DOTween.To(() => vignette.intensity.value,
+            x => vignette.intensity.value = x,
+            volumeDeltaIntensity.x,
+            blinkTime/2).OnComplete(() =>
+        {
+            takeDamagesTween = DOTween.To(() => vignette.intensity.value,
+                x => vignette.intensity.value = x,
+                0,
+                blinkTime);
         });
     }
 

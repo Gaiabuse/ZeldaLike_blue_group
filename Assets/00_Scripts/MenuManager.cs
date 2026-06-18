@@ -34,6 +34,11 @@ public class MenuManager : MonoBehaviour
         Cursor.visible = false;
         lastFocusedButton = EventSystem.current.currentSelectedGameObject;
         Time.timeScale = 1f;
+        if (SceneManager.GetSceneByBuildIndex(1).isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(1).name);
+            Resources.UnloadUnusedAssets();
+        }
     }
     
     private void OnValidate()

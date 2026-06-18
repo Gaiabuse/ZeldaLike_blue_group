@@ -383,6 +383,11 @@ public class DreamCoreManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(1.5f);
         }
     
-        SceneManager.LoadSceneAsync("03_Scenes/MainMenu");
+        AsyncOperation operation = SceneManager.LoadSceneAsync("03_Scenes/MainMenu");
+        Resources.UnloadUnusedAssets();
+        while (operation != null && !operation.isDone)
+        {
+            yield return null;
+        }
     }
 }
