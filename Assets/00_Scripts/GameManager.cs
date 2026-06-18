@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         if (SceneManager.GetSceneByBuildIndex(0).isLoaded) SceneManager.UnloadSceneAsync(SceneManager.GetSceneByBuildIndex(0).name);
     }
 
@@ -101,6 +102,7 @@ public class GameManager : MonoBehaviour
         
         Time.timeScale = targetScale;
         Time.fixedDeltaTime = originalFixedDeltaTime * targetScale;
+        yield return null;
     }
 
     public void CheckAchievements()

@@ -18,6 +18,7 @@ public class RumbleManager : MonoBehaviour
     {
         if (Instance == null)
         {
+            Time.timeScale = 1;
             Instance = this;
             if (transform.parent == null)
             {

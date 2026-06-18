@@ -77,11 +77,9 @@ public class DreamShoot : AttackManager
     protected override void OnAttack(InputValue _input)
     {
         base.OnAttack(_input);
-
-        // 1. BUTTON RELEASED
+        
         if (!_input.isPressed)
         {
-            // ✅ Add the same button guard here
             var action = player.playerInput.actions["Attack"];
             if (action.activeControl != null && action.activeControl.name != "buttonWest")
             {
@@ -155,7 +153,6 @@ public class DreamShoot : AttackManager
         prepShoot = true;
         player.CanMove = false;
         player.CanRotate = true;
-        // we should try to do something to make things seem more sensitive
 
         aimCone.SetActive(true);
 
@@ -196,9 +193,8 @@ public class DreamShoot : AttackManager
             attackScaledPower = GetAttackPower(progress);
         }
 
-
-        if (amountOfTimeWaited < autoAimTime)
-            CreateAutoTargettingShot(attackScaledPower);
+        if (amountOfTimeWaited < autoAimTime) CreateAutoTargettingShot(attackScaledPower);
+        else if (attackScaledPower == MaxAttack) CreateShot(attackScaledPower, transform.forward, ultimateAttackOfCombo);
         else CreateShot(attackScaledPower, transform.forward, CurrentProjectile);
 
         bool wasLastCombo = IsLastComboAttack;
@@ -229,7 +225,7 @@ public class DreamShoot : AttackManager
         {
             float positionY = (360f / numberOfShotsForUltimate) * i;
             player.transform.rotation = Quaternion.Euler(0, positionY, 0);
-            CreateShot(lastAttackComboDamage, transform.forward, attack);
+            CreateShot(lastAttackComboDamage, transform.forward, ultimateAttackOfCombo);
         }
         player.transform.rotation = LastRotation;
         EndUltimate();
