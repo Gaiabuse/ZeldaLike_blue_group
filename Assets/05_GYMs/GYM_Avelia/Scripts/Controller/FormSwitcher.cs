@@ -73,13 +73,12 @@ public class FormSwitcher : MonoBehaviour
             bool wasFirstTime = isFirstUltimateTime;
             AttackManager.CanUltimate?.Invoke();
             CanDoUltimate = true;
-            NotifyUltimateReady(); // fires FirstUltimateTime, flips isFirstUltimateTime to false
+            NotifyUltimateReady();
 
             if (wasFirstTime)
             {
                 tutoTrigger.SetActive(true);
                 yield return new WaitUntil(() => !CanDoUltimate);
-                // At this point ChangeForm() already handled EndFirstUltimateTime + reset
             }
             else
             {

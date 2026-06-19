@@ -109,42 +109,16 @@ public class GroundEnnemy : EnnemyBase
     {
         Collider[] rangeChecks = Physics.OverlapSphere(LockOn.position, LookRange, LayerBlockRay);
         if (rangeChecks.Length > 0)
-        {
-            bool leureDetected = false;
-
+        { 
             for (int i = 0; i < rangeChecks.Length; i++)
             {
-                if (rangeChecks[i].CompareTag("Leure"))
-                {
-                    if (Leure != rangeChecks[i].transform) Leure = rangeChecks[i].transform;
-                    leureDetected = true;
-                }
                 if (rangeChecks[i].CompareTag("Player"))
                 {
                     if (Player == null) Player = rangeChecks[i].transform;
                 }
             }
 
-            if (leureDetected)
-            {
-                if (CanSeeObject(Leure) || alwaysAgro)
-                {
-                    TargetInFieldOfView = true;
-                    CurrentTarget = Leure;
-                }
-                else if (Player != null)
-                {
-                    if (CanSeeObject(Player) || alwaysAgro)
-                    {
-                        TargetInFieldOfView = true;
-                        CurrentTarget = Player;
-                    }
-                    else TargetInFieldOfView = false;
-                }
-
-                return;
-            }
-            else if (Player != null)
+            if (Player != null)
             {
                 if (CanSeeObject(Player) || alwaysAgro)
                 {

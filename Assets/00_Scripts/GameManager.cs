@@ -117,14 +117,17 @@ public class GameManager : MonoBehaviour
             SteamAchievements.Instance.UnlockNoHit();
         }
 
-        if (achSpareZonyr)
-        {
-            SteamAchievements.Instance.UnlockSpareZonyr();
-        }
-
         if (achSpeedrun)
         {
             SteamAchievements.Instance.UnlockSpeedrun();
+        }
+    }
+
+    public void CheckSpareZonyr()
+    {
+        if (achSpareZonyr)
+        {
+            SteamAchievements.Instance.UnlockSpareZonyr();
         }
     }
 }

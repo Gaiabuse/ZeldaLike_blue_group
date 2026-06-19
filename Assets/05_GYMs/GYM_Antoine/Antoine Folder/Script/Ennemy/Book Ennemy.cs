@@ -205,29 +205,15 @@ public class BookEnnemy : EnnemyBase
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, LookRange, LayerTarget);
         if (rangeChecks.Length > 0)
         {
-            bool leureDetected = false;
-
             for (int i = 0; i < rangeChecks.Length; i++)
             {
-                if (rangeChecks[i].CompareTag("Leure"))
-                {
-                    if (Leure != rangeChecks[i].transform) Leure = rangeChecks[i].transform;
-                    leureDetected = true;
-                }
                 if (rangeChecks[i].CompareTag("Player"))
                 {
                     if (Player == null) Player = rangeChecks[i].transform;
                 }
             }
 
-            if (leureDetected)
-            {
-                TargetInFieldOfView = true;
-                CurrentTarget = Leure;
-
-                return;
-            }
-            else if (Player != null)
+            if (Player != null)
             {
                 TargetInFieldOfView = true;
                 CurrentTarget = Player;

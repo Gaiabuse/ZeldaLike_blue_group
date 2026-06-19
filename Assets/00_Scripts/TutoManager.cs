@@ -148,6 +148,7 @@ public class TutoStep
         if (isTutoEnd)
         {
             SteamAchievements.Instance.UnlockEndTuto();
+            GameManager.Instance.CheckSpareZonyr();
         }
 
         if (hadUI)

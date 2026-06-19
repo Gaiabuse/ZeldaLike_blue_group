@@ -8,8 +8,10 @@ using Steamworks;
 
 public class RumbleManager : MonoBehaviour
 {
+    private bool isRumbling = false;
+    
     public static RumbleManager Instance;
-
+    
 #if UNITY_STANDALONE_LINUX
     private bool isSteamInputInitialized = false;
 #endif
@@ -28,6 +30,39 @@ public class RumbleManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnDisable()
+    {
+        StopVibration();
+    }
+    
+    private void OnDestroy()
+    {
+        StopVibration();
+    }
+
+    private void OnApplicationQuit()
+    {
+        StopVibration();
+    }
+    
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (!pauseStatus) StopVibration();
+    }
+    
+    private void OnApplicationFocus(bool focusStatus)
+    {
+        if (!focusStatus) StopVibration();
+    }
+
+    private void Update()
+    {
+        if (Time.timeScale == 0 && isRumbling)
+        {
+            StopVibration();
         }
     }
 
@@ -58,6 +93,7 @@ public class RumbleManager : MonoBehaviour
 
     public void TriggerVibration(float lowFreq, float highFreq)
     {
+        isRumbling = true;
         bool vibrationTriggered = false;
 
 #if UNITY_STANDALONE_LINUX
@@ -123,6 +159,7 @@ public class RumbleManager : MonoBehaviour
 
     public void StopVibration()
     {
+        isRumbling =  false;
 #if UNITY_STANDALONE_LINUX
         if (SteamManager.Initialized && isSteamInputInitialized)
         {

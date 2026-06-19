@@ -43,7 +43,7 @@ public class IndicatorUltimate : MonoBehaviour
 
         tween?.Kill();
 
-        indicator.transform
+        tween = indicator.transform
             .DOScale(indicatorSize * bounceMaxScale, dotweenTime)
             .SetEase(Ease.OutBack)
             .SetUpdate(true)
