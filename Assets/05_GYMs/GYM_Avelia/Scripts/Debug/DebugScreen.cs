@@ -12,6 +12,7 @@ public class DebugScreen : MonoBehaviour
     PlayerInput input;
     FormSwitcher formSwitcher;
     ErasedManager erasedManager;
+    DreamCoreManager dreamCoreManager;
     List<Form> choosenForms = new List<Form>() {Form.neutral};
 
     [Header("InternalReference")]
@@ -42,6 +43,7 @@ public class DebugScreen : MonoBehaviour
         input = FindAnyObjectByType<PlayerInput>();
         formSwitcher = FindAnyObjectByType<FormSwitcher>();
         erasedManager = FindAnyObjectByType<ErasedManager>();
+        dreamCoreManager =  FindAnyObjectByType<DreamCoreManager>();
     }
 
     public void SpawnBox()
@@ -119,6 +121,7 @@ public class DebugScreen : MonoBehaviour
         {
             nmi.Kill();
         }
+        if (dreamCoreManager.isBossActive) dreamCoreManager.Death();
     }
 
     public void Activate()

@@ -212,10 +212,11 @@ public class DreamCoreManager : MonoBehaviour
         }
     }
 
-    private void Death()
+    public void Death()
     {
         lifeBar.SetActive(false);
         hitVFX.SetActive(false);
+        transform.DOScale(new Vector3(minGooSize, minGooSize, minGooSize), gooLerpDuration).SetEase(Ease.OutQuad);
 
         if (TryGetComponent<BossAttackPhaseManager>(out var phaseManager))
         {
