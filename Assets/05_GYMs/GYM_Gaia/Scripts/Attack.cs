@@ -101,11 +101,12 @@ public class Attack : MonoBehaviour
         if (collision.transform.CompareTag("DreamCore"))
         {
             DreamCoreManager dreamCore = collision.transform.GetComponent<DreamCoreManager>();
+            touchedEnemy = true;
+            
             if (dreamCore != null)
             {
                 dreamCore.TakeDamages((int)damage);
             }
-            touchedEnemy = true;
         }
 
         if (collision.transform.CompareTag("Garbage"))

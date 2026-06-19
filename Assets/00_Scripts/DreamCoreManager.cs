@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -171,6 +172,7 @@ public class DreamCoreManager : MonoBehaviour
 
     public void TakeDamages(int damage)
     {
+
         if (isInvincible || hp <= 0) return;
 
         float targetHP = hp - damage;
