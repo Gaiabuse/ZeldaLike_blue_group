@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -38,6 +40,11 @@ public class DreamCoreManager : MonoBehaviour
     [SerializeField] private Material material;
     [SerializeField] private CanvasGroup endScreen;
     [SerializeField] private GameObject thanksScreen;
+    
+    [SerializeField] private AnimationClip animation;
+    private bool isEndAnimation = false;
+
+    private PlayerInput playerInput;
 
     // --- PHASE GATING ---
     private bool isInvincible = true;
@@ -75,13 +82,13 @@ public class DreamCoreManager : MonoBehaviour
         maxHP = hp;
         _tempHP = maxHP;
         UpdateGooScale(hp);
+        playerInput = FindObjectOfType<PlayerInput>();
     }
 
     public void StartBossFight()
     {
         isBossActive = true;
         StartCoroutine(StartFight());
-        Debug.Log("BossFight");
     }
 
     private void CancelBossFight()
@@ -301,24 +308,55 @@ public class DreamCoreManager : MonoBehaviour
     public void KillBoss()
     {
         GameManager.Instance.CheckAchievements();
-        //GameManager.Instance.TriggerSlowMotion();
-        Time.timeScale = 0;
-        StartCoroutine(EndGame());
+        //GetComponentInParent<Animator>().SetTrigger("Explode");
+        StartCoroutine(EndAnimation());
+    }
+    
+    IEnumerator EndAnimation()
+    {
+        MusicManager.Instance.StopWalk();
+        
+        Camera.main.transform.DOShakePosition(0.5f, 0.5f);
+        RumbleManager.Instance.TriggerVibration(0.5f, 0.5f);
+        MusicManager.Instance.PlayCoreRoar();
+        MusicManager.Instance.StopBossMusic();
+        
+        yield return new WaitForSeconds(0.5f);
+        
+        Animator animator = GetComponentInParent<Animator>();
+        animator.SetTrigger("Shrink");
+        
+        if (animator != null)
+        {
+            yield return null;
+    
+            yield return new WaitForSeconds(animation.length);
+        }
+        
+        Debug.Log("Animation Ended");
+        isEndAnimation = true;
+        yield return null;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((other.CompareTag("Player")) && isEndAnimation)
+        {
+            StartCoroutine(EndGame());
+        }
     }
     
     IEnumerator EndGame()
     {
+        Time.timeScale = 0;
+        playerInput.DeactivateInput(); 
+        
         Animator animator = endScreen.GetComponentInChildren<Animator>(true);
         animator.updateMode = AnimatorUpdateMode.UnscaledTime;
         SpriteRenderer[] sprites = animator != null
             ? animator.gameObject.GetComponentsInChildren<SpriteRenderer>(true)
             : null;
         GameObject credits = thanksScreen.transform.GetChild(1).gameObject;
-    
-        Camera.main.transform.DOShakePosition(0.5f, 0.5f);
-        RumbleManager.Instance.TriggerVibration(0.5f, 0.5f);
-        MusicManager.Instance.PlayCoreRoar();
-        MusicManager.Instance.StopBossMusic();
     
         yield return new WaitForSecondsRealtime(0.5f);
         RumbleManager.Instance.StopVibration();

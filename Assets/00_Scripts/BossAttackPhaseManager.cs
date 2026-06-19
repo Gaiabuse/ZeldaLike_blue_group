@@ -297,7 +297,6 @@ public class BossAttackPhaseManager : MonoBehaviour
 
     public void StopAndCleanAllAttacks(bool disableManager = true)
     {
-        Debug.Log("[Boss Manager] Cleaning Arena...");
         Camera.main.transform.DOShakePosition(0.5f, 0.5f);
         
         if (disableManager)
@@ -316,7 +315,7 @@ public class BossAttackPhaseManager : MonoBehaviour
         }
 
         foreach (var enemy in FindObjectsByType<EnnemyBase>(FindObjectsSortMode.None))
-            Destroy(enemy.gameObject);
+            enemy.Kill();
 
         currentPhaseIndex = 0;
         isExecutingAction = false;
@@ -324,9 +323,8 @@ public class BossAttackPhaseManager : MonoBehaviour
 
         if (disableManager)
         {
-            Debug.Log("Fight Ended");
             coreManager.KillBoss();
-            this.enabled = false;
+            enabled = false;
         }
     }
 }

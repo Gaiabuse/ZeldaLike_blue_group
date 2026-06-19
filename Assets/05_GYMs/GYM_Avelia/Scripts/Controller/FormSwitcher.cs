@@ -100,7 +100,6 @@ public class FormSwitcher : MonoBehaviour
         if (currentForm == nextForm) return;
 
         bool wasCanDoUltimate = CanDoUltimate; 
-        Debug.Log(wasCanDoUltimate);
         
         // Note: If you want changing forms to CANCEL the ultimate, leave the lines below.
         // If you want to keep the ultimate active across forms, comment out this 'if' block.

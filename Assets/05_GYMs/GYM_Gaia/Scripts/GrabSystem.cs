@@ -37,7 +37,7 @@ public class GrabSystem : MonoBehaviour
     [SerializeField] private GameObject grabVfx;
     [SerializeField] private bool isTutoActionDone = false;
     [SerializeField] private TutoIndicatorBlink tutoIndicator;
-
+    
     [SerializeField] private GameObject currentGrabbedObject;
 
     private bool CanThrow = true, IsThrowing = false;
