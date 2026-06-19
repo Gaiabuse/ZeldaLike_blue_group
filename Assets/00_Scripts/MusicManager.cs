@@ -21,12 +21,15 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject scroll;
     [SerializeField] private GameObject locked;
     [SerializeField] private GameObject NWalk;
+    [SerializeField] private GameObject NWalkBridge;
     [SerializeField] private GameObject NMWalk;
+    [SerializeField] private GameObject NMWalkBridge;
     [SerializeField] private GameObject DWalk;
     [SerializeField] private GameObject DShoot1;
     [SerializeField] private GameObject DShoot2;
     [SerializeField] private GameObject Dash;
     
+    private PlayerController player;
     private int nbStun;
 
     public static MusicManager Instance;
@@ -61,6 +64,8 @@ public class MusicManager : MonoBehaviour
         {
             Debug.LogError("MusicManager: EnnemyManager.Instance is missing in Start!");
         }
+        
+        player = FindFirstObjectByType<PlayerController>();
         
         UpdateTriggers();
     }
@@ -146,17 +151,29 @@ public class MusicManager : MonoBehaviour
             case Form.neutral:
                 NMWalk.SetActive(false);
                 DWalk.SetActive(false);
-                NWalk.SetActive(true);
+                NMWalkBridge.SetActive(false);
+                if (player.IsOnBridge)
+                {
+                    NWalkBridge.SetActive(true);
+                }
+                else NWalk.SetActive(true);
                 break;
             case Form.nightmare:
                 DWalk.SetActive(false);
                 NWalk.SetActive(false);
-                NMWalk.SetActive(true);
+                NWalkBridge.SetActive(false);
+                if (player.IsOnBridge)
+                {
+                    NMWalkBridge.SetActive(true);
+                }
+                else NMWalk.SetActive(true);
                 break;
             case Form.dream:
                 NWalk.SetActive(false);
                 NMWalk.SetActive(false);
                 DWalk.SetActive(true);
+                NWalkBridge.SetActive(false);
+                NMWalkBridge.SetActive(false);
                 break;
         }
     }
@@ -166,6 +183,8 @@ public class MusicManager : MonoBehaviour
         NWalk.SetActive(false);
         NMWalk.SetActive(false);
         DWalk.SetActive(false);
+        NWalkBridge.SetActive(false);
+        NMWalkBridge.SetActive(false);
     }
     
     public void PlayStun()

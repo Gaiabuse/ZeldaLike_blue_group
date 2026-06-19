@@ -43,7 +43,9 @@ public class DreamCoreManager : MonoBehaviour
     [SerializeField] private GameObject thanksScreen;
     
     [SerializeField] private AnimationClip animation;
-    private bool isEndAnimation = false;
+    [SerializeField] private float endCreditPos;
+    [SerializeField] private float creditTime;
+    [SerializeField] private SphereCollider triggerCollider;
 
     private PlayerInput playerInput;
 
@@ -336,13 +338,13 @@ public class DreamCoreManager : MonoBehaviour
         }
         
         Debug.Log("Animation Ended");
-        isEndAnimation = true;
+        triggerCollider.enabled = true;
         yield return null;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.CompareTag("Player")) && isEndAnimation)
+        if ((other.CompareTag("Player")))
         {
             StartCoroutine(EndGame());
         }
@@ -360,11 +362,10 @@ public class DreamCoreManager : MonoBehaviour
             : null;
         GameObject credits = thanksScreen.transform.GetChild(1).gameObject;
     
-        yield return new WaitForSecondsRealtime(0.5f);
-        RumbleManager.Instance.StopVibration();
-    
+        RumbleManager.Instance.TriggerVibration(0.25f,0.25f);
+        
         bool fadeInDone = false;
-        endScreen.DOFade(1f, 1f)
+        endScreen.DOFade(1f, 2f)
             .SetEase(Ease.OutBack)
             .SetUpdate(true)
             .OnComplete(() =>
@@ -375,6 +376,8 @@ public class DreamCoreManager : MonoBehaviour
             });
     
         yield return new WaitUntil(() => fadeInDone);
+        
+        RumbleManager.Instance.StopVibration();
     
         if (animator != null)
         {
@@ -416,12 +419,13 @@ public class DreamCoreManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(1.5f);
             bool moveDone = false;
             credits.GetComponent<RectTransform>()
-                .DOAnchorPosY(450f, 3f)
+                .DOAnchorPosY(endCreditPos, creditTime)
                 .SetUpdate(true)
+                .SetEase(Ease.Linear)
                 .OnComplete(() => moveDone = true);
 
             yield return new WaitUntil(() => moveDone);
-            yield return new WaitForSecondsRealtime(1.5f);
+            yield return new WaitForSecondsRealtime(2f);
         }
     
         AsyncOperation operation = SceneManager.LoadSceneAsync("03_Scenes/MainMenu");

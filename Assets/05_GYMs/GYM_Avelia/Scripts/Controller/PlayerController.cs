@@ -1,8 +1,12 @@
 using System;
 using System.Collections;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
@@ -50,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private float offset = -90f;
 
     public Vector3 currentDirection { get; private set; } = Vector3.forward;
+    public bool IsOnBridge;
 
     public Vector3 surfaceNormal;
     public bool CanMove = true, CanRotate = true;
@@ -92,6 +97,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        CheckBridge();
         if (LockRotation)
         {
             CanRotate = false;
@@ -104,6 +110,20 @@ public class PlayerController : MonoBehaviour
 
         AlignPlayer();
         ResetRotation();
+    }
+
+    private void CheckBridge()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 5f, LayerMask.GetMask("Ground")))
+        {
+            IsOnBridge = hit.collider.CompareTag("Bridge");
+        }
+        else
+        {
+            IsOnBridge = false;
+        }
     }
 
     private void ResetRotation()
