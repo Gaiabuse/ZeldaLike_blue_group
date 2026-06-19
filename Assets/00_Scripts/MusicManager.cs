@@ -23,6 +23,9 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject NWalk;
     [SerializeField] private GameObject NMWalk;
     [SerializeField] private GameObject DWalk;
+    [SerializeField] private GameObject DShoot1;
+    [SerializeField] private GameObject DShoot2;
+    [SerializeField] private GameObject Dash;
     
     private int nbStun;
 
@@ -195,5 +198,23 @@ public class MusicManager : MonoBehaviour
     public void StopScroll()
     {
         scroll.SetActive(false);
+    }
+
+    public void PlayShoot1()
+    {
+        DShoot1.SetActive(false);
+        DShoot1.SetActive(true);
+    }
+    
+    public void PlayShoot2()
+    {
+        DShoot2.SetActive(false);
+        DShoot2.SetActive(true);
+    }
+
+    public void PlayDash()
+    {
+        Dash.SetActive(false);
+        Dash.SetActive(true);
     }
 }

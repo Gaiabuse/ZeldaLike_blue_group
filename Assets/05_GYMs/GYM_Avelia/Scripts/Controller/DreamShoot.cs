@@ -193,10 +193,21 @@ public class DreamShoot : AttackManager
             attackScaledPower = GetAttackPower(progress);
         }
 
-        if (amountOfTimeWaited < autoAimTime) CreateAutoTargettingShot(attackScaledPower);
-        else if (attackScaledPower == MaxAttack) CreateShot(attackScaledPower, transform.forward, ultimateAttackOfCombo);
-        else CreateShot(attackScaledPower, transform.forward, CurrentProjectile);
-
+        if (amountOfTimeWaited < autoAimTime)
+        {
+            CreateAutoTargettingShot(attackScaledPower);
+        }
+        else if (attackScaledPower == MaxAttack)
+        {
+            CreateShot(attackScaledPower, transform.forward, ultimateAttackOfCombo);
+            MusicManager.Instance.PlayShoot2();
+        }
+        else
+        {
+            CreateShot(attackScaledPower, transform.forward, CurrentProjectile);
+            MusicManager.Instance.PlayShoot1();
+        }
+        
         bool wasLastCombo = IsLastComboAttack;
         
         Combo();
@@ -227,6 +238,7 @@ public class DreamShoot : AttackManager
             player.transform.rotation = Quaternion.Euler(0, positionY, 0);
             CreateShot(lastAttackComboDamage, transform.forward, ultimateAttackOfCombo);
         }
+        MusicManager.Instance.PlayShoot2();
         player.transform.rotation = LastRotation;
         EndUltimate();
         if (isFirstUltimate)
@@ -259,6 +271,12 @@ public class DreamShoot : AttackManager
     {
         var playerPos = player.transform.position;
 
+        if (CurrentProjectile == ultimateAttackOfCombo)
+        {
+            MusicManager.Instance.PlayShoot2();
+        }
+        else MusicManager.Instance.PlayShoot1();
+        
         var AutoAimed = AutoAimable.GetNearestTargetAround(playerPos, autoAimRadius);
         if (AutoAimed == null)
         {
