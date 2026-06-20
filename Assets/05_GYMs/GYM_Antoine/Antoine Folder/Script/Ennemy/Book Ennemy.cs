@@ -319,7 +319,6 @@ public class BookEnnemy : EnnemyBase
         {
             Debug.Log("remove");
             EnnemyManager.Instance.enemies.Remove(this);
-            EnnemyManager.Instance.Check();
         }
         animator.SetBool("IsDead", true);
         OnDeath?.Invoke(this);

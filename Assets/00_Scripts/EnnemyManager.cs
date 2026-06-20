@@ -29,18 +29,9 @@ public class EnnemyManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void Check()
+    public void SetFightState(bool state)
     {
-        bool foundCombat = false;
-        foreach (EnnemyBase en in enemies)
-        {
-            if (en.move != "0")
-            {
-                foundCombat = true;
-                break;
-            }
-        }
-        IsInFight = foundCombat;
+        IsInFight = state;
     }
     
     private void OnValidate()

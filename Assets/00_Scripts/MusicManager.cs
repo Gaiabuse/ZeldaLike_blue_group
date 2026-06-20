@@ -28,6 +28,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject DShoot1;
     [SerializeField] private GameObject DShoot2;
     [SerializeField] private GameObject Dash;
+    [SerializeField] private GameObject arenaStart;
     
     private PlayerController player;
     private int nbStun;
@@ -235,5 +236,11 @@ public class MusicManager : MonoBehaviour
     {
         Dash.SetActive(false);
         Dash.SetActive(true);
+    }
+
+    public void PlayArenaStart()
+    {
+        arenaStart.SetActive(false);
+        arenaStart.SetActive(true);
     }
 }

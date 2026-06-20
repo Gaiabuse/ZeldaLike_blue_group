@@ -320,7 +320,6 @@ public class SheepEnnemySprite : GroundEnnemy
         {
             Debug.Log("remove");
             EnnemyManager.Instance.enemies.Remove(this);
-            EnnemyManager.Instance.Check();
         }
         OnDeath?.Invoke(this);
         animator.SetBool("Death", true);

@@ -64,6 +64,8 @@ public class ArenaManager : MonoBehaviour
 
     private void StartArenaFight()
     {
+        EnnemyManager.Instance.SetFightState(true);
+        MusicManager.Instance.PlayArenaStart();
         StartArena?.Invoke();
         currentEnnemiesInHordes = new List<EnnemyBase>();
         currentHordes = 0;
@@ -111,6 +113,7 @@ public class ArenaManager : MonoBehaviour
         currentHordes = 0;
         BarrierParent.SetActive(false);
         arenaEnter.ArenaIsStarted = false;
+        EnnemyManager.Instance.SetFightState(false);
     }
 
     private void CheckIfHordeIsFinished()
@@ -129,7 +132,7 @@ public class ArenaManager : MonoBehaviour
         if (currentHordes >= hordes.Count)
         {
             BarrierParent.SetActive(false);
-            // fx clean
+            EnnemyManager.Instance.SetFightState(false);
             QuotaManager.Instance.GainCleanPoints(cleanPoints);
             FinishArena?.Invoke();
             ArenaIsFinished = true;

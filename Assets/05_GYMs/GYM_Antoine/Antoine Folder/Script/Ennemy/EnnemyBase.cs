@@ -335,7 +335,6 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         if (EnnemyManager.Instance != null)
         {
             EnnemyManager.Instance.enemies.Remove(this);
-            EnnemyManager.Instance.Check();
         }
         OnDeath?.Invoke(this);
         Destroy(gameObject);
@@ -409,11 +408,6 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             if (_move == value) return;
 
             _move = value;
-
-            if (EnnemyManager.Instance != null)
-            {
-                EnnemyManager.Instance.Check();
-            }
         }
     }
 
