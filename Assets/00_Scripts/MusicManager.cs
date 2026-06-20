@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using FMODUnity;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class MusicManager : MonoBehaviour
 {
@@ -29,6 +31,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject DShoot2;
     [SerializeField] private GameObject Dash;
     [SerializeField] private GameObject arenaStart;
+    [SerializeField] private List<GameObject> zonyrHit;
     
     private PlayerController player;
     private int nbStun;
@@ -143,6 +146,13 @@ public class MusicManager : MonoBehaviour
     {
         transfo.SetActive(false);
         transfo.SetActive(true);
+    }
+
+    public void PlayZonyrHit()
+    {
+        GameObject audio = zonyrHit[Random.Range(0, zonyrHit.Count)];
+        audio.SetActive(false);
+        audio.SetActive(true);
     }
 
     public void Walk(Form currentForm)
