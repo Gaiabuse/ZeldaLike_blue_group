@@ -42,7 +42,8 @@ public class DreamCoreManager : MonoBehaviour
     [SerializeField] private CanvasGroup endScreen;
     [SerializeField] private GameObject thanksScreen;
     
-    [SerializeField] private AnimationClip animation;
+    [SerializeField] private AnimationClip shrinkAnimation;
+    [SerializeField] private AnimationClip deathAnimation;
     [SerializeField] private float endCreditPos;
     [SerializeField] private float creditTime;
     [SerializeField] private SphereCollider triggerCollider;
@@ -313,13 +314,13 @@ public class DreamCoreManager : MonoBehaviour
     public void KillBoss()
     {
         GameManager.Instance.CheckAchievements();
-        //GetComponentInParent<Animator>().SetTrigger("Explode");
         StartCoroutine(EndAnimation());
     }
     
     IEnumerator EndAnimation()
     {
-        MusicManager.Instance.StopWalk();
+        Animator animator = GetComponentInParent<Animator>();
+        animator.SetTrigger("Death");
         
         Camera.main.transform.DOShakePosition(0.5f, 0.5f);
         RumbleManager.Instance.TriggerVibration(0.5f, 0.5f);
@@ -327,18 +328,26 @@ public class DreamCoreManager : MonoBehaviour
         MusicManager.Instance.StopBossMusic();
         
         yield return new WaitForSeconds(0.5f);
+        RumbleManager.Instance.StopVibration();
         
-        Animator animator = GetComponentInParent<Animator>();
+        if (animator != null)
+        {
+            yield return null;
+    
+            yield return new WaitForSeconds(deathAnimation.length-0.5f);
+        }
+        
+        yield return new WaitForSeconds(1.5f);
+        
         animator.SetTrigger("Shrink");
         
         if (animator != null)
         {
             yield return null;
     
-            yield return new WaitForSeconds(animation.length);
+            yield return new WaitForSeconds(shrinkAnimation.length);
         }
         
-        Debug.Log("Animation Ended");
         triggerCollider.enabled = true;
         yield return null;
     }
@@ -354,7 +363,8 @@ public class DreamCoreManager : MonoBehaviour
     IEnumerator EndGame()
     {
         Time.timeScale = 0;
-        playerInput.DeactivateInput(); 
+        playerInput.DeactivateInput();
+        MusicManager.Instance.StopWalk();
         
         Animator animator = endScreen.GetComponentInChildren<Animator>(true);
         animator.updateMode = AnimatorUpdateMode.UnscaledTime;
