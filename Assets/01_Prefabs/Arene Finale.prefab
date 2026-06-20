@@ -5251,7 +5251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2366463639637277544
 Transform:
   m_ObjectHideFlags: 0
@@ -20767,6 +20767,12 @@ VisualEffect:
       - m_Value: 0.31
         m_Name: Halo2_Size
         m_Overridden: 1
+      - m_Value: 0.31
+        m_Name: Dust_Rotation
+        m_Overridden: 1
+      - m_Value: 0.31
+        m_Name: Halo2_Alpha
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -20786,7 +20792,16 @@ VisualEffect:
     m_NamedObject:
       m_Array: []
     m_Bool:
-      m_Array: []
+      m_Array:
+      - m_Value: 0
+        m_Name: PlayGlitter
+        m_Overridden: 1
+      - m_Value: 0
+        m_Name: Cacakivole
+        m_Overridden: 1
+      - m_Value: 0
+        m_Name: CacaHalo
+        m_Overridden: 1
 --- !u!73398921 &3328378171788222602
 VFXRenderer:
   serializedVersion: 1
@@ -23121,7 +23136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 548294692789133966, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 971653610135623096, guid: b46eb4324beb5e949ab62e616391322c, type: 3}
       propertyPath: m_Layer

@@ -313,6 +313,7 @@ public class DreamCoreManager : MonoBehaviour
 
     public void KillBoss()
     {
+        RumbleManager.Instance.StopVibration();
         GameManager.Instance.CheckAchievements();
         StartCoroutine(EndAnimation());
     }
@@ -373,10 +374,13 @@ public class DreamCoreManager : MonoBehaviour
             : null;
         GameObject credits = thanksScreen.transform.GetChild(1).gameObject;
     
-        RumbleManager.Instance.TriggerVibration(0.25f,0.25f);
+        RumbleManager.Instance.TriggerVibration(0.8f,0.8f);
+        
+        yield return new WaitForSecondsRealtime(0.5f);
+        RumbleManager.Instance.StopVibration();
         
         bool fadeInDone = false;
-        endScreen.DOFade(1f, 2f)
+        endScreen.DOFade(1f, 2.5f)
             .SetEase(Ease.OutBack)
             .SetUpdate(true)
             .OnComplete(() =>
@@ -387,8 +391,6 @@ public class DreamCoreManager : MonoBehaviour
             });
     
         yield return new WaitUntil(() => fadeInDone);
-        
-        RumbleManager.Instance.StopVibration();
     
         if (animator != null)
         {
@@ -401,7 +403,7 @@ public class DreamCoreManager : MonoBehaviour
     
         SteamAchievements.Instance.UnlockEndGame();
     
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(1.5f);
     
         if (thanksScreen != null)
             thanksScreen.SetActive(true);
