@@ -34076,11 +34076,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 955fbc9649cd6ab409164df695d77288, type: 3}
---- !u!4 &426419557 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4928691071237808127, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-  m_PrefabInstance: {fileID: 1893835203}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &427966363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37893,69 +37888,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7cdae794f4441694e868b3e237b46bf6, type: 3}
   m_PrefabInstance: {fileID: 471323026}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &471735538
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 471735539}
-  - component: {fileID: 471735540}
-  m_Layer: 0
-  m_Name: NMWalkBridge
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &471735539
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471735538}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1501396584}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &471735540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 471735538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 1499682484
-      Data2: 1154190330
-      Data3: -1724439106
-      Data4: -102326017
-    Path: event:/SFX/Player/Nightmare/Walk_NM_Bridge
-  Event: 
-  EventPlayTrigger: 11
-  EventStopTrigger: 12
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!1001 &472546944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46186,11 +46118,6 @@ Transform:
   - {fileID: 215230261}
   m_Father: {fileID: 1226452832}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &580668109 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3422437612527355758, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-  m_PrefabInstance: {fileID: 1893835203}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &580711027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108040,69 +107967,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!1 &1201197875
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1201197876}
-  - component: {fileID: 1201197877}
-  m_Layer: 0
-  m_Name: Dash
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1201197876
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201197875}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 580668109}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1201197877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201197875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 574048167
-      Data2: 1163042200
-      Data3: -165931860
-      Data4: -953166292
-    Path: event:/SFX/Player/Dash
-  Event: 
-  EventPlayTrigger: 11
-  EventStopTrigger: 12
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!1001 &1201954570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137441,11 +137305,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1762215481723619536, guid: 52d14397251cb1142b11d39396af1755, type: 3}
   m_PrefabInstance: {fileID: 1501200148}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1501396584 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3734572658071293382, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-  m_PrefabInstance: {fileID: 1893835203}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1501724258 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4638367404924290526, guid: 88ca09e667c69cb479dc0ccb33470734, type: 3}
@@ -157607,11 +157466,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8728637601531950302, guid: f5ee70a70c7654047ab86f9a4a885530, type: 3}
   m_PrefabInstance: {fileID: 1764773368}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1766405524 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4943342941055575880, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-  m_PrefabInstance: {fileID: 1893835203}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1766986069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168268,14 +168122,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1485107461}
     m_Modifications:
-    - target: {fileID: 862031402401309550, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4374869021679894113, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5035036407257675011, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 256.63208
@@ -168316,80 +168162,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5170484257413647070, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: m_Name
-      value: LowLifeTrigger
-      objectReference: {fileID: 0}
-    - target: {fileID: 6082151333170772881, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: TriggerEvent
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 6133227914751294705, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
       propertyPath: m_Name
       value: MusicManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6246431992964466341, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: Value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6597532375506162525, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: Dash
-      value: 
-      objectReference: {fileID: 1201197875}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: NAtk1
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: NAtk2
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: NAtk3
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: DShoot1
-      value: 
-      objectReference: {fileID: 2043534754}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: DShoot2
-      value: 
-      objectReference: {fileID: 2067377333}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: NWalkBridge
-      value: 
-      objectReference: {fileID: 2008345308}
-    - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      propertyPath: NMWalkBridge
-      value: 
-      objectReference: {fileID: 471735538}
     - target: {fileID: 9035906397347063548, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
       propertyPath: dreamCoreManager
       value: 
       objectReference: {fileID: 388914433}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3422437612527355758, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1201197876}
-    - targetCorrespondingSourceObject: {fileID: 4928691071237808127, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2008345309}
-    - targetCorrespondingSourceObject: {fileID: 4943342941055575880, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2043534755}
-    - targetCorrespondingSourceObject: {fileID: 4943342941055575880, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2067377334}
-    - targetCorrespondingSourceObject: {fileID: 3734572658071293382, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 471735539}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc331174c74d2e0468a83442d7bc67aa, type: 3}
 --- !u!4 &1893835204 stripped
@@ -178105,69 +177888,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3754196922471762058, guid: 0ff949e047453284e85a4a76167b4949, type: 3}
   m_PrefabInstance: {fileID: 2007661090}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2008345308
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2008345309}
-  - component: {fileID: 2008345310}
-  m_Layer: 0
-  m_Name: NWalkBridge
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2008345309
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008345308}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 426419557}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2008345310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008345308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: -240208985
-      Data2: 1129666617
-      Data3: 318117296
-      Data4: 1440209595
-    Path: event:/SFX/Player/Neutral/Walk_N_Bridge
-  Event: 
-  EventPlayTrigger: 11
-  EventStopTrigger: 12
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!1001 &2008664132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181153,69 +180873,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2029479519814757162, guid: 2b50849a85703a94eaea678dd3bee916, type: 3}
   m_PrefabInstance: {fileID: 2043262037}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2043534754
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2043534755}
-  - component: {fileID: 2043534756}
-  m_Layer: 0
-  m_Name: DShoot1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2043534755
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2043534754}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1766405524}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2043534756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2043534754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: -1506099626
-      Data2: 1315835703
-      Data3: -1142392186
-      Data4: -1585513569
-    Path: event:/SFX/Player/Dream/Shoot1
-  Event: 
-  EventPlayTrigger: 0
-  EventStopTrigger: 0
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!1001 &2043893261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -183055,69 +182712,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcb5cfb54ccd12235ad032ab29f2eb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
---- !u!1 &2067377333
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2067377334}
-  - component: {fileID: 2067377335}
-  m_Layer: 0
-  m_Name: DShoot2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2067377334
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067377333}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1766405524}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2067377335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067377333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: 475045523
-      Data2: 1294118352
-      Data3: -1767247462
-      Data4: -2008958048
-    Path: event:/SFX/Player/Dream/Shoot2
-  Event: 
-  EventPlayTrigger: 11
-  EventStopTrigger: 12
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  NonRigidbodyVelocity: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 1
-  OverrideMaxDistance: 20
 --- !u!1 &2067996672
 GameObject:
   m_ObjectHideFlags: 0
