@@ -32,6 +32,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject Dash;
     [SerializeField] private GameObject arenaStart;
     [SerializeField] private List<GameObject> zonyrHit;
+    [SerializeField] private GameObject touchCore;
     
     private PlayerController player;
     private int nbStun;
@@ -252,5 +253,11 @@ public class MusicManager : MonoBehaviour
     {
         arenaStart.SetActive(false);
         arenaStart.SetActive(true);
+    }
+
+    public void PlayTouchCore()
+    {
+        touchCore.SetActive(false);
+        touchCore.SetActive(true);
     }
 }

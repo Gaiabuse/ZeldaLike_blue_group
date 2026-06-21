@@ -363,6 +363,7 @@ public class DreamCoreManager : MonoBehaviour
     
     IEnumerator EndGame()
     {
+        MusicManager.Instance.PlayTouchCore();
         Time.timeScale = 0;
         playerInput.DeactivateInput();
         MusicManager.Instance.StopWalk();
