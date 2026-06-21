@@ -338,7 +338,7 @@ public class DreamCoreManager : MonoBehaviour
             yield return new WaitForSeconds(deathAnimation.length-0.5f);
         }
         
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.75f);
         
         animator.SetTrigger("Shrink");
         
@@ -377,7 +377,7 @@ public class DreamCoreManager : MonoBehaviour
     
         RumbleManager.Instance.TriggerVibration(0.8f,0.8f);
         
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.25f);
         RumbleManager.Instance.StopVibration();
         
         bool fadeInDone = false;

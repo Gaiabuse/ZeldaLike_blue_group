@@ -25,6 +25,7 @@ public class UnlockDoor : MonoBehaviour
     {
         //gameObject.SetActive(false);
         isDoorUnlock = true;
+        MusicManager.Instance.PlayBridge();
         doorAnimation.Play("Open_Final_Door");
     }
 

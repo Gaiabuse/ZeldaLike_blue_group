@@ -124,10 +124,10 @@ public class SettingsManager : MonoBehaviour
 
     private void LoadSettings()
     {
-        mainVolume = PlayerPrefs.GetFloat("MainVolume", 1.0f);
-        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1.0f);
-        sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 1.0f);
-        vSync = PlayerPrefs.GetFloat("vSync", 1.0f) != 0;
+        mainVolume = PlayerPrefs.GetFloat("MainVolume", 0.75f);
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.75f);
+        sfxVolume = PlayerPrefs.GetFloat("SfxVolume", 0.75f);
+        vSync = PlayerPrefs.GetInt("vSync", 1) != 0;
         isEnglish = PlayerPrefs.GetInt("isEnglish", 0) != 0;
         
         QualitySettings.vSyncCount = vSync ? 1 : 0;
@@ -145,7 +145,7 @@ public class SettingsManager : MonoBehaviour
     {
         vSync = vSyncToggle.isOn;
         QualitySettings.vSyncCount = vSync ? 1 : 0;
-        PlayerPrefs.SetFloat("vSync", vSync ? 1 : 0);
+        PlayerPrefs.SetInt("vSync", vSync ? 1 : 0);
     }
     
     public void ToggleLanguage(Toggle languageToggle)

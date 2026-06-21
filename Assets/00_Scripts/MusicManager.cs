@@ -170,7 +170,11 @@ public class MusicManager : MonoBehaviour
                 {
                     NWalkBridge.SetActive(true);
                 }
-                else NWalk.SetActive(true);
+                else
+                {
+                    NWalkBridge.SetActive(false);
+                    NWalk.SetActive(true);
+                }
                 break;
             case Form.nightmare:
                 DWalk.SetActive(false);
@@ -180,7 +184,11 @@ public class MusicManager : MonoBehaviour
                 {
                     NMWalkBridge.SetActive(true);
                 }
-                else NMWalk.SetActive(true);
+                else
+                {
+                    NMWalkBridge.SetActive(false);
+                    NMWalk.SetActive(true);
+                }
                 break;
             case Form.dream:
                 NWalk.SetActive(false);
