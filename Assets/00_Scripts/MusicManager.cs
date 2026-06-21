@@ -35,6 +35,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject touchCore;
     [SerializeField] private GameObject bridge;
     [SerializeField] private GameObject gooHit;
+    [SerializeField] private GameObject grab;
+    [SerializeField] private GameObject eat;
     
     private PlayerController player;
     private int nbStun;
@@ -281,5 +283,17 @@ public class MusicManager : MonoBehaviour
     {
         gooHit.SetActive(false);
         gooHit.SetActive(true);
+    }
+    
+    public void PlayGrab()
+    {
+        grab.SetActive(false);
+        grab.SetActive(true);
+    }
+    
+    public void PlayEat()
+    {
+        eat.SetActive(false);
+        eat.SetActive(true);
     }
 }

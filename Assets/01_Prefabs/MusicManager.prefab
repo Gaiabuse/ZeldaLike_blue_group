@@ -366,6 +366,69 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 0
   OverrideMaxDistance: 200
+--- !u!1 &1319887059695093934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5515304696323899707}
+  - component: {fileID: 9175601116026468453}
+  m_Layer: 0
+  m_Name: Eat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5515304696323899707
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319887059695093934}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3734572658071293382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9175601116026468453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319887059695093934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -157451094
+      Data2: 1287937391
+      Data3: 1438406841
+      Data4: 2125547652
+    Path: event:/SFX/Player/Nightmare/Eat
+  Event: 
+  EventPlayTrigger: 11
+  EventStopTrigger: 12
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1623068856214011502
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1143,7 @@ MonoBehaviour:
   Params: []
   OverrideAttenuation: 0
   OverrideMinDistance: 0
-  OverrideMaxDistance: 200
+  OverrideMaxDistance: 5.8
 --- !u!1 &4615853179145341237
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,6 +1337,69 @@ MonoBehaviour:
   Parameter: Life
   TriggerEvent: 12
   Value: 0
+--- !u!1 &5234245496407319589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 728656324552220144}
+  - component: {fileID: 6523417253651331284}
+  m_Layer: 0
+  m_Name: Grab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &728656324552220144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234245496407319589}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3734572658071293382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6523417253651331284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234245496407319589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioEventEmitter
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -218225921
+      Data2: 1221553028
+      Data3: 2034242995
+      Data4: 1273988088
+    Path: event:/SFX/Player/Nightmare/Grab
+  Event: 
+  EventPlayTrigger: 11
+  EventStopTrigger: 12
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &5356667995387325651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1489,6 +1615,8 @@ MonoBehaviour:
   touchCore: {fileID: 7986726525385622113}
   bridge: {fileID: 7862229531764136291}
   gooHit: {fileID: 8269957291370505147}
+  grab: {fileID: 5234245496407319589}
+  eat: {fileID: 1319887059695093934}
 --- !u!1 &6135935224704278245
 GameObject:
   m_ObjectHideFlags: 0
@@ -2247,6 +2375,8 @@ Transform:
   m_Children:
   - {fileID: 1643051634409140771}
   - {fileID: 3489571841385648117}
+  - {fileID: 728656324552220144}
+  - {fileID: 5515304696323899707}
   m_Father: {fileID: 3422437612527355758}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7966291819287217707

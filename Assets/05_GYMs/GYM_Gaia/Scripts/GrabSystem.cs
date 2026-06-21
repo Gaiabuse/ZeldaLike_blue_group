@@ -128,6 +128,7 @@ public class GrabSystem : MonoBehaviour
         if (DoGrabCheck(downPosition, rangeForSwallow, radiusForSwallow) is RaycastHit hitSwallow)
         {
             currentGrabbedObject = hitSwallow.collider.gameObject;
+            MusicManager.Instance.PlayEat();
             EnnemyBase currentEnnemyGrab = currentGrabbedObject.GetComponent<EnnemyBase>();
             bool dontGrab = currentEnnemyGrab && currentEnnemyGrab.CheckHP() <= 0;
 
@@ -192,6 +193,7 @@ public class GrabSystem : MonoBehaviour
         GameObject vfxInstance = grabVfx ? Instantiate(grabVfx, subject.transform) : null;
 
         tween.Play();
+        MusicManager.Instance.PlayGrab();
         yield return tween.WaitForCompletion();
 
         if (vfxInstance != null) Destroy(vfxInstance);
