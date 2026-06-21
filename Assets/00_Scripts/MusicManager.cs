@@ -33,6 +33,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private GameObject arenaStart;
     [SerializeField] private List<GameObject> zonyrHit;
     [SerializeField] private GameObject touchCore;
+    [SerializeField] private GameObject bridge;
+    [SerializeField] private GameObject gooHit;
     
     private PlayerController player;
     private int nbStun;
@@ -259,5 +261,17 @@ public class MusicManager : MonoBehaviour
     {
         touchCore.SetActive(false);
         touchCore.SetActive(true);
+    }
+    
+    public void PlayBridge()
+    {
+        bridge.SetActive(false);
+        bridge.SetActive(true);
+    }
+    
+    public void PlayGooHit()
+    {
+        gooHit.SetActive(false);
+        gooHit.SetActive(true);
     }
 }

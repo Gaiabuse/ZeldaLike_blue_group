@@ -56,6 +56,7 @@ public class GarbageBehaviors : MonoBehaviour
             }
             isCleaning = true;
             hp--;
+            MusicManager.Instance.PlayGooHit();
             StartCoroutine(CleanPause());
         }
     }

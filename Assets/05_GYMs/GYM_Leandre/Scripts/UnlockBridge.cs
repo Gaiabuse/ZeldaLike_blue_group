@@ -22,6 +22,7 @@ public class UnlockBridge : MonoBehaviour
     private void BridgeUnlock()
     {
         gameObject.SetActive(true);
+        MusicManager.Instance.PlayBridge();
         isBridgeUnlock = true;
     }
 
