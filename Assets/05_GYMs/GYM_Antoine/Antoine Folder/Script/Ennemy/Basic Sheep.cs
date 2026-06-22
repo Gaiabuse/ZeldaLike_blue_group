@@ -159,7 +159,7 @@ public class BasicSheep : GroundEnnemy
                     navMesh.isStopped = false;
                     navMesh.speed = 0;
                 }
-                else if (distTarget < DistStartAttack && !repositionToAttack && distTarget > DistanceGetInShell && move != "shell")
+                else if (distTarget < DistStartAttack && !repositionToAttack /*&& distTarget > DistanceGetInShell && move != "shell"*/)
                 {
                     repositionToAttack = true;
                     canLookAtPlayer = false;
@@ -265,8 +265,11 @@ public class BasicSheep : GroundEnnemy
         }
 
         // --- IF THE SHEEP IS VULNERABLE (NOT INVINCIBLE) ---
+
+        bool wasStun = move == "roll end";
+
         base.TakeDamage(damage, stun);
-    
+
         if (hitVFX)
         {
             hitVFX.transform.position = transform.position;
@@ -279,6 +282,7 @@ public class BasicSheep : GroundEnnemy
         animator.SetBool("IsChasing", false);
         animator.SetBool("IsMoving", false);
         animator.SetTrigger("tHit");
+        repositionToAttack = false;
 
         navMesh.isStopped = false;
         if (stun > 0)
@@ -306,6 +310,7 @@ public class BasicSheep : GroundEnnemy
                 canLookAtPlayer = true;
                 WhereToGoPos = Player.position;
             }
+            if (wasStun) move = "roll end";
         }
     }
 }

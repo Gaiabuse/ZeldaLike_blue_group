@@ -308,6 +308,7 @@ public class BookEnnemy : EnnemyBase
 
     public void RecoverStun()
     {
+        animator.ResetTrigger("tHit");
         move = "recoverDive";
         transform.Rotate(0, 180, 0);
     }

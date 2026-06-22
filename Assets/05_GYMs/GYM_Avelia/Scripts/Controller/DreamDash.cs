@@ -122,7 +122,7 @@ public class DreamDash : MonoBehaviour
 
     IEnumerator DoDashMovement(Vector3 originalPosition, Vector3 destinationPosition)
     {
-        MusicManager.Instance.PlayDash();
+        if (MusicManager.Instance) MusicManager.Instance.PlayDash();
         float timer = 0;
 
         Vector3 currentLerpPosition = originalPosition;

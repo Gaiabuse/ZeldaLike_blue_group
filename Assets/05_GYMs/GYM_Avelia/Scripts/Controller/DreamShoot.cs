@@ -238,7 +238,7 @@ public class DreamShoot : AttackManager
             player.transform.rotation = Quaternion.Euler(0, positionY, 0);
             CreateShot(lastAttackComboDamage, transform.forward, ultimateAttackOfCombo);
         }
-        MusicManager.Instance.PlayShoot2();
+        if (MusicManager.Instance) MusicManager.Instance.PlayShoot2();
         player.transform.rotation = LastRotation;
         EndUltimate();
         if (isFirstUltimate)

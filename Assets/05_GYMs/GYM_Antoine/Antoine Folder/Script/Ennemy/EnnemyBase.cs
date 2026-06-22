@@ -241,7 +241,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
                 }
                 float targetHP = (float)Math.Round((decimal)(HP - damage), 2);
                 HP -= damage;
-                MusicManager.Instance.PlayZonyrHit();
+                if (MusicManager.Instance) MusicManager.Instance.PlayZonyrHit();
                 hitVFX.transform.SetParent(transform.parent);
                 hitVFX.transform.position = transform.position;
                 Vector3 lookTarget = new Vector3(Player.transform.position.x, hitVFX.transform.position.y, Player.transform.position.z);
