@@ -314,7 +314,6 @@ public class DreamCoreManager : MonoBehaviour
     public void KillBoss()
     {
         RumbleManager.Instance.StopVibration();
-        GameManager.Instance.CheckAchievements();
         StartCoroutine(EndAnimation());
     }
     
@@ -364,6 +363,7 @@ public class DreamCoreManager : MonoBehaviour
     IEnumerator EndGame()
     {
         MusicManager.Instance.PlayTouchCore();
+        GameManager.Instance.CheckAchievements();
         Time.timeScale = 0;
         playerInput.DeactivateInput();
         MusicManager.Instance.StopWalk();

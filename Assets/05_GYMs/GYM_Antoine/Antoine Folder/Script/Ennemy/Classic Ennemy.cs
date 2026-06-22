@@ -357,6 +357,8 @@ public class ClassicEnnemy : EnnemyBase
 
     protected override void Death()
     {
+        animator.SetBool("IsDead", true);
+        base.Death();
         move = "death";
         timerGeneral = waitBeforeDelete;
         navMesh.isStopped = true;
@@ -368,7 +370,7 @@ public class ClassicEnnemy : EnnemyBase
             Debug.Log("remove");
             EnnemyManager.Instance.enemies.Remove(this);
         }
-        animator.SetBool("IsDead", true);
+        
         OnDeath?.Invoke(this);
     }
     

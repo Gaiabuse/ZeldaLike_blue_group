@@ -315,7 +315,10 @@ public class BossAttackPhaseManager : MonoBehaviour
         }
 
         foreach (var enemy in FindObjectsByType<EnnemyBase>(FindObjectsSortMode.None))
+        {
             enemy.Kill();
+        }
+        
 
         currentPhaseIndex = 0;
         isExecutingAction = false;

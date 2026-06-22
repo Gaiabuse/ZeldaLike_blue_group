@@ -32,8 +32,9 @@ public class SettingsUIBridge : MonoBehaviour
             if (mainSlider != null) mainSlider.onValueChanged.AddListener(delegate { manager.SetMainVolume(mainSlider); });
             if (musicSlider != null) musicSlider.onValueChanged.AddListener(delegate { manager.SetMusicVolume(musicSlider); });
             if (sfxSlider != null) sfxSlider.onValueChanged.AddListener(delegate { manager.SetSfxVolume(sfxSlider); });
-            if (debugToggle != null) debugToggle.onValueChanged.AddListener(delegate { manager.SetDebugMode(debugToggle); });
+            if (languageToggle != null) languageToggle.onValueChanged.AddListener(delegate { manager.ToggleLanguage(languageToggle); });
             
+            if (vSyncToggle != null) vSyncToggle.onValueChanged.AddListener(delegate { manager.ToggleVSync(vSyncToggle); });
             if (vSyncToggle != null) vSyncToggle.onValueChanged.AddListener(delegate { manager.ToggleVSync(vSyncToggle); });
             if (SceneManager.GetActiveScene().name == "MainMenu")
                 if (debugToggle != null)

@@ -36,6 +36,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     [SerializeField] float stunMultiplier = 1f;
     [SerializeField] protected string _move;
+    
 
     [Header("Deal Damage")]
     [SerializeField] protected EnnemyHit MainHitBox;
@@ -280,6 +281,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     public void Kill()
     {
+        StopAllCoroutines();
         Death();
     }
 
@@ -324,6 +326,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
 
     protected virtual void Death()
     {
+        deathVFX.SetActive(true);
+        StopAllCoroutines();
         AutoAimable aimable = GetComponent<AutoAimable>();
         if (aimable != null) aimable.enabled = false;
         
@@ -338,7 +342,7 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
             EnnemyManager.Instance.enemies.Remove(this);
         }
         OnDeath?.Invoke(this);
-        Destroy(gameObject);
+        Destroy(gameObject, 0.75f);
     }
 
     private void OnDisable()
@@ -406,8 +410,8 @@ public class EnnemyBase : MonoBehaviour, IEnemyDamageable
         get => _move;
         set
         {
+            if (_move == "death" || _move == "deathEffect") return;
             if (_move == value) return;
-
             _move = value;
         }
     }
