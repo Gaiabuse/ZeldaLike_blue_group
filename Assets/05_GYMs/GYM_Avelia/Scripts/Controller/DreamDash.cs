@@ -84,7 +84,12 @@ public class DreamDash : MonoBehaviour
         Vector3 destinationPosition = originalPosition + controller.transform.forward * DashLength;
 
         // naive approach that will not work in the future. Rn it is not the priority to do better than that
-        if (!IsPlaceLandable(destinationPosition))
+        if (IsPlaceLandable(destinationPosition))
+        {
+            latestAt = destinationPosition;
+            latestAtHitResult = true;
+        }
+        else
         {
             Debug.LogWarning($"no place found trying to find a better position", this);
 
@@ -93,7 +98,12 @@ public class DreamDash : MonoBehaviour
                 Debug.Log($"found a better place {platform}");
                 destinationPosition = platform;
             }
-            else yield break;
+            else
+            {
+                latestAt = destinationPosition;
+                latestAtHitResult = false;
+                yield break;
+            }
         }
         
         if (undodashTween != null) undodashTween.Kill();
@@ -190,6 +200,8 @@ public class DreamDash : MonoBehaviour
 
         RaycastHit check1;
 
+        // SphereCast utilisé ici (et pas un simple Raycast) pour donner une tolérance
+        // autour du point recherché : ça capte un sol même si le point exact est limite.
         if (!Physics.SphereCast(aboveAt, tolerance, Vector3.down, out check1))
         {
             latestAtHitResult = false;
@@ -204,6 +216,7 @@ public class DreamDash : MonoBehaviour
             return extrapolatedLandingPoint + Vector3.up;
         }
 
+        latestAtHitResult = false;
         return null;
     }
 
