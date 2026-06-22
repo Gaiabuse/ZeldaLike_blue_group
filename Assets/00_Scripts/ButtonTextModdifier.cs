@@ -29,18 +29,21 @@ public class ButtonTextModdifier : MonoBehaviour, ISelectHandler, IDeselectHandl
     public void OnSelect(BaseEventData eventData)
     {
         if (_text == null) return;
+        if (!_text.gameObject.activeSelf) _text = GetComponentInChildren<TMP_Text>();
         _text.color = secondColor;
     }
     
     public void OnDeselect(BaseEventData eventData)
     {
         if (_text == null) return;
+        if (!_text.gameObject.activeSelf) _text = GetComponentInChildren<TMP_Text>();
         _text.color = baseColor;
     }
     
     public void OnDisable()
     {
         if (_text == null) return;
+        if (!_text.gameObject.activeSelf) _text = GetComponentInChildren<TMP_Text>();
         _text.color = baseColor;
     }
 }
